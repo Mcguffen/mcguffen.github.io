@@ -148,4 +148,8 @@ void main()
 
 
 关于其它扩展语法可参见具体工具的使用说明。
-以上全部内容来自[younghz]: https:://github.com/younghz/Markdown "Markdown"
+以上全部内容来自
+> [younghz的Markdown库][younghz]    
+
+[younghz]: https:://github.com/younghz/Markdown "Markdown"
+
