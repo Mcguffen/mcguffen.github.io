@@ -1,6 +1,6 @@
 ## 主要内容
 > #### *怎么*使用？
-
+> $### 其它：
 ###  *怎么*使用？
 如果不算**扩展**，Markdown的语法绝对**简单**到让你爱不释手。
 
@@ -136,3 +136,16 @@ void main()
 效果：
 >`ctrl+a`    
 
+### 其它：
+列表的使用(非traditonal markdown)：
+
+用`|`表示表格纵向边界，表头和表内容用`-`隔开，并可用`:`进行对齐设置，两边都有`:`则表示居中，若不加`:`则默认左对齐。
+
+|代码库                              |链接                                |
+|:------------------------------------:|------------------------------------|
+|MarkDown                              |[https://github.com/younghz/Markdown](https://github.com/younghz/Markdown "Markdown")|
+|MarkDownCopy                              |[https://github.com/younghz/Markdown](https://github.com/younghz/Markdown "Markdown")|
+
+
+关于其它扩展语法可参见具体工具的使用说明。
+以上全部内容来自[younghz]: https:://github.com/younghz/Markdown "Markdown"
