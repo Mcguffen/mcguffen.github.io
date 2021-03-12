@@ -1,5 +1,5 @@
 ---
-title: mardown 使用方法
+title: markdown 使用方法
 ---
 
 ###  *怎么*使用？
