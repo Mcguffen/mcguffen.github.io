@@ -104,20 +104,21 @@ Server: bfe/1.0.8.18
 2 Content-Type: text/html
 3
 4 要下载的内容
-	•	状态码要背，是服务器对浏览器说的话
-	•	1xx 不常用
-	•	2xx 表示成功
-	•	3xx 表示滚吧
-	•	4xx 表示你丫错了
-	•	5xx 表示好吧，我错了
-	•	状态解释没什么用
-	•	第 2 部分中的 Content-Type 标注了第 4 部分的格式
-	•	第 2 部分中的 Content-Type 遵循 MIME 规范
-	•	用 Chrome 查看响应
-	•	打开 Network
-	•	输入网址
-	•	选中第一个响应
-	•	查看 Response Headers，点击「view source」，点击「view source」，点击「view source」
-	•	你会看到响应的前两部分
-	•	查看 Response 或者 Preview，你会看到响应的第 4 部分
+
+•	状态码要背，是服务器对浏览器说的话
+•	1xx 不常用
+•	2xx 表示成功
+•	3xx 表示滚吧
+•	4xx 表示你丫错了
+•	5xx 表示好吧，我错了
+•	状态解释没什么用
+•	第 2 部分中的 Content-Type 标注了第 4 部分的格式
+•	第 2 部分中的 Content-Type 遵循 MIME 规范
+•	用 Chrome 查看响应
+•	打开 Network
+•	输入网址
+•	选中第一个响应
+•	查看 Response Headers，点击「view source」，点击「view source」，点击「view source」
+•	你会看到响应的前两部分
+•	查看 Response 或者 Preview，你会看到响应的第 4 部分
 
