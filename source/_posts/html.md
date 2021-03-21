@@ -70,7 +70,7 @@ HTML 代码如下：
               <dt>所在城市</dt>
               <dd>北京</dd>
               <dt>邮箱</dt>
-              <dd>fangyinghang@foxmail.com</dd>
+              <dd>fa@foxmail.com</dd>
               <dt>手机</dt>
               <dd>138xxxxxx</dd>
             </dl>
@@ -160,7 +160,7 @@ http://rscardwp.px-lab.com/
 	•	JS
 	•	SVG
 	•	AJAX
-我们一个一个学。
+
 
 ### 部署到Github Pages
 步骤
