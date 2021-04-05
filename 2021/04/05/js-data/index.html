@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="数据类型七种数据类型（请背诵）：number string boolean symbol undefined null object 注意没有 array 类型也没有 function 类型。 number•    整数和小数：1 1.1 .1 •    科学记数法：1.23e2 •    二进制：0b11 •    八进制：011（后来 ES5 添加了 0o11 语法） •    十六进制：0x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="js里的数据。">
+<meta property="og:url" content="http://example.com/2021/04/05/js-data/index.html">
+<meta property="og:site_name" content="Hi! I am yang.">
+<meta property="og:description" content="数据类型七种数据类型（请背诵）：number string boolean symbol undefined null object 注意没有 array 类型也没有 function 类型。 number•    整数和小数：1 1.1 .1 •    科学记数法：1.23e2 •    二进制：0b11 •    八进制：011（后来 ES5 添加了 0o11 语法） •    十六进制：0x">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-04-05T08:23:27.070Z">
+<meta property="article:modified_time" content="2021-04-05T08:23:27.070Z">
+<meta property="article:author" content="Mcguffen">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>js里的数据。</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2021/04/05/html/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2021/04/05/software/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/04/05/js-data/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/04/05/js-data/&text=js里的数据。"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/04/05/js-data/&title=js里的数据。"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/04/05/js-data/&is_video=false&description=js里的数据。"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=js里的数据。&body=Check out this article: http://example.com/2021/04/05/js-data/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/04/05/js-data/&title=js里的数据。"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/04/05/js-data/&title=js里的数据。"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/04/05/js-data/&title=js里的数据。"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/04/05/js-data/&title=js里的数据。"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/04/05/js-data/&name=js里的数据。&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/04/05/js-data/&t=js里的数据。"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#number"><span class="toc-number">1.1.</span> <span class="toc-text">number</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#string"><span class="toc-number">1.2.</span> <span class="toc-text">string</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#boolean"><span class="toc-number">1.3.</span> <span class="toc-text">boolean</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#object"><span class="toc-number">1.4.</span> <span class="toc-text">object</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#typeof-%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="toc-number">1.5.</span> <span class="toc-text">typeof 操作符</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        js里的数据。
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Mcguffen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-04-05T08:23:27.070Z" itemprop="datePublished">2021-04-05</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><p>七种数据类型（请背诵）：number string boolean symbol undefined null object 注意没有 array 类型也没有 function 类型。</p>
+<h4 id="number"><a href="#number" class="headerlink" title="number"></a>number</h4><pre><code>•    整数和小数：1 1.1 .1
+•    科学记数法：1.23e2
+•    二进制：0b11
+•    八进制：011（后来 ES5 添加了 0o11 语法）
+•    十六进制：0x11
+</code></pre>
+<h4 id="string"><a href="#string" class="headerlink" title="string"></a>string</h4><pre><code>•    空字符串：&#39;&#39;
+•    多行字符串：
+•      var s = &#39;12345&#39; +
+•                  &#39;67890&#39; // 无回车符号
+•      或
+•      var s = `12345
+•      67890` // 含回车符号
+</code></pre>
+<h4 id="boolean"><a href="#boolean" class="headerlink" title="boolean"></a>boolean</h4><pre><code>•    乔治·布尔 乔治·布尔是英格兰数学家和哲学家、数理逻辑学先驱。 由于其在符号逻辑运算中的特殊贡献，很多计算机语言中将逻辑运算称为布尔运算，将其结果称为布尔值。 1864年，布尔冒着大雨步行两英里走到讲台，身着打湿的衣服为学生们授课。不久后，他就病倒了，得了重度感冒还发高烧。其妻错误地相信疾病需要用致病因子施救，因为布尔是淋雨水而感冒的，妻子于是用桶子装水淋到他身上。结果湿气进一步加剧了他的病情。1864年，12月8日，布尔死于肺部积水。 上面资料的来源是维基百科，请自行选择是否相信。
+•    boolean 的取值 只有两个值：true 和 false a &amp;&amp; b 在 a 和 b 都为 true 时，取值为 true；否则为 false a || b 在 a 和 b 都为 false 时，取值为 false；否则为 true
+</code></pre>
+<p>#### symbol JS 中的 Symbol 是什么？<br>ES 6 引入了一个新的数据类型 Symbol，它是用来做什么的呢？</p>
+<p>为了说明 Symbol 的作用，我们先来描述一个使用场景。</p>
+<p>我们在做一个游戏程序，用户需要选择角色的种族。</p>
+<p>var race = {<br>  protoss: ‘protoss’, // 神族<br>  terran: ‘terran’, // 人族<br>  zerg: ‘zerg’ // 虫族<br>}</p>
+<p>function createRole(type){<br>  if(type === race.protoss){创建神族角色}<br>  else if(type === race.terran){创建人族角色}<br>  else if(type === race.zerg){创建虫族角色}<br>}<br>那么用户选择种族后，就需要调用 createRole 来创建角色：</p>
+<p>// 传入字符串<br>createRole(‘zerg’)<br>// 或者传入变量<br>createRole(race.zerg)<br>一般传入字符串被认为是不好的做法，所以使用 createRole(race.zerg) 的更多。</p>
+<p>如果使用 createRole(race.zerg)，那么聪明的读者会发现一个问题：race.protoss、race.terran、race.zerg 的值为多少并不重要。</p>
+<p>改为如下写法，对 createRole(race.zerg) 毫无影响：</p>
+<p>var race = {<br>  protoss: ‘askdjaslkfjas;lfkjas;flkj’, // 神族<br>  terran: ‘;lkfalksjfl;askjfsfal;skfj’, // 人族<br>  zerg: ‘qwieqwoirqwoiruoiwqoisrqwroiu’ // 虫族<br>}<br>也就是说：</p>
+<p>race.zerg 的值是多少无所谓，只要它的值跟 race.protoss 和 race.terran 的值不一样就行。</p>
+<p>Symbol 的用途就是如此：Symbol 可以创建一个独一无二的值（但并不是字符串）。</p>
+<p>用 Symbol 来改写上面的 race：</p>
+<p>var race = {<br>  protoss: Symbol(),<br>  terran: Symbol(),<br>  zerg: Symbol()<br>}</p>
+<p>race.protoss !== race.terran // true<br>race.protoss !== race.zerg // true<br>你也可以给每个 Symbol 起一个名字：</p>
+<p>var race = {<br>  protoss: Symbol(‘protoss’),<br>  terran: Symbol(‘terran’),<br>  zerg: Symbol(‘zerg’)<br>}<br>不过这个名字跟 Symbol 的值并没有关系，你可以认为这个名字就是个注释。如下代码可以证明 Symbol 的名字与值无关：</p>
+<p>var a1 = Symbol(‘a’)<br>var a2 = Symbol(‘a’)<br>a1 !== a2 // true<br>如果你觉得我说得还是太复杂了，看不懂，你可以记一句话：</p>
+<p>Symbol 生成一个全局唯一的值。</p>
+<p>以上，就是 Symbol 的简述。</p>
+<p>#### undefined 和 null 都表示没有值，至于 JS 为什么有两个表示「没有值」的东西，可以从 JS 之父的 twitter 中知道当时他也挺纠结的：<a target="_blank" rel="noopener" href="https://twitter.com/BrendanEich/status/333008305461006336">https://twitter.com/BrendanEich/status/333008305461006336</a><br>    •    （规范）如果一个变量没有被赋值，那么这个变量的值就是 undefiend<br>    •    （习俗）如果你想表示一个还没赋值的对象，就用 null。如果你想表示一个还没赋值的字符串/数字/布尔/symbol，就用 undefined（但是实际上你直接 var xxx 一下就行了，不用写 var xxx = undefined）</p>
+<h4 id="object"><a href="#object" class="headerlink" title="object"></a>object</h4><pre><code>•    object 就是上面几种基本类型（无序地）组合在一起
+•    object 里面可以有 object
+•      var person = &#123;
+•          name: &#39;Frank&#39;, 
+•          &#39;child&#39;: &#123;
+•              name: &#39;Jack&#39;
+•          &#125;, // 最后这个逗号可有可无
+•      &#125;
+•    object 的 key 一律是字符串，不存在其他类型的 key
+•    object[&#39;&#39;] 是合法的
+•    object[&#39;key&#39;] 可以写作 object.key
+•    注意 object.key 与 object[key] 不同
+•    delete object[&#39;key&#39;]
+•    &#39;key&#39; in object
+</code></pre>
+<h4 id="typeof-操作符"><a href="#typeof-操作符" class="headerlink" title="typeof 操作符"></a>typeof 操作符</h4><p>xxx 的类型<br>string<br>number<br>boolean<br>symbol<br>undefined<br>null<br>object<br>function</p>
+<p>typeof xxx</p>
+<p>‘string’<br>‘number’<br>‘boolean’<br>‘symbol’<br>‘undefined’<br>‘object’<br>‘object’<br>‘function’<br>注意 function 并不是一个类型</p>
+
+  </div>
+  <div>
+    <a href="https://github.com/Mcguffen/mcguffen.github.io/edit/myblog/source/_posts/js-data.md"target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#number"><span class="toc-number">1.1.</span> <span class="toc-text">number</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#string"><span class="toc-number">1.2.</span> <span class="toc-text">string</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#boolean"><span class="toc-number">1.3.</span> <span class="toc-text">boolean</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#object"><span class="toc-number">1.4.</span> <span class="toc-text">object</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#typeof-%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="toc-number">1.5.</span> <span class="toc-text">typeof 操作符</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/04/05/js-data/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/04/05/js-data/&text=js里的数据。"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/04/05/js-data/&title=js里的数据。"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/04/05/js-data/&is_video=false&description=js里的数据。"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=js里的数据。&body=Check out this article: http://example.com/2021/04/05/js-data/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/04/05/js-data/&title=js里的数据。"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/04/05/js-data/&title=js里的数据。"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/04/05/js-data/&title=js里的数据。"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/04/05/js-data/&title=js里的数据。"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/04/05/js-data/&name=js里的数据。&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/04/05/js-data/&t=js里的数据。"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Mcguffen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
