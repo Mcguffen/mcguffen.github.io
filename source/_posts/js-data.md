@@ -137,6 +137,6 @@ typeof xxx
 'function'
 注意 function 并不是一个类型
 | typeof xxx| typeof xxx | typeof xxx | typeof xxx | typeof xxx | typeof xxx | typeof xxx |typeof xxx |
-| --- | --- | --- | --- | --- | --- | --- | --- | 
+| .. --- .. | --- | --- | --- | --- | --- | --- | --- | 
 |string | number | boolean ｜symbol ｜undefined ｜null ｜object ｜function｜
 |'string'| 'number' | 'boolean' ｜'symbol' ｜'undefined'｜'object'｜'object' ｜'function'｜
