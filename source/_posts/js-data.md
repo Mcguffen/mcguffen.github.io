@@ -116,27 +116,9 @@ Symbol 生成一个全局唯一的值。
 	•	'key' in object
 #### typeof 操作符
 xxx 的类型
-string
-number
-boolean
-symbol
-undefined
-null
-object
-function
 
-typeof xxx
-
-'string'
-'number'
-'boolean'
-'symbol'
-'undefined'
-'object'
-'object'
-'function'
 注意 function 并不是一个类型
-| typeof xxx| typeof xxx | typeof xxx | typeof xxx | typeof xxx | typeof xxx | typeof xxx |typeof xxx |
-| .. --- .. | --- | --- | --- | --- | --- | --- | --- | 
-|string | number | boolean ｜symbol ｜undefined ｜null ｜object ｜function｜
-|'string'| 'number' | 'boolean' ｜'symbol' ｜'undefined'｜'object'｜'object' ｜'function'｜
+| typeof | typeof |  typeof | typeof | typeof | typeof | typeof |
+| --- | --- |  --- | --- | --- | --- | --- | --- |
+| string | number | boolean | symbol | undefined | null | object  | function | 
+| 'string' | 'number' | 'boolean' | 'symbol' | 'undefined' | 'object' | 'object' | 'function' | 
