@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="我们来写一个最简单的静态服务器： 12345678910111213141516171819202122&#x2F;* 一个最简单的静态服务器 *&#x2F;&#x2F;* 访问 http:&#x2F;&#x2F;localhost:8080&#x2F;picture.jpg *&#x2F;const http &#x3D; require(&amp;#x27;http&amp;#x27;)const fs &#x3D; require(&amp;#x27;fs&amp;#x27;)const path &#x3D; requ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Node.js 实现静态服务器">
+<meta property="og:url" content="http://example.com/2020/02/21/docs/backEnd/http/http07/index.html">
+<meta property="og:site_name" content="Hi! I am yang.">
+<meta property="og:description" content="我们来写一个最简单的静态服务器： 12345678910111213141516171819202122&#x2F;* 一个最简单的静态服务器 *&#x2F;&#x2F;* 访问 http:&#x2F;&#x2F;localhost:8080&#x2F;picture.jpg *&#x2F;const http &#x3D; require(&amp;#x27;http&amp;#x27;)const fs &#x3D; require(&amp;#x27;fs&amp;#x27;)const path &#x3D; requ">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-02-21T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-07T11:33:36.270Z">
+<meta property="article:author" content="Mcguffen">
+<meta property="article:tag" content="http">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Node.js 实现静态服务器</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/05/15/docs/backEnd/git/README/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/02/14/docs/backEnd/http/http06/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/02/21/docs/backEnd/http/http07/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/02/21/docs/backEnd/http/http07/&text=Node.js 实现静态服务器"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/02/21/docs/backEnd/http/http07/&title=Node.js 实现静态服务器"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/02/21/docs/backEnd/http/http07/&is_video=false&description=Node.js 实现静态服务器"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Node.js 实现静态服务器&body=Check out this article: http://example.com/2020/02/21/docs/backEnd/http/http07/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/02/21/docs/backEnd/http/http07/&title=Node.js 实现静态服务器"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/02/21/docs/backEnd/http/http07/&title=Node.js 实现静态服务器"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/02/21/docs/backEnd/http/http07/&title=Node.js 实现静态服务器"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/02/21/docs/backEnd/http/http07/&title=Node.js 实现静态服务器"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/02/21/docs/backEnd/http/http07/&name=Node.js 实现静态服务器&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/02/21/docs/backEnd/http/http07/&t=Node.js 实现静态服务器"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Expires-%E5%92%8C-pragma"><span class="toc-number">1.</span> <span class="toc-text">Expires 和 pragma</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cache-Control-%E5%AD%97%E6%AE%B5"><span class="toc-number">2.</span> <span class="toc-text">Cache Control 字段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Last-Modified-%E5%AD%97%E6%AE%B5%E5%AF%B9%E7%BC%93%E5%AD%98%E7%9A%84%E6%8E%A7%E5%88%B6"><span class="toc-number">3.</span> <span class="toc-text">Last-Modified 字段对缓存的控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Etag-%E5%AD%97%E6%AE%B5Etag-%E5%AD%97%E6%AE%B5"><span class="toc-number">4.</span> <span class="toc-text">Etag 字段Etag 字段</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Node.js 实现静态服务器
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Mcguffen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-02-21T00:00:00.000Z" itemprop="datePublished">2020-02-21</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/backEnd/">backEnd</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/http/" rel="tag">http</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>我们来写一个最简单的静态服务器：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 一个最简单的静态服务器 */</span></span><br><span class="line"><span class="comment">/* 访问 http://localhost:8080/picture.jpg */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> http = <span class="built_in">require</span>(<span class="string">&#x27;http&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">http.createServer(<span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  fs.readFile(path.join(__dirname, req.url), <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">  	<span class="keyword">if</span> (err) &#123;</span><br><span class="line">  		res.writeHead(<span class="number">404</span>, <span class="string">&#x27;not found&#x27;</span>)</span><br><span class="line">  		res.end(<span class="string">&#x27;Oh, Not Found&#x27;</span>)</span><br><span class="line">  	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      res.writeHead(<span class="number">200</span>, <span class="string">&#x27;OK&#x27;</span>)</span><br><span class="line">			res.end(data)</span><br><span class="line">			<span class="comment">// res.end(req.url)</span></span><br><span class="line">  	&#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;).listen(<span class="number">8000</span>)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;Visit http://localhost:8000&#x27;</span> )</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>想要实现的功能：当用户输入地址时，读取当前文件夹的 index.html 文件。</p>
+<p>使用 fs.readFile 方法读取文件</p>
+<p>使用绝对路径 + req.url 构造最完整路径</p>
+<p>​    如果不存在，写一个响应报文 404，返回一个错误提示信息字符串</p>
+<p>​    如果存在，写一个响应报文 200，返回相应数据</p>
+<p>我们使用 <code>node index.js</code> 进行启动之后，可以在浏览器中访问到对应的页面内容。</p>
+<h2 id="Expires-和-pragma"><a href="#Expires-和-pragma" class="headerlink" title="Expires 和 pragma"></a>Expires 和 pragma</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  缓存的第一种方案，Http1.0时的产物，Expires字段表示过期截止日期,Pragma表示不用缓存</span></span><br><span class="line"><span class="comment">  范例：</span></span><br><span class="line"><span class="comment">  Expires: Wed, 23 Jan 2019 07:33:51 GMT</span></span><br><span class="line"><span class="comment">  Pragma: no-cache</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  如果同时设置，Pragma的优先级高于Expires</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  访问 http://localhost:8080/picture.jpg */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> http = <span class="built_in">require</span>(<span class="string">&#x27;http&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">http.createServer(<span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">	<span class="keyword">let</span> filePath = path.join(__dirname, req.url)</span><br><span class="line">  fs.readFile(filePath, <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">  	<span class="keyword">if</span> (err) &#123;</span><br><span class="line">  		res.writeHead(<span class="number">404</span>, <span class="string">&#x27;not found&#x27;</span>)</span><br><span class="line">  		res.end(<span class="string">&#x27;Oh, Not Found&#x27;</span>)</span><br><span class="line">  	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">  		<span class="comment">// example1</span></span><br><span class="line">  		res.setHeader(<span class="string">&#x27;Expires&#x27;</span>, <span class="string">&#x27;Wed, 23 Jan 2019 07:40:51 GMT&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  		<span class="comment">// example2</span></span><br><span class="line">			<span class="comment">//res.setHeader(&#x27;Pragma&#x27;, &#x27;no-cache&#x27;)</span></span><br><span class="line"></span><br><span class="line">			<span class="comment">// example3</span></span><br><span class="line">			<span class="comment">//res.setHeader(&#x27;Expires&#x27;, &#x27;Wed, 23 Jan 2019 07:40:51 GMT&#x27;)</span></span><br><span class="line">			<span class="comment">//res.setHeader(&#x27;Pragma&#x27;, &#x27;no-cache&#x27;)</span></span><br><span class="line"></span><br><span class="line">			<span class="comment">// example4</span></span><br><span class="line">			<span class="keyword">let</span> date = <span class="keyword">new</span> <span class="built_in">Date</span>(<span class="built_in">Date</span>.now() + <span class="number">1000</span>*<span class="number">5</span>).toGMTString()</span><br><span class="line">			res.setHeader(<span class="string">&#x27;Expires&#x27;</span>, date)</span><br><span class="line"></span><br><span class="line">      res.writeHead(<span class="number">200</span>, <span class="string">&#x27;OK&#x27;</span>)</span><br><span class="line">  		res.end(data)</span><br><span class="line">  	&#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;).listen(<span class="number">8080</span>)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;Visit http://localhost:8080&#x27;</span> )</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>我们可以看到响应的图片文件：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>keep-alive</span><br><span class="line"><span class="attribute">Date</span><span class="punctuation">: </span>Wed, 20 Feb 2019 05:15:26 GMT</span><br><span class="line"><span class="attribute">Expires</span><span class="punctuation">: </span>Wed, 20 Feb 2019 05:15:31 GMT</span><br><span class="line"><span class="attribute">Transfer-Encoding</span><span class="punctuation">: </span>chunked</span><br></pre></td></tr></table></figure>
+
+<p>设置 Expires 之后我们可以在浏览器检查的 Network Size 中看到资源的来源是 memory cache 或者 disk cache</p>
+<p>如果我们不走 Expires 而是 Pragma：</p>
+<p>告诉浏览器不要走本地的缓存，而是走服务器。</p>
+<h2 id="Cache-Control-字段"><a href="#Cache-Control-字段" class="headerlink" title="Cache Control 字段"></a>Cache Control 字段</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  缓存的第二种方案,浏览器把文件和附带信息保存起来。当再次需要a.jpg 时，如果是在300秒以内发起的请求则直接使用缓存(200, from memory cache)，否则重新发起网络请求(200)。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  请求报文</span></span><br><span class="line"><span class="comment">    - Cache-Control: max-age=10 //hi,(代理)服务器我想要</span></span><br><span class="line"><span class="comment">    - Cache-Control: no-cache // hi,(代理)服务器，不要给我缓存的东西，我要新鲜完整的内容</span></span><br><span class="line"><span class="comment">    - Cache-Control: no-store // hi,(代理)服务器, 这是机密请求，别缓存数据，给我最新的</span></span><br><span class="line"><span class="comment">  响应报文</span></span><br><span class="line"><span class="comment">    - Cache-Control: max-age=10 //hi,浏览器，把这个文件信息保存起来。当再次需要它时，如果是在10秒以内发起的请求则直接使用缓存(200, from memory cache)，否则重新发起网络请求找我要(200)</span></span><br><span class="line"><span class="comment">    - Cache-Control: no-cache // hi,浏览器(代理服务器)，你可以缓存，但每次需要向我确认一下</span></span><br><span class="line"><span class="comment">    - Cache-Control: no-store // hi,浏览器（代理服务器），这是机密信息，别缓存</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  访问 http://localhost:8080/index.html */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> http = <span class="built_in">require</span>(<span class="string">&#x27;http&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">http.createServer(<span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">	<span class="keyword">let</span> filePath = path.join(__dirname, req.url)</span><br><span class="line">  fs.readFile(filePath, <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">  	<span class="keyword">if</span> (err) &#123;</span><br><span class="line">  		res.writeHead(<span class="number">404</span>, <span class="string">&#x27;not found&#x27;</span>)</span><br><span class="line">  		res.end(<span class="string">&#x27;Oh, Not Found&#x27;</span>)</span><br><span class="line">  	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">  		<span class="comment">// example1</span></span><br><span class="line">  		<span class="comment">//res.setHeader(&#x27;Cache-Control&#x27;, &#x27;max-age=10&#x27;)</span></span><br><span class="line"></span><br><span class="line">  		<span class="comment">// example2</span></span><br><span class="line">			<span class="comment">//res.setHeader(&#x27;Cache-Control&#x27;, &#x27;no-cache&#x27;)</span></span><br><span class="line"></span><br><span class="line">			<span class="comment">// example3</span></span><br><span class="line">			res.setHeader(<span class="string">&#x27;Cache-Control&#x27;</span>, <span class="string">&#x27;no-store&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      res.writeHead(<span class="number">200</span>, <span class="string">&#x27;OK&#x27;</span>)</span><br><span class="line">  		res.end(data)</span><br><span class="line">  	&#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;).listen(<span class="number">8080</span>)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;Visit http://localhost:8080&#x27;</span> )</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Last-Modified-字段对缓存的控制"><a href="#Last-Modified-字段对缓存的控制" class="headerlink" title="Last-Modified 字段对缓存的控制"></a>Last-Modified 字段对缓存的控制</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> http = <span class="built_in">require</span>(<span class="string">&#x27;http&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">http.createServer(<span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">	<span class="keyword">let</span> filePath = path.join(__dirname, req.url)</span><br><span class="line">  fs.readFile(filePath, <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">  	<span class="keyword">if</span> (err) &#123;</span><br><span class="line">  		res.writeHead(<span class="number">404</span>, <span class="string">&#x27;not found&#x27;</span>)</span><br><span class="line">  		res.end(<span class="string">&#x27;Oh, Not Found&#x27;</span>)</span><br><span class="line">  	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// example1</span></span><br><span class="line">      <span class="comment">// let stat = fs.statSync(filePath)</span></span><br><span class="line">      <span class="comment">// console.log(stat.mtime)</span></span><br><span class="line">      <span class="comment">// let modifyDate = new Date(Date.parse(stat.mtime)).toGMTString()</span></span><br><span class="line">      <span class="comment">// console.log(modifyDate)</span></span><br><span class="line">      <span class="comment">// res.setHeader(&#x27;Last-Modified&#x27;, modifyDate)</span></span><br><span class="line">      <span class="comment">// res.writeHead(200, &#x27;OK&#x27;)</span></span><br><span class="line">      <span class="comment">// res.end(data)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      <span class="comment">//example2</span></span><br><span class="line">      <span class="comment">// console.log(req.headers)</span></span><br><span class="line">      <span class="comment">// let mtime = Date.parse(fs.statSync(filePath).mtime)</span></span><br><span class="line">      <span class="comment">// if(!req.headers[&#x27;if-modified-since&#x27;]) &#123;</span></span><br><span class="line">      <span class="comment">//   res.setHeader(&#x27;Last-Modified&#x27;, new Date(mtime).toGMTString())</span></span><br><span class="line">      <span class="comment">//   res.writeHead(200, &#x27;OK&#x27;)</span></span><br><span class="line">      <span class="comment">//   res.end(data)        </span></span><br><span class="line">      <span class="comment">// &#125;else &#123;</span></span><br><span class="line">      <span class="comment">//   let oldMtime = Date.parse(req.headers[&#x27;if-modified-since&#x27;])</span></span><br><span class="line">      <span class="comment">//   if(mtime &gt; oldMtime) &#123;</span></span><br><span class="line">      <span class="comment">//     res.setHeader(&#x27;Last-Modified&#x27;, new Date(mtime).toGMTString())</span></span><br><span class="line">      <span class="comment">//     res.writeHead(200, &#x27;OK&#x27;)</span></span><br><span class="line">      <span class="comment">//     res.end(data)            </span></span><br><span class="line">      <span class="comment">//   &#125;else &#123;</span></span><br><span class="line">      <span class="comment">//     res.writeHead(304)</span></span><br><span class="line">      <span class="comment">//     res.end()</span></span><br><span class="line">      <span class="comment">//   &#125;</span></span><br><span class="line">      <span class="comment">// &#125;</span></span><br><span class="line"></span><br><span class="line">      <span class="comment">//example3</span></span><br><span class="line">      <span class="keyword">let</span> mtime = <span class="built_in">Date</span>.parse(fs.statSync(filePath).mtime)</span><br><span class="line">      <span class="comment">//10秒内，浏览器直接从自己本地拿，10秒后找服务器要。如果没修改，告诉浏览器没修改就行，如果修改了，给浏览器最新的</span></span><br><span class="line">      res.setHeader(<span class="string">&#x27;Cache-Control&#x27;</span>, <span class="string">&#x27;max-age=10&#x27;</span>)</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span>(!req.headers[<span class="string">&#x27;if-modified-since&#x27;</span>]) &#123;</span><br><span class="line">        res.setHeader(<span class="string">&#x27;Last-Modified&#x27;</span>, <span class="keyword">new</span> <span class="built_in">Date</span>(mtime).toGMTString())</span><br><span class="line">        res.writeHead(<span class="number">200</span>, <span class="string">&#x27;OK&#x27;</span>)</span><br><span class="line">        res.end(data)        </span><br><span class="line">      &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> oldMtime = <span class="built_in">Date</span>.parse(req.headers[<span class="string">&#x27;if-modified-since&#x27;</span>])</span><br><span class="line">        <span class="keyword">if</span>(mtime &gt; oldMtime) &#123;</span><br><span class="line">          res.setHeader(<span class="string">&#x27;Last-Modified&#x27;</span>, <span class="keyword">new</span> <span class="built_in">Date</span>(mtime).toGMTString())</span><br><span class="line">          res.writeHead(<span class="number">200</span>, <span class="string">&#x27;OK&#x27;</span>)</span><br><span class="line">          res.end(data)            </span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">          res.writeHead(<span class="number">304</span>)</span><br><span class="line">          res.end()</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">  	&#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;).listen(<span class="number">8080</span>)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;Visit http://localhost:8080&#x27;</span> )</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>当我们的请求到达之后，我们使用 stat 获取文件的很多基本信息。</p>
+<p>其中有一个 mtime 也就是文件的修改时间，我们来获取他，接着解析出这个时间，将它转换为 GMT 格式的事件对象。</p>
+<h2 id="Etag-字段Etag-字段"><a href="#Etag-字段Etag-字段" class="headerlink" title="Etag 字段Etag 字段"></a>Etag 字段Etag 字段</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">const http &#x3D; require(&#39;http&#39;)</span><br><span class="line">const fs &#x3D; require(&#39;fs&#39;)</span><br><span class="line">const path &#x3D; require(&#39;path&#39;)</span><br><span class="line">const crypto &#x3D; require(&#39;crypto&#39;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">http.createServer((req, res) &#x3D;&gt; &#123;</span><br><span class="line">  let filePath &#x3D; path.join(__dirname, req.url)</span><br><span class="line">  fs.readFile(filePath, (err, data) &#x3D;&gt; &#123;</span><br><span class="line">    if (err) &#123;</span><br><span class="line">      res.writeHead(404, &#39;not found&#39;)</span><br><span class="line">      res.end(&#39;Oh, Not Found&#39;)</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      &#x2F;&#x2F; example1</span><br><span class="line">      &#x2F;&#x2F; let md5 &#x3D; crypto.createHash(&#39;md5&#39;)</span><br><span class="line">      &#x2F;&#x2F; res.setHeader(&#39;Etag&#39;, md5.update(data).digest(&#39;base64&#39;))</span><br><span class="line">      &#x2F;&#x2F; res.writeHead(200, &#39;OK&#39;)</span><br><span class="line">      &#x2F;&#x2F; res.end(data)</span><br><span class="line"></span><br><span class="line">      &#x2F;&#x2F; example2</span><br><span class="line">      console.log(req.headers[&#39;if-none-match&#39;])</span><br><span class="line">      let oldEtag &#x3D; req.headers[&#39;if-none-match&#39;]</span><br><span class="line">      if(!oldEtag) &#123;</span><br><span class="line">        let md5 &#x3D; crypto.createHash(&#39;md5&#39;)</span><br><span class="line">        res.setHeader(&#39;Etag&#39;, md5.update(data).digest(&#39;base64&#39;))</span><br><span class="line">        res.writeHead(200, &#39;OK&#39;)</span><br><span class="line">        res.end(data)       </span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        let newEtag &#x3D; crypto.createHash(&#39;md5&#39;).update(data).digest(&#39;base64&#39;)</span><br><span class="line">        if(oldEtag !&#x3D;&#x3D; newEtag) &#123;</span><br><span class="line">          res.setHeader(&#39;Etag&#39;, newEtag)</span><br><span class="line">          res.writeHead(200, &#39;OK&#39;)</span><br><span class="line">          res.end(data)          </span><br><span class="line">        &#125;else &#123;</span><br><span class="line">          res.writeHead(304)</span><br><span class="line">          res.end()</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      &#x2F;&#x2F;example2</span><br><span class="line">      &#x2F;&#x2F; console.log(req.headers)</span><br><span class="line">      &#x2F;&#x2F; let mtime &#x3D; Date.parse(fs.statSync(filePath).mtime)</span><br><span class="line">      &#x2F;&#x2F; if(!req.headers[&#39;if-modified-since&#39;]) &#123;</span><br><span class="line">      &#x2F;&#x2F;   res.setHeader(&#39;Last-Modified&#39;, new Date(mtime).toGMTString())</span><br><span class="line">      &#x2F;&#x2F;   res.writeHead(200, &#39;OK&#39;)</span><br><span class="line">      &#x2F;&#x2F;   res.end(data)        </span><br><span class="line">      &#x2F;&#x2F; &#125;else &#123;</span><br><span class="line">      &#x2F;&#x2F;   let oldMtime &#x3D; Date.parse(req.headers[&#39;if-modified-since&#39;])</span><br><span class="line">      &#x2F;&#x2F;   if(mtime &gt; oldMtime) &#123;</span><br><span class="line">      &#x2F;&#x2F;     res.setHeader(&#39;Last-Modified&#39;, new Date(mtime).toGMTString())</span><br><span class="line">      &#x2F;&#x2F;     res.writeHead(200, &#39;OK&#39;)</span><br><span class="line">      &#x2F;&#x2F;     res.end(data)            </span><br><span class="line">      &#x2F;&#x2F;   &#125;else &#123;</span><br><span class="line">      &#x2F;&#x2F;     res.writeHead(304)</span><br><span class="line">      &#x2F;&#x2F;     res.end()</span><br><span class="line">      &#x2F;&#x2F;   &#125;</span><br><span class="line">      &#x2F;&#x2F; &#125;</span><br><span class="line"></span><br><span class="line">      &#x2F;&#x2F;example3</span><br><span class="line">      &#x2F;&#x2F; let mtime &#x3D; Date.parse(fs.statSync(filePath).mtime)</span><br><span class="line">      &#x2F;&#x2F; &#x2F;&#x2F;10秒内，浏览器直接从自己本地拿，10秒后找服务器要。如果没修改，告诉浏览器没修改就行，如果修改了，给浏览器最新的</span><br><span class="line">      &#x2F;&#x2F; res.setHeader(&#39;Cache-Control&#39;, &#39;max-age&#x3D;10&#39;)</span><br><span class="line"></span><br><span class="line">      &#x2F;&#x2F; if(!req.headers[&#39;if-modified-since&#39;]) &#123;</span><br><span class="line">      &#x2F;&#x2F;   res.setHeader(&#39;Last-Modified&#39;, new Date(mtime).toGMTString())</span><br><span class="line">      &#x2F;&#x2F;   res.writeHead(200, &#39;OK&#39;)</span><br><span class="line">      &#x2F;&#x2F;   res.end(data)        </span><br><span class="line">      &#x2F;&#x2F; &#125;else &#123;</span><br><span class="line">      &#x2F;&#x2F;   let oldMtime &#x3D; Date.parse(req.headers[&#39;if-modified-since&#39;])</span><br><span class="line">      &#x2F;&#x2F;   if(mtime &gt; oldMtime) &#123;</span><br><span class="line">      &#x2F;&#x2F;     res.setHeader(&#39;Last-Modified&#39;, new Date(mtime).toGMTString())</span><br><span class="line">      &#x2F;&#x2F;     res.writeHead(200, &#39;OK&#39;)</span><br><span class="line">      &#x2F;&#x2F;     res.end(data)            </span><br><span class="line">      &#x2F;&#x2F;   &#125;else &#123;</span><br><span class="line">      &#x2F;&#x2F;     res.writeHead(304)</span><br><span class="line">      &#x2F;&#x2F;     res.end()</span><br><span class="line">      &#x2F;&#x2F;   &#125;</span><br><span class="line">      &#x2F;&#x2F; &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;).listen(8080)</span><br><span class="line">console.log(&#39;Visit http:&#x2F;&#x2F;localhost:8080&#39; )</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> http = <span class="built_in">require</span>(<span class="string">&#x27;http&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> crypto = <span class="built_in">require</span>(<span class="string">&#x27;crypto&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">http.createServer(<span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> filePath = path.join(__dirname, req.url)</span><br><span class="line">  fs.readFile(filePath, <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">      res.writeHead(<span class="number">404</span>, <span class="string">&#x27;not found&#x27;</span>)</span><br><span class="line">      res.end(<span class="string">&#x27;Oh, Not Found&#x27;</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// example1</span></span><br><span class="line">      <span class="comment">// let md5 = crypto.createHash(&#x27;md5&#x27;)</span></span><br><span class="line">      <span class="comment">// res.setHeader(&#x27;Etag&#x27;, md5.update(data).digest(&#x27;base64&#x27;))</span></span><br><span class="line">      <span class="comment">// res.writeHead(200, &#x27;OK&#x27;)</span></span><br><span class="line">      <span class="comment">// res.end(data)</span></span><br><span class="line"></span><br><span class="line">      <span class="comment">// example2</span></span><br><span class="line">      <span class="built_in">console</span>.log(req.headers[<span class="string">&#x27;if-none-match&#x27;</span>])</span><br><span class="line">      <span class="keyword">let</span> oldEtag = req.headers[<span class="string">&#x27;if-none-match&#x27;</span>]</span><br><span class="line">      <span class="keyword">if</span>(!oldEtag) &#123;</span><br><span class="line">        <span class="keyword">let</span> md5 = crypto.createHash(<span class="string">&#x27;md5&#x27;</span>)</span><br><span class="line">        res.setHeader(<span class="string">&#x27;Etag&#x27;</span>, md5.update(data).digest(<span class="string">&#x27;base64&#x27;</span>))</span><br><span class="line">        res.writeHead(<span class="number">200</span>, <span class="string">&#x27;OK&#x27;</span>)</span><br><span class="line">        res.end(data)       </span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> newEtag = crypto.createHash(<span class="string">&#x27;md5&#x27;</span>).update(data).digest(<span class="string">&#x27;base64&#x27;</span>)</span><br><span class="line">        <span class="keyword">if</span>(oldEtag !== newEtag) &#123;</span><br><span class="line">          res.setHeader(<span class="string">&#x27;Etag&#x27;</span>, newEtag)</span><br><span class="line">          res.writeHead(<span class="number">200</span>, <span class="string">&#x27;OK&#x27;</span>)</span><br><span class="line">          res.end(data)          </span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">          res.writeHead(<span class="number">304</span>)</span><br><span class="line">          res.end()</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      <span class="comment">//example2</span></span><br><span class="line">      <span class="comment">// console.log(req.headers)</span></span><br><span class="line">      <span class="comment">// let mtime = Date.parse(fs.statSync(filePath).mtime)</span></span><br><span class="line">      <span class="comment">// if(!req.headers[&#x27;if-modified-since&#x27;]) &#123;</span></span><br><span class="line">      <span class="comment">//   res.setHeader(&#x27;Last-Modified&#x27;, new Date(mtime).toGMTString())</span></span><br><span class="line">      <span class="comment">//   res.writeHead(200, &#x27;OK&#x27;)</span></span><br><span class="line">      <span class="comment">//   res.end(data)        </span></span><br><span class="line">      <span class="comment">// &#125;else &#123;</span></span><br><span class="line">      <span class="comment">//   let oldMtime = Date.parse(req.headers[&#x27;if-modified-since&#x27;])</span></span><br><span class="line">      <span class="comment">//   if(mtime &gt; oldMtime) &#123;</span></span><br><span class="line">      <span class="comment">//     res.setHeader(&#x27;Last-Modified&#x27;, new Date(mtime).toGMTString())</span></span><br><span class="line">      <span class="comment">//     res.writeHead(200, &#x27;OK&#x27;)</span></span><br><span class="line">      <span class="comment">//     res.end(data)            </span></span><br><span class="line">      <span class="comment">//   &#125;else &#123;</span></span><br><span class="line">      <span class="comment">//     res.writeHead(304)</span></span><br><span class="line">      <span class="comment">//     res.end()</span></span><br><span class="line">      <span class="comment">//   &#125;</span></span><br><span class="line">      <span class="comment">// &#125;</span></span><br><span class="line"></span><br><span class="line">      <span class="comment">//example3</span></span><br><span class="line">      <span class="comment">// let mtime = Date.parse(fs.statSync(filePath).mtime)</span></span><br><span class="line">      <span class="comment">// //10秒内，浏览器直接从自己本地拿，10秒后找服务器要。如果没修改，告诉浏览器没修改就行，如果修改了，给浏览器最新的</span></span><br><span class="line">      <span class="comment">// res.setHeader(&#x27;Cache-Control&#x27;, &#x27;max-age=10&#x27;)</span></span><br><span class="line"></span><br><span class="line">      <span class="comment">// if(!req.headers[&#x27;if-modified-since&#x27;]) &#123;</span></span><br><span class="line">      <span class="comment">//   res.setHeader(&#x27;Last-Modified&#x27;, new Date(mtime).toGMTString())</span></span><br><span class="line">      <span class="comment">//   res.writeHead(200, &#x27;OK&#x27;)</span></span><br><span class="line">      <span class="comment">//   res.end(data)        </span></span><br><span class="line">      <span class="comment">// &#125;else &#123;</span></span><br><span class="line">      <span class="comment">//   let oldMtime = Date.parse(req.headers[&#x27;if-modified-since&#x27;])</span></span><br><span class="line">      <span class="comment">//   if(mtime &gt; oldMtime) &#123;</span></span><br><span class="line">      <span class="comment">//     res.setHeader(&#x27;Last-Modified&#x27;, new Date(mtime).toGMTString())</span></span><br><span class="line">      <span class="comment">//     res.writeHead(200, &#x27;OK&#x27;)</span></span><br><span class="line">      <span class="comment">//     res.end(data)            </span></span><br><span class="line">      <span class="comment">//   &#125;else &#123;</span></span><br><span class="line">      <span class="comment">//     res.writeHead(304)</span></span><br><span class="line">      <span class="comment">//     res.end()</span></span><br><span class="line">      <span class="comment">//   &#125;</span></span><br><span class="line">      <span class="comment">// &#125;</span></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;).listen(<span class="number">8080</span>)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;Visit http://localhost:8080&#x27;</span> )</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+  </div>
+  <div>
+    <a href="https://github.com/Mcguffen/mcguffen.github.io/edit/myblog/source/_posts/docs/backEnd/http/http07.md"target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Expires-%E5%92%8C-pragma"><span class="toc-number">1.</span> <span class="toc-text">Expires 和 pragma</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cache-Control-%E5%AD%97%E6%AE%B5"><span class="toc-number">2.</span> <span class="toc-text">Cache Control 字段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Last-Modified-%E5%AD%97%E6%AE%B5%E5%AF%B9%E7%BC%93%E5%AD%98%E7%9A%84%E6%8E%A7%E5%88%B6"><span class="toc-number">3.</span> <span class="toc-text">Last-Modified 字段对缓存的控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Etag-%E5%AD%97%E6%AE%B5Etag-%E5%AD%97%E6%AE%B5"><span class="toc-number">4.</span> <span class="toc-text">Etag 字段Etag 字段</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/02/21/docs/backEnd/http/http07/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/02/21/docs/backEnd/http/http07/&text=Node.js 实现静态服务器"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/02/21/docs/backEnd/http/http07/&title=Node.js 实现静态服务器"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/02/21/docs/backEnd/http/http07/&is_video=false&description=Node.js 实现静态服务器"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Node.js 实现静态服务器&body=Check out this article: http://example.com/2020/02/21/docs/backEnd/http/http07/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/02/21/docs/backEnd/http/http07/&title=Node.js 实现静态服务器"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/02/21/docs/backEnd/http/http07/&title=Node.js 实现静态服务器"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/02/21/docs/backEnd/http/http07/&title=Node.js 实现静态服务器"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/02/21/docs/backEnd/http/http07/&title=Node.js 实现静态服务器"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/02/21/docs/backEnd/http/http07/&name=Node.js 实现静态服务器&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/02/21/docs/backEnd/http/http07/&t=Node.js 实现静态服务器"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Mcguffen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

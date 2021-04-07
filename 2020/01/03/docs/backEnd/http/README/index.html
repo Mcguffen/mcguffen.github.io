@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="通过本章你能学到  图解 HTTP第一章解读、URI 与 URL 的区别 OSI 的 7 层模型和 TCP&#x2F;IP 4层模型是什么 理解应用层协议是什么 理解传输层协议是什么 理解 TCP 协议的三步握手流程 理解 TCP 协议的四步挥手流程  以图解 HTTP 导读做成一个系列，将这本书大致过一遍，难点单独挑出来。 面试文章： ​    https:&#x2F;&#x2F;xiedaimala.com&#x2F;bbs&#x2F;top">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络模型与TCP协议">
+<meta property="og:url" content="http://example.com/2020/01/03/docs/backEnd/http/README/index.html">
+<meta property="og:site_name" content="Hi! I am yang.">
+<meta property="og:description" content="通过本章你能学到  图解 HTTP第一章解读、URI 与 URL 的区别 OSI 的 7 层模型和 TCP&#x2F;IP 4层模型是什么 理解应用层协议是什么 理解传输层协议是什么 理解 TCP 协议的三步握手流程 理解 TCP 协议的四步挥手流程  以图解 HTTP 导读做成一个系列，将这本书大致过一遍，难点单独挑出来。 面试文章： ​    https:&#x2F;&#x2F;xiedaimala.com&#x2F;bbs&#x2F;top">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/06/10/AIeMf3Txt1bRGa8.png">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfmi14oscqj30hf0bgaaw.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfmi1yjkvuj30hr0djdh5.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfmi29wzlkj30il0cvt9w.jpg">
+<meta property="article:published_time" content="2020-01-03T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-07T11:33:36.270Z">
+<meta property="article:author" content="Mcguffen">
+<meta property="article:tag" content="http">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/06/10/AIeMf3Txt1bRGa8.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>网络模型与TCP协议</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/01/10/docs/backEnd/http/http01/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/07/07/js-data/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/01/03/docs/backEnd/http/README/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/01/03/docs/backEnd/http/README/&text=网络模型与TCP协议"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/01/03/docs/backEnd/http/README/&title=网络模型与TCP协议"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/01/03/docs/backEnd/http/README/&is_video=false&description=网络模型与TCP协议"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=网络模型与TCP协议&body=Check out this article: http://example.com/2020/01/03/docs/backEnd/http/README/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/01/03/docs/backEnd/http/README/&title=网络模型与TCP协议"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/01/03/docs/backEnd/http/README/&title=网络模型与TCP协议"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/01/03/docs/backEnd/http/README/&title=网络模型与TCP协议"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/01/03/docs/backEnd/http/README/&title=网络模型与TCP协议"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/01/03/docs/backEnd/http/README/&name=网络模型与TCP协议&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/01/03/docs/backEnd/http/README/&t=网络模型与TCP协议"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-web%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">什么是 web？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP-%E7%89%88%E6%9C%AC"><span class="toc-number">2.</span> <span class="toc-text">HTTP 版本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-IP"><span class="toc-number">3.</span> <span class="toc-text">TCP &#x2F; IP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#URL-%E5%92%8C-URI"><span class="toc-number">4.</span> <span class="toc-text">URL 和 URI</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-IP-%E5%9B%9B%E5%B1%82%E6%A8%A1%E5%9E%8B"><span class="toc-number">5.</span> <span class="toc-text">TCP&#x2F;IP 四层模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OSI-%E6%A8%A1%E5%9E%8B"><span class="toc-number">6.</span> <span class="toc-text">OSI 模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#wiki"><span class="toc-number">6.1.</span> <span class="toc-text">wiki</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%B1%82"><span class="toc-number">6.2.</span> <span class="toc-text">应用层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%A8%E7%A4%BA%E5%B1%82"><span class="toc-number">6.3.</span> <span class="toc-text">表示层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%9A%E8%AF%9D%E5%B1%82"><span class="toc-number">6.4.</span> <span class="toc-text">会话层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%A0%E8%BE%93%E5%B1%82"><span class="toc-number">6.5.</span> <span class="toc-text">传输层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82"><span class="toc-number">6.6.</span> <span class="toc-text">网络层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="toc-number">6.7.</span> <span class="toc-text">数据链路层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E5%B1%82"><span class="toc-number">6.8.</span> <span class="toc-text">物理层</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-IP-%E5%9B%9B%E5%B1%82%E6%A8%A1%E5%9E%8B-1"><span class="toc-number">7.</span> <span class="toc-text">TCP&#x2F;IP 四层模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%B1%82-1"><span class="toc-number">7.1.</span> <span class="toc-text">应用层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%A0%E8%BE%93%E5%B1%82-1"><span class="toc-number">7.2.</span> <span class="toc-text">传输层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82-1"><span class="toc-number">7.3.</span> <span class="toc-text">网络层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82-1"><span class="toc-number">7.4.</span> <span class="toc-text">数据链路层</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">8.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E7%90%86%E8%A7%A3%E5%BA%94%E7%94%A8%E5%B1%82%E5%8D%8F%E8%AE%AE-HTTP"><span class="toc-number">9.</span> <span class="toc-text">简单理解应用层协议 HTTP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-%E4%B8%89%E6%AD%A5%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AD%A5%E6%8C%A5%E6%89%8B"><span class="toc-number">10.</span> <span class="toc-text">TCP 三步握手和四步挥手</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E-TCP-%E5%8D%8F%E8%AE%AE"><span class="toc-number">11.</span> <span class="toc-text">关于 TCP 协议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E6%AD%A5%E6%8F%A1%E6%89%8B"><span class="toc-number">12.</span> <span class="toc-text">三步握手</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E6%AD%A5%E6%8C%A5%E6%89%8B"><span class="toc-number">13.</span> <span class="toc-text">四步挥手</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%8C%A5%E6%89%8B%E8%A6%81%E5%9B%9B%E6%AD%A5"><span class="toc-number">14.</span> <span class="toc-text">为什么挥手要四步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="toc-number">15.</span> <span class="toc-text">TCP 报文格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UDP"><span class="toc-number">16.</span> <span class="toc-text">UDP</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        网络模型与TCP协议
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Mcguffen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-01-03T00:00:00.000Z" itemprop="datePublished">2020-01-03</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/backEnd/">backEnd</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/http/" rel="tag">http</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>通过本章你能学到</p>
+<ol>
+<li>图解 HTTP第一章解读、URI 与 URL 的区别</li>
+<li>OSI 的 7 层模型和 TCP/IP 4层模型是什么</li>
+<li>理解应用层协议是什么</li>
+<li>理解传输层协议是什么</li>
+<li>理解 TCP 协议的三步握手流程</li>
+<li>理解 TCP 协议的四步挥手流程</li>
+</ol>
+<p>以图解 HTTP 导读做成一个系列，将这本书大致过一遍，难点单独挑出来。</p>
+<p>面试文章：</p>
+<p>​    <a target="_blank" rel="noopener" href="https://xiedaimala.com/bbs/topics/74#/">https://xiedaimala.com/bbs/topics/74#/</a></p>
+<h2 id="什么是-web？"><a href="#什么是-web？" class="headerlink" title="什么是 web？"></a>什么是 web？</h2><p>我们打开一个网站，一个是客户端，一个是服务器。客户端并不都是浏览器，还有 app、微信什么的。</p>
+<p>我们输入一个 url，然后展现页面加载数据，这里面遵循了什么样的协议呢？就是 HTTP。</p>
+<h2 id="HTTP-版本"><a href="#HTTP-版本" class="headerlink" title="HTTP 版本"></a>HTTP 版本</h2><p>最早的正式版本就是 1.0，主流的是 1.1，以后还有 2.0</p>
+<h2 id="TCP-IP"><a href="#TCP-IP" class="headerlink" title="TCP / IP"></a>TCP / IP</h2><blockquote>
+<p>重点，下一章</p>
+</blockquote>
+<h2 id="URL-和-URI"><a href="#URL-和-URI" class="headerlink" title="URL 和 URI"></a>URL 和 URI</h2><p>URI（Uniform Resource Identifier）统一资源标志符</p>
+<p><img src="https://i.loli.net/2020/06/10/AIeMf3Txt1bRGa8.png" alt="1550289588835.png"></p>
+<p>URL（Uniform Resource Locator）统一资源定位符</p>
+<p>URI 相比于 URL 概念更加的宽泛，比如它可以定位到 FTP 上的资源、邮件资源、电话，已经超出了网页的范畴。</p>
+<h2 id="TCP-IP-四层模型"><a href="#TCP-IP-四层模型" class="headerlink" title="TCP/IP 四层模型"></a>TCP/IP 四层模型</h2><ul>
+<li>什么是 OSI 七层模型</li>
+<li>什么是 TCP/IP 四层模型</li>
+<li>应用层和传输层有哪些协议？</li>
+<li>如何理解 TCP/IP 四层模型？</li>
+</ul>
+<h2 id="OSI-模型"><a href="#OSI-模型" class="headerlink" title="OSI 模型"></a>OSI 模型</h2><h3 id="wiki"><a href="#wiki" class="headerlink" title="wiki"></a><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/OSI%E6%A8%A1%E5%9E%8B">wiki</a></h3><p>开放式系统互联通信参考模型（Open System Interconnection Reference Model，缩写 OSI），简称 OSI 模型。</p>
+<p>由国际标准化组织于 1984 年提出。、</p>
+<h3 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h3><p>Application Layer，提供为应用软件而设的接口，以设置与另一应用软件之间的通信。</p>
+<p>例如：HTTP、HTTPS、FTP、TELNET、SSH、SMTP、POP3 等。</p>
+<h3 id="表示层"><a href="#表示层" class="headerlink" title="表示层"></a>表示层</h3><p>Presentation Layer，把数据转换为能与接受者的系统格式兼容并适合传输的格式。</p>
+<h3 id="会话层"><a href="#会话层" class="headerlink" title="会话层"></a>会话层</h3><p>Session Layer，负责把在数据传输中设置和维护计算机网络中两台计算机之间的通信连接。</p>
+<h3 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h3><p>Transport Layer，把传输表头（TH）加至数据以形成数据包。传输表头包含了所使用的协议等发送信息。</p>
+<p>例如：TCP、UDP 等。</p>
+<h3 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h3><p>Network Layer，决定数据的路径选择和转寄，将网络表头（NH）加至数据包，以形成分组。</p>
+<p>网络表头包含了网络数据，例如：互联网协议（IP）等</p>
+<h3 id="数据链路层"><a href="#数据链路层" class="headerlink" title="数据链路层"></a>数据链路层</h3><p>Data Link Layer，负责网络寻址、错误侦测和改错。当表头和表尾被加至数据包时，会形成帧。</p>
+<p>数据链表头（DLH）是包含了物理地址和错误侦测及改错的方法。</p>
+<p>数据链表尾（DLT）是一串指示数据包末端的字符串。例如：以太网、无线局域网（Wi-Fi）和通用分组无线服务（GPRS）等</p>
+<h3 id="物理层"><a href="#物理层" class="headerlink" title="物理层"></a>物理层</h3><p>Physical Layer，在局部局域网上传送数据帧（data frame），它负责管理计算机通信设备和网络媒体之间的互通。</p>
+<p>包括了针脚、电压、线缆规范、集线器、中继器、网卡、主机适配器等。</p>
+<blockquote>
+<p>分成了这么多层，很多东西没什么用，分完了发现这一层的东西在另一层体现出来，比如表示层和会话层就被废弃了。</p>
+</blockquote>
+<h2 id="TCP-IP-四层模型-1"><a href="#TCP-IP-四层模型-1" class="headerlink" title="TCP/IP 四层模型"></a>TCP/IP 四层模型</h2><blockquote>
+<p>一个故事：小白和小黑是两个家族的继承人，每年两家都会致信问候~</p>
+<p><strong>小白</strong></p>
+<p>大家族规矩真多，开黑打个游戏写信还要写一堆敬语</p>
+<p>尊敬的小黑：</p>
+<p>​    代表我和我家向您和您的家族献上新年的问候。</p>
+<p>​    春节来我家一起组队开黑。</p>
+<p>​    ……</p>
+<p>​    您最诚挚的好友</p>
+<p>​    小白</p>
+<p><strong>管家A</strong></p>
+<p>大家族需要有大家族的规矩，我需要先给黑家的管家B通通气。</p>
+<p>A：我们家要给你们家发信了，收到请回答。</p>
+<p>B：收到，你发吧，收到请回答。</p>
+<p>A：收到</p>
+<p>对了，黑家门牌号是多少，需要写在信封上。</p>
+<p><strong>邮差</strong></p>
+<p>黑家的地址和小区名是多少？我写信封上。</p>
+<p><strong>邮筒</strong></p>
+<p>信封的尺寸不能超过 7 存，大了放不进去，另外别忘了贴邮票。</p>
+</blockquote>
+<p>从上面的故事中可以看到通信是很规范正式的，需要遵循一定的格式和规矩（尊敬的xxx……..最诚挚的xxx）</p>
+<p>当然对方收到信之后也会有正式的信回复过来。</p>
+<p>之后，小白少爷只负责写信，表达他邀请的意思，后面的琐事（发信）交给管家。</p>
+<p>管家不是直接发信的，需要先联系对方家族，万一对方没信了呢？是吧？（比如灭门了）所以需要发消息并收到回信。</p>
+<p>然后对方门牌号什么的需要管家写到信封上，之后的事情交给邮差。</p>
+<p>邮差就需要填写对方的详细地址比如小区名字什么的。</p>
+<p>最后邮差塞信到邮筒，当然信要有合适的大小。</p>
+<p>最后最后，别忘了交网费，没通网你联系个锤子。</p>
+<h3 id="应用层-1"><a href="#应用层-1" class="headerlink" title="应用层"></a>应用层</h3><blockquote>
+<p>写信人层，规范小白写信内容，只负责数据内容。</p>
+</blockquote>
+<p>应用层是大多数普通与网络相关的程序为了通过网络与其他程序通信所使用的层。这个层的处理过程是应用特有的；</p>
+<p>数据从网络相关的程序以这种应用内部使用的格式进行传送，然后被编码成标准协议的格式。</p>
+<p>每一个应用层协议一般都会使用到传输层协议 TCP 和 UDP 协议之一：</p>
+<p>运行在 TCP 协议上的协议：</p>
+<ol>
+<li>HTTP（80 端口），主要用于普通浏览。</li>
+<li>HTTPS（443 端口），HTTP 协议的安全版本。</li>
+<li>FTP（20 和 21 端口），由名知义，用于文件传输。</li>
+<li>POP3（110 端口），收邮件用。</li>
+<li>SMTP（25 端口），用来发送电子邮件。</li>
+<li>SSH（22 端口），用于加密安全登陆用。</li>
+</ol>
+<p>运行在 UDP 协议上的协议：</p>
+<ol>
+<li>DHCP（67 端口，动态主机配置协议），动态配置 IP 地址。</li>
+</ol>
+<p>其他：</p>
+<ol>
+<li>DNS（Domain Name Service，域名服务），用于完成地址查找，邮件转发等工作（运行在 TCP 和 UDP 协议上）。</li>
+<li>SNMP（Simple Network Management Protocol，简单网络管理协议），用于网络信息的收集和网络管理。</li>
+<li>ARP（Address Resolution Protocol，地址解析协议），用于动态解析以太网硬件的地址。</li>
+</ol>
+<h3 id="传输层-1"><a href="#传输层-1" class="headerlink" title="传输层"></a>传输层</h3><blockquote>
+<p>管家层，接收规范好的内容，确定能够可靠地抵达对方。添加门牌号（端口号）</p>
+<p>继承人发给对方继承人的信，你不能发给佣人是吧，所以要确定端口号。</p>
+</blockquote>
+<p>解决诸如端到端的可靠性（数据是否已经达到目的地？）保证数据按照正确的顺序到达这样的问题。TCP、UDP 都是传输层协议。</p>
+<h3 id="网络层-1"><a href="#网络层-1" class="headerlink" title="网络层"></a>网络层</h3><blockquote>
+<p>邮差，知道这封信发给谁，加上 IP 地址，就可以寄信了。</p>
+</blockquote>
+<p>解决在一个单一网络上传输数据包的问题，IP 协议是网络层协议。</p>
+<h3 id="数据链路层-1"><a href="#数据链路层-1" class="headerlink" title="数据链路层"></a>数据链路层</h3><blockquote>
+<p>底层和网络发送数据相关的东西。0101010 这种数据流。</p>
+</blockquote>
+<p>它是数据包从一个设备的网络层传输到另外一个设备的网络层的方法。这个过程能够在网卡的软件驱动程序中控制或者专用芯片中控制。这将完成如添加报头准备发送、通过实体介质实际发送这样一些数据链路功能。另一端，链路层将完成数据帧接收、去除报头并且将接收到的包传到网络层。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>为什么要分层？因为这样逻辑分层使得传输过程更加清晰了起来。</p>
+<p>比如写一个应用的时候或者使用 HTTP 协议处理数据的时候，就不需要再去关注数据到底能不能发成功，发给谁。只需要将信的格式规范好，双方的管家是不需要作为家族继承人的你去关注的，这就是分层的好处~</p>
+<h2 id="简单理解应用层协议-HTTP"><a href="#简单理解应用层协议-HTTP" class="headerlink" title="简单理解应用层协议 HTTP"></a>简单理解应用层协议 HTTP</h2><p>我们回顾上一个例子：小白写信需要遵循一定的规范格式，而这个规范就可以想象为 HTTP。</p>
+<p>而实际传输中，我们可以刷新 <a target="_blank" rel="noopener" href="https://xiedaimala.com/tasks/b87728c0-58d8-40eb-aab8-f2c29961a2c8/text_tutorials/221e8b04-f4b6-4299-8aa2-7b9a17b54186">饥人谷</a> 拿取到以下一个简单的例子：</p>
+<p><strong>request headers：</strong></p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">/tasks/b87728c0-58d8-40eb-aab8-f2c29961a2c8/text_tutorials/221e8b04-f4b6-4299-8aa2-7b9a17b54186</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>xiedaimala.com</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>keep-alive</span><br><span class="line"><span class="attribute">Cache-Control</span><span class="punctuation">: </span>max-age=0</span><br><span class="line"><span class="attribute">Upgrade-Insecure-Requests</span><span class="punctuation">: </span>1</span><br><span class="line"><span class="attribute">User-Agent</span><span class="punctuation">: </span>Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36</span><br><span class="line"><span class="attribute">Accept</span><span class="punctuation">: </span>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8</span><br><span class="line"><span class="attribute">Referer</span><span class="punctuation">: </span>https://xiedaimala.com/tasks/b87728c0-58d8-40eb-aab8-f2c29961a2c8/text_tutorials/60eff4b0-1d37-40c9-9a9e-c8a254bbaa0c</span><br><span class="line"><span class="attribute">Accept-Encoding</span><span class="punctuation">: </span>gzip, deflate, br</span><br><span class="line"><span class="attribute">Accept-Language</span><span class="punctuation">: </span>zh-CN,zh;q=0.9</span><br><span class="line"><span class="attribute">Cookie</span><span class="punctuation">: </span>UM_distinctid=168f3cb8745414-06892b2f62b01d-5d1f3b1c-1fa400-168f3cb874651c; CNZZDATA1271340636=980127574-1550278224-https%253A%252F%252Fwww.google.com%252F%7C1550311550; _task_center_session=RXVwWXpDMUFENzhsQjZqZTF0RC9kNmI2bW1DWnZ1MDMvRnFHVHQyQkd2Uk1OMkFzTWUvSzlkSFMybENBaWVYc0M5cHc0bWhRZUFQZ3dwRzFvUlI3eVJmcWpIbFFWR0FleXViTVErdmFEa2ppY3g4ajhEeGZlUWVmRDlKWkRPT3JRTTdnREZTRlpGQzdHZjRjTGZZSVdBPT0tLTB5ZzFodkY2U3hkWUhOUDdCT21TeHc9PQ%3D%3D--52762417707683076689780bae9661af28c6447b</span><br></pre></td></tr></table></figure>
+
+<p><strong>response headers：</strong></p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">HTTP/1.1</span> <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Server</span><span class="punctuation">: </span>nginx/1.4.6 (Ubuntu)</span><br><span class="line"><span class="attribute">Date</span><span class="punctuation">: </span>Sat, 16 Feb 2019 11:01:30 GMT</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>text/html; charset=utf-8</span><br><span class="line"><span class="attribute">Transfer-Encoding</span><span class="punctuation">: </span>chunked</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>keep-alive</span><br><span class="line"><span class="attribute">X-Frame-Options</span><span class="punctuation">: </span>SAMEORIGIN</span><br><span class="line"><span class="attribute">X-XSS-Protection</span><span class="punctuation">: </span>1; mode=block</span><br><span class="line"><span class="attribute">X-Content-Type-Options</span><span class="punctuation">: </span>nosniff</span><br><span class="line"><span class="attribute">Cache-Control</span><span class="punctuation">: </span>max-age=0, private, must-revalidate</span><br><span class="line"><span class="attribute">Set-Cookie</span><span class="punctuation">: </span>_task_center_session=b2srNjd3TzZTM01OeU9LS2R3R0hKUXNQemhmUjhHOXFMTWZqWkMxY3gwVUZVSWdzaWxmNHFLMDVLcHhQUUtzODlRZ1FEemZERVZOWVR6dGJjUWNSNnZmd2VYdHQrODF0R3Vvc0o1WUN2WGpwL041WTcxL3JNTjZzTCtuSE1BeDNzK2Q2dzUvcENJVEtDT2VQYTIyY3JnPT0tLXB6SXM1bXpkL3ZlajBRb2kxcjVBNlE9PQ%3D%3D--e2cb4f7d469e57199d2ff0bf2d229611a3a41fc0; path=/; secure; HttpOnly</span><br><span class="line"><span class="attribute">X-Request-Id</span><span class="punctuation">: </span>ab98a47c-0800-4c2a-9ad2-cd2948d14ab5</span><br><span class="line"><span class="attribute">X-Runtime</span><span class="punctuation">: </span>0.085876</span><br><span class="line"><span class="attribute">Strict-Transport-Security</span><span class="punctuation">: </span>max-age=15552000; includeSubDomains</span><br><span class="line"><span class="attribute">Strict-Transport-Security</span><span class="punctuation">: </span>max-age=15768000</span><br><span class="line"><span class="attribute">Content-Encoding</span><span class="punctuation">: </span>gzip</span><br></pre></td></tr></table></figure>
+
+<p>以上的内容就好像我们故事中的信一样，request 是发出去的信，response 是回复的信。</p>
+<p>请求有请求的规矩，响应有响应的规矩，HTTP 就是请求与响应的规矩。</p>
+<p>不遵循 HTTP 规矩的请求与响应就会处理报错。</p>
+<p>不遵循规范的书信，emmmm，会被以为是假信扔掉，因为豪门子弟不会那么粗俗。</p>
+<h2 id="TCP-三步握手和四步挥手"><a href="#TCP-三步握手和四步挥手" class="headerlink" title="TCP 三步握手和四步挥手"></a>TCP 三步握手和四步挥手</h2><ul>
+<li>什么是 TCP 协议的三步握手？</li>
+<li>什么是 TCP 协议多的四步挥手？</li>
+<li>为什么握手要三步，挥手却是四步？</li>
+</ul>
+<h2 id="关于-TCP-协议"><a href="#关于-TCP-协议" class="headerlink" title="关于 TCP 协议"></a>关于 TCP 协议</h2><p>TCP（Transmission Control Protocol，传输控制协议）是一种面向连接的、<strong>可靠的</strong>、基于字节流的<strong>传输层</strong>通信协议。与之对应的是 UDP（User Datagram Protocol，用户数据报协议），是<strong>不可靠</strong>的传输协议。</p>
+<h2 id="三步握手"><a href="#三步握手" class="headerlink" title="三步握手"></a>三步握手</h2><p>可以想象两人用对讲机交谈。</p>
+<p>A：我准备好了你准备好了吗，收到请回答。<br>B：收到收到，我也准备好了，收到请回答。<br>A：收到收到</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfmi14oscqj30hf0bgaaw.jpg"></p>
+<p>SYN 将每个询问加上一个序号，确保每次询问都能区别开来。</p>
+<p>ACK 就是回答的序号。</p>
+<ol>
+<li>客户端发送 SYN报文给服务器端，序列号是n，进入 SYN_SEND 状态。</li>
+<li>服务器端收到 SYN 报文，回应一个ACK（序列号是n+1）同时发一个 SYN （序列号是m），进入 SYN_RECV 状态。</li>
+<li>客户端收到服务器端的 SYN 报文，回应一个 ACK(序列号是m+1）报文，进入 Established 状态。</li>
+</ol>
+<h2 id="四步挥手"><a href="#四步挥手" class="headerlink" title="四步挥手"></a>四步挥手</h2><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfmi1yjkvuj30hr0djdh5.jpg" alt="img"></p>
+<ol>
+<li>客户端发送一个 FIN ，告诉服务器想关闭连接。</li>
+<li>服务器收到这个 FIN ，发回一个 ACK。</li>
+<li>服务器通知应用程序关闭网络连接，应用程序关闭后通知服务器。服务器发送一个 FIN 给客户端 。</li>
+<li>客户端发回 ACK 报文确认。</li>
+</ol>
+<h2 id="为什么挥手要四步"><a href="#为什么挥手要四步" class="headerlink" title="为什么挥手要四步"></a>为什么挥手要四步</h2><p>这是因为服务端的 LISTEN 状态下的 SOCKET 当收到客户端建立连接请求的SYN 报文后，它可以把 ACK 和 SYN （ ACK 起应答作用，而 SYN 起同步作用）放在一个报文里来发送。但关闭连接时，当服务器收到客户端的 FIN 报文通知时，服务器只能发一个回应报文ACK：“哦，我知道了”，然后通知应用程序。应用程序完成全部数据发送并确定可以终止了，服务器才能发送FIN告诉客户端可以真正断开连接了。所以这一步ACK报文和FIN报文需要分开发送，因此多了一个步骤。</p>
+<h2 id="TCP-报文格式"><a href="#TCP-报文格式" class="headerlink" title="TCP 报文格式"></a>TCP 报文格式</h2><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfmi29wzlkj30il0cvt9w.jpg"></p>
+<ul>
+<li>ACK ： TCP协议规定，只有ACK=1时有效，也规定连接建立后所有发送的报文的ACK必须为1。</li>
+<li>SYN(SYNchronization) ： 在连接建立时用来同步序号。当SYN=1而ACK=0时，表明这是一个连接请求报文。对方若同意建立连接，则应在响应报文中使SYN=1和ACK=1. 因此, SYN置1就表示这是一个连接请求或连接接受报文。</li>
+<li>FIN （finis）即完，终结的意思， 用来释放一个连接。当 FIN = 1 时，表明此报文段的发送方的数据已经发送完毕，并要求释放连接。</li>
+</ul>
+<h2 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h2><p>UDP 是不可靠的传输，没这么多花里花哨的，直接发送出去就行了。</p>
+
+  </div>
+  <div>
+    <a href="https://github.com/Mcguffen/mcguffen.github.io/edit/myblog/source/_posts/docs/backEnd/http/README.md"target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-web%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">什么是 web？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP-%E7%89%88%E6%9C%AC"><span class="toc-number">2.</span> <span class="toc-text">HTTP 版本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-IP"><span class="toc-number">3.</span> <span class="toc-text">TCP &#x2F; IP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#URL-%E5%92%8C-URI"><span class="toc-number">4.</span> <span class="toc-text">URL 和 URI</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-IP-%E5%9B%9B%E5%B1%82%E6%A8%A1%E5%9E%8B"><span class="toc-number">5.</span> <span class="toc-text">TCP&#x2F;IP 四层模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OSI-%E6%A8%A1%E5%9E%8B"><span class="toc-number">6.</span> <span class="toc-text">OSI 模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#wiki"><span class="toc-number">6.1.</span> <span class="toc-text">wiki</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%B1%82"><span class="toc-number">6.2.</span> <span class="toc-text">应用层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%A8%E7%A4%BA%E5%B1%82"><span class="toc-number">6.3.</span> <span class="toc-text">表示层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%9A%E8%AF%9D%E5%B1%82"><span class="toc-number">6.4.</span> <span class="toc-text">会话层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%A0%E8%BE%93%E5%B1%82"><span class="toc-number">6.5.</span> <span class="toc-text">传输层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82"><span class="toc-number">6.6.</span> <span class="toc-text">网络层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="toc-number">6.7.</span> <span class="toc-text">数据链路层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E5%B1%82"><span class="toc-number">6.8.</span> <span class="toc-text">物理层</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-IP-%E5%9B%9B%E5%B1%82%E6%A8%A1%E5%9E%8B-1"><span class="toc-number">7.</span> <span class="toc-text">TCP&#x2F;IP 四层模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%B1%82-1"><span class="toc-number">7.1.</span> <span class="toc-text">应用层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%A0%E8%BE%93%E5%B1%82-1"><span class="toc-number">7.2.</span> <span class="toc-text">传输层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82-1"><span class="toc-number">7.3.</span> <span class="toc-text">网络层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82-1"><span class="toc-number">7.4.</span> <span class="toc-text">数据链路层</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">8.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E7%90%86%E8%A7%A3%E5%BA%94%E7%94%A8%E5%B1%82%E5%8D%8F%E8%AE%AE-HTTP"><span class="toc-number">9.</span> <span class="toc-text">简单理解应用层协议 HTTP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-%E4%B8%89%E6%AD%A5%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AD%A5%E6%8C%A5%E6%89%8B"><span class="toc-number">10.</span> <span class="toc-text">TCP 三步握手和四步挥手</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E-TCP-%E5%8D%8F%E8%AE%AE"><span class="toc-number">11.</span> <span class="toc-text">关于 TCP 协议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E6%AD%A5%E6%8F%A1%E6%89%8B"><span class="toc-number">12.</span> <span class="toc-text">三步握手</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E6%AD%A5%E6%8C%A5%E6%89%8B"><span class="toc-number">13.</span> <span class="toc-text">四步挥手</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%8C%A5%E6%89%8B%E8%A6%81%E5%9B%9B%E6%AD%A5"><span class="toc-number">14.</span> <span class="toc-text">为什么挥手要四步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="toc-number">15.</span> <span class="toc-text">TCP 报文格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UDP"><span class="toc-number">16.</span> <span class="toc-text">UDP</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/01/03/docs/backEnd/http/README/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/01/03/docs/backEnd/http/README/&text=网络模型与TCP协议"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/01/03/docs/backEnd/http/README/&title=网络模型与TCP协议"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/01/03/docs/backEnd/http/README/&is_video=false&description=网络模型与TCP协议"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=网络模型与TCP协议&body=Check out this article: http://example.com/2020/01/03/docs/backEnd/http/README/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/01/03/docs/backEnd/http/README/&title=网络模型与TCP协议"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/01/03/docs/backEnd/http/README/&title=网络模型与TCP协议"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/01/03/docs/backEnd/http/README/&title=网络模型与TCP协议"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/01/03/docs/backEnd/http/README/&title=网络模型与TCP协议"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/01/03/docs/backEnd/http/README/&name=网络模型与TCP协议&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/01/03/docs/backEnd/http/README/&t=网络模型与TCP协议"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Mcguffen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

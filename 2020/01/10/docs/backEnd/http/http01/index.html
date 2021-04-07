@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="常见 HTTP 方法有哪些？使用场景分别是什么？ GET 和 POST 有什么区别？ 什么是 RESTful API？   常见 HTTP 方法GET（获取资源） GET 方法用来请求访问已被 URI 识别的资源。指定的资源经服务器 端解析后返回响应内容。也就是说，如果请求的资源是文本，那就保 持原样返回；如果是像 CGI（Common Gateway Interface，通用网关接 口）那样的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常见 HTTP 方法有哪些？使用场景分别是什么？">
+<meta property="og:url" content="http://example.com/2020/01/10/docs/backEnd/http/http01/index.html">
+<meta property="og:site_name" content="Hi! I am yang.">
+<meta property="og:description" content="常见 HTTP 方法有哪些？使用场景分别是什么？ GET 和 POST 有什么区别？ 什么是 RESTful API？   常见 HTTP 方法GET（获取资源） GET 方法用来请求访问已被 URI 识别的资源。指定的资源经服务器 端解析后返回响应内容。也就是说，如果请求的资源是文本，那就保 持原样返回；如果是像 CGI（Common Gateway Interface，通用网关接 口）那样的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfmi41z07fj30ec07wwga.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfmi46xjj4j30iu0ae0ue.jpg">
+<meta property="og:image" content="file:///Users/xu/Code/Notes/0%E5%86%99%E4%BB%A3%E7%A0%81%E5%95%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA-HTTP/2-HTTP%20%E6%96%B9%E6%B3%95%E3%80%81%E9%9D%99%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8%E3%80%81RESTfulAPI/1-%E5%B8%B8%E8%A7%81%20HTTP%20%E6%96%B9%E6%B3%95%E5%8F%8A%E5%9C%BA%E6%99%AF.assets/1550472916971.png?lastModify=1591720608">
+<meta property="article:published_time" content="2020-01-10T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-07T11:33:36.270Z">
+<meta property="article:author" content="Mcguffen">
+<meta property="article:tag" content="http">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfmi41z07fj30ec07wwga.jpg">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>常见 HTTP 方法有哪些？使用场景分别是什么？</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/01/17/docs/backEnd/http/http02/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/01/03/docs/backEnd/http/README/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/01/10/docs/backEnd/http/http01/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/01/10/docs/backEnd/http/http01/&text=常见 HTTP 方法有哪些？使用场景分别是什么？"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/01/10/docs/backEnd/http/http01/&title=常见 HTTP 方法有哪些？使用场景分别是什么？"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/01/10/docs/backEnd/http/http01/&is_video=false&description=常见 HTTP 方法有哪些？使用场景分别是什么？"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=常见 HTTP 方法有哪些？使用场景分别是什么？&body=Check out this article: http://example.com/2020/01/10/docs/backEnd/http/http01/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/01/10/docs/backEnd/http/http01/&title=常见 HTTP 方法有哪些？使用场景分别是什么？"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/01/10/docs/backEnd/http/http01/&title=常见 HTTP 方法有哪些？使用场景分别是什么？"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/01/10/docs/backEnd/http/http01/&title=常见 HTTP 方法有哪些？使用场景分别是什么？"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/01/10/docs/backEnd/http/http01/&title=常见 HTTP 方法有哪些？使用场景分别是什么？"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/01/10/docs/backEnd/http/http01/&name=常见 HTTP 方法有哪些？使用场景分别是什么？&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/01/10/docs/backEnd/http/http01/&t=常见 HTTP 方法有哪些？使用场景分别是什么？"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81-HTTP-%E6%96%B9%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">常见 HTTP 方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#GET%EF%BC%88%E8%8E%B7%E5%8F%96%E8%B5%84%E6%BA%90%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">GET（获取资源）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#POST%EF%BC%88%E4%BC%A0%E8%BE%93%E5%AE%9E%E4%BD%93%E4%B8%BB%E4%BD%93%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">POST（传输实体主体）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PUT%EF%BC%88%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">PUT（传输文件）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HEAD%EF%BC%88%E8%8E%B7%E5%BE%97%E6%8A%A5%E6%96%87%E9%A6%96%E9%83%A8%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">HEAD（获得报文首部）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DELETE%EF%BC%88%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">DELETE（删除文件）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OPTIONS%EF%BC%88%E8%AF%A2%E9%97%AE%E6%94%AF%E6%8C%81%E7%9A%84%E6%96%B9%E6%B3%95%EF%BC%89"><span class="toc-number">1.6.</span> <span class="toc-text">OPTIONS（询问支持的方法）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CONNECT%EF%BC%88%E8%A6%81%E6%B1%82%E7%94%A8%E9%9A%A7%E9%81%93%E5%8D%8F%E8%AE%AE%E8%BF%9E%E6%8E%A5%E4%BB%A3%E7%90%86%EF%BC%89"><span class="toc-number">1.7.</span> <span class="toc-text">CONNECT（要求用隧道协议连接代理）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TRACE%EF%BC%88%E8%BF%BD%E8%B8%AA%E8%B7%AF%E5%BE%84%EF%BC%89"><span class="toc-number">1.8.</span> <span class="toc-text">TRACE（追踪路径）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GET-%E5%92%8C-POST-%E5%8C%BA%E5%88%AB"><span class="toc-number">2.</span> <span class="toc-text">GET 和 POST 区别</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8D%E5%90%8C%E7%9A%84%E6%B1%BD%E8%BD%A6"><span class="toc-number">2.1.</span> <span class="toc-text">不同的汽车</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%90%E8%BE%93%E5%85%AC%E5%8F%B8"><span class="toc-number">2.2.</span> <span class="toc-text">运输公司</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%A4%A7%E5%8C%BA%E5%88%AB"><span class="toc-number">2.3.</span> <span class="toc-text">重大区别</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        常见 HTTP 方法有哪些？使用场景分别是什么？
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Mcguffen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-01-10T00:00:00.000Z" itemprop="datePublished">2020-01-10</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/backEnd/">backEnd</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/http/" rel="tag">http</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <ol>
+<li>常见 HTTP 方法有哪些？使用场景分别是什么？</li>
+<li>GET 和 POST 有什么区别？</li>
+<li>什么是 RESTful API？</li>
+</ol>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfmi41z07fj30ec07wwga.jpg" alt="1550460252440"></p>
+<h2 id="常见-HTTP-方法"><a href="#常见-HTTP-方法" class="headerlink" title="常见 HTTP 方法"></a>常见 HTTP 方法</h2><h3 id="GET（获取资源）"><a href="#GET（获取资源）" class="headerlink" title="GET（获取资源）"></a>GET（获取资源）</h3><blockquote>
+<p>GET 方法用来请求访问已被 URI 识别的资源。指定的资源经服务器 端解析后返回响应内容。也就是说，如果请求的资源是文本，那就保 持原样返回；如果是像 CGI（Common Gateway Interface，通用网关接 口）那样的程序，则返回经过执行后的输出结果。</p>
+</blockquote>
+<p>告诉服务器我要要东西。</p>
+<h3 id="POST（传输实体主体）"><a href="#POST（传输实体主体）" class="headerlink" title="POST（传输实体主体）"></a>POST（传输实体主体）</h3><blockquote>
+<p>虽然用 GET 方法也可以传输实体的主体，但一般不用 GET 方法进行传输，而是用 POST 方法。虽说 POST 的功能与 GET 很相似，但 POST 的主要目的并不是获取响应的主体内容。</p>
+</blockquote>
+<p>告诉服务器我要给东西。</p>
+<h3 id="PUT（传输文件）"><a href="#PUT（传输文件）" class="headerlink" title="PUT（传输文件）"></a>PUT（传输文件）</h3><blockquote>
+<p>PUT 方法用来传输文件。就像 FTP 协议的文件上传一样，要求在请求报文的主体中包含文件内容，然后保存到请求 URI 指定的位置。</p>
+</blockquote>
+<blockquote>
+<p>但是，鉴于 HTTP/1.1 的 PUT 方法自身不带验证机制，任何人都可以 上传文件 , 存在安全性问题，因此一般的 Web 网站不使用该方法。若 配合 Web 应用程序的验证机制，或架构设计采用 REST（REpresentational State Transfer，表征状态转移）标准的同类 Web 网站，就可能会开放使用 PUT 方法。</p>
+</blockquote>
+<p>告诉服务器我要更信。</p>
+<h3 id="HEAD（获得报文首部）"><a href="#HEAD（获得报文首部）" class="headerlink" title="HEAD（获得报文首部）"></a>HEAD（获得报文首部）</h3><blockquote>
+<p>HEAD 方法和 GET 方法一样，只是不返回报文主体部分。用于确认 URI 的有效性及资源更新的日期时间等。</p>
+</blockquote>
+<h3 id="DELETE（删除文件）"><a href="#DELETE（删除文件）" class="headerlink" title="DELETE（删除文件）"></a>DELETE（删除文件）</h3><blockquote>
+<p>DELETE 方法用来删除文件，是与 PUT 相反的方法。DELETE 方法按 请求 URI 删除指定的资源。 但是，HTTP/1.1 的 DELETE 方法本身和 PUT 方法一样不带验证机 制，所以一般的 Web 网站也不使用 DELETE 方法。当配合 Web 应用 程序的验证机制，或遵守 REST 标准时还是有可能会开放使用的。</p>
+</blockquote>
+<h3 id="OPTIONS（询问支持的方法）"><a href="#OPTIONS（询问支持的方法）" class="headerlink" title="OPTIONS（询问支持的方法）"></a>OPTIONS（询问支持的方法）</h3><blockquote>
+<p>OPTIONS 方法用来查询针对请求 URI 指定的资源支持的方法。</p>
+</blockquote>
+<h3 id="CONNECT（要求用隧道协议连接代理）"><a href="#CONNECT（要求用隧道协议连接代理）" class="headerlink" title="CONNECT（要求用隧道协议连接代理）"></a>CONNECT（要求用隧道协议连接代理）</h3><blockquote>
+<p>方法要求在与代理服务器通信时建立隧道，实现用隧道协 议进行 TCP 通信。主要使用 SSL（Secure Sockets Layer，安全套接 层）和 TLS（Transport Layer Security，传输层安全）协议把通信内容 加 密后经网络隧道传输。</p>
+</blockquote>
+<h3 id="TRACE（追踪路径）"><a href="#TRACE（追踪路径）" class="headerlink" title="TRACE（追踪路径）"></a>TRACE（追踪路径）</h3><blockquote>
+<p>TRACE 方法是让 Web 服务器端将之前的请求通信环回给客户端的方 法。 发送请求时，在 Max-Forwards 首部字段中填入数值，每经过一个服 务器端就将该数字减 1，当数值刚好减到 0 时，就停止继续传输，最 后接收到请求的服务器端则返回状态码 200 OK 的响应。 客户端通过 TRACE 方法可以查询发送出去的请求是怎样被加工修改 / 篡改的。这是因为，请求想要连接到源目标服务器可能会通过代理 中转，TRACE 方法就是用来确认连接过程中发生的一系列操作。 但是，TRACE 方法本来就不怎么常用，再加上它容易引发 XST（Cross-Site Tracing，跨站追踪）攻击，通常就更不会用到了。</p>
+</blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfmi46xjj4j30iu0ae0ue.jpg" alt="1550461246988"></p>
+<h2 id="GET-和-POST-区别"><a href="#GET-和-POST-区别" class="headerlink" title="GET 和 POST 区别"></a>GET 和 POST 区别</h2><p>最直观的区别就是GET把参数包含在URL中，POST通过request body传递参数。</p>
+<p>我们来看一看 <a target="_blank" rel="noopener" href="http://www.w3school.com.cn/tags/html_ref_httpmethods.asp">w3school</a>：</p>
+<ul>
+<li>GET在浏览器回退时是无害的，而POST会再次提交请求。</li>
+<li>GET产生的URL地址可以被Bookmark，而POST不可以。</li>
+<li>GET请求会被浏览器主动cache，而POST不会，除非手动设置。</li>
+<li>GET请求只能进行url编码，而POST支持多种编码方式。</li>
+<li>GET请求参数会被完整保留在浏览器历史记录里，而POST中的参数不会被保留。</li>
+<li>GET请求在URL中传送的参数是有长度限制的，而POST么有。</li>
+<li>对参数的数据类型，GET只接受ASCII字符，而POST没有限制。</li>
+<li>GET比POST更不安全，因为参数直接暴露在URL上，所以不能用来传递敏感信息。</li>
+<li>GET参数通过URL传递，POST放在Request body中。</li>
+</ul>
+<p><img src="file:///Users/xu/Code/Notes/0%E5%86%99%E4%BB%A3%E7%A0%81%E5%95%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA-HTTP/2-HTTP%20%E6%96%B9%E6%B3%95%E3%80%81%E9%9D%99%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8%E3%80%81RESTfulAPI/1-%E5%B8%B8%E8%A7%81%20HTTP%20%E6%96%B9%E6%B3%95%E5%8F%8A%E5%9C%BA%E6%99%AF.assets/1550472916971.png?lastModify=1591720608" alt="img"></p>
+<p>其实 get 和 post 没有本质上的区别，它们是 HTTP 协议中的两种发送请求的方式，底层都是 TCP/IP，所以它们都是 TCP 链接。GET和POST能做的事情是一样一样的。你要给GET加上request body，给POST带上url参数，技术上是完全行的通的。 </p>
+<h3 id="不同的汽车"><a href="#不同的汽车" class="headerlink" title="不同的汽车"></a>不同的汽车</h3><p>在我大万维网世界中，TCP就像汽车，我们用TCP来运输数据，它很可靠，从来不会发生丢件少件的现象。但是如果路上跑的全是看起来一模一样的汽车，那这个世界看起来是一团混乱，送急件的汽车可能被前面满载货物的汽车拦堵在路上，整个交通系统一定会瘫痪。为了避免这种情况发生，交通规则HTTP诞生了。HTTP给汽车运输设定了好几个服务类别，有GET, POST, PUT, DELETE等等，HTTP规定，当执行GET请求的时候，要给汽车贴上GET的标签（设置method为GET），而且要求把传送的数据放在车顶上（url中）以方便记录。如果是POST请求，就要在车上贴上POST的标签，并把货物放在车厢里。当然，你也可以在GET的时候往车厢内偷偷藏点货物，但是这是很不光彩；也可以在POST的时候在车顶上也放一些数据，让人觉得傻乎乎的。HTTP只是个行为准则，而TCP才是GET和POST怎么实现的基本。</p>
+<h3 id="运输公司"><a href="#运输公司" class="headerlink" title="运输公司"></a>运输公司</h3><p>但是，我们只看到HTTP对GET和POST参数的传送渠道（url还是requrest body）提出了要求。“标准答案”里关于<strong>参数大小</strong>的限制又是从哪来的呢？</p>
+<p>在我大万维网世界中，还有另一个重要的角色：运输公司。不同的浏览器（发起http请求）和服务器（接受http请求）就是不同的运输公司。 虽然理论上，你可以在车顶上无限的堆货物（url中无限加参数）。但是运输公司可不傻，装货和卸货也是有很大成本的，他们会限制单次运输量来控制风险，数据量太大对浏览器和服务器都是很大负担。业界不成文的规定是，（大多数）浏览器通常都会限制url长度在2K个字节，而（大多数）服务器最多处理64K大小的url。超过的部分，恕不处理。如果你用GET服务，在request body偷偷藏了数据，不同服务器的处理方式也是不同的，有些服务器会帮你卸货，读出数据，有些服务器直接忽略，所以，虽然GET可以带request body，也不能保证一定能被接收到哦。</p>
+<blockquote>
+<p>好了，现在你知道，GET和POST本质上就是TCP链接，并无差别。但是由于HTTP的规定和浏览器/服务器的限制，导致他们在应用过程中体现出一些不同。 </p>
+</blockquote>
+<h3 id="重大区别"><a href="#重大区别" class="headerlink" title="重大区别"></a>重大区别</h3><p><strong>GET产生一个TCP数据包；POST产生两个TCP数据包。</strong></p>
+<p>长的说：</p>
+<p>对于GET方式的请求，浏览器会把http header和data一并发送出去，服务器响应200（返回数据）；</p>
+<p>而对于POST，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应200 ok（返回数据）。</p>
+<p>也就是说，GET只需要汽车跑一趟就把货送到了，而POST得跑两趟，第一趟，先去和服务器打个招呼“嗨，我等下要送一批货来，你们打开门迎接我”，然后再回头把货送过去。</p>
+<p>因为POST需要两步，时间上消耗的要多一点，看起来GET比POST更有效。因此Yahoo团队有推荐用GET替换POST来优化网站性能。但这是一个坑！跳入需谨慎。为什么？</p>
+<ul>
+<li>GET与POST都有自己的语义，不能随便混用。</li>
+<li>据研究，在网络环境好的情况下，发一次包的时间和发两次包的时间差别基本可以无视。而在网络环境差的情况下，两次包的TCP在验证数据包完整性上，有非常大的优点。</li>
+<li>并不是所有浏览器都会在POST中发送两次包，Firefox就只发送一次。</li>
+</ul>
+
+  </div>
+  <div>
+    <a href="https://github.com/Mcguffen/mcguffen.github.io/edit/myblog/source/_posts/docs/backEnd/http/http01.md"target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81-HTTP-%E6%96%B9%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">常见 HTTP 方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#GET%EF%BC%88%E8%8E%B7%E5%8F%96%E8%B5%84%E6%BA%90%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">GET（获取资源）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#POST%EF%BC%88%E4%BC%A0%E8%BE%93%E5%AE%9E%E4%BD%93%E4%B8%BB%E4%BD%93%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">POST（传输实体主体）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PUT%EF%BC%88%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">PUT（传输文件）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HEAD%EF%BC%88%E8%8E%B7%E5%BE%97%E6%8A%A5%E6%96%87%E9%A6%96%E9%83%A8%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">HEAD（获得报文首部）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DELETE%EF%BC%88%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">DELETE（删除文件）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OPTIONS%EF%BC%88%E8%AF%A2%E9%97%AE%E6%94%AF%E6%8C%81%E7%9A%84%E6%96%B9%E6%B3%95%EF%BC%89"><span class="toc-number">1.6.</span> <span class="toc-text">OPTIONS（询问支持的方法）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CONNECT%EF%BC%88%E8%A6%81%E6%B1%82%E7%94%A8%E9%9A%A7%E9%81%93%E5%8D%8F%E8%AE%AE%E8%BF%9E%E6%8E%A5%E4%BB%A3%E7%90%86%EF%BC%89"><span class="toc-number">1.7.</span> <span class="toc-text">CONNECT（要求用隧道协议连接代理）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TRACE%EF%BC%88%E8%BF%BD%E8%B8%AA%E8%B7%AF%E5%BE%84%EF%BC%89"><span class="toc-number">1.8.</span> <span class="toc-text">TRACE（追踪路径）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GET-%E5%92%8C-POST-%E5%8C%BA%E5%88%AB"><span class="toc-number">2.</span> <span class="toc-text">GET 和 POST 区别</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8D%E5%90%8C%E7%9A%84%E6%B1%BD%E8%BD%A6"><span class="toc-number">2.1.</span> <span class="toc-text">不同的汽车</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%90%E8%BE%93%E5%85%AC%E5%8F%B8"><span class="toc-number">2.2.</span> <span class="toc-text">运输公司</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%A4%A7%E5%8C%BA%E5%88%AB"><span class="toc-number">2.3.</span> <span class="toc-text">重大区别</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/01/10/docs/backEnd/http/http01/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/01/10/docs/backEnd/http/http01/&text=常见 HTTP 方法有哪些？使用场景分别是什么？"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/01/10/docs/backEnd/http/http01/&title=常见 HTTP 方法有哪些？使用场景分别是什么？"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/01/10/docs/backEnd/http/http01/&is_video=false&description=常见 HTTP 方法有哪些？使用场景分别是什么？"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=常见 HTTP 方法有哪些？使用场景分别是什么？&body=Check out this article: http://example.com/2020/01/10/docs/backEnd/http/http01/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/01/10/docs/backEnd/http/http01/&title=常见 HTTP 方法有哪些？使用场景分别是什么？"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/01/10/docs/backEnd/http/http01/&title=常见 HTTP 方法有哪些？使用场景分别是什么？"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/01/10/docs/backEnd/http/http01/&title=常见 HTTP 方法有哪些？使用场景分别是什么？"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/01/10/docs/backEnd/http/http01/&title=常见 HTTP 方法有哪些？使用场景分别是什么？"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/01/10/docs/backEnd/http/http01/&name=常见 HTTP 方法有哪些？使用场景分别是什么？&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/01/10/docs/backEnd/http/http01/&t=常见 HTTP 方法有哪些？使用场景分别是什么？"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Mcguffen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
