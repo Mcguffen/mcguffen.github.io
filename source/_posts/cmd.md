@@ -1,6 +1,11 @@
 ---
 title: 命令行基础，技巧，Git操作,Github Pages,Hexo教程.
+categories:
+ - cmd
+tags:
+ - 命令行基础
 ---
+
 ## 命令行基础，技巧，Git操作,Github Pages,Hexo教程.
 ### 命令行基础
 
