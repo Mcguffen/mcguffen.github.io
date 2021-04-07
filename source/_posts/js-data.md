@@ -1,5 +1,10 @@
 ---
 title: js里的数据。
+date: 2019-07-07
+categories:
+ - frontEnd
+tags:
+ - js-data
 ---
 
 ### 数据类型
