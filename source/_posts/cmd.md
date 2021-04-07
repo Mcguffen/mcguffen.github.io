@@ -1,5 +1,6 @@
 ---
 title: 命令行基础，技巧，Git操作,Github Pages,Hexo教程.
+date: 2019-06-07
 categories:
  - cmd
 tags:
