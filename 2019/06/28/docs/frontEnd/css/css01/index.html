@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="核心知识 文档流（Normal Flow） 内联元素的宽高 块级元素的宽高 水平居中 垂直居中 文字溢出省略（多行）   盒模型 一比一的 div outline border 调试大法    文档流Normal Flow ，全 CSS 翻译的最烂的中文名称，其实就是普通文件流。 为什么讲文档流？块级元素的宽高如何确立？ div 原本的高度是 0，可以新建文件，div 元素添加 border，可以">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS - 高度与宽度">
+<meta property="og:url" content="http://example.com/2019/06/28/docs/frontEnd/css/css01/index.html">
+<meta property="og:site_name" content="Hi! I am yang.">
+<meta property="og:description" content="核心知识 文档流（Normal Flow） 内联元素的宽高 块级元素的宽高 水平居中 垂直居中 文字溢出省略（多行）   盒模型 一比一的 div outline border 调试大法    文档流Normal Flow ，全 CSS 翻译的最烂的中文名称，其实就是普通文件流。 为什么讲文档流？块级元素的宽高如何确立？ div 原本的高度是 0，可以新建文件，div 元素添加 border，可以">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-06-28T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-07T12:11:01.076Z">
+<meta property="article:author" content="Mcguffen">
+<meta property="article:tag" content="css">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>CSS - 高度与宽度</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/07/05/docs/frontEnd/css/css02/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/06/21/docs/frontEnd/css/css00/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2019/06/28/docs/frontEnd/css/css01/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2019/06/28/docs/frontEnd/css/css01/&text=CSS - 高度与宽度"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2019/06/28/docs/frontEnd/css/css01/&title=CSS - 高度与宽度"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2019/06/28/docs/frontEnd/css/css01/&is_video=false&description=CSS - 高度与宽度"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CSS - 高度与宽度&body=Check out this article: http://example.com/2019/06/28/docs/frontEnd/css/css01/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2019/06/28/docs/frontEnd/css/css01/&title=CSS - 高度与宽度"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2019/06/28/docs/frontEnd/css/css01/&title=CSS - 高度与宽度"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2019/06/28/docs/frontEnd/css/css01/&title=CSS - 高度与宽度"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2019/06/28/docs/frontEnd/css/css01/&title=CSS - 高度与宽度"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2019/06/28/docs/frontEnd/css/css01/&name=CSS - 高度与宽度&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2019/06/28/docs/frontEnd/css/css01/&t=CSS - 高度与宽度"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86"><span class="toc-number">1.</span> <span class="toc-text">核心知识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E6%A1%A3%E6%B5%81"><span class="toc-number">2.</span> <span class="toc-text">文档流</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        CSS - 高度与宽度
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Mcguffen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-06-28T00:00:00.000Z" itemprop="datePublished">2019-06-28</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/frontEnd/">frontEnd</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/css/" rel="tag">css</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="核心知识"><a href="#核心知识" class="headerlink" title="核心知识"></a>核心知识</h2><ol>
+<li>文档流（Normal Flow）<ol>
+<li>内联元素的宽高</li>
+<li>块级元素的宽高</li>
+<li>水平居中</li>
+<li>垂直居中</li>
+<li>文字溢出省略（多行）</li>
+</ol>
+</li>
+<li>盒模型<ol>
+<li>一比一的 div</li>
+<li>outline</li>
+<li>border 调试大法</li>
+</ol>
+</li>
+</ol>
+<h2 id="文档流"><a href="#文档流" class="headerlink" title="文档流"></a>文档流</h2><p>Normal Flow ，全 CSS 翻译的最烂的中文名称，其实就是普通文件流。</p>
+<p>为什么讲文档流？块级元素的宽高如何确立？</p>
+<p>div 原本的高度是 0，可以新建文件，div 元素添加 border，可以发现只有一条线。里面如果有文字，它就会自动地撑高真个 div。那 div 到底是多高呢？和文字一样高嘛？写一个 font-size 20px 的文字进去，它是 28px 高呢？会有人回答说因为默认的行高，行高默认值是 1.4 所以 div 高 28px，但是！我们换一个字体，诶嘿，行高变了！会有人回答不同字体对应行高不一样，但是！每个字体对应的字体是多少呢？答不上来是吧。</p>
+<p>真正的原因是（需要字体设计相关知识）：一般字体分为三部分（上部，中部，下部），比如 a、c、e就只占了中部，知识点 1：字和字之间使用基线对其的，大概就是中部下面这条线，不是通过中线对其的。</p>
+<p>如果我们写两排字，中间会没有距离，所以设计师设计字体的时候会写一个建议行高（1.5 、1.3、3.0），苹果方正字体设计师觉得 1.4 倍行高显示这个字会比较好看，所以 20px 字体的字它的行高是 28px，div 撑开的高度也就是 28px。所以！div 真正的高度是由字体建议行高所确定的，和字有多大是没有关系的。</p>
+<p>如果这个 div 只有一个内联元素，那么 div 的高度就是这个内联元素，这一行的行高，这一行也叫行盒。</p>
+<p>在div 中两个字中打一个空格，会显示一个空格，但是打两个空格，还是现实一个空格。HTML 会把多的空格缩起来，我们可以使用 <code>&amp;nbsp;</code>  来替代空格（no break space）。比如说我们想让“姓名”与“联系方式”相对其，我们可以在姓名中间加 6 个空格，难道说一个字代表 3 个空格嘛？不是的，如果换一个字体，就会不一样。空格的宽度是由字体设计师决定的。所以！字体对齐用空格是傻逼的！国外设计师是不用对齐的（英文不需要），只有中国人需要对齐。</p>
+<p>那么怎么样真正的对齐呢？（最好别对齐，有点麻烦），我们先用 span 标签将它包裹起来（span 是 inline 元素，不支持设置宽度，我们用 display：inline-block）我们设置 4em（em 和中文对应的很好，和英文对应的不好，4 em 恰好将四个字包裹起来）我们怎么将姓名和联系方式对齐呢？我们添加 text-align：justify，这个属性只在换行的时候有效的（换行两边对齐），但是只有一行就很遗憾了！</p>
+<p>套路就是！</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">span</span> &#123;</span><br><span class="line">	<span class="attribute">border</span>: <span class="number">1px</span> solid green;</span><br><span class="line">	<span class="attribute">display</span>: inline-block;</span><br><span class="line">	<span class="attribute">width</span>: <span class="number">5em</span>;</span><br><span class="line">	<span class="attribute">text-align</span>: justify;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">span</span><span class="selector-pseudo">::after</span> &#123;</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">    <span class="attribute">display</span>: inline-block;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">1px</span> solid blue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>记住这三行（border 不算）！！！！</p>
+<p>这时候我们的对齐就实现了，但是有两行，怎么把多的一行干掉呢？</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">pan &#123;</span><br><span class="line">	<span class="attribute">border</span>: <span class="number">1px</span> solid green;</span><br><span class="line">	<span class="attribute">display</span>: inline-block;</span><br><span class="line">	<span class="attribute">width</span>: <span class="number">5em</span>;</span><br><span class="line">	<span class="attribute">text-align</span>: justify;</span><br><span class="line">	<span class="attribute">line-height</span>: <span class="number">20px</span>;</span><br><span class="line">	<span class="attribute">overflow</span>: hidden;</span><br><span class="line">	<span class="attribute">height</span>: <span class="number">20</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">span</span><span class="selector-pseudo">::after</span> &#123;</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">    <span class="attribute">display</span>: inline-block;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">1px</span> solid blue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实际上下面有一行文字，我们将它隐藏了，所以能实现这样的效果。</p>
+<p>我们发现 1 回车 2 显示的时候仍然是 1 空格 2，这就是 html 的特点，它会把所有内联元素之外的所有元素去掉，将内联元素之间的元素显示为一个空格。任何 inline 元素之间有元素都有一个空格元素，怎么消除呢？消不掉，但是我们不用 display，用 float: left 浮动元素，不需要遵守 inline 元素的特点，然后我们在 ul 上面加一个 clearfix</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.clearfix</span><span class="selector-pseudo">::after</span> &#123;</span><br><span class="line">  <span class="attribute">content</span>: <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">  <span class="attribute">display</span>: block;</span><br><span class="line">  <span class="attribute">clear</span>: both;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+  <div>
+    <a href="https://github.com/Mcguffen/mcguffen.github.io/edit/myblog/source/_posts/docs/frontEnd/css/css01.md"target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86"><span class="toc-number">1.</span> <span class="toc-text">核心知识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E6%A1%A3%E6%B5%81"><span class="toc-number">2.</span> <span class="toc-text">文档流</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2019/06/28/docs/frontEnd/css/css01/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2019/06/28/docs/frontEnd/css/css01/&text=CSS - 高度与宽度"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2019/06/28/docs/frontEnd/css/css01/&title=CSS - 高度与宽度"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2019/06/28/docs/frontEnd/css/css01/&is_video=false&description=CSS - 高度与宽度"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CSS - 高度与宽度&body=Check out this article: http://example.com/2019/06/28/docs/frontEnd/css/css01/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2019/06/28/docs/frontEnd/css/css01/&title=CSS - 高度与宽度"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2019/06/28/docs/frontEnd/css/css01/&title=CSS - 高度与宽度"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2019/06/28/docs/frontEnd/css/css01/&title=CSS - 高度与宽度"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2019/06/28/docs/frontEnd/css/css01/&title=CSS - 高度与宽度"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2019/06/28/docs/frontEnd/css/css01/&name=CSS - 高度与宽度&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2019/06/28/docs/frontEnd/css/css01/&t=CSS - 高度与宽度"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Mcguffen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

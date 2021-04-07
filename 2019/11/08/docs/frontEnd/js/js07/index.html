@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="DOM 是一棵树（tree），树上有 node NodeNode 分为 Document（html）、Element（元素）和 Text（文本），以及其他不重要的。 Node 接口 属性  childNodes,firstChild,innerText,lastChild,nextSibling,nodeName,nodeType,nodeValue,outerText,ownerDocument">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS基础 - DOM">
+<meta property="og:url" content="http://example.com/2019/11/08/docs/frontEnd/js/js07/index.html">
+<meta property="og:site_name" content="Hi! I am yang.">
+<meta property="og:description" content="DOM 是一棵树（tree），树上有 node NodeNode 分为 Document（html）、Element（元素）和 Text（文本），以及其他不重要的。 Node 接口 属性  childNodes,firstChild,innerText,lastChild,nextSibling,nodeName,nodeType,nodeValue,outerText,ownerDocument">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-11-08T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-07T12:11:01.076Z">
+<meta property="article:author" content="Mcguffen">
+<meta property="article:tag" content="js">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>JS基础 - DOM</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/11/15/docs/frontEnd/js/js08/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/11/01/docs/frontEnd/js/js06/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2019/11/08/docs/frontEnd/js/js07/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2019/11/08/docs/frontEnd/js/js07/&text=JS基础 - DOM"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2019/11/08/docs/frontEnd/js/js07/&title=JS基础 - DOM"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2019/11/08/docs/frontEnd/js/js07/&is_video=false&description=JS基础 - DOM"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JS基础 - DOM&body=Check out this article: http://example.com/2019/11/08/docs/frontEnd/js/js07/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2019/11/08/docs/frontEnd/js/js07/&title=JS基础 - DOM"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2019/11/08/docs/frontEnd/js/js07/&title=JS基础 - DOM"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2019/11/08/docs/frontEnd/js/js07/&title=JS基础 - DOM"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2019/11/08/docs/frontEnd/js/js07/&title=JS基础 - DOM"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2019/11/08/docs/frontEnd/js/js07/&name=JS基础 - DOM&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2019/11/08/docs/frontEnd/js/js07/&t=JS基础 - DOM"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Node"><span class="toc-number">1.</span> <span class="toc-text">Node</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Node-%E6%8E%A5%E5%8F%A3"><span class="toc-number">1.1.</span> <span class="toc-text">Node 接口</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Document-%E6%8E%A5%E5%8F%A3"><span class="toc-number">2.</span> <span class="toc-text">Document  接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DOM-API-%E5%8F%8D%E4%BA%BA%E7%B1%BB"><span class="toc-number">3.</span> <span class="toc-text">DOM API 反人类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DOM-%E7%A0%94%E7%A9%B6%E4%BB%B7%E5%80%BC"><span class="toc-number">4.</span> <span class="toc-text">DOM 研究价值</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        JS基础 - DOM
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Mcguffen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-11-08T00:00:00.000Z" itemprop="datePublished">2019-11-08</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/frontEnd/">frontEnd</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/js/" rel="tag">js</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><strong>DOM 是一棵树（tree），树上有 node</strong></p>
+<h2 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h2><p>Node 分为 Document（html）、Element（元素）和 Text（文本），以及其他不重要的。</p>
+<h3 id="Node-接口"><a href="#Node-接口" class="headerlink" title="Node 接口"></a>Node 接口</h3><ol>
+<li>属性</li>
+</ol>
+<p>childNodes,firstChild,innerText,lastChild,nextSibling,nodeName,nodeType,nodeValue,outerText,ownerDocument,parentElement,parentNode,previousSibling,textContent</p>
+<p>妈的记不住。<br>如果记不住就背下以下单词：</p>
+<ul>
+<li><p>child / children / parent</p>
+</li>
+<li><p> node</p>
+</li>
+<li><p> first / last</p>
+</li>
+<li><p> next / previous</p>
+</li>
+<li><p> sibling / siblings</p>
+</li>
+<li><p>type</p>
+</li>
+<li><p> value / text / content</p>
+</li>
+<li><p>inner / outer</p>
+</li>
+<li><p>element</p>
+<p>然后互相组合</p>
+</li>
+</ul>
+<ol start="2">
+<li>方法（如果一个属性是函数，那么这个属性就也叫做方法；换言之，方法是函数属性）</li>
+</ol>
+<ul>
+<li>· appendChild()</li>
+<li>· cloneNode()</li>
+<li>· contains()</li>
+<li>· hasChildNodes() </li>
+<li>· insertBefore()</li>
+<li>· isEqualNode()</li>
+<li>· isSameNode()</li>
+<li>· removeChild()</li>
+<li>· replaceChild()</li>
+<li>· normalize() // 常规化</li>
+</ul>
+<ol>
+<li><p>搞清楚英文单词的意思就知道用法</p>
+</li>
+<li><p>如果发现知道英文后依然不明白用法，看 MDN 的例子即可，如 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/Node/normalize">normalize</a></p>
+</li>
+</ol>
+<p>DOM APi 无外乎「增删改查」</p>
+<h2 id="Document-接口"><a href="#Document-接口" class="headerlink" title="Document  接口"></a>Document  接口</h2><p>属性</p>
+<ul>
+<li>· anchors</li>
+<li>· body</li>
+<li>· characterSet</li>
+<li>· childElementCount</li>
+<li>· children</li>
+<li>· doctype</li>
+<li>· documentElement</li>
+<li>· domain</li>
+<li>· fullscreen</li>
+<li>· head</li>
+<li>· hidden</li>
+<li>· images</li>
+<li>· links</li>
+<li>· location</li>
+<li>· onxxxxxxxxx</li>
+<li>· origin</li>
+<li>· plugins</li>
+<li>· readyState</li>
+<li>· referrer</li>
+<li>· scripts</li>
+<li>· scrollingElement</li>
+<li>· styleSheets</li>
+<li>· title</li>
+<li>· visibilityState</li>
+</ul>
+<p>方法：</p>
+<ul>
+<li>· close()</li>
+<li>· createDocumentFragment()</li>
+<li>· createElement()</li>
+<li>· createTextNode()</li>
+<li>· execCommand()</li>
+<li>· exitFullscreen()</li>
+<li>· getElementById()</li>
+<li>· getElementsByClassName()</li>
+<li>· getElementsByName()</li>
+<li>· getElementsByTagName()</li>
+<li>· getSelection()</li>
+<li>· hasFocus()</li>
+<li>· open()</li>
+<li>· querySelector()</li>
+<li>· querySelectorAll()</li>
+<li>· registerElement()</li>
+<li>· write()</li>
+<li>· writeln()</li>
+</ul>
+<h2 id="DOM-API-反人类"><a href="#DOM-API-反人类" class="headerlink" title="DOM API 反人类"></a>DOM API 反人类</h2><ol>
+<li>获取元素</li>
+</ol>
+<p>以前之后 document.getElementById, document.getElementsByTagName, document.getElementsByClassName<br>太反人类，于是有了 jQuery<br>后来 DOM API 终于抄袭 jQuery 提供了 document.querySelector 和 document.querySelectorAll<br>但是依然没有 jQuery 好用，因为「不一致」</p>
+<ol>
+<li><p>获取下一个元素</p>
+</li>
+<li><p>获取兄弟们</p>
+</li>
+</ol>
+<h2 id="DOM-研究价值"><a href="#DOM-研究价值" class="headerlink" title="DOM 研究价值"></a>DOM 研究价值</h2><p>如何把一个很烂的 API 写得好用一点，DOM 就很恶心，JQuery 就很神奇。</p>
+
+  </div>
+  <div>
+    <a href="https://github.com/Mcguffen/mcguffen.github.io/edit/myblog/source/_posts/docs/frontEnd/js/js07.md"target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Node"><span class="toc-number">1.</span> <span class="toc-text">Node</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Node-%E6%8E%A5%E5%8F%A3"><span class="toc-number">1.1.</span> <span class="toc-text">Node 接口</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Document-%E6%8E%A5%E5%8F%A3"><span class="toc-number">2.</span> <span class="toc-text">Document  接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DOM-API-%E5%8F%8D%E4%BA%BA%E7%B1%BB"><span class="toc-number">3.</span> <span class="toc-text">DOM API 反人类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DOM-%E7%A0%94%E7%A9%B6%E4%BB%B7%E5%80%BC"><span class="toc-number">4.</span> <span class="toc-text">DOM 研究价值</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2019/11/08/docs/frontEnd/js/js07/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2019/11/08/docs/frontEnd/js/js07/&text=JS基础 - DOM"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2019/11/08/docs/frontEnd/js/js07/&title=JS基础 - DOM"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2019/11/08/docs/frontEnd/js/js07/&is_video=false&description=JS基础 - DOM"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JS基础 - DOM&body=Check out this article: http://example.com/2019/11/08/docs/frontEnd/js/js07/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2019/11/08/docs/frontEnd/js/js07/&title=JS基础 - DOM"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2019/11/08/docs/frontEnd/js/js07/&title=JS基础 - DOM"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2019/11/08/docs/frontEnd/js/js07/&title=JS基础 - DOM"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2019/11/08/docs/frontEnd/js/js07/&title=JS基础 - DOM"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2019/11/08/docs/frontEnd/js/js07/&name=JS基础 - DOM&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2019/11/08/docs/frontEnd/js/js07/&t=JS基础 - DOM"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Mcguffen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

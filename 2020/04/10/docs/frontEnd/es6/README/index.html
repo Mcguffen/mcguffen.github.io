@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="初识 let跟很多人一样，我第一次了解 let 的特性是从 MDN 的文档：  我得到的信息有这么几条：  let 声明的变量的作用域是块级的； let 不能重复声明已存在的变量； let 有暂时死区，不会被提升。  大部分人应该都是这么认为的，我也是这么理解的。 这个理解「没有问题」，但是不够「全面和深刻」。 第一次质疑我第一次质疑我的理解是在遇到 for 循环的时候，代码如下。 1234567">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ES6 - 理解 let">
+<meta property="og:url" content="http://example.com/2020/04/10/docs/frontEnd/es6/README/index.html">
+<meta property="og:site_name" content="Hi! I am yang.">
+<meta property="og:description" content="初识 let跟很多人一样，我第一次了解 let 的特性是从 MDN 的文档：  我得到的信息有这么几条：  let 声明的变量的作用域是块级的； let 不能重复声明已存在的变量； let 有暂时死区，不会被提升。  大部分人应该都是这么认为的，我也是这么理解的。 这个理解「没有问题」，但是不够「全面和深刻」。 第一次质疑我第一次质疑我的理解是在遇到 for 循环的时候，代码如下。 1234567">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfn6nmx4ahj30k00cjacr.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfn6nzem9kj30k009oadl.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfn6oggeq2j30k00axack.jpg">
+<meta property="article:published_time" content="2020-04-10T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-07T12:11:01.076Z">
+<meta property="article:author" content="Mcguffen">
+<meta property="article:tag" content="es6">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfn6nmx4ahj30k00cjacr.jpg">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>ES6 - 理解 let</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/04/17/docs/frontEnd/es6/es601/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/04/03/docs/frontEnd/js/js20/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/04/10/docs/frontEnd/es6/README/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/04/10/docs/frontEnd/es6/README/&text=ES6 - 理解 let"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/04/10/docs/frontEnd/es6/README/&title=ES6 - 理解 let"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/04/10/docs/frontEnd/es6/README/&is_video=false&description=ES6 - 理解 let"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ES6 - 理解 let&body=Check out this article: http://example.com/2020/04/10/docs/frontEnd/es6/README/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/04/10/docs/frontEnd/es6/README/&title=ES6 - 理解 let"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/04/10/docs/frontEnd/es6/README/&title=ES6 - 理解 let"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/04/10/docs/frontEnd/es6/README/&title=ES6 - 理解 let"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/04/10/docs/frontEnd/es6/README/&title=ES6 - 理解 let"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/04/10/docs/frontEnd/es6/README/&name=ES6 - 理解 let&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/04/10/docs/frontEnd/es6/README/&t=ES6 - 理解 let"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E8%AF%86-let"><span class="toc-number">1.</span> <span class="toc-text">初识 let</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AC%A1%E8%B4%A8%E7%96%91"><span class="toc-number">2.</span> <span class="toc-text">第一次质疑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AC%A1%E8%B4%A8%E7%96%91"><span class="toc-number">3.</span> <span class="toc-text">第二次质疑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%85%E4%BA%8B%E5%B9%B6%E6%B2%A1%E6%9C%89%E7%BB%93%E6%9D%9F"><span class="toc-number">4.</span> <span class="toc-text">故事并没有结束</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#const"><span class="toc-number">5.</span> <span class="toc-text">const</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        ES6 - 理解 let
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Mcguffen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-04-10T00:00:00.000Z" itemprop="datePublished">2020-04-10</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/frontEnd/">frontEnd</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/es6/" rel="tag">es6</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="初识-let"><a href="#初识-let" class="headerlink" title="初识 let"></a>初识 let</h2><p>跟很多人一样，我第一次了解 let 的特性是从 MDN 的文档：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfn6nmx4ahj30k00cjacr.jpg" alt="img"></p>
+<p>我得到的信息有这么几条：</p>
+<ul>
+<li>let 声明的变量的作用域是块级的；</li>
+<li>let 不能重复声明已存在的变量；</li>
+<li>let 有暂时死区，不会被提升。</li>
+</ul>
+<p>大部分人应该都是这么认为的，我也是这么理解的。</p>
+<p>这个理解「没有问题」，但是不够「全面和深刻」。</p>
+<h2 id="第一次质疑"><a href="#第一次质疑" class="headerlink" title="第一次质疑"></a>第一次质疑</h2><p>我第一次质疑我的理解是在遇到 for 循环的时候，代码如下。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 代码段1</span></span><br><span class="line"><span class="keyword">var</span> liList = <span class="built_in">document</span>.querySelectorAll(<span class="string">&#x27;li&#x27;</span>) <span class="comment">// 共5个li</span></span><br><span class="line"><span class="keyword">for</span>( <span class="keyword">var</span> i=<span class="number">0</span>; i&lt;liList.length; i++)&#123;</span><br><span class="line">  liList[i].onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(i)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>大家都知道依次点击 li <a href="https://link.zhihu.com/?target=http://js.jirengu.com/vesat/3/edit?html,js,console,output">会打印出 5 个 5</a>。如果把 var i 改成 let i，就会分别<a href="https://link.zhihu.com/?target=http://js.jirengu.com/vesat/4/edit?html,js,console,output">打印出 0、1、2、3、4</a>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 代码段2</span></span><br><span class="line"><span class="keyword">var</span> liList = <span class="built_in">document</span>.querySelectorAll(<span class="string">&#x27;li&#x27;</span>) <span class="comment">// 共5个li</span></span><br><span class="line"><span class="keyword">for</span>( <span class="keyword">let</span> i=<span class="number">0</span>; i&lt;liList.length; i++)&#123;</span><br><span class="line">  liList[i].onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(i)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>然而，用我之前的知识来理解这个代码是不能自圆其说的</strong>。因为代码中依然只声明了一个 i，在 for 循环结束后，i 的值还是会变成 5 才对。</p>
+<p><strong>这说明我的理解有误。</strong></p>
+<p>于是我去看 MDN 的例子，发现鸡贼的 MDN 巧妙地避开了这个问题，它的例子是这样的：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfn6nzem9kj30k009oadl.jpg" alt="img"></p>
+<p>你看 MDN 的例子，在每次循环的时候用 let j 保留的 i 的值，所以在 i 变化的时候，j 并不会变化。而console.log 的是 j，所以不会出现 5 个 5。</p>
+<p><strong>为什么 MDN 要故意声明一个 j 呢，为什么不直接用 i 呢？</strong></p>
+<p><strong>我猜测 MDN 为了简化知识，隐瞒了什么。</strong></p>
+<p>于是我去看了看 ES 文档，其中的 <a href="https://link.zhihu.com/?target=http://www.ecma-international.org/ecma-262/6.0/%23sec-for-statement-runtime-semantics-labelledevaluation">13.7.4.7 章节</a> 清楚地说明了个中缘由，但是由于说得太清楚了，很多人都看不下去，不信你可以试试。</p>
+<p>我说一下我的理解：</p>
+<ol>
+<li><strong>for( let i = 0; i&lt; 5; i++) 这句话的圆括号之间，有一个隐藏的作用域</strong></li>
+<li><strong>for( let i = 0; i&lt; 5; i++) { 循环体 } 在每次执行循环体之前，JS 引擎会把 i 在循环体的上下文中重新声明及初始化一次。</strong></li>
+<li>其他细节就不说了，太细碎了</li>
+</ol>
+<p>也就是说上面的代码段2可以<strong>近似近似近似地</strong>理解为</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 代码段3</span></span><br><span class="line"><span class="keyword">var</span> liList = <span class="built_in">document</span>.querySelectorAll(<span class="string">&#x27;li&#x27;</span>) <span class="comment">// 共5个li</span></span><br><span class="line"><span class="keyword">for</span>( <span class="keyword">let</span> i=<span class="number">0</span>; i&lt;liList.length; i++)&#123;</span><br><span class="line">  <span class="keyword">let</span> i = 隐藏作用域中的i <span class="comment">// 看这里看这里看这里</span></span><br><span class="line">  liList[i].onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(i)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>那样的话，5 次循环，就会有 5 个不同的 i，console.log 出来的 i 当然也是不同的值。</p>
+<p>再加上隐藏作用域里的 i，一共有 6 个 i。</p>
+<p>这就是 MDN 加那句 let j = i 的原因：方便新人理解。</p>
+<p>总得来说就是 let/const 在与 for 一起用时，会有一个 perIterationBindings 的概念（一种语法糖）。</p>
+<p>从此之后，我就开始怀疑我对 let 的所有理解了。</p>
+<h2 id="第二次质疑"><a href="#第二次质疑" class="headerlink" title="第二次质疑"></a>第二次质疑</h2><p>我在 StackOverflow 上闲逛的时候，无意中发现了一个是关于「let 到底有没有提升」的问题：</p>
+<p><a href="https://link.zhihu.com/?target=https://stackoverflow.com/questions/31219420/are-variables-declared-with-let-or-const-not-hoisted-in-es6">Are variables declared with let or const not hoisted in ES6?</a></p>
+<p>其中一个高票回答认为 <a href="https://link.zhihu.com/?target=https://stackoverflow.com/a/31222689/1262580">JS 中所有的声明（var/let/const/function/class），都存在提升</a>，理由是如下代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">x = <span class="string">&quot;global&quot;</span>;</span><br><span class="line"><span class="comment">// function scope:</span></span><br><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    x; <span class="comment">// not &quot;global&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span>/<span class="keyword">let</span>/… x;</span><br><span class="line">&#125;());</span><br><span class="line"><span class="comment">// block scope (not for `var`s):</span></span><br><span class="line">&#123;</span><br><span class="line">    x; <span class="comment">// not &quot;global&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span>/<span class="keyword">const</span>/… x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我觉得他说得挺有道理的。于是我又去 MDN 和 ECMAScript 翻了翻，发现两处疑点：</p>
+<ol>
+<li>MDN 关于 let 是否存在提升的章节，被编辑了两次，第一次说存在提升，第二次说不存在提升（参考 <a href="https://link.zhihu.com/?target=https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let$compare?locale=en-US&to=1242757&from=1242229">2017 年 3 月 10 号的变更记录</a>）。也就是说 MDN 的维护者都在这个问题上产生过分歧，更何况我们了。</li>
+<li>ES 文档里出现了「var/let hoisting」字样。</li>
+</ol>
+<p>鉴于此，我认为应该尊重 ES 文档，认为 let 确实存在提升。只不过由于暂时死区的限制，你不能在 let x 之前使用 let（详见我的那篇 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/27558914">let 声明会提升（hoist）吗？</a>）。</p>
+<h2 id="故事并没有结束"><a href="#故事并没有结束" class="headerlink" title="故事并没有结束"></a>故事并没有结束</h2><p>当一个疑问一直存在你脑中时，你会在潜意识中不停地对它进行消化和思考。</p>
+<p>上面说到我认为 let 存在提升的主要原因是 ES 文档中出现了「var/let hoisting」字样。</p>
+<p>但是我在咨询 TC39 的成员 <strong><a href="https://link.zhihu.com/?target=https://twitter.com/rwaldron">Rick Waldron</a></strong> 时，他是这么说的：</p>
+<blockquote>
+<p>You’re misunderstanding the intention of that (non-normative) Note. let and const do not hoist as var and function decls do.</p>
+</blockquote>
+<p>而且还细心地专门写了一个 <a href="https://link.zhihu.com/?target=https://gist.github.com/rwaldron/ca35924d59ddc60a6aa165e1e4a3acda">gist</a> 来详细解释（twitter 有 140 字限制）。</p>
+<p>既然 TC39 的 representative 都说了 let hoisting 不是一个正式词汇，那我就应该重新思考一下什么是「提升」了。</p>
+<p>于是就有了这篇文章，我想要说一下我对「提升」的理解。你看完之后，就知道 let 到底有没有「提升」。</p>
+<p>首先明确一点：提升不是一个技术名词。</p>
+<p>要搞清楚提升的本质，需要理解 JS 变量的「创建create、初始化initialize 和赋值assign」</p>
+<p>有的地方把创建说成是声明（declare），为了将这个概念与变量声明区别开，我故意不使用声明这个字眼。</p>
+<p>有的地方把初始化叫做绑定（binding），但我感觉这个词不如初始化形象。</p>
+<p><strong>我们来看看 var 声明的「创建、初始化和赋值」过程</strong></p>
+<p>假设有如下代码：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function fn()&#123;</span><br><span class="line">  var x = 1</span><br><span class="line">  var y = 2</span><br><span class="line">&#125;</span><br><span class="line">fn()</span><br></pre></td></tr></table></figure>
+
+<p>在执行 fn 时，会有以下过程（不完全）：</p>
+<ol>
+<li>进入 fn，为 fn 创建一个环境。</li>
+<li>找到 fn 中所有用 var 声明的变量，在这个环境中「创建」这些变量（即 x 和 y）。</li>
+<li>将这些变量「初始化」为 undefined。</li>
+<li>开始执行代码</li>
+<li>x = 1 将 x 变量「赋值」为 1</li>
+<li>y = 2 将 y 变量「赋值」为 2</li>
+</ol>
+<p>也就是说 var 声明会在代码执行之前就将「创建变量，并将其初始化为 undefined」。</p>
+<p>这就解释了为什么在 var x = 1 之前 console.log(x) 会得到 undefined。</p>
+<p><strong>接下来来看 function 声明的「创建、初始化和赋值」过程</strong></p>
+<p>假设代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">fn2()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn2</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">2</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>JS 引擎会有一下过程：</p>
+<ol>
+<li>找到所有用 function 声明的变量，在环境中「创建」这些变量。</li>
+<li>将这些变量「初始化」并「赋值」为 function(){ console.log(2) }。</li>
+<li>开始执行代码 fn2()</li>
+</ol>
+<p>也就是说 function 声明会在代码执行之前就「创建、初始化并赋值」。</p>
+<p><strong>接下来看 let 声明的「创建、初始化和赋值」过程</strong></p>
+<p>假设代码如下：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  let x = 1</span><br><span class="line">  x = 2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们只看 {} 里面的过程：</p>
+<ol>
+<li>找到所有用 let 声明的变量，在环境中「创建」这些变量</li>
+<li>开始执行代码（注意现在还没有初始化）</li>
+<li>执行 x = 1，将 x 「初始化」为 1（这并不是一次赋值，如果代码是 let x，就将 x 初始化为 undefined）</li>
+<li>执行 x = 2，对 x 进行「赋值」</li>
+</ol>
+<p>这就解释了为什么在 let x 之前使用 x 会报错：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> x = <span class="string">&#x27;global&#x27;</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(x) <span class="comment">// Uncaught ReferenceError: x is not defined</span></span><br><span class="line">  <span class="keyword">let</span> x = <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>原因有两个</p>
+<ol>
+<li>console.log(x) 中的 x 指的是下面的 x，而不是全局的 x</li>
+<li>执行 log 时 x 还没「初始化」，所以不能使用（也就是所谓的暂时死区）</li>
+</ol>
+<p>看到这里，你应该明白了 let 到底有没有提升：</p>
+<ol>
+<li>let 的「创建」过程被提升了，但是初始化没有提升。</li>
+<li>var 的「创建」和「初始化」都被提升了。</li>
+<li>function 的「创建」「初始化」和「赋值」都被提升了。</li>
+</ol>
+<p>接下来我考考你：</p>
+<blockquote>
+<p>var foo 和 function foo 同时存在会怎样</p>
+</blockquote>
+<p>代码1：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> foo</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line"><span class="built_in">console</span>.log(foo)</span><br></pre></td></tr></table></figure>
+
+<p><em>代码2：</em></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line"><span class="keyword">var</span> foo</span><br><span class="line"><span class="built_in">console</span>.log(foo)</span><br></pre></td></tr></table></figure>
+
+<p>请问代码1 和 代码2 的输出分别是什么？</p>
+<p>答案：由于 function 比 var 多一个「赋值」过程，所以两个代码的输出都是函数。你也可以记住结论：function 比 var 牛逼。</p>
+<p>那如果 function foo 和 let foo 同时出现呢？不会有这种情况的，因为 let 发现重名就会报错，叫你滚去改代码。</p>
+<h2 id="const"><a href="#const" class="headerlink" title="const"></a>const</h2><p>最后看 const，其实 const 和 let 只有一个区别，那就是 const 只有「创建」和「初始化」，没有「赋值」过程。</p>
+<p>这四种声明，用下图就可以快速理解：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfn6oggeq2j30k00axack.jpg" alt="img"></p>
+<p>所谓暂时死区，就是不能在初始化之前，使用变量。</p>
+<p>如果 let x 的初始化过程失败了，那么</p>
+<ol>
+<li>x 变量就将永远处于 created 状态。</li>
+<li>你无法再次对 x 进行初始化（初始化只有一次机会，而那次机会你失败了）。</li>
+<li>由于 x 无法被初始化，所以 x 永远处在暂时死区（也就是盗梦空间里的 limbo）！</li>
+<li>有人会觉得 JS 坑，怎么能出现这种情况；其实问题不大，因为此时代码已经报错了，后面的代码想执行也没机会。</li>
+</ol>
+
+  </div>
+  <div>
+    <a href="https://github.com/Mcguffen/mcguffen.github.io/edit/myblog/source/_posts/docs/frontEnd/es6/README.md"target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E8%AF%86-let"><span class="toc-number">1.</span> <span class="toc-text">初识 let</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AC%A1%E8%B4%A8%E7%96%91"><span class="toc-number">2.</span> <span class="toc-text">第一次质疑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AC%A1%E8%B4%A8%E7%96%91"><span class="toc-number">3.</span> <span class="toc-text">第二次质疑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%85%E4%BA%8B%E5%B9%B6%E6%B2%A1%E6%9C%89%E7%BB%93%E6%9D%9F"><span class="toc-number">4.</span> <span class="toc-text">故事并没有结束</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#const"><span class="toc-number">5.</span> <span class="toc-text">const</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/04/10/docs/frontEnd/es6/README/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/04/10/docs/frontEnd/es6/README/&text=ES6 - 理解 let"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/04/10/docs/frontEnd/es6/README/&title=ES6 - 理解 let"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/04/10/docs/frontEnd/es6/README/&is_video=false&description=ES6 - 理解 let"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ES6 - 理解 let&body=Check out this article: http://example.com/2020/04/10/docs/frontEnd/es6/README/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/04/10/docs/frontEnd/es6/README/&title=ES6 - 理解 let"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/04/10/docs/frontEnd/es6/README/&title=ES6 - 理解 let"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/04/10/docs/frontEnd/es6/README/&title=ES6 - 理解 let"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/04/10/docs/frontEnd/es6/README/&title=ES6 - 理解 let"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/04/10/docs/frontEnd/es6/README/&name=ES6 - 理解 let&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/04/10/docs/frontEnd/es6/README/&t=ES6 - 理解 let"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Mcguffen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

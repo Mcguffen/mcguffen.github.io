@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="react 中封装 axios 的实践方式，供参考（直接抄）后续可能转向 react swr 的研究，但是不妨碍 axios 是运用最广泛的 promise 库之一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React 中封装 axios">
+<meta property="og:url" content="http://example.com/2020/08/13/docs/frontEnd/axios/axios01/index.html">
+<meta property="og:site_name" content="Hi! I am yang.">
+<meta property="og:description" content="react 中封装 axios 的实践方式，供参考（直接抄）后续可能转向 react swr 的研究，但是不妨碍 axios 是运用最广泛的 promise 库之一">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-08-13T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-07T12:11:01.076Z">
+<meta property="article:author" content="Mcguffen">
+<meta property="article:tag" content="axios">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>React 中封装 axios</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/09/06/docs/frontEnd/react/react02/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/07/22/docs/frontEnd/axios/README/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/08/13/docs/frontEnd/axios/axios01/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/08/13/docs/frontEnd/axios/axios01/&text=React 中封装 axios"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/08/13/docs/frontEnd/axios/axios01/&title=React 中封装 axios"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/08/13/docs/frontEnd/axios/axios01/&is_video=false&description=React 中封装 axios"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=React 中封装 axios&body=Check out this article: http://example.com/2020/08/13/docs/frontEnd/axios/axios01/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/08/13/docs/frontEnd/axios/axios01/&title=React 中封装 axios"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/08/13/docs/frontEnd/axios/axios01/&title=React 中封装 axios"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/08/13/docs/frontEnd/axios/axios01/&title=React 中封装 axios"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/08/13/docs/frontEnd/axios/axios01/&title=React 中封装 axios"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/08/13/docs/frontEnd/axios/axios01/&name=React 中封装 axios&description=&lt;p&gt;react 中封装 axios 的实践方式，供参考（直接抄）&lt;br&gt;后续可能转向 react swr 的研究，但是不妨碍 axios 是运用最广泛的 promise 库之一&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/08/13/docs/frontEnd/axios/axios01/&t=React 中封装 axios"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#axios"><span class="toc-number">1.</span> <span class="toc-text">axios</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">2.</span> <span class="toc-text">常用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%81%E8%A3%85%E6%96%B9%E6%A1%88"><span class="toc-number">3.</span> <span class="toc-text">封装方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%84%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">3.1.</span> <span class="toc-text">预备工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E8%AF%B4%E6%98%8E"><span class="toc-number">3.2.</span> <span class="toc-text">方法说明</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E4%B9%8B%E5%89%8D"><span class="toc-number">4.</span> <span class="toc-text">请求之前</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E4%B9%8B%E5%90%8E"><span class="toc-number">5.</span> <span class="toc-text">响应之后</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-axios"><span class="toc-number">6.</span> <span class="toc-text">使用 axios</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%A6%E7%BB%86%E4%BB%A3%E7%A0%81"><span class="toc-number">7.</span> <span class="toc-text">详细代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E5%AE%9A%E8%AF%B7%E6%B1%82%E7%A0%81%EF%BC%8C%E8%BF%9B%E8%A1%8C%E7%89%B9%E6%AE%8A%E5%A4%84%E7%90%86"><span class="toc-number">7.1.</span> <span class="toc-text">特定请求码，进行特殊处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#get-%E8%AF%B7%E6%B1%82%E5%B0%81%E8%A3%85"><span class="toc-number">7.2.</span> <span class="toc-text">get 请求封装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#post-%E8%AF%B7%E6%B1%82%E5%B0%81%E8%A3%85"><span class="toc-number">7.3.</span> <span class="toc-text">post 请求封装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%94%E5%9B%9E%E6%95%B0%E6%8D%AE-JSON-%E4%B8%AD%E7%9A%84-code-%E4%BD%9C%E7%BB%9F%E4%B8%80%E5%A4%84%E7%90%86"><span class="toc-number">7.4.</span> <span class="toc-text">返回数据 JSON 中的 code 作统一处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E9%A1%B5%E9%9D%A2%E7%9A%84%E5%A4%9A%E6%8E%A5%E5%8F%A3%E5%B9%B6%E5%8F%91%E8%AF%B7%E6%B1%82%EF%BC%88await-%E5%AF%BC%E8%87%B4%E5%A4%9A%E4%BD%99%E7%AD%89%E5%BE%85%EF%BC%89"><span class="toc-number">7.5.</span> <span class="toc-text">单页面的多接口并发请求（await 导致多余等待）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E8%8C%83%E4%BE%8B"><span class="toc-number">7.5.1.</span> <span class="toc-text">使用范例</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        React 中封装 axios
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Mcguffen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-08-13T00:00:00.000Z" itemprop="datePublished">2020-08-13</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/http/">http</a> › <a class="category-link" href="/categories/http/react/">react</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/axios/" rel="tag">axios</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>react 中封装 axios 的实践方式，供参考（直接抄）<br>后续可能转向 react swr 的研究，但是不妨碍 axios 是运用最广泛的 promise 库之一</p>
+<span id="more"></span>
+<h2 id="axios"><a href="#axios" class="headerlink" title="axios"></a>axios</h2><p>Promise based HTTP client for the browser and node.js</p>
+<p>github：<a target="_blank" rel="noopener" href="https://github.com/axios/axios">https://github.com/axios/axios</a></p>
+<h2 id="常用场景"><a href="#常用场景" class="headerlink" title="常用场景"></a>常用场景</h2><ol>
+<li>对特定的状态码，进行特殊处理（如 4xx 状态码，统一重定向到 404 页面）；</li>
+<li>get 请求封装；</li>
+<li>post 请求封装；</li>
+<li>返回数据 json 中的特定 code，作统一处理（如后端接口定义 220 - 300的状态码，对返回文案需要统一进行弹框提示）；</li>
+<li>单页面的多接口的并发请求（await 导致的多余等待）；</li>
+</ol>
+<h2 id="封装方案"><a href="#封装方案" class="headerlink" title="封装方案"></a>封装方案</h2><h3 id="预备工作"><a href="#预备工作" class="headerlink" title="预备工作"></a>预备工作</h3><ol>
+<li>能够实现全局的开始 loading、结束 loading、文案弹框的基本组件或方案（可以使用 redux 实现全局通用组件的控制和页面缓存的使用）</li>
+<li>ES6 语法，支持 Promise、async、await 基本异步操作</li>
+</ol>
+<h3 id="方法说明"><a href="#方法说明" class="headerlink" title="方法说明"></a>方法说明</h3><ol>
+<li><code>proxyUtil</code> 该对象提供一系列操作 redux 中 store 的数据方法，用来做全局组件的控制</li>
+<li><code>proxyUtil.startLoading()</code> 显示「加载中」图标</li>
+<li><code>proxyUtil.endLoading()</code> 关闭「加载中」图标</li>
+<li><code>proxyUtil.alertMessage(message: string)</code> 全局文字提示弹框</li>
+</ol>
+<h2 id="请求之前"><a href="#请求之前" class="headerlink" title="请求之前"></a>请求之前</h2><p>一般接口都会携带鉴权认证（token）之类的，因此在接口的请求头里面，我们需要带上 token 值以通过服务器的鉴权认证。但是如果每次请求的时候再去添加，不仅会大大地加大工作量，而且容易出错。我们可以通过 axios 的请求拦截机制，在每次请求的拦截器中添加 token</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 请求拦截</span></span><br><span class="line">axios.interceptors.request.use(<span class="function">(<span class="params">config</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">//....省略代码</span></span><br><span class="line">  config.headers.x_access_token = token</span><br><span class="line">  <span class="keyword">return</span> config</span><br><span class="line">&#125;, <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(err)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>请求拦截器中，除了处理添加token以外，还可以进行一些其他的处理，具体的根据实际需求进行处理</p>
+<h2 id="响应之后"><a href="#响应之后" class="headerlink" title="响应之后"></a>响应之后</h2><p>请求接口，并不是每一次请求都会成功，我们可以选择每次请求的时候处理，也可以封装 axios 统一处理（有时间有追求就选择后者吧）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 响应拦截</span></span><br><span class="line">axios.interceptors.response.use(<span class="function"><span class="keyword">function</span> (<span class="params">response</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (response.data.code === <span class="number">401</span> ) &#123;<span class="comment">//用户token失效</span></span><br><span class="line">    <span class="comment">//清空用户信息</span></span><br><span class="line">    sessionStorage.user = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    sessionStorage.token = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="built_in">window</span>.location.href = <span class="string">&#x27;/&#x27;</span>;<span class="comment">//返回登录页</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(msg)<span class="comment">//接口Promise返回错误状态，错误信息msg可有后端返回，也可以我们自己定义一个码--信息的关系。</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span>(response.status!==<span class="number">200</span>||response.data.code!==<span class="number">200</span>)&#123;<span class="comment">//接口请求失败，具体根据实际情况判断</span></span><br><span class="line">    message.error(msg);<span class="comment">//提示错误信息</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(msg)<span class="comment">//接口Promise返回错误状态</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> response</span><br><span class="line">&#125;, <span class="function"><span class="keyword">function</span> (<span class="params">error</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (axios.isCancel(error)) &#123;</span><br><span class="line">    requestList.length = <span class="number">0</span></span><br><span class="line">    <span class="comment">// store.dispatch(&#x27;changeGlobalState&#x27;, &#123;loading: false&#125;)</span></span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> axios.Cancel(<span class="string">&#x27;cancel request&#x27;</span>)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    message.error(<span class="string">&#x27;网络请求失败,请重试&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(error)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用-axios"><a href="#使用-axios" class="headerlink" title="使用 axios"></a>使用 axios</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 执行get请求</span><br><span class="line"></span><br><span class="line">axios.get(<span class="string">&#x27;url&#x27;</span>,&#123;</span><br><span class="line">  params:&#123;&#125;,<span class="comment">//接口参数</span></span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(res);<span class="comment">//处理成功的函数 相当于success</span></span><br><span class="line">&#125;).catch(<span class="function"><span class="keyword">function</span>(<span class="params">error</span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(error)<span class="comment">//错误处理 相当于error</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 执行post请求</span><br><span class="line"></span><br><span class="line">axios.post(<span class="string">&#x27;url&#x27;</span>,&#123;</span><br><span class="line">  data:xxx<span class="comment">//参数</span></span><br><span class="line">  &#125;,&#123;</span><br><span class="line">  headers:xxxx,<span class="comment">//请求头信息</span></span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(res);<span class="comment">//处理成功的函数 相当于success</span></span><br><span class="line">&#125;).catch(<span class="function"><span class="keyword">function</span>(<span class="params">error</span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(error)<span class="comment">//错误处理 相当于error</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># axios API 通过相关配置传递给axios完成请求</span><br><span class="line"></span><br><span class="line">axios(&#123;</span><br><span class="line">  method:<span class="string">&#x27;delete&#x27;</span>,</span><br><span class="line">  url:<span class="string">&#x27;xxx&#x27;</span>,</span><br><span class="line">  cache:<span class="literal">false</span>,</span><br><span class="line">  params:&#123;<span class="attr">id</span>:<span class="number">123</span>&#125;,</span><br><span class="line">  headers:xxx,</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">//------------------------------------------//</span></span><br><span class="line">axios(&#123;</span><br><span class="line">  method: <span class="string">&#x27;post&#x27;</span>,</span><br><span class="line">  url: <span class="string">&#x27;/user/12345&#x27;</span>,</span><br><span class="line">  data: &#123;</span><br><span class="line">    firstName: <span class="string">&#x27;monkey&#x27;</span>,</span><br><span class="line">    lastName: <span class="string">&#x27;soft&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>直接使用api的方式虽然简单，但是不同请求参数的名字不一样，在实际开发过程中很容易写错或者忽略，容易为开发造成不必要的时间损失。前面两种方式虽然没有参数不一致的问题，但是使用时候过于麻烦，该怎么解决呢？</p>
+<p>我们可以根据前两者的相似之处进行封装：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">*url:请求的url</span></span><br><span class="line"><span class="comment">*params:请求的参数</span></span><br><span class="line"><span class="comment">*config:请求时的header信息</span></span><br><span class="line"><span class="comment">*method:请求方法</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">const</span> request = <span class="function"><span class="keyword">function</span> (<span class="params">&#123; url, params, config, method &#125;</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 如果是get请求 需要拼接参数</span></span><br><span class="line">  <span class="keyword">let</span> str = <span class="string">&#x27;&#x27;</span></span><br><span class="line">  <span class="keyword">if</span> (method === <span class="string">&#x27;get&#x27;</span> &amp;&amp; params) &#123;</span><br><span class="line">    <span class="built_in">Object</span>.keys(params).forEach(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</span><br><span class="line">      str += <span class="string">`<span class="subst">$&#123;item&#125;</span>=<span class="subst">$&#123;params[item]&#125;</span>&amp;`</span></span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    axios[method](str ? (url + <span class="string">&#x27;?&#x27;</span> + str.substring(<span class="number">0</span>, str.length - <span class="number">1</span>)) : url, params, <span class="built_in">Object</span>.assign(&#123;&#125;, config)).then(<span class="function"><span class="params">response</span> =&gt;</span> &#123;</span><br><span class="line">      resolve(response.data)</span><br><span class="line">    &#125;, <span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (err.Cancel) &#123;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        reject(err)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;).catch(<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">      reject(err)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样我们需要接口请求的时候，直接调用该函数就好了。不管什么方式请求，传参方式都一样。</p>
+<h2 id="详细代码"><a href="#详细代码" class="headerlink" title="详细代码"></a>详细代码</h2><h3 id="特定请求码，进行特殊处理"><a href="#特定请求码，进行特殊处理" class="headerlink" title="特定请求码，进行特殊处理"></a>特定请求码，进行特殊处理</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> axios <span class="keyword">from</span> <span class="string">&#x27;axios&#x27;</span></span><br><span class="line"><span class="comment">// 全局设定请求类型</span></span><br><span class="line">axios.default.headers.post[<span class="string">&#x27;Content-Type&#x27;</span>] = <span class="string">&#x27;application/json&#x27;</span></span><br><span class="line"><span class="comment">// 根据 axios api，对请求返回做拦截处理</span></span><br><span class="line">axios.interceptors.response.use(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span>(response.status &gt;= <span class="number">400</span> &amp;&amp; response.status &lt; <span class="number">500</span>) &#123;</span><br><span class="line">    <span class="comment">// 对返回状态码为 4xx 的请求同意处理</span></span><br><span class="line">    <span class="comment">// 此处同意跳转 404 页面</span></span><br><span class="line">    <span class="built_in">window</span>.location.href = <span class="built_in">decodeURI</span>(<span class="string">`<span class="subst">$&#123;<span class="built_in">window</span>.location.protocol&#125;</span>//<span class="subst">$&#123;<span class="built_in">window</span>.location.host&#125;</span>/404.html`</span>)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> response</span><br><span class="line">  &#125;</span><br><span class="line">&#125;, <span class="function">(<span class="params">error</span>) =&gt;</span> &#123;</span><br><span class="line">  proxyUtil.alertMessage(error)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="get-请求封装"><a href="#get-请求封装" class="headerlink" title="get 请求封装"></a>get 请求封装</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> pget = <span class="function">(<span class="params">url, params = ()</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 开始 loading</span></span><br><span class="line">  proxyUtil.startLoading()</span><br><span class="line">  <span class="keyword">return</span> axios.get(url, &#123;</span><br><span class="line">    params: params,</span><br><span class="line">    validateStatus: <span class="function"><span class="keyword">function</span> (<span class="params">status</span>) </span>&#123;</span><br><span class="line">      <span class="comment">// 只有返回 code 为 2xx 才被正常返回（resolve），非 2xx 全部当做异常（reject）</span></span><br><span class="line">      <span class="keyword">return</span> status &gt;= <span class="number">200</span> &amp;&amp; status &lt; <span class="number">300</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;).then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 结束 loading</span></span><br><span class="line">    proxyUtil.endLoading()</span><br><span class="line">    <span class="comment">// 返回后端数据</span></span><br><span class="line">    <span class="keyword">return</span> res.data</span><br><span class="line">  &#125;).catch(<span class="function">(<span class="params">error</span>) =&gt;</span> &#123;</span><br><span class="line">    proxyUtil.endLoading()</span><br><span class="line">    proxyUtil.alertMessage(error)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="post-请求封装"><a href="#post-请求封装" class="headerlink" title="post 请求封装"></a>post 请求封装</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> ppot = <span class="function">(<span class="params">url, params = ()</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 开始 loading</span></span><br><span class="line">  proxyUtil.startLoading()</span><br><span class="line">  <span class="keyword">return</span> axios</span><br><span class="line">    .post(url, params)</span><br><span class="line">    .then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">    	<span class="comment">// 结束 loading</span></span><br><span class="line">    	proxyUtil.endLoading()</span><br><span class="line">    	<span class="keyword">return</span> res.data</span><br><span class="line">  	&#125;)</span><br><span class="line">  	.catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">    	<span class="comment">// 异常处理</span></span><br><span class="line">    	proxyUtil.endLoading()</span><br><span class="line">    	proxyUtil.alertMessage(err)</span><br><span class="line">  	&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="返回数据-JSON-中的-code-作统一处理"><a href="#返回数据-JSON-中的-code-作统一处理" class="headerlink" title="返回数据 JSON 中的 code 作统一处理"></a>返回数据 JSON 中的 code 作统一处理</h3><p>只需要在 <code>pget</code> 或者 <code>ppost</code> 总处理即可，以 pget 为例：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> pget = <span class="function">(<span class="params">url, params = ()</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 开始 loading</span></span><br><span class="line">  proxyUtil.startLoading()</span><br><span class="line">  <span class="keyword">return</span> axios.get(url, &#123;</span><br><span class="line">    params: params,</span><br><span class="line">    validateStatus: <span class="function"><span class="keyword">function</span> (<span class="params">status</span>) </span>&#123;</span><br><span class="line">      <span class="comment">// 只有返回 code 为 2xx 才被正常返回（resolve），非 2xx 全部当做异常（reject）</span></span><br><span class="line">      <span class="keyword">return</span> status &gt;= <span class="number">200</span> &amp;&amp; status &lt; <span class="number">300</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;).then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 结束 loading</span></span><br><span class="line">    proxyUtil.endLoading()</span><br><span class="line">    <span class="comment">// TODO 假定接口返回数据格式为 &#123; code: 200, msg: &quot;这是信息&quot; &#125;</span></span><br><span class="line">    <span class="comment">// 获取接口自定义 code</span></span><br><span class="line">    <span class="keyword">let</span> code = res.data.code</span><br><span class="line">    <span class="comment">// 获取接口返回 message，也可能是一个 object，一个数组</span></span><br><span class="line">    <span class="keyword">let</span> message = res.data.msg</span><br><span class="line">    <span class="comment">// 对于接口定义的特殊范围的 code，统一对返回的 message 作弹框处理</span></span><br><span class="line">    <span class="keyword">if</span> (code &gt; <span class="number">220</span> || code &lt; <span class="number">200</span>) &#123;</span><br><span class="line">      proxyUtil.alertMessage(message.toString())</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 返回后端返回数据</span></span><br><span class="line">    <span class="keyword">return</span> res.data</span><br><span class="line">  &#125;).catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 异常处理</span></span><br><span class="line">    proxyUtil.endLoading()</span><br><span class="line">    proxyUtil.alertMessage(err)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="单页面的多接口并发请求（await-导致多余等待）"><a href="#单页面的多接口并发请求（await-导致多余等待）" class="headerlink" title="单页面的多接口并发请求（await 导致多余等待）"></a>单页面的多接口并发请求（await 导致多余等待）</h3><blockquote>
+<p>使用 <code>promise.all()</code> 处理多个请求</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> asyncAll = <span class="function">(<span class="params">requests = []</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 开始 loading</span></span><br><span class="line">  proxyUtil.startLoading()</span><br><span class="line">  <span class="comment">// 使用 axios 的 all 方法</span></span><br><span class="line">  <span class="keyword">return</span> axios.all(requests).then(<span class="function"><span class="params">resultArr</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 结束 loading</span></span><br><span class="line">    proxyUtil.endLoading()</span><br><span class="line">    <span class="comment">// 对结果做特殊化处理，此处是对返回接口 code 在一定范围内作信息弹框</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> result <span class="keyword">of</span> resultArr) &#123;</span><br><span class="line">      <span class="keyword">let</span> code = result.code</span><br><span class="line">      <span class="keyword">if</span> (code &gt; <span class="number">220</span> || code &lt; <span class="number">200</span>) &#123;</span><br><span class="line">        proxyUtil.alertMessage(result.msg)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//  返回每个方法返回的接口数据</span></span><br><span class="line">    <span class="keyword">return</span> resultArr</span><br><span class="line">  &#125;).catch(<span class="function"><span class="params">error</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 异常处理</span></span><br><span class="line">    proxyUtil.endLoading()</span><br><span class="line">    proxyUtil.alertMessage(error)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用范例"><a href="#使用范例" class="headerlink" title="使用范例"></a>使用范例</h4><p>假设存在两个接口请求 <code>getUserName()</code> 和 <code>getUserAge</code>，现在一个页面需要同时请求两个接口的数据，<code>await</code> 逐步等待明显浪费时间，所以我们可以采用以下写法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 处理用户信息</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="title">loadUserData</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> [nameObj, ageObj] = <span class="keyword">await</span> asyncAll([getUserName(), getUserAge()])</span><br><span class="line">    <span class="built_in">this</span>.userInfo.name = nameObj.msg</span><br><span class="line">    <span class="built_in">this</span>.userInfo.age = ageObj.msg</span><br><span class="line">    <span class="comment">// react 此处更多是应该在得到数据处理完之后，setState(&#123;userName: nameObj.msg, userAge: ageObj.msg&#125;)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+  <div>
+    <a href="https://github.com/Mcguffen/mcguffen.github.io/edit/myblog/source/_posts/docs/frontEnd/axios/axios01.md"target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#axios"><span class="toc-number">1.</span> <span class="toc-text">axios</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">2.</span> <span class="toc-text">常用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%81%E8%A3%85%E6%96%B9%E6%A1%88"><span class="toc-number">3.</span> <span class="toc-text">封装方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%84%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">3.1.</span> <span class="toc-text">预备工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E8%AF%B4%E6%98%8E"><span class="toc-number">3.2.</span> <span class="toc-text">方法说明</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E4%B9%8B%E5%89%8D"><span class="toc-number">4.</span> <span class="toc-text">请求之前</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E4%B9%8B%E5%90%8E"><span class="toc-number">5.</span> <span class="toc-text">响应之后</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-axios"><span class="toc-number">6.</span> <span class="toc-text">使用 axios</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%A6%E7%BB%86%E4%BB%A3%E7%A0%81"><span class="toc-number">7.</span> <span class="toc-text">详细代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E5%AE%9A%E8%AF%B7%E6%B1%82%E7%A0%81%EF%BC%8C%E8%BF%9B%E8%A1%8C%E7%89%B9%E6%AE%8A%E5%A4%84%E7%90%86"><span class="toc-number">7.1.</span> <span class="toc-text">特定请求码，进行特殊处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#get-%E8%AF%B7%E6%B1%82%E5%B0%81%E8%A3%85"><span class="toc-number">7.2.</span> <span class="toc-text">get 请求封装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#post-%E8%AF%B7%E6%B1%82%E5%B0%81%E8%A3%85"><span class="toc-number">7.3.</span> <span class="toc-text">post 请求封装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%94%E5%9B%9E%E6%95%B0%E6%8D%AE-JSON-%E4%B8%AD%E7%9A%84-code-%E4%BD%9C%E7%BB%9F%E4%B8%80%E5%A4%84%E7%90%86"><span class="toc-number">7.4.</span> <span class="toc-text">返回数据 JSON 中的 code 作统一处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E9%A1%B5%E9%9D%A2%E7%9A%84%E5%A4%9A%E6%8E%A5%E5%8F%A3%E5%B9%B6%E5%8F%91%E8%AF%B7%E6%B1%82%EF%BC%88await-%E5%AF%BC%E8%87%B4%E5%A4%9A%E4%BD%99%E7%AD%89%E5%BE%85%EF%BC%89"><span class="toc-number">7.5.</span> <span class="toc-text">单页面的多接口并发请求（await 导致多余等待）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E8%8C%83%E4%BE%8B"><span class="toc-number">7.5.1.</span> <span class="toc-text">使用范例</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/08/13/docs/frontEnd/axios/axios01/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/08/13/docs/frontEnd/axios/axios01/&text=React 中封装 axios"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/08/13/docs/frontEnd/axios/axios01/&title=React 中封装 axios"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/08/13/docs/frontEnd/axios/axios01/&is_video=false&description=React 中封装 axios"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=React 中封装 axios&body=Check out this article: http://example.com/2020/08/13/docs/frontEnd/axios/axios01/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/08/13/docs/frontEnd/axios/axios01/&title=React 中封装 axios"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/08/13/docs/frontEnd/axios/axios01/&title=React 中封装 axios"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/08/13/docs/frontEnd/axios/axios01/&title=React 中封装 axios"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/08/13/docs/frontEnd/axios/axios01/&title=React 中封装 axios"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/08/13/docs/frontEnd/axios/axios01/&name=React 中封装 axios&description=&lt;p&gt;react 中封装 axios 的实践方式，供参考（直接抄）&lt;br&gt;后续可能转向 react swr 的研究，但是不妨碍 axios 是运用最广泛的 promise 库之一&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/08/13/docs/frontEnd/axios/axios01/&t=React 中封装 axios"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Mcguffen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

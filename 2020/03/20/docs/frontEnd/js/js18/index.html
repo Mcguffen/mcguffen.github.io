@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="代码优化原则    易读性优先     如果不是性能瓶颈，就不要为了性能而改写代码     复杂性守恒酬：无论你怎么写代码，复杂性都是不会梢失的   推论：如果逻辑很复杂，那么代码看起来就应该是复杂的。如果逻辑很简单，代码看起来就应该是简单的。 命名程序员三大难题  变量命名 缓存失效 循环边界  可见变量命名的重要性 基本原则  注意词性  普通变量&#x2F;属性（名词） 12345678var per">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS进阶 - 重构">
+<meta property="og:url" content="http://example.com/2020/03/20/docs/frontEnd/js/js18/index.html">
+<meta property="og:site_name" content="Hi! I am yang.">
+<meta property="og:description" content="代码优化原则    易读性优先     如果不是性能瓶颈，就不要为了性能而改写代码     复杂性守恒酬：无论你怎么写代码，复杂性都是不会梢失的   推论：如果逻辑很复杂，那么代码看起来就应该是复杂的。如果逻辑很简单，代码看起来就应该是简单的。 命名程序员三大难题  变量命名 缓存失效 循环边界  可见变量命名的重要性 基本原则  注意词性  普通变量&#x2F;属性（名词） 12345678var per">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-20T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-07T12:11:01.076Z">
+<meta property="article:author" content="Mcguffen">
+<meta property="article:tag" content="js">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>JS进阶 - 重构</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/03/27/docs/frontEnd/js/js19/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/03/13/docs/frontEnd/js/js17/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/03/20/docs/frontEnd/js/js18/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/03/20/docs/frontEnd/js/js18/&text=JS进阶 - 重构"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/03/20/docs/frontEnd/js/js18/&title=JS进阶 - 重构"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/03/20/docs/frontEnd/js/js18/&is_video=false&description=JS进阶 - 重构"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JS进阶 - 重构&body=Check out this article: http://example.com/2020/03/20/docs/frontEnd/js/js18/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/03/20/docs/frontEnd/js/js18/&title=JS进阶 - 重构"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/03/20/docs/frontEnd/js/js18/&title=JS进阶 - 重构"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/03/20/docs/frontEnd/js/js18/&title=JS进阶 - 重构"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/03/20/docs/frontEnd/js/js18/&title=JS进阶 - 重构"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/03/20/docs/frontEnd/js/js18/&name=JS进阶 - 重构&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/03/20/docs/frontEnd/js/js18/&t=JS进阶 - 重构"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96%E5%8E%9F%E5%88%99"><span class="toc-number">1.</span> <span class="toc-text">代码优化原则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E5%90%8D"><span class="toc-number">2.</span> <span class="toc-text">命名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%B9%E4%BB%A3%E7%A0%81"><span class="toc-number">3.</span> <span class="toc-text">改代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81-%E4%BD%BF%E7%94%A8%E5%87%BD%E6%95%B0%E6%9D%A5%E6%94%B9%E4%BB%A3%E7%A0%81"><span class="toc-number">3.1.</span> <span class="toc-text">一、    使用函数来改代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81-%E4%BD%BF%E7%94%A8%E5%AF%B9%E8%B1%A1%E6%9D%A5%E6%94%B9%E4%BB%A3%E7%A0%81"><span class="toc-number">3.2.</span> <span class="toc-text">二、    使用对象来改代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E5%9B%BA%E5%AE%9A%E7%9A%84%E5%A5%97%E8%B7%AF"><span class="toc-number">3.3.</span> <span class="toc-text">一些固定的套路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bad-smell-%E5%9D%8F%E5%91%B3%E9%81%93%EF%BC%89"><span class="toc-number">3.4.</span> <span class="toc-text">bad smell (坏味道）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A0%B4%E7%AA%97%E6%95%88%E5%BA%94"><span class="toc-number">3.5.</span> <span class="toc-text">破窗效应</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        JS进阶 - 重构
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Mcguffen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-03-20T00:00:00.000Z" itemprop="datePublished">2020-03-20</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/frontEnd/">frontEnd</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/js/" rel="tag">js</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="代码优化原则"><a href="#代码优化原则" class="headerlink" title="代码优化原则"></a>代码优化原则</h2><ol>
+<li><p>   易读性优先</p>
+</li>
+<li><p>   如果不是性能瓶颈，就不要为了性能而改写代码</p>
+</li>
+<li><p>   复杂性守恒酬：无论你怎么写代码，复杂性都是不会梢失的</p>
+</li>
+</ol>
+<p>推论：如果逻辑很复杂，那么代码看起来就应该是复杂的。如果逻辑很简单，代码看起来就应该是简单的。</p>
+<h2 id="命名"><a href="#命名" class="headerlink" title="命名"></a>命名</h2><p><strong>程序员三大难题</strong></p>
+<ol>
+<li>变量命名</li>
+<li>缓存失效</li>
+<li>循环边界</li>
+</ol>
+<p>可见变量命名的重要性</p>
+<p><strong>基本原则</strong></p>
+<ol>
+<li><p>注意词性</p>
+<ul>
+<li><p>普通变量/属性（名词）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person = &#123;</span><br><span class="line">	name: <span class="string">&#x27;Frank&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> student = &#123; </span><br><span class="line">  grade: <span class="number">3</span>,</span><br><span class="line">	class: 2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>bool 变量/属性用【形容词】【be动词】【情态动词】【hasX】</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person = &#123;</span><br><span class="line">  dead: <span class="literal">false</span>, <span class="comment">// 形容词，没必要用 is</span></span><br><span class="line">  canSpeak: <span class="literal">true</span>, <span class="comment">// 情态动词，can should will need</span></span><br><span class="line">  isVip: <span class="literal">true</span> <span class="comment">// be 动词 is was</span></span><br><span class="line">  hasChildren: <span class="literal">true</span> <span class="comment">// hasX</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>普通函数/方法用【动词】开头</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person = &#123;</span><br><span class="line">	run(&gt;&#123;&#125;, <span class="comment">//不及物动词 </span></span><br><span class="line">	<span class="function"><span class="title">drinkWater</span>(<span class="params"></span>)</span>&#123;&#125;,<span class="comment">//及物动词 </span></span><br><span class="line">   eat(foo), <span class="comment">//及物动词加参数（参数是名词）</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>回调、钩子函数用【介词】开头，或用【动词的现在完成时态】</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person = &#123;</span><br><span class="line">  <span class="function"><span class="title">beforeDie</span>(<span class="params"></span>)</span>&#123;&#125;,</span><br><span class="line">  <span class="function"><span class="title">afterDie</span>(<span class="params"></span>)</span>&#123;&#125;,</span><br><span class="line">  <span class="comment">//或者</span></span><br><span class="line">  <span class="function"><span class="title">willDie</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line">  <span class="function"><span class="title">dead</span>(<span class="params"></span>)</span>&#123;&#125; <span class="comment">//此处和 bool 冲突，不同时暴露 bool dead 和 dead() 就行</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">button.addEventListener(<span class="string">&#x27;click&#x27;</span>, onButtonClick) </span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> component = &#123; </span><br><span class="line">  <span class="function"><span class="title">beforeCreate</span>(<span class="params"></span>)</span>&#123;&#125;, </span><br><span class="line">  <span class="function"><span class="title">created</span>(<span class="params"></span>)</span>&#123;&#125;, </span><br><span class="line">  <span class="function"><span class="title">beforeMount</span>(<span class="params"></span>)</span>&#123;&#125;, </span><br><span class="line">  <span class="function"><span class="title">mounted</span>(<span class="params"></span>)</span>&#123;&#125;, </span><br><span class="line">  <span class="function"><span class="title">beforeUpdate</span>(<span class="params"></span>)</span>&#123;&#125;, </span><br><span class="line">  <span class="function"><span class="title">updated</span>(<span class="params"></span>)</span>&#123;&#125;, </span><br><span class="line">  <span class="function"><span class="title">activated</span>(<span class="params"></span>)</span>&#123;&#125;, </span><br><span class="line">  <span class="function"><span class="title">deactivated</span>(<span class="params"></span>)</span>&#123;&#125;, </span><br><span class="line">  <span class="function"><span class="title">beforeDestroy</span>(<span class="params"></span>)</span>&#123;&#125;, </span><br><span class="line">  <span class="function"><span class="title">destroyed</span>(<span class="params"></span>)</span>&#123;&#125;, </span><br><span class="line">  <span class="function"><span class="title">errorCaptured</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>容易混淆的地方加前缀</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">divl.classList.add(<span class="string">&#x27;active&#x27;</span>) <span class="comment">// DOM 对象</span></span><br><span class="line">div2.addclass(’active’）<span class="comment">// jQuery 对象</span></span><br><span class="line"></span><br><span class="line">不如改成</span><br><span class="line"></span><br><span class="line">domDivl 或 elDivl.classList.add(.active.)</span><br><span class="line">$div2.addclass(<span class="string">&#x27;active&#x27;</span>)</span><br></pre></td></tr></table></figure></li>
+<li><p>属性访问器函数可以用名词</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$div.text() <span class="comment">//其实是 $div.getText() 	</span></span><br><span class="line">$div.text(<span class="string">&#x27;hi&#x27;</span>)	<span class="comment">//其实是	$div.setText(&#x27;hi&#x27;)</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>注意一致性</p>
+<ul>
+<li><p>介词一致性</p>
+<p>如果你使用了 before + after,那么就在代码的所有地方都坚持使用 </p>
+<p>如果你使用了 before +完成时，那么就坚持使用 </p>
+<p>如果你改来改去，就「不一致J 了，不一致将导致「不可预测」</p>
+</li>
+<li><p>顺序一致性</p>
+<p>比如<code>updateContainerWidth</code>和<code>updateHeightOfContainer</code>的顺序就令人很别扭</p>
+</li>
+<li><p>表里一致性</p>
+<p>函数名必须完美体现函数的功能，既不能多也不能少。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getSongs</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> $.get(<span class="string">&#x27;/songs).then((response)&#123; </span></span><br><span class="line"><span class="string">		div.innerText = response.songs</span></span><br><span class="line"><span class="string">	&#125;)</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>就违背了表里一致性，getSongs表示获取歌曲，并没有暗示这个函数会更新页面，但是实际上函数更新了 div，这就是表里不一， 正确的写法是</p>
+<p>要么纠正函数名</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getSongsAndUpdateDiv</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> $.get(<span class="string">&#x27;/songs).then((response)&#123; </span></span><br><span class="line"><span class="string">		div.innerText = response.songs</span></span><br><span class="line"><span class="string">	&#125;)</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>要么写成两个函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getSongs</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> $get(<span class="string">&#x27;/songs)</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">function updateDiv(songs)&#123;</span></span><br><span class="line"><span class="string">	div.innerText = response.songs</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">getSongs().then((response)=&gt;&#123;</span></span><br><span class="line"><span class="string">	updateDiv(resopnse.songs)</span></span><br><span class="line"><span class="string">&#125;)</span></span><br></pre></td></tr></table></figure></li>
+<li><p>时间一致性</p>
+<p>有可能随着代码的变迁，一个变量的含义已经不同于它一开始的含义了，这个时候你需要及时改掉这个变量的名字。</p>
+<p>这一条是最难做到的，因为写代码容易，改代码难。如果这个代码组织得不好，很可能会出现牵一发而动全身的情况（如全局变量 就很难改）</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="改代码"><a href="#改代码" class="headerlink" title="改代码"></a>改代码</h2><p>如果你的代码有单元铡试，那么改起来就很放心。如果没有单元铡试，就需要用「小步快跑」的策略来修改。</p>
+<p>小步快跑的意思是说，每次只修改一点点，铡试通过后，再修改一点点，再铡试，再修改一点点……如此反复。</p>
+<p>那么如何修改一点点呢？《重构》这本书介绍了很多方法，但是讲得挺啰嗦的，如果你有时间可以看看。</p>
+<p>我这里只说两个经久不衰的方法。</p>
+<h3 id="一、-使用函数来改代码"><a href="#一、-使用函数来改代码" class="headerlink" title="一、    使用函数来改代码"></a>一、    使用函数来改代码</h3><p>步骤：</p>
+<ol>
+<li><p>   将一坨代码放到一个函数里</p>
+</li>
+<li><p>   将代码依赖的外部变量作为参数</p>
+</li>
+<li><p>   将代码的输出作为函数的返回值</p>
+</li>
+<li><p>   给函数取一个合适的名字</p>
+</li>
+<li><p>   调用这个函数并传入参数</p>
+</li>
+<li><p>   这个函数里的代码如果起过5行，则依然有优化的空间，请回到第1步</p>
+</li>
+</ol>
+<h3 id="二、-使用对象来改代码"><a href="#二、-使用对象来改代码" class="headerlink" title="二、    使用对象来改代码"></a>二、    使用对象来改代码</h3><p>如果使用了函数改造法改造后，发现有太多的小函数，则可以使用对象讲这个函数串起来。</p>
+<p>记得「this是函数和对象的桥梁」吗，我们会用this来串联这个对象和所有函数。</p>
+<p>最终代码：<a target="_blank" rel="noopener" href="http://jsjirengu.eom/mimazaboke/l/edit7htmljs,output">http://jsjirengu.eom/mimazaboke/l/edit7htmljs,output</a></p>
+<h3 id="一些固定的套路"><a href="#一些固定的套路" class="headerlink" title="一些固定的套路"></a>一些固定的套路</h3><ol>
+<li><p>表驱动编程（《代码大全》里说的）</p>
+<p>所有——对应的关系都可以用表来做    </p>
+</li>
+<li><p>自说明代码（以API参数为例)</p>
+<p>把别人关心的东西放在显眼的位置</p>
+</li>
+</ol>
+<h3 id="bad-smell-坏味道）"><a href="#bad-smell-坏味道）" class="headerlink" title="bad smell (坏味道）"></a>bad smell (坏味道）</h3><p>有些代码可以用，但是很「臭」</p>
+<p>哪些代码是有坏味道的</p>
+<ol>
+<li>表里不一的代码</li>
+<li>过时的注释</li>
+<li>逻辑很简单，但是看起来很复杂的代码</li>
+<li>相似的代码</li>
+<li>重复的代码</li>
+<li>总是一起出现的代码</li>
+</ol>
+<h3 id="破窗效应"><a href="#破窗效应" class="headerlink" title="破窗效应"></a>破窗效应</h3><p>此理论认为环境中的不良现象如果被放任存在，会诱使人们仿效，甚至变本加厉。一幢有少许破窗的建筑为例，如果那些窗不被修理 好，可能将会有破坏者破坏更多的窗户。最终他们甚至会闯入建筑内，如果发现无人居住，也许就在那里定居或者纵火.一面墙，如果 出现一些徐聰没有被清洗掉，很快的，墙上就布满了乱七八糟、不堪入目的东西；_条人行道有些许纸屑，不久后就会有更多垃圾，最 终人们会视若理所当然地将垃圾顺手丢弃在地上.这个现象，就是犯罪心理学中的破窗效应.</p>
+
+  </div>
+  <div>
+    <a href="https://github.com/Mcguffen/mcguffen.github.io/edit/myblog/source/_posts/docs/frontEnd/js/js18.md"target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96%E5%8E%9F%E5%88%99"><span class="toc-number">1.</span> <span class="toc-text">代码优化原则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E5%90%8D"><span class="toc-number">2.</span> <span class="toc-text">命名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%B9%E4%BB%A3%E7%A0%81"><span class="toc-number">3.</span> <span class="toc-text">改代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81-%E4%BD%BF%E7%94%A8%E5%87%BD%E6%95%B0%E6%9D%A5%E6%94%B9%E4%BB%A3%E7%A0%81"><span class="toc-number">3.1.</span> <span class="toc-text">一、    使用函数来改代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81-%E4%BD%BF%E7%94%A8%E5%AF%B9%E8%B1%A1%E6%9D%A5%E6%94%B9%E4%BB%A3%E7%A0%81"><span class="toc-number">3.2.</span> <span class="toc-text">二、    使用对象来改代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E5%9B%BA%E5%AE%9A%E7%9A%84%E5%A5%97%E8%B7%AF"><span class="toc-number">3.3.</span> <span class="toc-text">一些固定的套路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bad-smell-%E5%9D%8F%E5%91%B3%E9%81%93%EF%BC%89"><span class="toc-number">3.4.</span> <span class="toc-text">bad smell (坏味道）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A0%B4%E7%AA%97%E6%95%88%E5%BA%94"><span class="toc-number">3.5.</span> <span class="toc-text">破窗效应</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/03/20/docs/frontEnd/js/js18/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/03/20/docs/frontEnd/js/js18/&text=JS进阶 - 重构"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/03/20/docs/frontEnd/js/js18/&title=JS进阶 - 重构"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/03/20/docs/frontEnd/js/js18/&is_video=false&description=JS进阶 - 重构"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JS进阶 - 重构&body=Check out this article: http://example.com/2020/03/20/docs/frontEnd/js/js18/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/03/20/docs/frontEnd/js/js18/&title=JS进阶 - 重构"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/03/20/docs/frontEnd/js/js18/&title=JS进阶 - 重构"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/03/20/docs/frontEnd/js/js18/&title=JS进阶 - 重构"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/03/20/docs/frontEnd/js/js18/&title=JS进阶 - 重构"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/03/20/docs/frontEnd/js/js18/&name=JS进阶 - 重构&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/03/20/docs/frontEnd/js/js18/&t=JS进阶 - 重构"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Mcguffen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="同步与异步同步，等待结果 异步，不等待结果 注意，异步和回调往往伴随出现，但是两者没有直接关系。 1234567891011121314&#x2F;&#x2F; 同步的 sleepfunction sleep(s)&amp;#123;  var start &#x3D; new Date()  while( new Date() - start &lt; s*1000 )&amp;#123;      &amp;#125;  return&amp;#125;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS进阶 - 异步">
+<meta property="og:url" content="http://example.com/2020/03/06/docs/frontEnd/js/js16/index.html">
+<meta property="og:site_name" content="Hi! I am yang.">
+<meta property="og:description" content="同步与异步同步，等待结果 异步，不等待结果 注意，异步和回调往往伴随出现，但是两者没有直接关系。 1234567891011121314&#x2F;&#x2F; 同步的 sleepfunction sleep(s)&amp;#123;  var start &#x3D; new Date()  while( new Date() - start &lt; s*1000 )&amp;#123;      &amp;#125;  return&amp;#125;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-06T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-07T12:11:01.076Z">
+<meta property="article:author" content="Mcguffen">
+<meta property="article:tag" content="js">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>JS进阶 - 异步</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/03/13/docs/frontEnd/js/js17/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/02/28/docs/frontEnd/js/js15/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/03/06/docs/frontEnd/js/js16/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/03/06/docs/frontEnd/js/js16/&text=JS进阶 - 异步"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/03/06/docs/frontEnd/js/js16/&title=JS进阶 - 异步"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/03/06/docs/frontEnd/js/js16/&is_video=false&description=JS进阶 - 异步"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JS进阶 - 异步&body=Check out this article: http://example.com/2020/03/06/docs/frontEnd/js/js16/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/03/06/docs/frontEnd/js/js16/&title=JS进阶 - 异步"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/03/06/docs/frontEnd/js/js16/&title=JS进阶 - 异步"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/03/06/docs/frontEnd/js/js16/&title=JS进阶 - 异步"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/03/06/docs/frontEnd/js/js16/&title=JS进阶 - 异步"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/03/06/docs/frontEnd/js/js16/&name=JS进阶 - 异步&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/03/06/docs/frontEnd/js/js16/&t=JS进阶 - 异步"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%BC%82%E6%AD%A5"><span class="toc-number">1.</span> <span class="toc-text">同步与异步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%8F%E5%85%B8%E4%BE%8B%E5%AD%90"><span class="toc-number">2.</span> <span class="toc-text">经典例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AJAX-%E4%B8%AD%E7%9A%84%E5%BC%82%E6%AD%A5"><span class="toc-number">3.</span> <span class="toc-text">AJAX 中的异步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%82%E6%AD%A5%E7%9A%84%E5%BD%A2%E5%BC%8F"><span class="toc-number">4.</span> <span class="toc-text">异步的形式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9E%E8%B0%83%E7%9A%84%E5%BD%A2%E5%BC%8F"><span class="toc-number">5.</span> <span class="toc-text">回调的形式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E5%BC%82%E5%B8%B8%EF%BC%9F"><span class="toc-number">6.</span> <span class="toc-text">如何处理异常？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%B7%B1%E8%BF%94%E5%9B%9E-Promise"><span class="toc-number">7.</span> <span class="toc-text">自己返回 Promise</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#async-await"><span class="toc-number">8.</span> <span class="toc-text">async &#x2F; await</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        JS进阶 - 异步
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Mcguffen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-03-06T00:00:00.000Z" itemprop="datePublished">2020-03-06</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/frontEnd/">frontEnd</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/js/" rel="tag">js</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="同步与异步"><a href="#同步与异步" class="headerlink" title="同步与异步"></a>同步与异步</h2><p>同步，等待结果</p>
+<p>异步，不等待结果</p>
+<p>注意，异步和回调往往伴随出现，但是两者没有直接关系。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 同步的 sleep</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sleep</span>(<span class="params">s</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> start = <span class="keyword">new</span> <span class="built_in">Date</span>()</span><br><span class="line">  <span class="keyword">while</span>( <span class="keyword">new</span> <span class="built_in">Date</span>() - start &lt; s*<span class="number">1000</span> )&#123;</span><br><span class="line">    </span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">1</span>)</span><br><span class="line">sleep(<span class="number">3</span>)</span><br><span class="line">cosnole.log(<span class="string">&#x27;wake up&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">2</span>)</span><br><span class="line"><span class="comment">// 1 wake up 2 </span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>以上是同步的代码。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 异步的 sleep</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sleep</span>(<span class="params">s, fn</span>)</span>&#123;</span><br><span class="line">  <span class="built_in">setTimeout</span>(fn, s * <span class="number">1000</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">1</span>)</span><br><span class="line">sleep(<span class="number">3</span>, <span class="function">() =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&#x27;wake up&#x27;</span>))</span><br><span class="line">cosnole.log(<span class="number">2</span>)</span><br><span class="line"><span class="comment">// 1 2 wake up</span></span><br></pre></td></tr></table></figure>
+
+<p>conselo.log() 不会等待上一句执行完，比较 setTimeout 我们可以看到，三秒钟内 JS 什么都不需要做，而同步代码中需要不停计时。</p>
+<p>setTimeout 是给浏览器设置的一个闹钟，JS 需要做的只是设置闹钟而不是自己成为闹钟。</p>
+<p>![image-20200514164101761](/Users/xu/Library/Application Support/typora-user-images/image-20200514164101761.png)</p>
+<p>![image-20200514164115678](/Users/xu/Library/Application Support/typora-user-images/image-20200514164115678.png)</p>
+<h2 id="经典例子"><a href="#经典例子" class="headerlink" title="经典例子"></a>经典例子</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.getElementsByTagName(<span class="string">&#x27;img&#x27;</span>)[<span class="number">0</span>].width <span class="comment">// 宽度为 0</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;done&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>第一次加载页面的时候是拿不到图片宽度的，因为 JS 不关心浏览器加载图片的结果，它会在请求过程中获取宽度值，也就是 0.</p>
+<p>我们需要改写成加载完成图片时拿到宽高数据：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.getElementsByTagName(<span class="string">&#x27;img&#x27;</span>)[<span class="number">0</span>].onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="built_in">this</span>.width) <span class="comment">// 宽度不为 0 </span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;real done&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;done&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>常见的异步，监听事件。</p>
+<p>我们再来看一个例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> liList = <span class="built_in">document</span>.querySelectorAll(<span class="string">&#x27;li&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;liList.length; i++)&#123;</span><br><span class="line">	liList[i].onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    conselo.log(i)</span><br><span class="line">  &#125;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>经典的前端小题目，如果给你六个 li，它会一直输出6，因为变量提升，这个 i 会提升到全局当中去，JS 会瞬间执行完整个过程，当你 onclick 的时候，已经晚了。</p>
+<p>注意，虽然六项，但是第六项 i=5 的时候仍然会比较并且 +1，所以最终是 6。</p>
+<p>浏览器并没有等待代码执行，直接进入下一个循环并得出结果。</p>
+<p>把 var i 改成 let 就可以破解：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/28140450">https://zhuanlan.zhihu.com/p/28140450</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">let liList &#x3D; document.querySelectorAll(&#39;li&#39;)</span><br><span class="line">for(let i&#x3D;0; i&lt;liList.length; i++)&#123;</span><br><span class="line">	liList[i].onclick &#x3D; function()&#123;</span><br><span class="line">    conselo.log(i)</span><br><span class="line">  &#125;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="AJAX-中的异步"><a href="#AJAX-中的异步" class="headerlink" title="AJAX 中的异步"></a>AJAX 中的异步</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> request = $.ajax(&#123;</span><br><span class="line">	url: <span class="string">&#x27;.&#x27;</span>,</span><br><span class="line">  <span class="keyword">async</span>: <span class="literal">false</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(request.responseText)</span><br></pre></td></tr></table></figure>
+
+<p>以上是一个同步的 ajax 代码，ajax 中不应该出现此类代码，因为这个请求会一直占用资源。</p>
+<p>我们来改写一个：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">	url: <span class="string">&#x27;.&#x27;</span>,</span><br><span class="line">  <span class="keyword">async</span>: <span class="literal">true</span>,</span><br><span class="line">  success: <span class="function"><span class="keyword">function</span>(<span class="params">responeseText</span>)</span>&#123;</span><br><span class="line">    conselo.log(responseText)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>这段异步代码告诉浏览器，如果数据传过来了，麻烦你执行一个函数，把内容传给我。</p>
+<h2 id="异步的形式"><a href="#异步的形式" class="headerlink" title="异步的形式"></a>异步的形式</h2><p>如何拿到异步代码的结果？比如说我们请求一个网络资源，我们使用 ajax，那么怎么获得资源内容呢？</p>
+<p>一般有两种方式拿到异步结果：</p>
+<ul>
+<li>傻逼方法：轮询（定期查看结果是否达到）</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">buyApple</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">window</span>.apple = <span class="string">&#x27;买到的苹果&#x27;</span></span><br><span class="line">  &#125;, <span class="built_in">Math</span>.random()*<span class="number">10</span> *<span class="number">1000</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> id = <span class="built_in">setInterval</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(<span class="built_in">window</span>.apple)&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(apple)</span><br><span class="line">    <span class="built_in">window</span>.clearInterval(id)</span><br><span class="line">  &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;苹果没到&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;, <span class="number">1000</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>正规方法：回调（给一个函数）</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">buyApple</span>(<span class="params">fn</span>)</span>&#123;</span><br><span class="line">	<span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    fn.call(<span class="literal">undefined</span>, <span class="string">&#x27;苹果&#x27;</span>)</span><br><span class="line">  &#125;, <span class="built_in">Math</span>.random()*<span class="number">10</span> *<span class="number">1000</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">buyApple(<span class="function"><span class="keyword">function</span>(<span class="params">apple</span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="built_in">arguments</span>[<span class="number">0</span>])</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="回调的形式"><a href="#回调的形式" class="headerlink" title="回调的形式"></a>回调的形式</h2><p>回调得告诉你是成功还是失败，随便你怎么告知。</p>
+<ol>
+<li>Node.js 的 error-first 形式：</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">fs.readFile(<span class="string">&#x27;./1.txt&#x27;</span>, <span class="function">(<span class="params">error, content</span>)=&gt;</span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(error)&#123;</span><br><span class="line">    <span class="comment">// fail</span></span><br><span class="line">  &#125;esle&#123;</span><br><span class="line">    <span class="comment">// success</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>jQuery 的 success / error 形式</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">	url: <span class="string">&#x27;/xxx&#x27;</span>,</span><br><span class="line">  success: <span class="function">()=&gt;</span>&#123;&#125;,</span><br><span class="line">  error: <span class="function">()=&gt;</span>&#123;&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>jQuery 的 done / fail /always 形式（追加传参，参考柯里化）</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">  url: <span class="string">&#x27;/xxx&#x27;</span>,</span><br><span class="line">&#125;).done( <span class="function">()=&gt;</span>&#123;&#125; ).fail( <span class="function">()=&gt;</span>&#123;&#125; ).always( <span class="function">()=&gt;</span>&#123;&#125; )</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>Promise 的 then 形式</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">  url: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">&#125;).then( <span class="function">()=&gt;</span>&#123;&#125;, <span class="function">()=&gt;</span>&#123;&#125; ).then( <span class="function">()=&gt;</span>&#123;&#125; ) </span><br></pre></td></tr></table></figure>
+
+<p>我们看到大家对回调报错写法不一，所以我们有了 Promise 规范，你所有的异步操作发出之后，给我暴露一个 API，一个对象，这个对象必须有一个函数，也就是 then。then 必须要有两个回调，成功回调，失败回调。最后那个 then 是对成功操作的加料操作。</p>
+<h2 id="如何处理异常？"><a href="#如何处理异常？" class="headerlink" title="如何处理异常？"></a>如何处理异常？</h2><ol>
+<li>如何使用多个 success 函数？</li>
+<li>在有多个成功回调的情况下，如何处理异常？</li>
+</ol>
+<p><code>promise.all()</code> 与 <code>promise.race()</code></p>
+<h2 id="自己返回-Promise"><a href="#自己返回-Promise" class="headerlink" title="自己返回 Promise"></a>自己返回 Promise</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ajax</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>)=&gt;</span>&#123; </span><br><span class="line">		做事</span><br><span class="line">		如果成功就调用resolve 如果失畋就调用reject</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> promise = ajax()</span><br><span class="line">promise.then(successFn, errorFn)</span><br></pre></td></tr></table></figure>
+
+<p>Promise 深入阅读：<a target="_blank" rel="noopener" href="http://www.cnblogs.com/hustskyking/p/promise.html">http://www.cnblogs.com/hustskyking/p/promise.html</a><br>Promise/A+ 规范：<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000002452115">https://segmentfault.com/a/1190000002452115</a></p>
+<h2 id="async-await"><a href="#async-await" class="headerlink" title="async / await"></a>async / await</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">buyFruit</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>)=&gt;</span>&#123; </span><br><span class="line">		做事</span><br><span class="line">		如果成功就谰用resolve </span><br><span class="line">		如果失畋就调用reject</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> promise = <span class="keyword">await</span> ajax()</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> functon <span class="function"><span class="title">fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> result = <span class="keyword">await</span> buyFruit() </span><br><span class="line">	<span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> r = <span class="keyword">await</span> fn() </span><br><span class="line"><span class="built_in">console</span>.log(r)</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+  <div>
+    <a href="https://github.com/Mcguffen/mcguffen.github.io/edit/myblog/source/_posts/docs/frontEnd/js/js16.md"target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%BC%82%E6%AD%A5"><span class="toc-number">1.</span> <span class="toc-text">同步与异步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%8F%E5%85%B8%E4%BE%8B%E5%AD%90"><span class="toc-number">2.</span> <span class="toc-text">经典例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AJAX-%E4%B8%AD%E7%9A%84%E5%BC%82%E6%AD%A5"><span class="toc-number">3.</span> <span class="toc-text">AJAX 中的异步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%82%E6%AD%A5%E7%9A%84%E5%BD%A2%E5%BC%8F"><span class="toc-number">4.</span> <span class="toc-text">异步的形式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9E%E8%B0%83%E7%9A%84%E5%BD%A2%E5%BC%8F"><span class="toc-number">5.</span> <span class="toc-text">回调的形式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E5%BC%82%E5%B8%B8%EF%BC%9F"><span class="toc-number">6.</span> <span class="toc-text">如何处理异常？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%B7%B1%E8%BF%94%E5%9B%9E-Promise"><span class="toc-number">7.</span> <span class="toc-text">自己返回 Promise</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#async-await"><span class="toc-number">8.</span> <span class="toc-text">async &#x2F; await</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/03/06/docs/frontEnd/js/js16/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/03/06/docs/frontEnd/js/js16/&text=JS进阶 - 异步"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/03/06/docs/frontEnd/js/js16/&title=JS进阶 - 异步"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/03/06/docs/frontEnd/js/js16/&is_video=false&description=JS进阶 - 异步"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JS进阶 - 异步&body=Check out this article: http://example.com/2020/03/06/docs/frontEnd/js/js16/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/03/06/docs/frontEnd/js/js16/&title=JS进阶 - 异步"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/03/06/docs/frontEnd/js/js16/&title=JS进阶 - 异步"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/03/06/docs/frontEnd/js/js16/&title=JS进阶 - 异步"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/03/06/docs/frontEnd/js/js16/&title=JS进阶 - 异步"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/03/06/docs/frontEnd/js/js16/&name=JS进阶 - 异步&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/03/06/docs/frontEnd/js/js16/&t=JS进阶 - 异步"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Mcguffen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

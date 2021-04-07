@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="基础用法我们先来回顾下箭头函数的基本语法。 ES6 增加了箭头函数： 12let func &#x3D; value &#x3D;&gt; value;复制代码  相当于： 1234let func &#x3D; function (value) &amp;#123;    return value;&amp;#125;;复制代码  如果需要给函数传入多个参数： 12let func &#x3D; (value,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ES6 - 箭头函数">
+<meta property="og:url" content="http://example.com/2020/04/17/docs/frontEnd/es6/es601/index.html">
+<meta property="og:site_name" content="Hi! I am yang.">
+<meta property="og:description" content="基础用法我们先来回顾下箭头函数的基本语法。 ES6 增加了箭头函数： 12let func &#x3D; value &#x3D;&gt; value;复制代码  相当于： 1234let func &#x3D; function (value) &amp;#123;    return value;&amp;#125;;复制代码  如果需要给函数传入多个参数： 12let func &#x3D; (value,">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-04-17T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-07T12:11:01.076Z">
+<meta property="article:author" content="Mcguffen">
+<meta property="article:tag" content="es6">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>ES6 - 箭头函数</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/04/24/docs/frontEnd/es6/es602/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/04/10/docs/frontEnd/es6/README/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/04/17/docs/frontEnd/es6/es601/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/04/17/docs/frontEnd/es6/es601/&text=ES6 - 箭头函数"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/04/17/docs/frontEnd/es6/es601/&title=ES6 - 箭头函数"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/04/17/docs/frontEnd/es6/es601/&is_video=false&description=ES6 - 箭头函数"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ES6 - 箭头函数&body=Check out this article: http://example.com/2020/04/17/docs/frontEnd/es6/es601/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/04/17/docs/frontEnd/es6/es601/&title=ES6 - 箭头函数"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/04/17/docs/frontEnd/es6/es601/&title=ES6 - 箭头函数"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/04/17/docs/frontEnd/es6/es601/&title=ES6 - 箭头函数"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/04/17/docs/frontEnd/es6/es601/&title=ES6 - 箭头函数"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/04/17/docs/frontEnd/es6/es601/&name=ES6 - 箭头函数&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/04/17/docs/frontEnd/es6/es601/&t=ES6 - 箭头函数"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">基础用法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AF%94%E8%BE%83"><span class="toc-number">2.</span> <span class="toc-text">比较</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%B2%A1%E6%9C%89-this"><span class="toc-number">2.1.</span> <span class="toc-text">1.没有 this</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%B2%A1%E6%9C%89-arguments"><span class="toc-number">2.2.</span> <span class="toc-text">2. 没有 arguments</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%B8%8D%E8%83%BD%E9%80%9A%E8%BF%87-new-%E5%85%B3%E9%94%AE%E5%AD%97%E8%B0%83%E7%94%A8"><span class="toc-number">2.3.</span> <span class="toc-text">3. 不能通过 new 关键字调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%B2%A1%E6%9C%89-new-target"><span class="toc-number">2.4.</span> <span class="toc-text">4. 没有 new.target</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%B2%A1%E6%9C%89%E5%8E%9F%E5%9E%8B"><span class="toc-number">2.5.</span> <span class="toc-text">5. 没有原型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E6%B2%A1%E6%9C%89-super"><span class="toc-number">2.6.</span> <span class="toc-text">6. 没有 super</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0"><span class="toc-number">4.</span> <span class="toc-text">自执行函数</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        ES6 - 箭头函数
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Mcguffen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-04-17T00:00:00.000Z" itemprop="datePublished">2020-04-17</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/frontEnd/">frontEnd</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/es6/" rel="tag">es6</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="基础用法"><a href="#基础用法" class="headerlink" title="基础用法"></a>基础用法</h2><p>我们先来回顾下箭头函数的基本语法。</p>
+<p>ES6 增加了箭头函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let func &#x3D; value &#x3D;&gt; value;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>相当于：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let func &#x3D; function (value) &#123;</span><br><span class="line">    return value;</span><br><span class="line">&#125;;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>如果需要给函数传入多个参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let func &#x3D; (value, num) &#x3D;&gt; value * num;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>如果函数的代码块需要多条语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let func &#x3D; (value, num) &#x3D;&gt; &#123;</span><br><span class="line">    return value * num</span><br><span class="line">&#125;;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>如果需要直接返回一个对象：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let func &#x3D; (value, num) &#x3D;&gt; (&#123;total: value * num&#125;);</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>与变量解构结合：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">let func &#x3D; (&#123;value, num&#125;) &#x3D;&gt; (&#123;total: value * num&#125;)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 使用</span><br><span class="line">var result &#x3D; func(&#123;</span><br><span class="line">    value: 10,</span><br><span class="line">    num: 10</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">console.log(result); &#x2F;&#x2F; &#123;total: 100&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>很多时候，你可能想不到要这样用，所以再来举个例子，比如在 React 与 Immutable 的技术选型中，我们处理一个事件会这样做：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">handleEvent &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  this.setState(&#123;</span><br><span class="line">    data: this.state.data.set(&quot;key&quot;, &quot;value&quot;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>其实就可以简化为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">handleEvent &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  this.setState((&#123;data&#125;) &#x3D;&gt; (&#123;</span><br><span class="line">    data: data.set(&quot;key&quot;, &quot;value&quot;)</span><br><span class="line">  &#125;))</span><br><span class="line">&#125;;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<h2 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h2><p>本篇我们重点比较一下箭头函数与普通函数。</p>
+<p>主要区别包括：</p>
+<h3 id="1-没有-this"><a href="#1-没有-this" class="headerlink" title="1.没有 this"></a>1.没有 this</h3><p><strong>箭头函数没有 this，所以需要通过查找作用域链来确定 this 的值。</strong></p>
+<p>这就意味着如果箭头函数被非箭头函数包含，this 绑定的就是最近一层非箭头函数的 this。</p>
+<p>模拟一个实际开发中的例子：</p>
+<p>我们的需求是点击一个按钮，改变该按钮的背景色。</p>
+<p>为了方便开发，我们抽离一个 Button 组件，当需要使用的时候，直接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 传入元素 id 值即可绑定该元素点击时改变背景色的事件</span><br><span class="line">new Button(&quot;button&quot;)</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>HTML 代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;button id&#x3D;&quot;button&quot;&gt;点击变色&lt;&#x2F;button&gt;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>JavaScript 代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function Button(id) &#123;</span><br><span class="line">    this.element &#x3D; document.querySelector(&quot;#&quot; + id);</span><br><span class="line">    this.bindEvent();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Button.prototype.bindEvent &#x3D; function() &#123;</span><br><span class="line">    this.element.addEventListener(&quot;click&quot;, this.setBgColor, false);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Button.prototype.setBgColor &#x3D; function() &#123;</span><br><span class="line">    this.element.style.backgroundColor &#x3D; &#39;#1abc9c&#39;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var button &#x3D; new Button(&quot;button&quot;);</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>看着好像没有问题，结果却是报错 <code>Uncaught TypeError: Cannot read property &#39;style&#39; of undefined</code></p>
+<p>这是因为当使用 addEventListener() 为一个元素注册事件的时候，事件函数里的 this 值是该元素的引用。</p>
+<p>所以如果我们在 setBgColor 中 <code>console.log(this)</code>，this 指向的是按钮元素，那 this.element 就是 undefined，报错自然就理所当然了。</p>
+<p>也许你会问，既然 this 都指向了按钮元素，那我们直接修改 setBgColor 函数为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Button.prototype.setBgColor &#x3D; function() &#123;</span><br><span class="line">    this.style.backgroundColor &#x3D; &#39;#1abc9c&#39;</span><br><span class="line">&#125;;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>不就可以解决这个问题了？</p>
+<p>确实可以这样做，但是在实际的开发中，我们可能会在 setBgColor 中还调用其他的函数，比如写成这种：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Button.prototype.setBgColor &#x3D; function() &#123;</span><br><span class="line">    this.setElementColor();</span><br><span class="line">    this.setOtherElementColor();</span><br><span class="line">&#125;;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>所以我们还是希望 setBgColor 中的 this 是指向实例对象的，这样就可以调用其他的函数。</p>
+<p>利用 ES5，我们一般会这样做：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Button.prototype.bindEvent &#x3D; function() &#123;</span><br><span class="line">    this.element.addEventListener(&quot;click&quot;, this.setBgColor.bind(this), false);</span><br><span class="line">&#125;;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>为避免 addEventListener 的影响，使用 bind 强制绑定 setBgColor() 的 this 为实例对象</p>
+<p>使用 ES6，我们可以更好的解决这个问题：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Button.prototype.bindEvent &#x3D; function() &#123;</span><br><span class="line">    this.element.addEventListener(&quot;click&quot;, event &#x3D;&gt; this.setBgColor(event), false);</span><br><span class="line">&#125;;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>由于箭头函数没有 this，所以会向外层查找 this 的值，即 bindEvent 中的 this，此时 this 指向实例对象，所以可以正确的调用 this.setBgColor 方法， 而 this.setBgColor 中的 this 也会正确指向实例对象。</p>
+<p>在这里再额外提一点，就是注意 bindEvent 和 setBgColor 在这里使用的是普通函数的形式，而非箭头函数，如果我们改成箭头函数，会导致函数里的 this 指向 window 对象 (非严格模式下)。</p>
+<p>最后，因为箭头函数没有 this，所以也不能用 call()、apply()、bind() 这些方法改变 this 的指向，可以看一个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var value &#x3D; 1;</span><br><span class="line">var result &#x3D; (() &#x3D;&gt; this.value).bind(&#123;value: 2&#125;)();</span><br><span class="line">console.log(result); &#x2F;&#x2F; 1</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-没有-arguments"><a href="#2-没有-arguments" class="headerlink" title="2. 没有 arguments"></a>2. 没有 arguments</h3><p>箭头函数没有自己的 arguments 对象，这不一定是件坏事，因为箭头函数可以访问外围函数的 arguments 对象：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function constant() &#123;</span><br><span class="line">    return () &#x3D;&gt; arguments[0]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var result &#x3D; constant(1);</span><br><span class="line">console.log(result()); &#x2F;&#x2F; 1</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>那如果我们就是要访问箭头函数的参数呢？</p>
+<p>你可以通过命名参数或者 rest 参数的形式访问参数:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let nums &#x3D; (...nums) &#x3D;&gt; nums;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-不能通过-new-关键字调用"><a href="#3-不能通过-new-关键字调用" class="headerlink" title="3. 不能通过 new 关键字调用"></a>3. 不能通过 new 关键字调用</h3><p>JavaScript 函数有两个内部方法：[[Call]] 和 [[Construct]]。</p>
+<p>当通过 new 调用函数时，执行 [[Construct]] 方法，创建一个实例对象，然后再执行函数体，将 this 绑定到实例上。</p>
+<p>当直接调用的时候，执行 [[Call]] 方法，直接执行函数体。</p>
+<p>箭头函数并没有 [[Construct]] 方法，不能被用作构造函数，如果通过 new 的方式调用，会报错。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var Foo &#x3D; () &#x3D;&gt; &#123;&#125;;</span><br><span class="line">var foo &#x3D; new Foo(); &#x2F;&#x2F; TypeError: Foo is not a constructor</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-没有-new-target"><a href="#4-没有-new-target" class="headerlink" title="4. 没有 new.target"></a>4. 没有 new.target</h3><p>因为不能使用 new 调用，所以也没有 new.target 值。</p>
+<p>关于 new.target，可以参考 <a target="_blank" rel="noopener" href="http://es6.ruanyifeng.com/#docs/class#new-target-%E5%B1%9E%E6%80%A7">es6.ruanyifeng.com/#docs/class…</a></p>
+<h3 id="5-没有原型"><a href="#5-没有原型" class="headerlink" title="5. 没有原型"></a>5. 没有原型</h3><p>由于不能使用 new 调用箭头函数，所以也没有构建原型的需求，于是箭头函数也不存在 prototype 这个属性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var Foo &#x3D; () &#x3D;&gt; &#123;&#125;;</span><br><span class="line">console.log(Foo.prototype); &#x2F;&#x2F; undefined</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-没有-super"><a href="#6-没有-super" class="headerlink" title="6. 没有 super"></a>6. 没有 super</h3><p>连原型都没有，自然也不能通过 super 来访问原型的属性，所以箭头函数也是没有 super 的，不过跟 this、arguments、new.target 一样，这些值由外围最近一层非箭头函数决定。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>最后，关于箭头函数，引用 MDN 的介绍就是：</p>
+<blockquote>
+<p>An arrow function expression has a shorter syntax than a function expression and does not have its own this, arguments, super, or new.target. These function expressions are best suited for non-method functions, and they cannot be used as constructors.</p>
+</blockquote>
+<p>翻译过来就是：</p>
+<p>箭头函数表达式的语法比函数表达式更短，并且不绑定自己的this，arguments，super或 new.target。这些函数表达式最适合用于非方法函数(non-method functions)，并且它们不能用作构造函数。</p>
+<p>那么什么是 non-method functions 呢？</p>
+<p>我们先来看看 method 的定义：</p>
+<blockquote>
+<p>A method is a function which is a property of an object.</p>
+</blockquote>
+<p>对象属性中的函数就被称之为 method，那么 non-mehtod 就是指不被用作对象属性中的函数了，可是为什么说箭头函数更适合 non-method 呢？</p>
+<p>让我们来看一个例子就明白了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var obj &#x3D; &#123;</span><br><span class="line">  i: 10,</span><br><span class="line">  b: () &#x3D;&gt; console.log(this.i, this),</span><br><span class="line">  c: function() &#123;</span><br><span class="line">    console.log( this.i, this)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">obj.b();</span><br><span class="line">&#x2F;&#x2F; undefined Window</span><br><span class="line">obj.c();</span><br><span class="line">&#x2F;&#x2F; 10, Object &#123;...&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<h2 id="自执行函数"><a href="#自执行函数" class="headerlink" title="自执行函数"></a>自执行函数</h2><p>自执行函数的形式为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(function()&#123;</span><br><span class="line">    console.log(1)</span><br><span class="line">&#125;)()</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(function()&#123;</span><br><span class="line">    console.log(1)</span><br><span class="line">&#125;())</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>利用箭头简化自执行函数的写法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(() &#x3D;&gt; &#123;</span><br><span class="line">    console.log(1)</span><br><span class="line">&#125;)()</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>但是注意：使用以下这种写法却会报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(() &#x3D;&gt; &#123;</span><br><span class="line">    console.log(1)</span><br><span class="line">&#125;())</span><br></pre></td></tr></table></figure>
+  </div>
+  <div>
+    <a href="https://github.com/Mcguffen/mcguffen.github.io/edit/myblog/source/_posts/docs/frontEnd/es6/es601.md"target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">基础用法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AF%94%E8%BE%83"><span class="toc-number">2.</span> <span class="toc-text">比较</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%B2%A1%E6%9C%89-this"><span class="toc-number">2.1.</span> <span class="toc-text">1.没有 this</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%B2%A1%E6%9C%89-arguments"><span class="toc-number">2.2.</span> <span class="toc-text">2. 没有 arguments</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%B8%8D%E8%83%BD%E9%80%9A%E8%BF%87-new-%E5%85%B3%E9%94%AE%E5%AD%97%E8%B0%83%E7%94%A8"><span class="toc-number">2.3.</span> <span class="toc-text">3. 不能通过 new 关键字调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%B2%A1%E6%9C%89-new-target"><span class="toc-number">2.4.</span> <span class="toc-text">4. 没有 new.target</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%B2%A1%E6%9C%89%E5%8E%9F%E5%9E%8B"><span class="toc-number">2.5.</span> <span class="toc-text">5. 没有原型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E6%B2%A1%E6%9C%89-super"><span class="toc-number">2.6.</span> <span class="toc-text">6. 没有 super</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0"><span class="toc-number">4.</span> <span class="toc-text">自执行函数</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/04/17/docs/frontEnd/es6/es601/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/04/17/docs/frontEnd/es6/es601/&text=ES6 - 箭头函数"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/04/17/docs/frontEnd/es6/es601/&title=ES6 - 箭头函数"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/04/17/docs/frontEnd/es6/es601/&is_video=false&description=ES6 - 箭头函数"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ES6 - 箭头函数&body=Check out this article: http://example.com/2020/04/17/docs/frontEnd/es6/es601/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/04/17/docs/frontEnd/es6/es601/&title=ES6 - 箭头函数"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/04/17/docs/frontEnd/es6/es601/&title=ES6 - 箭头函数"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/04/17/docs/frontEnd/es6/es601/&title=ES6 - 箭头函数"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/04/17/docs/frontEnd/es6/es601/&title=ES6 - 箭头函数"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/04/17/docs/frontEnd/es6/es601/&name=ES6 - 箭头函数&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/04/17/docs/frontEnd/es6/es601/&t=ES6 - 箭头函数"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Mcguffen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="当我们开始编写前端页面的时候，是不是都经历过 css 命名不规范，导致自己修改页面样式时，需要通过开发者工具查找自己的类名，然后再进行修改的情况呢？  众所周知，CSS 是一门不正交、属性多、调试方便的语言，而正是因为它的功能众多，使得我们在使用 CSS 实现各种各样页面效果的时候，很容易控制不好 CSS 的代码结构。它不像其它逻辑性强的语言，有很多管理代码的方式，我们能管理 CSS 的方式只有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何管理好你的 CSS">
+<meta property="og:url" content="http://example.com/2020/05/22/docs/frontEnd/css/css10/index.html">
+<meta property="og:site_name" content="Hi! I am yang.">
+<meta property="og:description" content="当我们开始编写前端页面的时候，是不是都经历过 css 命名不规范，导致自己修改页面样式时，需要通过开发者工具查找自己的类名，然后再进行修改的情况呢？  众所周知，CSS 是一门不正交、属性多、调试方便的语言，而正是因为它的功能众多，使得我们在使用 CSS 实现各种各样页面效果的时候，很容易控制不好 CSS 的代码结构。它不像其它逻辑性强的语言，有很多管理代码的方式，我们能管理 CSS 的方式只有">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2019/02/25/5c737b392fcac.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/25/5c738410c797e.png">
+<meta property="article:published_time" content="2020-05-22T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-07T12:11:01.076Z">
+<meta property="article:author" content="Mcguffen">
+<meta property="article:tag" content="css">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2019/02/25/5c737b392fcac.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>如何管理好你的 CSS</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/05/29/docs/frontEnd/css/css11/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/05/15/docs/backEnd/git/README/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/05/22/docs/frontEnd/css/css10/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/05/22/docs/frontEnd/css/css10/&text=如何管理好你的 CSS"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/05/22/docs/frontEnd/css/css10/&title=如何管理好你的 CSS"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/05/22/docs/frontEnd/css/css10/&is_video=false&description=如何管理好你的 CSS"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=如何管理好你的 CSS&body=Check out this article: http://example.com/2020/05/22/docs/frontEnd/css/css10/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/05/22/docs/frontEnd/css/css10/&title=如何管理好你的 CSS"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/05/22/docs/frontEnd/css/css10/&title=如何管理好你的 CSS"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/05/22/docs/frontEnd/css/css10/&title=如何管理好你的 CSS"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/05/22/docs/frontEnd/css/css10/&title=如何管理好你的 CSS"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/05/22/docs/frontEnd/css/css10/&name=如何管理好你的 CSS&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/05/22/docs/frontEnd/css/css10/&t=如何管理好你的 CSS"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E5%A5%BD%E5%91%BD%E5%90%8D%E9%97%AE%E9%A2%98%EF%BC%8C%E5%B0%B1%E8%83%BD%E7%AE%A1%E7%90%86%E5%A5%BD%E6%88%91%E4%BB%AC%E7%9A%84-CSS"><span class="toc-number">1.</span> <span class="toc-text">解决好命名问题，就能管理好我们的 CSS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="toc-number"></span> <span class="toc-text">目录</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#B-E-M"><span class="toc-number"></span> <span class="toc-text">B.E.M</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-B-E-M-%E4%BB%8B%E7%BB%8D"><span class="toc-number"></span> <span class="toc-text">1 - B.E.M 介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-BEM-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">1.1 BEM 是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83"><span class="toc-number">2.</span> <span class="toc-text">1.2 命名规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-BEM-%E4%BC%98%E7%82%B9"><span class="toc-number">3.</span> <span class="toc-text">1.3 BEM 优点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E8%88%AC%E7%9A%84-CSS-%E5%91%BD%E5%90%8D%EF%BC%9A"><span class="toc-number">3.1.</span> <span class="toc-text">一般的 CSS 命名：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#BEM-%E5%91%BD%E5%90%8D%E6%96%B9%E6%B3%95%EF%BC%9A"><span class="toc-number">3.2.</span> <span class="toc-text">BEM 命名方法：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-BEM-%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number"></span> <span class="toc-text">2 - BEM 使用场景</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E4%BB%80%E4%B9%88%E5%9C%BA%E6%99%AF%E9%80%82%E5%90%88-BEM"><span class="toc-number">1.</span> <span class="toc-text">2.1 什么场景适合 BEM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E9%A2%84%E5%A4%84%E7%90%86%E8%AF%AD%E8%A8%80-BEM"><span class="toc-number">2.</span> <span class="toc-text">2.2 预处理语言 + BEM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6-BEM"><span class="toc-number">3.</span> <span class="toc-text">2.3 前端框架 + BEM</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#scoped-%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="toc-number">3.1.</span> <span class="toc-text">scoped 实现原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%85%8E%E7%94%A8"><span class="toc-number">3.2.</span> <span class="toc-text">为什么慎用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#BEM-%E5%9C%A8%E6%A1%86%E6%9E%B6%E4%B8%AD%E5%AD%98%E5%9C%A8%E7%9A%84%E6%84%8F%E4%B9%89"><span class="toc-number">3.3.</span> <span class="toc-text">BEM 在框架中存在的意义</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text"></span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E4%BE%8B%E5%AD%90"><span class="toc-number"></span> <span class="toc-text">3 - 例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E4%BD%BF%E7%94%A8%E5%85%B6%E6%80%9D%E6%83%B3"><span class="toc-number"></span> <span class="toc-text">4 - 使用其思想</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ACSS"><span class="toc-number"></span> <span class="toc-text">ACSS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%BC%95%E5%85%A5"><span class="toc-number"></span> <span class="toc-text">1 - 引入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%8E%9F%E5%AD%90%E5%8C%96"><span class="toc-number"></span> <span class="toc-text">2 - 原子化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%9B%B8%E8%BE%83%E4%BA%8E-bem-%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BC%98%E5%8A%BF"><span class="toc-number"></span> <span class="toc-text">3 - 相较于 bem 的一些优势</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%87-CSS-style-%E6%9C%80%E5%B0%8F%E5%85%83%E4%BB%B6%E5%8C%96%EF%BC%8C%E9%87%8D%E7%94%A8%E6%80%A7%E6%9C%80%E5%A4%A7%E5%8C%96"><span class="toc-number">1.</span> <span class="toc-text">將 CSS style 最小元件化，重用性最大化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%97%E4%B8%BE%E4%B8%80%E4%B8%8B%E4%BC%98%E7%82%B9"><span class="toc-number">2.</span> <span class="toc-text">列举一下优点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BD%93%E7%84%B6%E4%B9%9F%E6%9C%89%E7%BC%BA%E7%82%B9"><span class="toc-number">3.</span> <span class="toc-text">当然也有缺点</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E9%98%85%E8%AF%BB"><span class="toc-number"></span> <span class="toc-text">相关阅读</span></a>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        如何管理好你的 CSS
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Mcguffen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-05-22T00:00:00.000Z" itemprop="datePublished">2020-05-22</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/frontEnd/">frontEnd</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/css/" rel="tag">css</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>当我们开始编写前端页面的时候，是不是都经历过 css 命名不规范，导致自己修改页面样式时，需要通过开发者工具查找自己的类名，然后再进行修改的情况呢？</p>
+</blockquote>
+<p>众所周知，CSS 是一门不正交、属性多、调试方便的语言，而正是因为它的功能众多，使得我们在使用 CSS 实现各种各样页面效果的时候，很容易控制不好 CSS 的代码结构。它不像其它逻辑性强的语言，有很多管理代码的方式，我们能管理 CSS 的方式只有两种：文件引用、命名。而由于我们经常会把页面样式文件合并（减少 HTTP 请求），所以我们用来管理 CSS 的方式就只剩下命名。</p>
+<h3 id="解决好命名问题，就能管理好我们的-CSS"><a href="#解决好命名问题，就能管理好我们的-CSS" class="headerlink" title="解决好命名问题，就能管理好我们的 CSS"></a>解决好命名问题，就能管理好我们的 CSS</h3><p>下面分别来简单了解一下管理 CSS我觉得 比较有效的两种方式：</p>
+<ul>
+<li><strong>BEM</strong>：CSS 命名规范</li>
+<li><strong>ACSS</strong>：原子化使用 CSS</li>
+</ul>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><p>[TOC]</p>
+<h1 id="B-E-M"><a href="#B-E-M" class="headerlink" title="B.E.M"></a>B.E.M</h1><blockquote>
+<p>经典的 CSS 命名规范</p>
+</blockquote>
+<h2 id="1-B-E-M-介绍"><a href="#1-B-E-M-介绍" class="headerlink" title="1 - B.E.M 介绍"></a>1 - B.E.M 介绍</h2><h3 id="1-1-BEM-是什么？"><a href="#1-1-BEM-是什么？" class="headerlink" title="1.1 BEM 是什么？"></a>1.1 BEM 是什么？</h3><p>BEM 其实就是块（block）、元素（element）、修饰符（modifier）的缩写，由 Yandex 团队提出的一种前端 CSS 命名方法。利用不同的区块、功能以及样式给元素命名。</p>
+<ul>
+<li><code>-</code> 中划线：仅作为连字符使用，表示某个块或者某个子元素的多单词之间的连接记号。</li>
+<li><code>__</code> 双下划线：双下划线用来连接块和块的子元素</li>
+<li><code>_</code> 单下划线：单下划线用来描述一个块或者块的子元素的一种状态</li>
+</ul>
+<blockquote>
+<p>BEM 使用这种命名规范使得你的代码更加易读，让代码更加严密，从而有助于协作、控制和维护。</p>
+</blockquote>
+<h3 id="1-2-命名规范"><a href="#1-2-命名规范" class="headerlink" title="1.2 命名规范"></a>1.2 命名规范</h3><p>BEM 命名约定的模式如下：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.block</span> &#123;&#125;</span><br><span class="line"><span class="selector-class">.block__element</span> &#123;&#125;</span><br><span class="line"><span class="selector-class">.block--modifier</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>每一个 Block 名应该有一个命名空间（前缀）</p>
+<ul>
+<li><code>block</code> 代表了更高级别的抽象或组件</li>
+<li><code>block__element</code> 代表 <code>block</code> 的后代，用于形成一个完整的 <code>block</code> 的整体</li>
+<li><code>block--modifier</code> 代表 <code>block</code> 的不同状态或不同版本</li>
+</ul>
+<p><img src="https://i.loli.net/2019/02/25/5c737b392fcac.png"></p>
+<p>使用两个连字符而不是一个，是为了给块用单个连字符进行自定义：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.nav-block__element</span> &#123;&#125;</span><br><span class="line"><span class="selector-class">.side-block--modifier</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-3-BEM-优点"><a href="#1-3-BEM-优点" class="headerlink" title="1.3 BEM 优点"></a>1.3 BEM 优点</h3><p>获得更多的描述和更加清晰的代码结构，从命名中就能得知这个标记的意思、类属性、元素之间的关联。</p>
+<h4 id="一般的-CSS-命名："><a href="#一般的-CSS-命名：" class="headerlink" title="一般的 CSS 命名："></a>一般的 CSS 命名：</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;student&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;content&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">&quot;button-primary&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">&quot;button-success&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>用这种写法也许我们能通过父容器猜到大致意思，但是首先你需要了解它的代码结构，也就是时候你需要审查页面元素才能确定某一元素的属性、功能、关系，光从命名中是没法确定的。而且，在纯 CSS 代码中，需要通过层级约束其作用域，避免和其他组件元素冲突。</p>
+</blockquote>
+<h4 id="BEM-命名方法："><a href="#BEM-命名方法：" class="headerlink" title="BEM 命名方法："></a>BEM 命名方法：</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;student&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;student__content&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">&quot;student__contentv--primary&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">&quot;student__content--success&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>通过 BEM 改进之后，元素之间的关系更加清晰了，而且在 CSS 文件中也不必作过多考虑层级约束，直接使用名称即可。</p>
+</blockquote>
+<h2 id="2-BEM-使用场景"><a href="#2-BEM-使用场景" class="headerlink" title="2 - BEM 使用场景"></a>2 - BEM 使用场景</h2><h3 id="2-1-什么场景适合-BEM"><a href="#2-1-什么场景适合-BEM" class="headerlink" title="2.1 什么场景适合 BEM"></a>2.1 什么场景适合 BEM</h3><ul>
+<li><p>有比较明确的层级关系和组件关联的时候，需要使用 BEM。</p>
+</li>
+<li><p>单条公共样式，不需要使用 BEM：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.theme-red</span> &#123;<span class="attribute">color</span>: red;&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="2-2-预处理语言-BEM"><a href="#2-2-预处理语言-BEM" class="headerlink" title="2.2 预处理语言 + BEM"></a>2.2 预处理语言 + BEM</h3><p>BEM 有利也有弊，最明显的就是命名看起来很长，但是相较于其优点，不值一提。</p>
+<p>和 CSS 的预处理语言相结合，能使得你的 CSS 代码书写更快：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.student</span></span><br><span class="line">	<span class="attribute">max-width</span> <span class="number">1000px</span></span><br><span class="line">	&amp;__body</span><br><span class="line">    <span class="attribute">padding</span> <span class="number">20px</span></span><br><span class="line">	&amp;__button</span><br><span class="line">    <span class="attribute">padding</span> <span class="number">5px</span> <span class="number">8px</span></span><br><span class="line">    &amp;--primary </span><br><span class="line">      <span class="attribute">background</span> blue</span><br><span class="line">    &amp;--success </span><br><span class="line">      <span class="attribute">background</span> green</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>CSS 预处理语言：LESS、SASS、Stylus，具体介绍到各个官网查看，本文不做介绍。</p>
+</blockquote>
+<h3 id="2-3-前端框架-BEM"><a href="#2-3-前端框架-BEM" class="headerlink" title="2.3 前端框架 + BEM"></a>2.3 前端框架 + BEM</h3><p>我们知道在 Vue / React / Angular 等前端框架中，都有 CSS 作用域限制。我们以 Vue 的 <code>scoped</code> 为例，在组件样式区域中添加 <code>scoped</code> ，会让样式作用域限定在当前作用域中，但是在 Vue 中，慎用 <code>scoped</code>。</p>
+<h4 id="scoped-实现原理"><a href="#scoped-实现原理" class="headerlink" title="scoped 实现原理"></a><code>scoped</code> 实现原理</h4><p>通过观察DOM结构可以发现：vue通过在DOM结构以及css样式上加上唯一的标记，保证唯一，达到样式私有化，不污染全局的作用，如图，样式属性上也会多一个该字符，以保证唯一：</p>
+<p><img src="https://i.loli.net/2019/02/25/5c738410c797e.png"></p>
+<p>添加了 <code>scoped</code> 属性，为了达到不污染全局，做了如下处理：</p>
+<ul>
+<li>给 HTML DOM 节点添加不重复的唯一标志</li>
+<li>在 <code>scoped</code> 组件每个样式选择器后添加标志字段，实现类似于命名空间的功能</li>
+<li>对组件内部的组件，给最外层组件中的标签加上标志字段，不会影响内部引用</li>
+</ul>
+<h4 id="为什么慎用"><a href="#为什么慎用" class="headerlink" title="为什么慎用"></a>为什么慎用</h4><ul>
+<li><p>父组件无 <code>scoped</code> ，子组件有 <code>scoped</code>：</p>
+<p>父组件无法操作子组件的样式，虽然能在全局中设置，但是会影响到别的组件</p>
+</li>
+<li><p>父组件有 <code>scoped</code> ，子组件无 <code>scoped</code>：</p>
+<p>父组件无法操作子组件的样式，因为父组件有标志字段，子组件没有</p>
+</li>
+<li><p>父组件有 <code>scoped</code> ，子组件有 <code>scoped</code>：</p>
+<p>同样无法设置。</p>
+</li>
+</ul>
+<blockquote>
+<p>当然我们知道 <code>scoped</code> 设计的初衷就是不能让当前组件的样式修改其他任何地方的样式，一个组件的样式是建议写死的，但是我们总会有改样式的时候不是嘛，所以即使是在框架中，BEM 依然大有用处。</p>
+</blockquote>
+<h4 id="BEM-在框架中存在的意义"><a href="#BEM-在框架中存在的意义" class="headerlink" title="BEM 在框架中存在的意义"></a>BEM 在框架中存在的意义</h4><ul>
+<li><p>当选择了局部作用域的写法时，在较小的组件中，BEM 格式可能显得没那么重要。但对于<strong>公共的、全局性的</strong>模块样式定义，依然推荐使用 BEM 格式。</p>
+</li>
+<li><p>对于对外发布的公共组件来说，一般为了风格的可定制性，都不会使用这种局部作用域方式来定义组件样式。这也是 BEM 的使用场景之一。</p>
+</li>
+</ul>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><blockquote>
+<p>注意：深层次嵌套的 DOM 中，避免过长的样式命名，层级组好不要超 4 层。</p>
+</blockquote>
+<h2 id="3-例子"><a href="#3-例子" class="headerlink" title="3 - 例子"></a>3 - 例子</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.xxx</span>&#123;&#125;</span><br><span class="line"><span class="selector-class">.xxx__item</span>&#123;&#125;</span><br><span class="line"><span class="selector-class">.xxx__item_current</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">// 嵌套写法</span><br><span class="line"><span class="selector-class">.xxx__item_current</span> <span class="selector-class">.mod-xxx__link</span>&#123;&#125;</span><br><span class="line">推荐：</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.xxx</span>&#123;&#125;</span><br><span class="line"><span class="selector-class">.xxx__item</span>&#123;&#125;</span><br><span class="line"><span class="selector-class">.xxx__item_hightlight</span>&#123;&#125;</span><br><span class="line"><span class="selector-class">.xxx__product-name</span>&#123;&#125;</span><br><span class="line"><span class="selector-class">.xxx__link</span>&#123;&#125;</span><br><span class="line"><span class="selector-class">.xxx__ming-zi-ke-yi-hen-chang</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">// 嵌套写法</span><br><span class="line"><span class="selector-class">.xxx__item_current</span>&#123;</span><br><span class="line">    <span class="selector-class">.xxx__link</span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//对应的<span class="selector-tag">HTML</span>结构如下：</span><br><span class="line">&lt;ul class=&quot;xxx&quot;&gt;</span><br><span class="line">    &lt;li class=&quot;xxx__item&quot;&gt;第一项</span><br><span class="line">        &lt;div class=&quot;xxx__product-name&quot;&gt;我是名称&lt;/div&gt;</span><br><span class="line">        &lt;span class=&quot;xxx__ming-zi-ke-yi-hen-chang&quot;&gt;看类名&lt;/span&gt;</span><br><span class="line">        &lt;a href=&quot;#&quot; class=&quot;xxx__link&quot;&gt;我是link&lt;/a&gt;</span><br><span class="line">    &lt;<span class="selector-tag">li</span>&gt;</span><br><span class="line">    &lt;li class=&quot;xxx__item xxx__item_current&quot;&gt;第二项 且 当前选择项</span><br><span class="line">        &lt;div class=&quot;xxx__product-name&quot;&gt;我是名称&lt;/div&gt;</span><br><span class="line">        &lt;a href=&quot;#&quot; class=&quot;xxx__item-link&quot;&gt;我是link&lt;/a&gt;</span><br><span class="line">    &lt;<span class="selector-tag">li</span>&gt;</span><br><span class="line">    &lt;li class=&quot;xxx__item xxx__item_hightlight&quot;&gt;第三项 且 特殊高亮</span><br><span class="line">         &lt;div class=&quot;xxx__product-name&quot;&gt;我是名称&lt;/div&gt;</span><br><span class="line">        &lt;a href=&quot;#&quot; class=&quot;xxx__item-link&quot;&gt;我是link&lt;/a&gt;</span><br><span class="line">    &lt;<span class="selector-tag">li</span>&gt;</span><br><span class="line">&lt;/<span class="selector-tag">ul</span>&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-使用其思想"><a href="#4-使用其思想" class="headerlink" title="4 - 使用其思想"></a>4 - 使用其思想</h2><p>当然，不是说一定要百分百像素级遵守 BEM 的规范，比如状态我们可以这样写：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.blockName-elName</span><span class="selector-class">.modifier</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样可能符合一部分不喜欢划线的人哈<del>具体怎么弄看 Leader 怎么定吧</del></p>
+<p>反正万变不离其宗，怎么舒服怎么写就是了。</p>
+<h1 id="ACSS"><a href="#ACSS" class="headerlink" title="ACSS"></a>ACSS</h1><blockquote>
+<p>将样式原子化的思维方式，来自雅虎团队的 <a href="https://link.juejin.im/?target=https://acss.io/"><strong>Atomic CSS</strong></a> （简称 ACSS ）。</p>
+</blockquote>
+<blockquote>
+<p>相较于上面介绍的 BEM，ACSS 没有很严格的格式规范，但是它们解决的问题是一样的，都是希望 CSS 在大型项目下能够拥有更好的重用性与维护性，只是采用的方法与方向不同而已。</p>
+</blockquote>
+<h2 id="1-引入"><a href="#1-引入" class="headerlink" title="1 - 引入"></a>1 - 引入</h2><p>一件物品的属性可能是多种多样的，比如一件衬衫：颜色、尺寸、材料、花纹、品牌…我们同样可以将一个页面元素想象成一件衬衫，我们暂定一个完整的衬衫定义如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">品牌 + 尺寸 + 颜色 +  花纹 + 季节 + 材料 + 样式     衬衫</span><br></pre></td></tr></table></figure>
+
+<p>比如我要拿一件 <strong>李宁 L 码 黑色 带Logo 夏季 速干 短袖 衬衫</strong>，那么名字是不是写起来特别长？</p>
+<p>但是我有时候又不需要所有的标签都需要带上，我可能只需要一件 <strong>XL 码 白色 长袖 衬衫</strong>，然后我想给家人买一件 <strong>L 码 红色 纯棉 衬衫</strong>，这样不太好写一个可复用的 CSS 衬衫样式。</p>
+<blockquote>
+<p>看到这里聪明的你一定已经大致有了复用样式的思路，没错，就是原子化。</p>
+</blockquote>
+<h2 id="2-原子化"><a href="#2-原子化" class="headerlink" title="2 - 原子化"></a>2 - 原子化</h2><p>众所周知 CSS 是一个所见即所得的语言，只要你给他什么样式，它立马就可以显示给你看。那么我就可以直接在页面上通过 <code>inline</code> 的方式写我想要的样式，岂不是很爽？这才是 CSS 所原有的样子。当然它有很多问题，但是我们可以用原子化的思维去解决它。</p>
+<p>我们之所以需要去管理代码，很大部分是为了我们想要去<strong>复用代码</strong>和<strong>团队协作</strong>，我个人是因为代码复用和管理结构，才会去想怎么给元素命名。</p>
+<p>那么，如果我们不要思考通过命名管理 CSS，而是将精力放在管理 CSS 的各种属性上，也就是构成我们衬衫的<strong>原子</strong>上，会不会更好呢？比如我要一件衬衫，什么样子的我不清楚，当需求逐渐清晰的时候，再添加上各种属性：冷了就添加长袖，想舒服点就添加纯棉，骚了就添加夏威夷风，岂不美哉？</p>
+<h2 id="3-相较于-bem-的一些优势"><a href="#3-相较于-bem-的一些优势" class="headerlink" title="3 - 相较于 bem 的一些优势"></a>3 - 相较于 bem 的一些优势</h2><p>前面的 BEM 思想下，我们可以用类选择器处理命名冲突，但是还是可能造成代码过大，因为你可能会根据不同的组件设置不同的命名空间，很容易使得 CSS 层数过多，于是复杂的页面效果，层级越是容易多。而且几个团队协作的时候，更容易引发问题：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">block1__text_highlight &#123;<span class="attribute">color</span>: yellow;&#125;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">block2__text_bright &#123;<span class="attribute">color</span>: yellow;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>显然，这种命名还不是拆分的最小单位，而 ACSS 是不可以拆分并且容易固化的，所以管理的难度会小很多，甚至随着需求的清晰，可以做到代码量的只增不减，并且复用率极高。</p>
+<h3 id="將-CSS-style-最小元件化，重用性最大化"><a href="#將-CSS-style-最小元件化，重用性最大化" class="headerlink" title="將 CSS style 最小元件化，重用性最大化"></a>將 CSS style 最小元件化，重用性最大化</h3><p>只要确保同一个 <code>style</code> 只会被定义一次，并且可以通用在各个地方，就饿能解决这些问题！</p>
+<p>范例：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;D(f) W(100px)&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>利用 atomic css 的工具，会帮你将上述 html 中的 class name 解析：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.D</span>\(f\) &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.W</span>\(<span class="number">100px</span>\) &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>稍微想一下，这其实就是在写 <code>inline</code> 样式，这样的好处就是：</p>
+<blockquote>
+<p>Define once, use everywhere.</p>
+</blockquote>
+<p>而且，从此以后只要看一眼组件，就可以直接从 JSX 中看到完整的元件状态，不需要再切换 JS / CSS 文件了</p>
+<h3 id="列举一下优点"><a href="#列举一下优点" class="headerlink" title="列举一下优点"></a>列举一下优点</h3><ul>
+<li>将 class name 定义最小化，让全站都可复用</li>
+<li>通过 atomic css 的打包，只会产生用到的样式</li>
+<li>比起 inline 的方式更加简单，不会冲突</li>
+<li>很好压缩，整体 size 小一点</li>
+</ul>
+<h3 id="当然也有缺点"><a href="#当然也有缺点" class="headerlink" title="当然也有缺点"></a>当然也有缺点</h3><ul>
+<li>写起来丑</li>
+<li>没有语义化</li>
+</ul>
+<blockquote>
+<p>总的来说，acss 是很值得你去尝试一种方式，熟练了之后哦会极大提高你的编码效率</p>
+</blockquote>
+<h1 id="相关阅读"><a href="#相关阅读" class="headerlink" title="相关阅读"></a>相关阅读</h1><ol>
+<li><a href="https://link.juejin.im/?target=https://www.zhangxinxu.com/wordpress/2014/03/quicklayout-css-%25E5%25BF%25AB%25E9%2580%259F%25E6%259E%2584%25E5%25BB%25BA%25E7%25BB%2593%25E6%259E%2584%25E5%2585%25BC%25E5%25AE%25B9%25E7%259A%2584web%25E9%25A1%25B5%25E9%259D%25A2/">quickLayout.css-快速构建结构兼容的web页面</a> 张鑫旭 ；</li>
+<li><a href="https://link.juejin.im/?target=http://johnpolacek.com/rethinking/">「英」在组件化浪潮中重新思考CSS </a> johnpolacek ；</li>
+<li><a target="_blank" rel="noopener" href="https://juejin.im/post/5b4063936fb9a04fb016b738">「CSS思维」组件化VS原子化</a> ziven27 ；</li>
+<li><a href="https://link.juejin.im/?target=https://acss.io/"> ACSS 官网 </a> 雅虎 ；</li>
+<li><a href="https://link.juejin.im/?target=https://www.smashingmagazine.com/2013/10/challenging-css-best-practices-atomic-approach/">「英」CSS最佳实践探讨 - Atomic CSS</a> smashingmagazine；</li>
+<li><a target="_blank" rel="noopener" href="https://en.bem.info/methodology/quick-start/#file-structure">BEM</a> Yandex</li>
+<li><a target="_blank" rel="noopener" href="http://sj82516-blog.logdown.com/posts/1077348/finish-css-intro-oocss-smacss-bem">Scalable CSS - 介紹OOCSS/SMACSS/BEM</a></li>
+<li><a href="https://link.juejin.im/?target=http://getbem.com">getbem.com</a></li>
+<li><a href="https://link.juejin.im/?target=https://github.com/Tencent/tmt-workflow/wiki/%25E2%2592%259B-%255B%25E8%25A7%2584%25E8%258C%2583%255D--CSS-BEM-%25E4%25B9%25A6%25E5%2586%2599%25E8%25A7%2584%25E8%258C%2583">github.com/Tencent/tmt…</a></li>
+</ol>
+
+  </div>
+  <div>
+    <a href="https://github.com/Mcguffen/mcguffen.github.io/edit/myblog/source/_posts/docs/frontEnd/css/css10.md"target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E5%A5%BD%E5%91%BD%E5%90%8D%E9%97%AE%E9%A2%98%EF%BC%8C%E5%B0%B1%E8%83%BD%E7%AE%A1%E7%90%86%E5%A5%BD%E6%88%91%E4%BB%AC%E7%9A%84-CSS"><span class="toc-number">1.</span> <span class="toc-text">解决好命名问题，就能管理好我们的 CSS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="toc-number"></span> <span class="toc-text">目录</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#B-E-M"><span class="toc-number"></span> <span class="toc-text">B.E.M</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-B-E-M-%E4%BB%8B%E7%BB%8D"><span class="toc-number"></span> <span class="toc-text">1 - B.E.M 介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-BEM-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">1.1 BEM 是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83"><span class="toc-number">2.</span> <span class="toc-text">1.2 命名规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-BEM-%E4%BC%98%E7%82%B9"><span class="toc-number">3.</span> <span class="toc-text">1.3 BEM 优点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E8%88%AC%E7%9A%84-CSS-%E5%91%BD%E5%90%8D%EF%BC%9A"><span class="toc-number">3.1.</span> <span class="toc-text">一般的 CSS 命名：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#BEM-%E5%91%BD%E5%90%8D%E6%96%B9%E6%B3%95%EF%BC%9A"><span class="toc-number">3.2.</span> <span class="toc-text">BEM 命名方法：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-BEM-%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number"></span> <span class="toc-text">2 - BEM 使用场景</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E4%BB%80%E4%B9%88%E5%9C%BA%E6%99%AF%E9%80%82%E5%90%88-BEM"><span class="toc-number">1.</span> <span class="toc-text">2.1 什么场景适合 BEM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E9%A2%84%E5%A4%84%E7%90%86%E8%AF%AD%E8%A8%80-BEM"><span class="toc-number">2.</span> <span class="toc-text">2.2 预处理语言 + BEM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6-BEM"><span class="toc-number">3.</span> <span class="toc-text">2.3 前端框架 + BEM</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#scoped-%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="toc-number">3.1.</span> <span class="toc-text">scoped 实现原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%85%8E%E7%94%A8"><span class="toc-number">3.2.</span> <span class="toc-text">为什么慎用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#BEM-%E5%9C%A8%E6%A1%86%E6%9E%B6%E4%B8%AD%E5%AD%98%E5%9C%A8%E7%9A%84%E6%84%8F%E4%B9%89"><span class="toc-number">3.3.</span> <span class="toc-text">BEM 在框架中存在的意义</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text"></span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E4%BE%8B%E5%AD%90"><span class="toc-number"></span> <span class="toc-text">3 - 例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E4%BD%BF%E7%94%A8%E5%85%B6%E6%80%9D%E6%83%B3"><span class="toc-number"></span> <span class="toc-text">4 - 使用其思想</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ACSS"><span class="toc-number"></span> <span class="toc-text">ACSS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%BC%95%E5%85%A5"><span class="toc-number"></span> <span class="toc-text">1 - 引入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%8E%9F%E5%AD%90%E5%8C%96"><span class="toc-number"></span> <span class="toc-text">2 - 原子化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%9B%B8%E8%BE%83%E4%BA%8E-bem-%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BC%98%E5%8A%BF"><span class="toc-number"></span> <span class="toc-text">3 - 相较于 bem 的一些优势</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%87-CSS-style-%E6%9C%80%E5%B0%8F%E5%85%83%E4%BB%B6%E5%8C%96%EF%BC%8C%E9%87%8D%E7%94%A8%E6%80%A7%E6%9C%80%E5%A4%A7%E5%8C%96"><span class="toc-number">1.</span> <span class="toc-text">將 CSS style 最小元件化，重用性最大化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%97%E4%B8%BE%E4%B8%80%E4%B8%8B%E4%BC%98%E7%82%B9"><span class="toc-number">2.</span> <span class="toc-text">列举一下优点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BD%93%E7%84%B6%E4%B9%9F%E6%9C%89%E7%BC%BA%E7%82%B9"><span class="toc-number">3.</span> <span class="toc-text">当然也有缺点</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E9%98%85%E8%AF%BB"><span class="toc-number"></span> <span class="toc-text">相关阅读</span></a>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/05/22/docs/frontEnd/css/css10/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/05/22/docs/frontEnd/css/css10/&text=如何管理好你的 CSS"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/05/22/docs/frontEnd/css/css10/&title=如何管理好你的 CSS"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/05/22/docs/frontEnd/css/css10/&is_video=false&description=如何管理好你的 CSS"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=如何管理好你的 CSS&body=Check out this article: http://example.com/2020/05/22/docs/frontEnd/css/css10/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/05/22/docs/frontEnd/css/css10/&title=如何管理好你的 CSS"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/05/22/docs/frontEnd/css/css10/&title=如何管理好你的 CSS"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/05/22/docs/frontEnd/css/css10/&title=如何管理好你的 CSS"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/05/22/docs/frontEnd/css/css10/&title=如何管理好你的 CSS"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/05/22/docs/frontEnd/css/css10/&name=如何管理好你的 CSS&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/05/22/docs/frontEnd/css/css10/&t=如何管理好你的 CSS"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Mcguffen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

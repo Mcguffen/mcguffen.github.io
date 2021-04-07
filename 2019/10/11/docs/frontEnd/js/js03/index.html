@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="类型转换任意类型转字符串 String(x) 图片  x.toString() 图片  x + ‘’ 图片   任意类型转数字 Number(x) parseInt(x, 10) MDN parseFloat(x) MDN x - 0 +x  任意类型转布尔 Boolean(x) !!x  内存图 你买一个 8G 的内存条 操作系统开机即占用 512MB Chrome 打开即占用 1G 内存 Ch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS基础 - 内存图">
+<meta property="og:url" content="http://example.com/2019/10/11/docs/frontEnd/js/js03/index.html">
+<meta property="og:site_name" content="Hi! I am yang.">
+<meta property="og:description" content="类型转换任意类型转字符串 String(x) 图片  x.toString() 图片  x + ‘’ 图片   任意类型转数字 Number(x) parseInt(x, 10) MDN parseFloat(x) MDN x - 0 +x  任意类型转布尔 Boolean(x) !!x  内存图 你买一个 8G 的内存条 操作系统开机即占用 512MB Chrome 打开即占用 1G 内存 Ch">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://static.xiedaimala.com/FrpnWPAjH4_Zh1Ru58nEIC0I4onn">
+<meta property="og:image" content="http://static.xiedaimala.com/FnbB3yikB790jzpavhE6eyqioUPP">
+<meta property="og:image" content="http://static.xiedaimala.com/FgaPxjEAu8-hzeBRnQ7jdHlZiw85">
+<meta property="article:published_time" content="2019-10-11T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-07T12:11:01.076Z">
+<meta property="article:author" content="Mcguffen">
+<meta property="article:tag" content="js">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://static.xiedaimala.com/FrpnWPAjH4_Zh1Ru58nEIC0I4onn">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>JS基础 - 内存图</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/10/18/docs/frontEnd/js/js04/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/10/04/docs/frontEnd/js/js02/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2019/10/11/docs/frontEnd/js/js03/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2019/10/11/docs/frontEnd/js/js03/&text=JS基础 - 内存图"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2019/10/11/docs/frontEnd/js/js03/&title=JS基础 - 内存图"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2019/10/11/docs/frontEnd/js/js03/&is_video=false&description=JS基础 - 内存图"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JS基础 - 内存图&body=Check out this article: http://example.com/2019/10/11/docs/frontEnd/js/js03/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2019/10/11/docs/frontEnd/js/js03/&title=JS基础 - 内存图"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2019/10/11/docs/frontEnd/js/js03/&title=JS基础 - 内存图"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2019/10/11/docs/frontEnd/js/js03/&title=JS基础 - 内存图"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2019/10/11/docs/frontEnd/js/js03/&title=JS基础 - 内存图"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2019/10/11/docs/frontEnd/js/js03/&name=JS基础 - 内存图&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2019/10/11/docs/frontEnd/js/js03/&t=JS基础 - 内存图"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.</span> <span class="toc-text">类型转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%BB%E6%84%8F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">1.1.</span> <span class="toc-text">任意类型转字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%BB%E6%84%8F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%95%B0%E5%AD%97"><span class="toc-number">1.2.</span> <span class="toc-text">任意类型转数字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%BB%E6%84%8F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E5%B8%83%E5%B0%94"><span class="toc-number">1.3.</span> <span class="toc-text">任意类型转布尔</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%9B%BE"><span class="toc-number">2.</span> <span class="toc-text">内存图</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="toc-number">2.1.</span> <span class="toc-text">面试题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%B1%E5%A4%8D%E5%88%B6%E6%98%AF%E4%BB%80%E4%B9%88%E9%AC%BC"><span class="toc-number">3.</span> <span class="toc-text">深复制是什么鬼</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        JS基础 - 内存图
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Mcguffen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-10-11T00:00:00.000Z" itemprop="datePublished">2019-10-11</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/frontEnd/">frontEnd</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/js/" rel="tag">js</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h2><h3 id="任意类型转字符串"><a href="#任意类型转字符串" class="headerlink" title="任意类型转字符串"></a>任意类型转字符串</h3><ol>
+<li><p>String(x)</p>
+<p><img src="http://static.xiedaimala.com/FrpnWPAjH4_Zh1Ru58nEIC0I4onn" alt="图片">图片</p>
+</li>
+<li><p>x.toString()</p>
+<p><img src="http://static.xiedaimala.com/FnbB3yikB790jzpavhE6eyqioUPP" alt="图片">图片</p>
+</li>
+<li><p>x + ‘’</p>
+<p><img src="http://static.xiedaimala.com/FgaPxjEAu8-hzeBRnQ7jdHlZiw85" alt="图片">图片</p>
+</li>
+</ol>
+<h3 id="任意类型转数字"><a href="#任意类型转数字" class="headerlink" title="任意类型转数字"></a>任意类型转数字</h3><ol>
+<li>Number(x)</li>
+<li>parseInt(x, 10) <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/parseInt">MDN</a></li>
+<li>parseFloat(x) <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/parseFloat">MDN</a></li>
+<li>x - 0</li>
+<li>+x</li>
+</ol>
+<h3 id="任意类型转布尔"><a href="#任意类型转布尔" class="headerlink" title="任意类型转布尔"></a>任意类型转布尔</h3><ol>
+<li>Boolean(x)</li>
+<li>!!x</li>
+</ol>
+<h2 id="内存图"><a href="#内存图" class="headerlink" title="内存图"></a>内存图</h2><ol>
+<li>你买一个 <a target="_blank" rel="noopener" href="https://item.jd.com/4071422.html">8G 的内存条</a></li>
+<li>操作系统开机即占用 512MB</li>
+<li>Chrome 打开即占用 1G 内存</li>
+<li>Chrome 各每个网页分配一定数量的内存</li>
+<li>这些内存要分给页面渲染器、网络模块、浏览器外壳和 JS 引擎（V8引擎）</li>
+<li>JS 引擎将内存分为代码区和数据区</li>
+<li>我们只研究数据区</li>
+<li>数据区分为 Stack（栈内存）和 Heap（堆内存）</li>
+<li>简单类型的数据直接存在 Stack 里</li>
+<li>复杂类型的数据是把 Heap 地址存在 Stack 里遇到问题就画图，不要分析。</li>
+</ol>
+<h3 id="面试题"><a href="#面试题" class="headerlink" title="面试题"></a>面试题</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">​&#96;&#96;&#96;javascript</span><br><span class="line">var a &#x3D; 1</span><br><span class="line">var b &#x3D; a</span><br><span class="line">b &#x3D; 2</span><br><span class="line">请问 a 显示是几？  </span><br><span class="line">​&#96;&#96;&#96;</span><br><span class="line"></span><br><span class="line">​&#96;&#96;&#96;javascript</span><br><span class="line">var a &#x3D; &#123;name: &#39;a&#39;&#125;</span><br><span class="line">var b &#x3D; a</span><br><span class="line">b &#x3D; &#123;name: &#39;b&#39;&#125;</span><br><span class="line">请问现在 a.name 是多少？</span><br><span class="line">​&#96;&#96;&#96;</span><br><span class="line"></span><br><span class="line">​&#96;&#96;&#96;javascript</span><br><span class="line">var a &#x3D; &#123;name: &#39;a&#39;&#125;</span><br><span class="line">var b &#x3D; a</span><br><span class="line">b.name &#x3D; &#39;b&#39;</span><br><span class="line">请问现在 a.name 是多少？</span><br><span class="line">​&#96;&#96;&#96;</span><br><span class="line"></span><br><span class="line">​&#96;&#96;&#96;javascript</span><br><span class="line">var a &#x3D; &#123;name: &#39;a&#39;&#125;</span><br><span class="line">var b &#x3D; a</span><br><span class="line">b &#x3D; null</span><br><span class="line">请问现在 a 是什么？</span><br><span class="line">​&#96;&#96;&#96;</span><br></pre></td></tr></table></figure>
+
+<h2 id="深复制是什么鬼"><a href="#深复制是什么鬼" class="headerlink" title="深复制是什么鬼"></a>深复制是什么鬼</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var a &#x3D; 1</span><br><span class="line">var b &#x3D; a</span><br><span class="line">b &#x3D; 2 &#x2F;&#x2F;这个时候改变 b</span><br><span class="line">a 完全不受 b 的影响那么我们就说这是一个深复制</span><br></pre></td></tr></table></figure>
+
+<p>对于简单类型的数据来说，赋值就是深拷贝。对于复杂类型的数据（对象）来说，才要区分浅拷贝和深拷贝。这是一个浅拷贝的例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var a &#x3D; &#123;name: &#39;frank&#39;&#125;</span><br><span class="line">var b &#x3D; a</span><br><span class="line">b.name &#x3D; &#39;b&#39;</span><br><span class="line">a.name &#x3D;&#x3D;&#x3D; &#39;b&#39; &#x2F;&#x2F; true</span><br></pre></td></tr></table></figure>
+
+<p>因为我们对 b 操作后，a 也变了什么是深拷贝了，就是对 Heap 内存进行完全的拷贝。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var a &#x3D; &#123;name: &#39;frank&#39;&#125;</span><br><span class="line">var b &#x3D; deepClone(a) &#x2F;&#x2F; deepClone 还不知道怎么实现</span><br><span class="line">b.name &#x3D; &#39;b&#39;</span><br><span class="line">a.name &#x3D;&#x3D;&#x3D; &#39;frank&#39; &#x2F;&#x2F; true</span><br></pre></td></tr></table></figure>
+  </div>
+  <div>
+    <a href="https://github.com/Mcguffen/mcguffen.github.io/edit/myblog/source/_posts/docs/frontEnd/js/js03.md"target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.</span> <span class="toc-text">类型转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%BB%E6%84%8F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">1.1.</span> <span class="toc-text">任意类型转字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%BB%E6%84%8F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%95%B0%E5%AD%97"><span class="toc-number">1.2.</span> <span class="toc-text">任意类型转数字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%BB%E6%84%8F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E5%B8%83%E5%B0%94"><span class="toc-number">1.3.</span> <span class="toc-text">任意类型转布尔</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%9B%BE"><span class="toc-number">2.</span> <span class="toc-text">内存图</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="toc-number">2.1.</span> <span class="toc-text">面试题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%B1%E5%A4%8D%E5%88%B6%E6%98%AF%E4%BB%80%E4%B9%88%E9%AC%BC"><span class="toc-number">3.</span> <span class="toc-text">深复制是什么鬼</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2019/10/11/docs/frontEnd/js/js03/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2019/10/11/docs/frontEnd/js/js03/&text=JS基础 - 内存图"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2019/10/11/docs/frontEnd/js/js03/&title=JS基础 - 内存图"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2019/10/11/docs/frontEnd/js/js03/&is_video=false&description=JS基础 - 内存图"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JS基础 - 内存图&body=Check out this article: http://example.com/2019/10/11/docs/frontEnd/js/js03/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2019/10/11/docs/frontEnd/js/js03/&title=JS基础 - 内存图"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2019/10/11/docs/frontEnd/js/js03/&title=JS基础 - 内存图"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2019/10/11/docs/frontEnd/js/js03/&title=JS基础 - 内存图"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2019/10/11/docs/frontEnd/js/js03/&title=JS基础 - 内存图"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2019/10/11/docs/frontEnd/js/js03/&name=JS基础 - 内存图&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2019/10/11/docs/frontEnd/js/js03/&t=JS基础 - 内存图"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Mcguffen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

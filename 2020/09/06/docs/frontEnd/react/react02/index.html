@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="React Hooks 是 React 框架内的逻辑复用形式，因为其轻量、易编写的形态，必然会逐渐成为一种前端开发主流。但是在实际开发过程中，大部分的开发者对于 Hooks 的使用过于粗暴，缺乏设计感和复用性。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React Hooks 体系设计">
+<meta property="og:url" content="http://example.com/2020/09/06/docs/frontEnd/react/react02/index.html">
+<meta property="og:site_name" content="Hi! I am yang.">
+<meta property="og:description" content="React Hooks 是 React 框架内的逻辑复用形式，因为其轻量、易编写的形态，必然会逐渐成为一种前端开发主流。但是在实际开发过程中，大部分的开发者对于 Hooks 的使用过于粗暴，缺乏设计感和复用性。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-24e3764b9fb11a47e18be65f8426db93_720w.jpg">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-a2a4a2c5d0d50a193a6c70afa4878f7f_720w.jpg">
+<meta property="article:published_time" content="2020-09-06T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-07T12:11:01.080Z">
+<meta property="article:author" content="Mcguffen">
+<meta property="article:tag" content="React">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic3.zhimg.com/80/v2-24e3764b9fb11a47e18be65f8426db93_720w.jpg">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>React Hooks 体系设计</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/09/07/docs/frontEnd/react/react03/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/08/13/docs/frontEnd/axios/axios01/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/09/06/docs/frontEnd/react/react02/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/09/06/docs/frontEnd/react/react02/&text=React Hooks 体系设计"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/09/06/docs/frontEnd/react/react02/&title=React Hooks 体系设计"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/09/06/docs/frontEnd/react/react02/&is_video=false&description=React Hooks 体系设计"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=React Hooks 体系设计&body=Check out this article: http://example.com/2020/09/06/docs/frontEnd/react/react02/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/09/06/docs/frontEnd/react/react02/&title=React Hooks 体系设计"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/09/06/docs/frontEnd/react/react02/&title=React Hooks 体系设计"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/09/06/docs/frontEnd/react/react02/&title=React Hooks 体系设计"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/09/06/docs/frontEnd/react/react02/&title=React Hooks 体系设计"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/09/06/docs/frontEnd/react/react02/&name=React Hooks 体系设计&description=&lt;p&gt;React Hooks 是 React 框架内的逻辑复用形式，因为其轻量、易编写的形态，必然会逐渐成为一种前端开发主流。但是在实际开发过程中，大部分的开发者对于 Hooks 的使用过于粗暴，缺乏设计感和复用性。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/09/06/docs/frontEnd/react/react02/&t=React Hooks 体系设计"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8D%E5%BF%98%E5%88%9D%E5%BF%83%EF%BC%8C%E5%A7%8B%E4%BA%8E%E5%88%86%E5%B1%82"><span class="toc-number">1.</span> <span class="toc-text">不忘初心，始于分层</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E7%9A%84%E5%88%86%E5%B1%82%E8%AE%BE%E8%AE%A1"><span class="toc-number">1.1.</span> <span class="toc-text">状态的分层设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-immer-%E6%9B%B4%E6%96%B0%E7%8A%B6%E6%80%81"><span class="toc-number">1.2.</span> <span class="toc-text">使用 immer 更新状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E4%B8%8E%E8%A1%8C%E4%B8%BA%E7%9A%84%E5%B0%81%E8%A3%85"><span class="toc-number">1.3.</span> <span class="toc-text">状态与行为的封装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9A%84%E6%8A%BD%E8%B1%A1"><span class="toc-number">1.4.</span> <span class="toc-text">数据结构的抽象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">1.5.</span> <span class="toc-text">通用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%B1%82%E6%80%BB%E7%BB%93"><span class="toc-number">1.6.</span> <span class="toc-text">分层总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hook-%E9%9B%86%E5%90%88"><span class="toc-number">1.7.</span> <span class="toc-text">hook 集合</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86%EF%BC%8C%E7%8A%B6%E6%80%81%E7%B2%92%E5%BA%A6"><span class="toc-number">2.</span> <span class="toc-text">状态管理，状态粒度</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B2%92%E5%BA%A6%E8%BF%87%E7%BB%86"><span class="toc-number">2.1.</span> <span class="toc-text">粒度过细</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-Reducer-%E7%AE%A1%E7%90%86%E7%8A%B6%E6%80%81%E6%9B%B4%E6%96%B0"><span class="toc-number">2.2.</span> <span class="toc-text">使用 Reducer 管理状态更新</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E8%BF%87%E7%B2%97"><span class="toc-number">2.3.</span> <span class="toc-text">状态过粗</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%88%E7%90%86%E8%AE%BE%E8%AE%A1%E7%B2%92%E5%BA%A6"><span class="toc-number">2.4.</span> <span class="toc-text">合理设计粒度</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E7%9B%B4%E9%83%BD%E5%9C%A8%E7%9A%84-Ref"><span class="toc-number">3.</span> <span class="toc-text">一直都在的 Ref</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DOM-%E4%B8%8E%E5%9D%91"><span class="toc-number">3.1.</span> <span class="toc-text">DOM 与坑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ref-%E7%9A%84%E7%9C%9F%E5%AE%9E%E8%BA%AB%E4%BB%BD"><span class="toc-number">3.2.</span> <span class="toc-text">Ref 的真实身份</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8"><span class="toc-number">3.3.</span> <span class="toc-text">一个定时器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9E%E8%B0%83-ref"><span class="toc-number">3.4.</span> <span class="toc-text">回调 ref</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%A9%E5%9D%8F-Ref"><span class="toc-number">4.</span> <span class="toc-text">玩坏 Ref</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E5%8F%98%E5%AF%B9%E8%B1%A1"><span class="toc-number">4.1.</span> <span class="toc-text">可变对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%B2%E6%9F%93%E8%AE%A1%E6%95%B0"><span class="toc-number">4.2.</span> <span class="toc-text">渲染计数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E4%B8%80%E6%AC%A1%E5%80%BC"><span class="toc-number">4.3.</span> <span class="toc-text">前一次值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6%E6%9B%B4%E6%96%B0%E6%BA%90"><span class="toc-number">4.4.</span> <span class="toc-text">组件更新源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E8%BF%BD%E5%9B%9E"><span class="toc-number">4.5.</span> <span class="toc-text">对象追回</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9C%8B%E5%AE%8C%E5%90%8E%E7%9A%84%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87"><span class="toc-number">5.</span> <span class="toc-text">看完后的学习目标</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        React Hooks 体系设计
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Mcguffen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-09-06T00:00:00.000Z" itemprop="datePublished">2020-09-06</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/frontEnd/">frontEnd</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/React/" rel="tag">React</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>React Hooks 是 React 框架内的逻辑复用形式，因为其轻量、易编写的形态，必然会逐渐成为一种前端开发主流。但是在实际开发过程中，大部分的开发者对于 Hooks 的使用过于粗暴，缺乏设计感和复用性。</p>
+<span id="more"></span>
+
+<p>优质的专栏，把它整合一遍：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/fefame">https://zhuanlan.zhihu.com/fefame</a></p>
+<h2 id="不忘初心，始于分层"><a href="#不忘初心，始于分层" class="headerlink" title="不忘初心，始于分层"></a>不忘初心，始于分层</h2><p>要知道之所以使用框架，一开始就是为了代码结构能够清晰明了</p>
+<p>软件工程的经典论述：</p>
+<blockquote>
+<p>We can solve any problem by introducting an extra level of indirection</p>
+<p>没有什么问题是加一个层解决不了的。</p>
+</blockquote>
+<p>这个论述自软件工程诞生起，至今依然是成立的，但要使之成立就必须有一个大前提：我们有分层</p>
+<p>React 内置的 Hooks 提供了基础的能力，虽然本质上它也有一些分层，比如：</p>
+<ul>
+<li><code>useStaste</code> 是基于 <code>useReducer</code> 的简化版本</li>
+<li><code>useMemo</code> 和 <code>useCallback</code> 事实上可以基于 <code>useRef</code> 实现</li>
+</ul>
+<p>但是在实际应用时，我们可以将其视为一层，即基础的底层</p>
+<p>因此，我们在实际的应用开发中，单纯地在组件里组合使用内置的 <code>hook</code> ，无疑是一种不分层的粗暴使用形式，这仅仅在表象上使用了 <code>hook</code> ，而无法基于 <code>hook</code> 达到逻辑复用的目标。</p>
+<h3 id="状态的分层设计"><a href="#状态的分层设计" class="headerlink" title="状态的分层设计"></a>状态的分层设计</h3><p>分层的形式固然千千万万五花八门，我选择了一种更为贴近传统，更能表达程序的本质的方法，以此将 <code>hook</code> 在纵向分为 6 个层，自底向上依次是：</p>
+<ol>
+<li>最底层的内置 <code>hook</code>，不需要自己实现，官方直接提供</li>
+<li>简化状态更新方式的 <code>hook</code>，比较经典的是引入 <code>immer</code> 来达到更方便地进行不可变更新的目的</li>
+<li>引入「状态 + 行为」的概念，通过声明状态结构与相应行为快速创建一个完整上下文</li>
+<li>对常见数据结构的操作进行封装，如数组的操作</li>
+<li>针对通用业务场景进行封装，如分页的列表、滚动加载的列表、多选等</li>
+<li>实际面向业务的实现</li>
+</ol>
+<p>需要注意的是，这边仅仅提到了对状态的分层设计，事实上有大量的 <code>hook</code> 是游离于状态之外的，如基于 <code>useEffect</code> 的 <code>useDocumentSize</code>，或是基于 <code>useRef</code> 的 <code>usePreviousValue</code>、<code>useStableMemo</code> 等，这些 <code>hook</code> 是更加零散。独立的形态</p>
+<h3 id="使用-immer-更新状态"><a href="#使用-immer-更新状态" class="headerlink" title="使用 immer 更新状态"></a>使用 <code>immer</code> 更新状态</h3><p>在第二层中，我们需要解决的问题是 React 要求的不可变数据更新有一定的操作复杂性，比如当我们需要更新对象的一个属性的时候，就需要</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const newValue &#x3D; &#123;</span><br><span class="line">  ...oldValue,</span><br><span class="line">  foo: newFoo,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这还只是一个简单对象，如果遇到复杂一些的对象，就大概率可能出现这样的情况：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">const newValue &#x3D; &#123;</span><br><span class="line">  ...oldValue,</span><br><span class="line">  foo: &#123;</span><br><span class="line">    ...oldValue?.foo,</span><br><span class="line">    bar: &#123;</span><br><span class="line">      ...oldValue?.foo?.bar,</span><br><span class="line">      alice: newAlice,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>数组也不怎么容易，比如我想删除一个元素，就要这么来：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const newArray &#x3D; [...oldArray.slice(0, index), ...oldArray.slice(index + 1)]</span><br></pre></td></tr></table></figure>
+
+<p>这些都是基于原有对象，进行数据的更新。</p>
+<p>要解决这一些系列问题，我们可以使用 <code>immer</code>，利用 <code>proxy</code> 数据劫持的特性，将可变的数据更新映射为不可变的操作</p>
+<p>状态管理额基础 <code>hook</code> 是 <code>useState</code> 和 <code>useReducer</code>，因此我们能封装成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const [state, setStatee] &#x3D; useImmerState(&#123; foo: &#123; bar: 1 &#125; &#125;)</span><br><span class="line"></span><br><span class="line">setState((s) &#x3D;&gt; s.foo.bar++) &#x2F;&#x2F; 直接进行可变更新</span><br><span class="line">setState(&#123; foo: &#123; bar: 2 &#125; &#125;) &#x2F;&#x2F; 保留直接更新值的功能</span><br></pre></td></tr></table></figure>
+
+<p>以及：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">const [state, dispatch] &#x3D; useImmerReducer(</span><br><span class="line">    (state, action) &#x3D;&gt; &#123;</span><br><span class="line">        case &#39;ADD&#39;:</span><br><span class="line">            state.foo.bar +&#x3D; action.payload;</span><br><span class="line">        case &#39;SUBTRACT&#39;:</span><br><span class="line">            state.foo.bar -&#x3D; action.payload;</span><br><span class="line">        default:</span><br><span class="line">            return;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;foo: &#123;bar: 1&#125;&#125;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">dispatch(&#39;ADD&#39;, &#123;payload: 2&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>这一部分并没有太多的工作（<code>immer</code> 的 <code>TS</code> 类型是真的难写），但是提供了非常方便的状态更新能力，也便于在它之上的所有层的实现</p>
+<h3 id="状态与行为的封装"><a href="#状态与行为的封装" class="headerlink" title="状态与行为的封装"></a>状态与行为的封装</h3><p>组件的开发，或者说绝大部分业务的开发，逃不出”一个状态 + 一系列行为“这个模式，而且行为与状态的结构是强相关的。这个模式在面向对象里我们称之为<strong>类</strong>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">class User &#123;</span><br><span class="line">  name &#x3D; &#39;&#39;</span><br><span class="line">  age &#x3D; 0</span><br><span class="line"></span><br><span class="line">  birthday() &#123;</span><br><span class="line">    this.age++</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而在 <code>hook</code>中，我们会这么做：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const [name, setName] &#x3D; useState(&#39;&#39;)</span><br><span class="line">const [age, SetAge] &#x3D; useState(0)</span><br><span class="line">const birthday &#x3D; useCallback(() &#x3D;&gt; &#123;</span><br><span class="line">  setAge((age) &#x3D;&gt; age + 1)</span><br><span class="line">&#125;, [age])</span><br></pre></td></tr></table></figure>
+
+<p>这样子会出现一些问题：</p>
+<ol>
+<li>太多的 <code>useState</code> 和 <code>useCallback</code> 调用，重复的编码工作</li>
+<li>如果不仔细阅读代码，很难找到状态与行为的对应关系</li>
+</ol>
+<p>因此需要一个 <code>hook</code> 来帮助实现「一个状态」和「针对这个状态的行为」合并在一起：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const userMethods &#x3D; &#123;</span><br><span class="line">  birthday(user) &#123;</span><br><span class="line">    user.age++ &#x2F;&#x2F; 利用了immer的能力</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const [user, methods, setUser] &#x3D; useMethods(userMethods, &#123; name: &#39;&#39;, age: 0 &#125;)</span><br><span class="line"></span><br><span class="line">methods.birthday()</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，这样的声明十分接近面向对象的形态，有部分 React 开发者在粗浅地了解了函数式编程后，激进地反对面向对象，这显然是不可取的，面向对象依然是一种很好的封装和职责边界划分的形态，不一定要以其表面形态去实现，却也不可丢了其内在思想</p>
+<h3 id="数据结构的抽象"><a href="#数据结构的抽象" class="headerlink" title="数据结构的抽象"></a>数据结构的抽象</h3><p>有了 <code>useMethods</code> 之后，我们已经可以快速地使用任何类型和结构的状态与 <code>hook</code> 整合，我们一定会意识到，有一部分状态类型是业务无关的，是全天下所有开发者所通用的，比如最基础的数据类型 <code>number</code>、<code>string</code>、<code>Array</code> 等</p>
+<p>在数据结构的封装上，我们依然会面对几个核心问题：</p>
+<ol>
+<li>部分数据结构的不可变操作相当复杂，比如不可变地实现 <code>Array#splice</code>，好在有 <code>immer</code> 合理地解决了这部分问题</li>
+<li>部分操作的语义会发生变化，<code>setState</code> 最典型的是么有返回值，因此 <code>Array#pop</code> 只能产生「移除最后一个元素」的行为，而无法将移除的元素返回</li>
+<li>部分类型是天生可变的，如 <code>Set</code> 和 <code>Map</code>，将之映射到不可变需要额外的工作</li>
+</ol>
+<p>针对常用数据结构的抽象，在试图解决这些问题（第二个问题还真解决不了）的同时，也能扩展一些行为，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">const [list, methods, setList] &#x3D; useArray([])</span><br><span class="line"></span><br><span class="line">interface ArrayMethods&lt;T&gt; &#123;</span><br><span class="line">  push(item: T): void</span><br><span class="line">  unshift(item: T): void</span><br><span class="line">  pop(): void</span><br><span class="line">  shift(): void</span><br><span class="line">  slice(start?: number, end?: number): void</span><br><span class="line">  splice(index: number, count: number, ...items: T[]): void</span><br><span class="line">  remove(item: T): void</span><br><span class="line">  removeAt(index: number): void</span><br><span class="line">  insertAt(index: number, item: T): void</span><br><span class="line">  concat(item: T | T[]): void</span><br><span class="line">  replace(from: T, to: T): void</span><br><span class="line">  replaceAll(from: T, to: T): void</span><br><span class="line">  replaceAt(index: number, item: T): void</span><br><span class="line">  filter(predicate: (item: T, index: number) &#x3D;&gt; boolean): void</span><br><span class="line">  union(array: T[]): void</span><br><span class="line">  intersect(array: T[]): void</span><br><span class="line">  difference(array: T[]): void</span><br><span class="line">  reverse(): void</span><br><span class="line">  sort(compare?: (x: T, y: T) &#x3D;&gt; number): void</span><br><span class="line">  clear(): void</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而诸如 <code>useSet</code> 和 <code>useMap</code> 则会在每次更新时做一次对象复制的操作，强制实现状态的不可变。</p>
+<p>社区的 <code>hook</code> 库中，很少看到有单独一个层实现数据结构的封装，实在是一种遗憾（不要封装啊喂），截止到今日，大致<code>useNumber</code>、<code>useArray</code>、<code>useSet</code>、<code>useMap</code>、<code>useBoolean</code>是已然实现的，其中还衍生出<code>useToggle</code>这样场景更狭窄的实现。而<code>useString</code>、<code>useFunction</code>和<code>useObject</code>能够提供什么能力还有待观察。</p>
+<h3 id="通用场景"><a href="#通用场景" class="headerlink" title="通用场景"></a>通用场景</h3><p>在有了基本的数据结构后，可以对场景进行封装，这一点在阿里的<a href="https://link.zhihu.com/?target=https://github.com/umijs/hooks">@umijs/hooks</a>体现的比较多，如<code>useVirtualList</code>就是一个价值非常大的场景的封装。</p>
+<p>需要注意的是，场景的封装不应与组件库耦合，它应当是业务与组件之间的桥梁，不同的组件库使用相同的 <code>hook</code> 实现不同的界面，这才是一个理想的模式：</p>
+<ul>
+<li><code>useTransfer</code>实现左右双列表选择的能力</li>
+<li><code>useSelection</code>实现列表上单选、多选、范围选择的能力</li>
+<li><code>useScrollToLoad</code>实现滚动加载的能力</li>
+</ul>
+<p>通用场景的封装非常的多，它的灵感可以来源于某一个组件库，也可以由团队的业务沉淀。一个充分的场景封装 hook 集合会是未来 React 业务开发的效率的关键之一。</p>
+<h3 id="分层总结"><a href="#分层总结" class="headerlink" title="分层总结"></a>分层总结</h3><p>总而言之，在业务中暴力地直接使用 <code>useState</code> 等 <code>hook</code> 并不是一个值得提倡的方式，而针对状态这一块，精细地做一下分层，并在每个层提供相应的能力，是有助于组织 <code>hook</code> 库并赋能于业务研发效率的</p>
+<h3 id="hook-集合"><a href="#hook-集合" class="headerlink" title="hook 集合"></a>hook 集合</h3><p><a href="https://link.zhihu.com/?target=https://github.com/ecomfe/react-hooks">@huse</a>的 hook 集合，同样应用了分层的理念，也欢迎提出相应的需求，将于近期发布一个版本。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ecomfe/react-hooks">https://github.com/ecomfe/react-hooks</a></p>
+<h2 id="状态管理，状态粒度"><a href="#状态管理，状态粒度" class="headerlink" title="状态管理，状态粒度"></a>状态管理，状态粒度</h2><p>状态无论什么时候都是 react 的重中之重</p>
+<p>在有了 <code>useState</code> 之后，会发现状态被天生地拆散了，比如这是一个曾经的类组件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">class TodoList extends Component &#123;</span><br><span class="line">  state &#x3D; &#123;</span><br><span class="line">    dataSource: [],</span><br><span class="line">    isLoading: true,</span><br><span class="line">    filterText: &#39;&#39;,</span><br><span class="line">    filterType: &#39;all&#39;,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>放到 hooks 上面，大概率就是这个样子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const TodoList &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  const [dataSource, setDataSource] &#x3D; useState([])</span><br><span class="line">  const [isLoading, setLoading] &#x3D; useState(true)</span><br><span class="line">  const [filterText, filterByText] &#x3D; useState(&#39;&#39;)</span><br><span class="line">  const [filterType, filterByType] &#x3D; useState(&#39;all&#39;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>老实说这算好的了，至少还搞了发起名的艺术，没有啥都叫 <code>setFooBar</code></p>
+<p>上面的这个转换方式无疑是正确的，不过现实并不总这么友好，状态拆分的时候，容易出现粒度控制不好的情况</p>
+<h3 id="粒度过细"><a href="#粒度过细" class="headerlink" title="粒度过细"></a>粒度过细</h3><p>如果按照标准的每一个状态对应一个 <code>useState</code> 的做法，自然是逻辑上正确的，但它容易造成状态粒度过细的问题</p>
+<p>讲一个故事：</p>
+<blockquote>
+<p>做一个表格，带一个选中功能，其中一个点是“按住 SHIFT 的同时点击一行可以选中一个区域”。</p>
+</blockquote>
+<p>为了实现这个功能，我们需要 2 套逻辑：</p>
+<ol>
+<li>当点击一行时，选中这一行</li>
+<li>按 SHIFT 点击时，把上一次选中（或第一行）到当前行都选中</li>
+</ol>
+<p>从这个场景我们能分析出一个结论：点击一行的时候，除了选中它，还需要记录最后一次选中的行为。为了简化这个模型，代码中先不管“取消选择”的效果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">const SelectableList &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  const [selection, setSelection] &#x3D; useState([]);</span><br><span class="line">  const [lastSelected, setLastSelected] &#x3D; useState(0);</span><br><span class="line">  const selectLine &#x3D; useCallback(</span><br><span class="line">  	index &#x3D;&gt; &#123;</span><br><span class="line">      setSelection(lines &#x3D;&gt; lines.concat(index));</span><br><span class="line">      setLastSelected(index);】</span><br><span class="line">    &#125;,</span><br><span class="line">    []</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>仔细看 <code>useCallback</code> 中的部分，我们能看到它会连续调用 2 个状态的更新，这会造成什么情况呢？每一次状态更新都触发一次渲染，会导致多次渲染的浪费嘛？</p>
+<p>答案不好说，如果这件事发生在 React 管理的事件中，则更新会被合并起来，如果发生在其他场合（比如说异步结束时），则会使得 React 触发多次渲染。</p>
+<p>一个相关示例：<a href="https://link.zhihu.com/?target=https://codesandbox.io/s/set-multiple-state-in-callback-6m6vd">CodeSandbox 示例</a></p>
+<p>但是这里我们着重讨论代码的组织和可读性问题</p>
+<p>class 类组件时代，代码是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">class SelectableList extends Component &#123;</span><br><span class="line">  selectLine &#x3D; (index) &#x3D;&gt; &#123;</span><br><span class="line">    this.setState((state) &#x3D;&gt; (&#123;</span><br><span class="line">      selection: state.selection.concat(index),</span><br><span class="line">      lastSelected: index,</span><br><span class="line">    &#125;))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而不会这么写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class SelectableList extends Component &#123;</span><br><span class="line">  selectLine &#x3D; (index) &#x3D;&gt; &#123;</span><br><span class="line">    this.setState((state) &#x3D;&gt; (&#123; selection: state.selection.concat(index) &#125;))</span><br><span class="line">    this.setState(&#123; lastSelected: index &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>不否认 class 时代状态的集中管理是过于粗放的，但那个时代的状态更新粒度基本是没有问题的，所以在使用 hook 的时候不哟啊太过暴力的拆分状态，过于细粒度的拆分状态会导致代码阅读者难以理解状态间的关系，五星提升代码维护的难度</p>
+<h3 id="使用-Reducer-管理状态更新"><a href="#使用-Reducer-管理状态更新" class="headerlink" title="使用 Reducer 管理状态更新"></a>使用 Reducer 管理状态更新</h3><p>现在搞清楚了状态粒度太细是不好的，所以不妨碍奖上面示例的状态重新再合并回来：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">const DEFAULT_SELECTION_STATE &#x3D; &#123;</span><br><span class="line">  selection: [],</span><br><span class="line">  lastSelected: 0,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const SelectableList &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  const [selectionState, setSelectionState] &#x3D; useState(DEFAULT_SELECTION_STATE)</span><br><span class="line">  const selectLine &#x3D; useCallback((index) &#x3D;&gt; &#123;</span><br><span class="line">    const updater &#x3D; (&#123; selection &#125;) &#x3D;&gt; &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        selection: selection.concat(index),</span><br><span class="line">        lastSelected: index,</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    setSelectionState(updater)</span><br><span class="line">  &#125;, [])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>没什么难度，确实没什么难度</p>
+<p>但是这种做法，依然会有一个问题：状态的更新与状态的声明距离过远。在这个例子中很难看出来，状态声明之后立刻旧有 <code>useCallback</code> 的调用去说明如何更新它。但是在实际编码中，我们很容易遇到状态的声明在第 1 行，而状态的更新在第 40+ 行这种情况，甚至是最终 JSX 中的某个箭头函数中。</p>
+<p>在这样的代码中，阅读者想要搞清楚一个状态如何被使用、如何更新时十分困难的，这不仅降低了代码的可维护性，还给代码阅读者很大的挫败感，久而久之谁也不想接手这样的代码。</p>
+<p>解决这个问题通常有两种方法：</p>
+<ol>
+<li>把状态和更新封装到自定义的 Hook 当中去，比如就叫 <code>useSelection</code></li>
+<li>使用 <code>useReducer</code></li>
+</ol>
+<p>第一种方法必不用说，能不能找到合适的粒度来实现自定义 hoook 就是对开发者素质的考研。但不少时候自定义 hook 作为一种解决方案还是过于重量级，虽然它仅仅是一个函数，但是依然需要阅读者去理解输入输出，使用 <code>TypeScript</code> 还可能造成类型定义上的额外工作。</p>
+<p>使用 <code>useReducer</code> 可以在不少轻量级的场景中快速地将状态声明和状态更新放在一起，比如上面的例子可以这样改造：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">const SelectableList &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  const [selectionState, dispatchSelectionState] &#x3D; useReducer(</span><br><span class="line">    (state, action) &#x3D;&gt; &#123;</span><br><span class="line">      switch (action.type) &#123;</span><br><span class="line">        case &#39;select&#39;:</span><br><span class="line">          return &#123;</span><br><span class="line">            selection: state.selection.concat(action.payload),</span><br><span class="line">            lastSelected: action.payload,</span><br><span class="line">          &#125;</span><br><span class="line">        default:</span><br><span class="line">          return state</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123; selection: [], lastSelected: 0 &#125;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，通过 <code>useReducer</code> 我们传递一个函数，这个函数清晰地表达了 <code>select</code> 这个类型的操作，以及对应的状态更新。<code>useReducer</code> 的第二个参数也很好地说明了状态的结构。</p>
+<p>当然如果我们使用 <code>useImmer</code> 或者 <code>useMethods</code> 会更容易实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const SelectList &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  const [selectionState, &#123;select&#125;] &#x3D; useMethods(</span><br><span class="line">  	methods,&#39;</span><br><span class="line">    &#123;selection: [], lastSelected: 0&#125;&#39;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="状态过粗"><a href="#状态过粗" class="headerlink" title="状态过粗"></a>状态过粗</h3><p>反过来，状态也可能太粗，比如我们硬是将整个 <code>class</code> 的状态转移到一个 <code>useState</code> 中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const DEFAULT_STATE &#x3D; &#123;</span><br><span class="line">  dataSource: [],</span><br><span class="line">  isLoading: true,</span><br><span class="line">  filterText: &#39;&#39;,</span><br><span class="line">  filterType: &#39;all&#39;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样子写和 <code>class</code> 组件没两样，不建议这么干 ，当然数据流也许看起来会更清晰那么一点。</p>
+<p>我们来考虑一下状态过粗的代价：</p>
+<p>不过在此依然需要提一下状态过粗的代价，试想这样的组件：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserInfo</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    state = &#123;</span><br><span class="line">        isBaseLoading: <span class="literal">true</span>,</span><br><span class="line">        isDetailLoading: <span class="literal">false</span>,</span><br><span class="line">        baseInfo: <span class="literal">null</span>,</span><br><span class="line">        detailInfo: <span class="literal">null</span>,</span><br><span class="line">        isDetailVisible: <span class="literal">false</span>,</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">async</span> showDetail = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">this</span>.state.detailInfo) &#123;</span><br><span class="line">            <span class="built_in">this</span>.setState(&#123;<span class="attr">isDetailVisible</span>: <span class="literal">true</span>&#125;);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.setState(&#123;<span class="attr">isDetailLoading</span>: <span class="literal">true</span>&#125;);</span><br><span class="line">            <span class="keyword">const</span> detail = <span class="keyword">await</span> fetchDetail();</span><br><span class="line">            <span class="built_in">this</span>.setState(&#123;</span><br><span class="line">                isDetailLoading: <span class="literal">false</span>,</span><br><span class="line">                detailInfo: detail,</span><br><span class="line">                isDetailVisible: <span class="literal">true</span>,</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后我们还有一个这样的组件：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TodoList</span> </span>&#123;</span><br><span class="line">  state = &#123;</span><br><span class="line">    filterText: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">    filterType: <span class="string">&#x27;all&#x27;</span>,</span><br><span class="line">    showFilterPanel: <span class="literal">false</span>,</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  toggleFilterPanel = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.setStae(<span class="function">(<span class="params">s</span>) =&gt;</span> (&#123; <span class="attr">showFilterPanel</span>: !s.showFilterPanel &#125;))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这有什么问题呢？仔细去看 2 个组件，我们会发现它们其实是有共同的部分的：</p>
+<ol>
+<li>有一个能展开/收起的状态，一个叫<code>isDetailVisible</code>一个叫<code>showFilterPanel</code>。</li>
+<li>有多个和异步过程有关的状态，比如<code>isBaseLoading</code>和<code>isDetailLoading</code>。</li>
+<li>有异步状态与结果的成对出现，比如<code>isBaseLoading</code>配对<code>baseInfo</code>，<code>isDetailLoading</code>配对<code>detailInfo</code>。</li>
+</ol>
+<p>但能得到这些结论，很大程度上归功于我给的代码过于精简，以及给了阅读者明确的“去发现”的目的。</p>
+<p>试想你有一个超过 10 万行代码的项目，里面有 800 多个组件，有些组件有 1200 多行，你作为一个技术负责人空降到项目中，有信心去发现这些东西吗？反正我作为一个所谓的高 T，很实诚地说我做不到。</p>
+<p>所以状态粒度过粗的问题就在于，它会隐藏掉可以复用的状态，让人不知不觉通过“行云流水地重复编码”来实现功能，离复用和精简越来越远。</p>
+<p>当然，有时候保持一定程度上的重复是有意义的，比如使代码更具语义化，让人更看得懂代码在干啥，这在 <code>class</code> 时代特别明显。在 <code>class</code> 时代能解决这一问题的办法就是 HOC，比如我们做<code>withLoading</code>、<code>withToggle</code>、<code>withRemoteData</code>等等……</p>
+<p>然后就会变成这样：</p>
+<p><img src="https://pic3.zhimg.com/80/v2-24e3764b9fb11a47e18be65f8426db93_720w.jpg" alt="img"></p>
+<p>好在 hook 能比较合理地去解决这种嵌套问题。</p>
+<h3 id="合理设计粒度"><a href="#合理设计粒度" class="headerlink" title="合理设计粒度"></a>合理设计粒度</h3><p>本章讲了 2 个主要的论述：状态粒度太细不好，粒度太粗也不好。</p>
+<p>在实际的业务里，比这复杂的多的事情天天在发生，远不是太细了合一合、太粗了分一分这么简单，大部分时候我们面对的是这样的情况：</p>
+<p><img src="https://pic3.zhimg.com/80/v2-a2a4a2c5d0d50a193a6c70afa4878f7f_720w.jpg" alt="img"></p>
+<p>5 个状态 4 个组合操作，怎么设计粒度更合理，就慢慢折腾去吧。</p>
+<p>最后送一个本文中提到的行选中功能的完整实现：</p>
+<p><a href="https://link.zhihu.com/?target=https://gist.github.com/otakustay/9b59153da2e124f0637732fef5c71c6a">useSelectiongist.github.com</a></p>
+<h2 id="一直都在的-Ref"><a href="#一直都在的-Ref" class="headerlink" title="一直都在的 Ref"></a>一直都在的 Ref</h2><p><code>Ref</code> 自 React 之初就不离不弃，最远古的字符串：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div ref&#x3D;&#x3D;&quot;root&quot; &#x2F;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>到函数的形式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div ref&#x3D;&#123;(e) &#x3D;&gt; (this.root &#x3D; e)&#125; &#x2F;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>到 <code>createRef</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class Foo extends Component &#123;</span><br><span class="line">  root &#x3D; createRef()</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    return &lt;div ref&#x3D;&#123;this.root&#125; &#x2F;&gt;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>到 <code>useRef</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const Foo &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  const root &#x3D; useRef()</span><br><span class="line"></span><br><span class="line">  return &lt;div ref&#x3D;&#123;root&#125; &#x2F;&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>useRef</code> 是 <code>hook</code> 一直绕不开的话题</p>
+<h3 id="DOM-与坑"><a href="#DOM-与坑" class="headerlink" title="DOM 与坑"></a>DOM 与坑</h3><p>最常见的 <code>useRef</code> 的用法就是保存一个 DOM 元素的引用，然后拿着 <code>useEffect</code> 去访问：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">const Foo &#x3D; (&#123; text &#125;) &#x3D;&gt; &#123;</span><br><span class="line">  const [width, setWidth] &#x3D; useState()</span><br><span class="line">  const root &#x3D; useRef(null)</span><br><span class="line"></span><br><span class="line">  useLayoutEffect(() &#x3D;&gt; &#123;</span><br><span class="line">    if (root.current) &#123;</span><br><span class="line">      setWidth(root.current.offsetWidth)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, [])</span><br><span class="line">  return &lt;span ref&#x3D;&#123;root&#125;&gt;&#123;text&#125;&lt;&#x2F;span&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>一段很常见的，运行十分良好的代码，但是如果我们将需求做一些变化，比如增加一个 <code>visible: boolean</code> 属性，然后变成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return visible ? &lt;span ref&#x3D;&#123;root&#125;&gt;&#123;text&#125;&lt;&#x2F;span&gt; : null</span><br></pre></td></tr></table></figure>
+
+<p>将会发生什么呢？</p>
+<p>很遗憾的是，这个组件如果第一次渲染的时候就指定了 <code>visible=&#123;false&#125;</code> 的话，是无法正常工作的，具体可以参考这个 Sandbox 的示例：<a href="https://link.zhihu.com/?target=https://codesandbox.io/s/conditional-ref-and-effect-t3pmo">https://link.zhihu.com/?target=https%3A//codesandbox.io/s/conditional-ref-and-effect-t3pmo</a></p>
+<p>这不仅仅存在于特定条件返回元素的情况之下，还包含了不少其他的场景：</p>
+<ol>
+<li>根据条件返回不同的 DOM 元素，如 <code>div</code> 和 <code>span</code> 换着来</li>
+<li>返回的元素有 <code>key</code> 属性且会变化</li>
+</ol>
+<p>熟悉 <code>useEffect</code> 的人可能会发现，这个不执行的原因无非是没有传递依赖给 <code>useEffect</code> 函数，那么如果我们将 <code>ref.current</code> 传递过去呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">useLayoutEffect(() &#x3D;&gt; &#123;</span><br><span class="line">  &#x2F;&#x2F; ...</span><br><span class="line">&#125;, [ref.current])</span><br></pre></td></tr></table></figure>
+
+<p>在一定的场景之下，比如上面的示例，这种方式是可行的，因为当 <code>ref.current</code> 变化的时候，代表着渲染的元素发生了变化，这个变化一定是由一次渲染引起的，也一定会触发对应的 <code>useEffect</code> 执行。但也存在不可行的时候，有些 DOM 的变化并非由渲染引起的，那么就不会有相应的 <code>useEffect</code> 被触发</p>
+<p>这是 <code>useRef</code> 的一个神奇之处，虽然从名字上来说它应当被广泛用于和 DOM 元素简历关联，但往往拿它和 DOM 元素关联存在被坑的场景</p>
+<h3 id="Ref-的真实身份"><a href="#Ref-的真实身份" class="headerlink" title="Ref 的真实身份"></a>Ref 的真实身份</h3><p>让我们回到 class 时代看看 <code>createRef</code> 的用法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class Foo extends Component &#123;</span><br><span class="line">  root &#x3D; createRef()</span><br><span class="line"></span><br><span class="line">  componentDidMount() &#123;</span><br><span class="line">    this.setState(&#123; width: this.root.current.offsetWidth &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    return &lt;div ref&#x3D;&#123;this.root&#125; &#x2F;&gt;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>仔细观察一下，<code>createRef</code> 是被用在什么地方的：它被放在了类的实例属性上面</p>
+<p>由此得出，一个快速的结论：</p>
+<blockquote>
+<p>ref 是一个与组件对应的 React 节点生命周期相同的，可用于存放自定义内容的容器</p>
+</blockquote>
+<p>在 class 时代，由于㢟节点是通过 class 实例化而得，一次你可以在类实例上存放内容，这些内容随着实例化产生，随着 <code>componentWillUnmount</code> 销毁。但是在 hook 的范围下，函数组件并没有 <code>this</code> 和对应的实例，因此 <code>useRef</code> 作为这一能力的弥补，扮演者跨多次渲染存放内容的角色</p>
+<p><strong>每一个希望深入 hook 实践的开发者都必须记住这个结论，无法自如地使用 useRef 会让你失去 hook 将近一半的能力</strong></p>
+<h3 id="一个定时器"><a href="#一个定时器" class="headerlink" title="一个定时器"></a>一个定时器</h3><p>在知晓了 ref 的真实身份之后，来看一个实际的例子，试图实现一个 <code>useInterval</code> 以定时执行函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const useInterval &#x3D; (fn, time) &#x3D;&gt;</span><br><span class="line">  useEffect(() &#x3D;&gt; &#123;</span><br><span class="line">    const tick &#x3D; setInterval(fn)</span><br><span class="line">    return () &#x3D;&gt; clearInterval(tick)</span><br><span class="line">  &#125;, [fn, time])</span><br></pre></td></tr></table></figure>
+
+<p>这是一个基于 <code>useEffect</code> 的实现，如果你试图这样去使用它：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useInterval(() &#x3D;&gt; setCounter((counter) &#x3D;&gt; counter + 1))</span><br></pre></td></tr></table></figure>
+
+<p>你会发现和你预期的“每秒计数加一”不同，这个定时器执行频率会变得非常诡异。因为你传入的 <code>fn</code> 每一次都在变化，每一次都导致 <code>useEffect</code> 销毁前一个定时器，打开一个新的定时器，所以简而言之，如果 1 秒之内没有重新渲染，定时器会被执行，而如果有新的渲染，定时器会重头再来，这让频率变得不稳定</p>
+<p>为了修正频率的稳定性，我们可以要求使用者通过 <code>useCallback</code>将传入的 <code>fn</code> 固定起来，但是总有百密一疏，且这样的问题难以发现，此时我们可以拿出 <code>useRef</code> 换一种玩法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const useTimeout &#x3D; (fn, time) &#x3D;&gt; &#123;</span><br><span class="line">  const callback &#x3D; useRef(fn)</span><br><span class="line">  callback.current &#x3D; fn</span><br><span class="line">  useEffect(() &#x3D;&gt; &#123;</span><br><span class="line">    const tick &#x3D; setTimeout(callback.current)</span><br><span class="line">    return () &#x3D;&gt; clearTimeout(tick)</span><br><span class="line">  &#125;, [time])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>把 <code>fn</code> 放进一个 <code>ref</code> 当中，它就可以绕过 <code>useEffect</code> 的闭包问题，让 <code>useEffect</code> 回调每一次都能拿到正确的、最新的函数，却不需要将它作为依赖导致定时器不稳定</p>
+<p>React 官方也曾写过一些说明这一现象的博客，它们称 <code>useRef</code> 为“ hook 中的作弊器”，我想这个形容是准确的，所谓的“作弊”，其实是指它打破了类似 <code>useCallback</code>、<code>useEffect</code> 对闭包的约束，使用一个“可变的容器”让 <code>ref</code> 不需要成为闭包的依赖也可以在闭包中获取最新的内容</p>
+<p>这也是 <a href="https://link.zhihu.com/?target=https://github.com/ecomfe/react-hooks/tree/master/packages/timeout">@huse/timeout</a> 的具体实现，同时提供 <code>useTimeout</code> 和 <code>useInterval</code>，还附加一个 <code>useStableInterval</code> 会感知函数的执行时间（包括异步函数）并确保更加稳定的函数执行间隔</p>
+<p>除此之外，<a href="https://link.zhihu.com/?target=https://github.com/ecomfe/react-hooks/tree/master/packages/poll">@huse/poll</a> 随时一个更为智能的定时实现，能够根据用户对页面的关注状态选择不同的频率，非常适用于定时拉取数据的场景</p>
+<p><code>useRef</code> 因为其可变内容、与组件节点保持相同生命周期的特点，其实有非常多的奇妙用法</p>
+<h3 id="回调-ref"><a href="#回调-ref" class="headerlink" title="回调 ref"></a>回调 ref</h3><p>为了解决 <code>useRef</code> 与 DOM 元素关联时的坑，最保守的方式就是使用函数作为 <code>ref</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const Foo &#x3D; (&#123; text, visible &#125;) &#x3D;&gt; &#123;</span><br><span class="line">  const [width, setWidth] &#x3D; useState()</span><br><span class="line">  const ref &#x3D; useCallback((element) &#x3D;&gt; element &amp;&amp; setWidth(element.offsetWidth), [])</span><br><span class="line">  return visible ? &lt;span ref&#x3D;&#123;ref&#125;&gt;&#123;text&#125;&lt;&#x2F;span&gt; : null</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>函数的 <code>ref</code> 一定会在元素生成或销毁时被执行，可以确保追踪到最新的 DOM 元素。但它依然有一个缺点，例如我们想要实现这样的一个功能：</p>
+<blockquote>
+<p>任意一段文字，通过计时器循环每个字符变色</p>
+</blockquote>
+<p>假设我们突发奇想，不用 <code>state</code> 去控制变色的字符，就可以写出类似代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">useEffect(</span><br><span class="line">	() &#x3D;&gt; &#123;</span><br><span class="line">    const element &#x3D; ref.current;</span><br><span class="line">    const tick &#x3D; setInterval(</span><br><span class="line">    	() &#x3D;&gt; &#123;</span><br><span class="line">      	&#x2F;&#x2F; 循环取下一个字符变色</span><br><span class="line">      &#125;,</span><br><span class="line">      1000</span><br><span class="line">    )；</span><br><span class="line">    return () &#x3D;&gt; clearInterval(tick);</span><br><span class="line">  &#125;,</span><br><span class="line">  []</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>这是经典的 <code>useEffect</code> 的使用方式，返回一个函数来销毁之前的副作用。但是之前说了，<code>useRef</code> 和 <code>useEffect</code> 的配合是存在坑的，我们需要改造成函数 <code>ref</code>， 但是函数 <code>ref</code> 不支持销毁……</p>
+<p>所以最后妥协了，依然使用 <code>useEffect</code>，但在渲染时确保只生成一个 DOM 元素，让 <code>useEffect</code> 一定能生效：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">return (</span><br><span class="line">  &lt;span ref&#x3D;&#123;ref&#125; style&#x3D;&#123;&#123; display: visible ? &#39;&#39; : &#39;none&#39; &#125;&#125;&gt;</span><br><span class="line">    &#123;text&#125;</span><br><span class="line">  &lt;&#x2F;span&gt;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>在这个场景下这样是可以“绕过”问题，并最终产出有效可用的代码，但是换一个场景呢？</p>
+<blockquote>
+<p>使用 JQuery LightBox 插件，对一个图片增加点击预览功能</p>
+</blockquote>
+<p>现在我们面对的是一个 <code>img</code> 元素，在没有 <code>src</code> 的时候这东西可不是简单的 <code>display： none</code> 就能安分守己的，你不得不采取 <code>return null</code> 的形式解决问题，那么你依然会提上 <code>useEffect</code> 的局限性</p>
+<p>其实换个角度，我们缺少的是”将销毁函数保留下来以待执行”的功能，这是不是非常像 <code>useTimeout</code> 或者 <code>useInterval</code> 的功能呢？无非一个是延后一定时间执行，一个是延后到 DOM 元素销毁时执行</p>
+<p>也就是说，我们完全可以用 <code>useRef</code> 本身去保存一个销毁函数，来实现与 <code>useEffect</code> 等价的能力：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">const noop &#x3D; () &#x3D;&gt; undefined</span><br><span class="line"></span><br><span class="line">const useEffectRef &#x3D; (callback) &#x3D;&gt; &#123;</span><br><span class="line">  const disposeRef &#x3D; useRef(noop)</span><br><span class="line">  const effect &#x3D; useCallback(</span><br><span class="line">    (element) &#x3D;&gt; &#123;</span><br><span class="line">      disposeRef.current()</span><br><span class="line">      &#x2F;&#x2F; 确保这货只被调用一次，所以调用完就干掉</span><br><span class="line">      disposeRef.current &#x3D; noop</span><br><span class="line"></span><br><span class="line">      if (element) &#123;</span><br><span class="line">        const dispose &#x3D; callback(element)</span><br><span class="line"></span><br><span class="line">        if (typeof dispose &#x3D;&#x3D;&#x3D; &#39;function&#39;) &#123;</span><br><span class="line">          disposeRef.current &#x3D; dispose</span><br><span class="line">        &#125; else if (dispose !&#x3D;&#x3D; undefined) &#123;</span><br><span class="line">          console.warn(&#39;Effect ref callback must return undefined or a dispose function&#39;)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    [callback]</span><br><span class="line">  )</span><br><span class="line">  return effect</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const Foo &#x3D; (&#123; visible, text &#125;) &#x3D;&gt; &#123;</span><br><span class="line">  const colorful &#x3D; useCallback((element) &#x3D;&gt; &#123;</span><br><span class="line">    const tick &#x3D; setInterval(() &#x3D;&gt; &#123;</span><br><span class="line">      &#x2F;&#x2F; 循环取下一个字符变色</span><br><span class="line">    &#125;, 1000)</span><br><span class="line">    return () &#x3D;&gt; clearInterval(tick)</span><br><span class="line">  &#125;, [])</span><br><span class="line">  const ref &#x3D; useEffectRef(colorful)</span><br><span class="line"></span><br><span class="line">  return visible ? &lt;span ref&#x3D;&#123;ref&#125;&gt;&#123;text&#125;&lt;&#x2F;span&gt; : null</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，就是将之前的 <code>useEffect</code> 中的代码转移到了 <code>useEffectRef</code> 里（要用 <code>useCallback</code>包裹一下 ），代码很容易迁移，这算是 <code>useRef</code> 中的一个经典场景</p>
+<p>通过 <a href="https://link.zhihu.com/?target=https://github.com/ecomfe/react-hooks/tree/master/packages/effect-ref">@huse/effect-ref</a> 提供了 <code>useEffectRef</code> 能力，同时基于它在 <a href="https://link.zhihu.com/?target=https://github.com/ecomfe/react-hooks/tree/master/packages/element-size">@huse/element-size</a> 中实现了 <code>useElement</code>、<code>useElementResize</code> 等 hook，能够有效提升业务开发的效率</p>
+<h2 id="玩坏-Ref"><a href="#玩坏-Ref" class="headerlink" title="玩坏 Ref"></a>玩坏 Ref</h2><p>现在我们知道了 <code>useRef</code> 到底是个什么东西，它可以生成一个与组件节点生命周期的存放可变内容的容器</p>
+<p>在这基础之上，可以使用 <code>useRef</code> 做很多东西</p>
+<h3 id="可变对象"><a href="#可变对象" class="headerlink" title="可变对象"></a>可变对象</h3><p>更新一个数组或对象，用不可变的方式还是比较容易的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const newObj &#x3D; &#123;</span><br><span class="line">  ...oldObj,</span><br><span class="line">  foo: newFoo,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是如果遇到 <code>Map</code> 和 <code>Set</code> 这类东西，它天生是可变的集合容器，如果这样写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const [items, setItems] &#x3D; useState(new Set())</span><br><span class="line">const addItem &#x3D; useCallback((item) &#x3D;&gt; setItem((items) &#x3D;&gt; items.add(item)), [])</span><br></pre></td></tr></table></figure>
+
+<p>其实并不会触发组件更新，因为 <code>items.add</code> 前后并没有发生引用的改变，对 React 而言是同一个东西</p>
+<p>一个办法是 <a href="https://link.zhihu.com/?target=https://immerjs.github.io/immer/docs/complex-objects">immer 提供了针对 Map 和 Set 的更新</a>，但是如果不想依赖 <code>immer</code> 该如何使用呢</p>
+<p>其实我们可以用 <code>useRef</code> 来管理这样一个可变的状态，再想办法在状态更新的时候触发渲染就好。为此，我们需要一个可以直接触发组件更新的手段，让组件更新最简单的办法就是改变一个状态，那什么样的状态是每一次都会变化的呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const useForceUpdate &#x3D; () &#x3D;&gt; useReducer((v) &#x3D;&gt; v + 1, 0)[1]</span><br></pre></td></tr></table></figure>
+
+<p>就这样搞定了，一个简单的递增的数字就行，通过 <a href="https://link.zhihu.com/?target=https://www.npmjs.com/package/@huse/update">@huse/update</a> 包中的 <code>useForceUpdate</code> 提供了这一能力</p>
+<p>再然后，把它们拼在一起试试：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">const useSet &#x3D; (initialEntries) &#x3D;&gt; &#123;</span><br><span class="line">  const ref &#x3D; useRef(new Set(initialEntries))</span><br><span class="line">  const forceUpdate &#x3D; useForceUpdate()</span><br><span class="line">  const add &#x3D; useCallback(</span><br><span class="line">    (item) &#x3D;&gt; &#123;</span><br><span class="line">      ref.current.add(item)</span><br><span class="line">      forceUpdate()</span><br><span class="line">    &#125;,</span><br><span class="line">    [forceUpdate]</span><br><span class="line">  )</span><br><span class="line">  return [ref.current, &#123; add &#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样一个简单的对 <code>Set</code> 的操作就实现了。<strong>不过我还不是很确定在并发模式下这东西是靠谱的，有什么结论的同学可以回复讨论一下。</strong>我们也通过<a href="https://link.zhihu.com/?target=https://www.npmjs.com/package/@huse/collection">@huse/collection</a>提供了<code>useArray</code>、<code>useMap</code>、<code>useSet</code>等一系列集合相关的功能。</p>
+<h3 id="渲染计数"><a href="#渲染计数" class="headerlink" title="渲染计数"></a>渲染计数</h3><p>React 一个很让人头疼的问题是，它的性能是薛定谔的状态，哪怕脑子再清醒犀利，你也很难去判断一个组件在一顿操作猛如虎之下会更新几次、渲染几次，直到哪天性能崩得受不住了你才会回头捡起来看看情况。</p>
+<p>用 Chrome 的性能面板去看情况当然非常好非常专业，但其实成本也不小，录制、分析都挺花精力的。有时候我们只想看看一个组件到底渲染不渲染，渲染了几次，大致对性能有一个了解；或者就想研究一下实现的自定义 hook 会不会造成组件过多的更新，所以我们希望能有这样的东西：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Foo = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> renderTimes = useRenderTimes()</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">title</span>=<span class="string">&#123;</span>`<span class="attr">Rendered</span> $&#123;<span class="attr">renderTimes</span>&#125; <span class="attr">times</span>`&#125;&gt;</span>...各种内容...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后操作一下，看看渲染次数有没有增长，快速地做一些定位和修复。</p>
+<p>那么怎么实现这个东西呢，如果用状态的话：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> useRenderTimes = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> [times, increment] = useReducer(<span class="function">(<span class="params">v</span>) =&gt;</span> v + <span class="number">1</span>, <span class="number">0</span>)</span><br><span class="line">  increment() <span class="comment">// 每次渲染的时候递增一下</span></span><br><span class="line">  <span class="keyword">return</span> times</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>试一试？试试就逝世，保管你的浏览器卡得死死的关都不一定关得掉。这种在渲染中调用状态更新无疑会触发下一次渲染，形成一个死循环。</p>
+<p>所以这时我们就要用到不会触发更新的可变容器：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> useRenderTimes = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> times = useRef(<span class="number">0</span>)</span><br><span class="line">  times.current++</span><br><span class="line">  <span class="keyword">return</span> times.current</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>你看不仅仅不会触发更新了，代码也清晰直观了很多。在<a href="https://link.zhihu.com/?target=https://www.npmjs.com/package/@huse/debug">@huse/debug</a>包中就有这个<code>useRenderTimes</code>，附带的还有很多用于调试的工具，不过要记得部署到生产环境前把这些代码去掉哦。</p>
+<h3 id="前一次值"><a href="#前一次值" class="headerlink" title="前一次值"></a>前一次值</h3><p>在 class 组件的时代，我们有不少方法是能拿到“前一次更新的值”的，比如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 前一次的属性和状态全给了</span></span><br><span class="line">  <span class="function"><span class="title">componentDidUpdate</span>(<span class="params">prevProps, prevState, snapshot</span>)</span> &#123;&#125;</span><br><span class="line">  <span class="comment">// 这个反过来，给你下一次的，但this.props就是当前的了</span></span><br><span class="line">  <span class="function"><span class="title">componentWillReceiveProps</span>(<span class="params">nextProps</span>)</span> &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后到了函数组件的时候，一下子全没了，全没了……这可不是说需要的场景就真的消失了，场景多着呢。</p>
+<p>所以我们想办法把这个功能再找回来，原理也很简单，拿一个容器存着前一次的值不就好了：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> usePreviousValue = <span class="function">(<span class="params">value</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> previous = useRef(<span class="literal">undefined</span>)</span><br><span class="line">  <span class="keyword">const</span> previousValue = previous.current</span><br><span class="line">  previous.current = value</span><br><span class="line">  <span class="keyword">return</span> previousValue</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在<a href="https://link.zhihu.com/?target=https://www.npmjs.com/package/@huse/previous-value">@huse/previous-value</a>中就给了这个能力，除此之外你还可以判断这个值是不是变了：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">usePreviousEquals(value, deepEquals) <span class="comment">// 甚至还能自定义比较函数</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="组件更新源"><a href="#组件更新源" class="headerlink" title="组件更新源"></a>组件更新源</h3><p>你可能会说，React 不给你原始值一定有它设计的原因的，我肯定可以不用原始值活着的！那就来看一个比较经典的场景。</p>
+<p>众所周知地再次强调，React 的更新和渲染基本就是个薛定谔状态，经常会有“你觉得我不会更新但我更新了呵呵呵”这样的尴尬情况出现，想知道组件为什么发生了更新是几乎每一个 React 开发者的渴望，甚至因此活生生出现了<a href="https://link.zhihu.com/?target=https://www.npmjs.com/package/@welldone-software/why-did-you-render">why-did-you-update</a>这种东西。</p>
+<p>不过<code>why-did-you-update</code>这东西的侵入性着实有些高，我们不如用 hook 来做一个简单的实现：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> useUpdateCause = <span class="function">(<span class="params">props, print</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> previousProps = usePreviousValue(props)</span><br><span class="line">  <span class="keyword">const</span> differences = findDifferences(previousProps, props)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (print) &#123;</span><br><span class="line">    printUpdateCause(differences)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> differences</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过简单地将当前值与上一次值比较来找到变化的原因，甚至可以做更精确地判断，比如<a href="https://link.zhihu.com/?target=https://www.npmjs.com/package/@huse/debug">@huse/debug</a>中的 <code>useUpdateCause</code>就可以打印出这样的表格：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-----------------------------------------------------------------------</span><br><span class="line">| (index) | previousValue | currentValue | shallowEquals | deepEquals |</span><br><span class="line">-----------------------------------------------------------------------</span><br><span class="line">|   foo   |    [Object]   |   [Object]   |     true      |    true    |</span><br><span class="line">|   bar   |      1234     |     5678     |     true      |    true    |</span><br><span class="line">-----------------------------------------------------------------------</span><br></pre></td></tr></table></figure>
+
+<p>帮助你一目了然地知道这些属性怎么变化。</p>
+<h3 id="对象追回"><a href="#对象追回" class="headerlink" title="对象追回"></a>对象追回</h3><p>如果你通过<code>useUpdateCause</code>找到了一个属性变化，它虽然引用发生了变化，但是<code>deepEquals</code>列告诉你其实内容是一模一样的，这个变化完全不需要发生，要怎么办呢？</p>
+<p>为了整个应用着想，我们会试图去追溯这个属性怎么来的，是不是在什么地方缺了<code>useMemo</code>或者<code>reselect</code>跨组件实例用了，没有做好缓存等等。但更多的时候，我们会发现外部的属性完全不是我们可控的，甚至可能来自于后端的返回，无论如何也做不到引用相同。</p>
+<p>如果仅仅是触发了多次的更新，有些微的性能的损耗是小事，但如果这东西你用在了<code>useEffect</code>上，那可就要命了：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">useEffect(</span><br><span class="line">    () =&gt; &#123;</span><br><span class="line">        fetch(<span class="string">&#x27;/users&#x27;</span>, params)</span><br><span class="line">            .then(<span class="function"><span class="params">response</span> =&gt;</span> response.json())</span><br><span class="line">            .then(<span class="function"><span class="params">list</span> =&gt;</span> setUserList(list));</span><br><span class="line">    &#125;,</span><br><span class="line">    [params] <span class="comment">// 这东西要是引用不同怎么活</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>动不动就无限发请求，等着后端提刀子上门问候，这可不好。</p>
+<p>我们要承认，这种情况在 React 生态里是随处可见的，甚至<a href="https://link.zhihu.com/?target=https://gist.github.com/slikts/fd3768de1493419ed9506002b452fcdc">有为此而生的讨论串</a>。有些开发者“机智”地用<code>JSON.stringify</code>去解决问题：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> paramsString = <span class="built_in">JSON</span>.stringify(params);</span><br><span class="line"></span><br><span class="line">useEffect(</span><br><span class="line">    () =&gt; &#123;</span><br><span class="line">        <span class="keyword">const</span> params = <span class="built_in">JSON</span>.parse(paramsString);</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;,</span><br><span class="line">    [paramsString]</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>这是有多蛋疼呢：</p>
+<ol>
+<li>用<code>JSON.stringify</code>本身就消耗了性能，性能还不一定低于一次渲染。</li>
+<li>为了躲 ESLint 的规则检查，再用<code>JSON.parse</code>转回来，再消耗一次性能。</li>
+<li>我还没说<code>JSON.stringify</code>对属性是不排序的，这样搞依然有可能出现内容相同但<code>paramString</code>不同的情况，你还得用<a href="https://link.zhihu.com/?target=https://www.npmjs.com/package/fast-json-stable-stringify">fast-json-stable-stringify</a>这样的库帮你解决问题。</li>
+</ol>
+<p>所以在此我要展示一个神奇的 hook：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> useOriginalCopy = <span class="function">(<span class="params">value, equals = shallowEquals</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> cache = useRef(<span class="literal">undefined</span>)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (equals(cache.current, value)) &#123;</span><br><span class="line">    <span class="keyword">return</span> cache.current</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  cache.current = value</span><br><span class="line">  <span class="keyword">return</span> value</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>它到底干嘛了呢？简单来说就是“上一次的值与这一次内容相同的话，就把上一次还给你好啦”。这样就能把最原始的那个引用都一样的对象给拿到手了：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> originalPrams = useOriginalCopy(params, deepEquals) <span class="comment">// 用深比较</span></span><br><span class="line">useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;, [originalPrams])</span><br></pre></td></tr></table></figure>
+
+<p>这样就能妥妥地安全使用。我们在<a href="https://link.zhihu.com/?target=https://www.npmjs.com/package/@huse/previous-value">@huse/previous-value</a>里提供了这个能力，我愿意称之为我在 hook 领域上最伟大的发明，在社区上还没见过类似的实现。</p>
+<p>使用<code>useRef</code>能实现的功能还有很多，比如<a href="https://link.zhihu.com/?target=https://www.npmjs.com/package/@huse/derived-state">@huse/derived-state</a>能实现<code>getDerivedStateFromProps</code>的效果等等，学会使用它会给 React 领域的开发带来很大的便利和帮助。</p>
+<h2 id="看完后的学习目标"><a href="#看完后的学习目标" class="headerlink" title="看完后的学习目标"></a>看完后的学习目标</h2><p>和学习 <code>lodash</code> 一样，在项目中引入 <a target="_blank" rel="noopener" href="https://github.com/ecomfe/react-hooks">@huse</a> 并熟练使用它</p>
+<p>通过 熟练使用 =&gt; 设计轮子 =&gt; 参考比对 =&gt; 自我实现 的路径去深度掌握</p>
+
+  </div>
+  <div>
+    <a href="https://github.com/Mcguffen/mcguffen.github.io/edit/myblog/source/_posts/docs/frontEnd/react/react02.md"target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8D%E5%BF%98%E5%88%9D%E5%BF%83%EF%BC%8C%E5%A7%8B%E4%BA%8E%E5%88%86%E5%B1%82"><span class="toc-number">1.</span> <span class="toc-text">不忘初心，始于分层</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E7%9A%84%E5%88%86%E5%B1%82%E8%AE%BE%E8%AE%A1"><span class="toc-number">1.1.</span> <span class="toc-text">状态的分层设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-immer-%E6%9B%B4%E6%96%B0%E7%8A%B6%E6%80%81"><span class="toc-number">1.2.</span> <span class="toc-text">使用 immer 更新状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E4%B8%8E%E8%A1%8C%E4%B8%BA%E7%9A%84%E5%B0%81%E8%A3%85"><span class="toc-number">1.3.</span> <span class="toc-text">状态与行为的封装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9A%84%E6%8A%BD%E8%B1%A1"><span class="toc-number">1.4.</span> <span class="toc-text">数据结构的抽象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">1.5.</span> <span class="toc-text">通用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%B1%82%E6%80%BB%E7%BB%93"><span class="toc-number">1.6.</span> <span class="toc-text">分层总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hook-%E9%9B%86%E5%90%88"><span class="toc-number">1.7.</span> <span class="toc-text">hook 集合</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86%EF%BC%8C%E7%8A%B6%E6%80%81%E7%B2%92%E5%BA%A6"><span class="toc-number">2.</span> <span class="toc-text">状态管理，状态粒度</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B2%92%E5%BA%A6%E8%BF%87%E7%BB%86"><span class="toc-number">2.1.</span> <span class="toc-text">粒度过细</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-Reducer-%E7%AE%A1%E7%90%86%E7%8A%B6%E6%80%81%E6%9B%B4%E6%96%B0"><span class="toc-number">2.2.</span> <span class="toc-text">使用 Reducer 管理状态更新</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E8%BF%87%E7%B2%97"><span class="toc-number">2.3.</span> <span class="toc-text">状态过粗</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%88%E7%90%86%E8%AE%BE%E8%AE%A1%E7%B2%92%E5%BA%A6"><span class="toc-number">2.4.</span> <span class="toc-text">合理设计粒度</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E7%9B%B4%E9%83%BD%E5%9C%A8%E7%9A%84-Ref"><span class="toc-number">3.</span> <span class="toc-text">一直都在的 Ref</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DOM-%E4%B8%8E%E5%9D%91"><span class="toc-number">3.1.</span> <span class="toc-text">DOM 与坑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ref-%E7%9A%84%E7%9C%9F%E5%AE%9E%E8%BA%AB%E4%BB%BD"><span class="toc-number">3.2.</span> <span class="toc-text">Ref 的真实身份</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8"><span class="toc-number">3.3.</span> <span class="toc-text">一个定时器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9E%E8%B0%83-ref"><span class="toc-number">3.4.</span> <span class="toc-text">回调 ref</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%A9%E5%9D%8F-Ref"><span class="toc-number">4.</span> <span class="toc-text">玩坏 Ref</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E5%8F%98%E5%AF%B9%E8%B1%A1"><span class="toc-number">4.1.</span> <span class="toc-text">可变对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%B2%E6%9F%93%E8%AE%A1%E6%95%B0"><span class="toc-number">4.2.</span> <span class="toc-text">渲染计数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E4%B8%80%E6%AC%A1%E5%80%BC"><span class="toc-number">4.3.</span> <span class="toc-text">前一次值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6%E6%9B%B4%E6%96%B0%E6%BA%90"><span class="toc-number">4.4.</span> <span class="toc-text">组件更新源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E8%BF%BD%E5%9B%9E"><span class="toc-number">4.5.</span> <span class="toc-text">对象追回</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9C%8B%E5%AE%8C%E5%90%8E%E7%9A%84%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87"><span class="toc-number">5.</span> <span class="toc-text">看完后的学习目标</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/09/06/docs/frontEnd/react/react02/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/09/06/docs/frontEnd/react/react02/&text=React Hooks 体系设计"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/09/06/docs/frontEnd/react/react02/&title=React Hooks 体系设计"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/09/06/docs/frontEnd/react/react02/&is_video=false&description=React Hooks 体系设计"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=React Hooks 体系设计&body=Check out this article: http://example.com/2020/09/06/docs/frontEnd/react/react02/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/09/06/docs/frontEnd/react/react02/&title=React Hooks 体系设计"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/09/06/docs/frontEnd/react/react02/&title=React Hooks 体系设计"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/09/06/docs/frontEnd/react/react02/&title=React Hooks 体系设计"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/09/06/docs/frontEnd/react/react02/&title=React Hooks 体系设计"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/09/06/docs/frontEnd/react/react02/&name=React Hooks 体系设计&description=&lt;p&gt;React Hooks 是 React 框架内的逻辑复用形式，因为其轻量、易编写的形态，必然会逐渐成为一种前端开发主流。但是在实际开发过程中，大部分的开发者对于 Hooks 的使用过于粗暴，缺乏设计感和复用性。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/09/06/docs/frontEnd/react/react02/&t=React Hooks 体系设计"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Mcguffen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

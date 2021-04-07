@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="GASP 全称 GreenSock Animation Platform，是一个 JS 的动画框架，用于创建高性能、零依赖、跨浏览器动画GSAP是灵活的，可以与React、Vue、Angular和vanilla JS协同工作。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GreenSock（GASP）初窥">
+<meta property="og:url" content="http://example.com/2020/06/24/docs/frontEnd/greensock/README/index.html">
+<meta property="og:site_name" content="Hi! I am yang.">
+<meta property="og:description" content="GASP 全称 GreenSock Animation Platform，是一个 JS 的动画框架，用于创建高性能、零依赖、跨浏览器动画GSAP是灵活的，可以与React、Vue、Angular和vanilla JS协同工作。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gg39htcynpj31gv0h8414.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gg398hcggtj31ak09f40d.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gg3990e3rlj31cc0jxdig.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gg39w5ac0oj309408ygll.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gg3a66sdghj319e0qljyl.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gg3acr4a3cj30h504ot9t.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gg3ad99xbdj30hs05smx9.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gg3adq68sgj30ha09xwg9.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gg3aeo0g0jj30ha06ddh3.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gg3ahdc5kaj30h908wmyy.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gg3ak8w2bpj30h909uwh4.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gg3alj3eoyj30h507kq4q.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gg3arj7ielj30mr076t8s.jpg">
+<meta property="og:image" content="https://segmentfault.com/img/bVwF9e">
+<meta property="og:image" content="https://segmentfault.com/img/bVwF9g">
+<meta property="og:image" content="https://segmentfault.com/img/bVwF9i">
+<meta property="og:image" content="https://segmentfault.com/img/bVwF9j">
+<meta property="og:image" content="https://segmentfault.com/img/bVwF9n">
+<meta property="article:published_time" content="2020-06-24T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-07T12:11:01.076Z">
+<meta property="article:author" content="Mcguffen">
+<meta property="article:tag" content="animation">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gg39htcynpj31gv0h8414.jpg">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>GreenSock（GASP）初窥</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/06/24/docs/development/agile/README/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/06/24/docs/frontEnd/react/README/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/06/24/docs/frontEnd/greensock/README/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/06/24/docs/frontEnd/greensock/README/&text=GreenSock（GASP）初窥"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/06/24/docs/frontEnd/greensock/README/&title=GreenSock（GASP）初窥"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/06/24/docs/frontEnd/greensock/README/&is_video=false&description=GreenSock（GASP）初窥"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=GreenSock（GASP）初窥&body=Check out this article: http://example.com/2020/06/24/docs/frontEnd/greensock/README/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/06/24/docs/frontEnd/greensock/README/&title=GreenSock（GASP）初窥"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/06/24/docs/frontEnd/greensock/README/&title=GreenSock（GASP）初窥"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/06/24/docs/frontEnd/greensock/README/&title=GreenSock（GASP）初窥"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/06/24/docs/frontEnd/greensock/README/&title=GreenSock（GASP）初窥"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/06/24/docs/frontEnd/greensock/README/&name=GreenSock（GASP）初窥&description=&lt;p&gt;GASP 全称 GreenSock Animation Platform，是一个 JS 的动画框架，用于创建高性能、零依赖、跨浏览器动画GSAP是灵活的，可以与React、Vue、Angular和vanilla JS协同工作。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/06/24/docs/frontEnd/greensock/README/&t=GreenSock（GASP）初窥"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#GASP-%E5%9F%BA%E6%9C%AC%E5%86%85%E5%AE%B9"><span class="toc-number">1.</span> <span class="toc-text">GASP 基本内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E7%94%A8-GASP"><span class="toc-number">2.</span> <span class="toc-text">引用 GASP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B"><span class="toc-number">3.</span> <span class="toc-text">快速上手</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E4%BB%A3%E7%A0%81"><span class="toc-number">4.</span> <span class="toc-text">准备代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TweenLite-to-%E6%96%B9%E6%B3%95"><span class="toc-number">5.</span> <span class="toc-text">TweenLite.to() 方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TweenLite-from%E6%96%B9%E6%B3%95"><span class="toc-number">6.</span> <span class="toc-text">TweenLite.from方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TweenLite-set-%E6%96%B9%E6%B3%95"><span class="toc-number">7.</span> <span class="toc-text">TweenLite.set() 方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TweenLite-fromTo-%E6%96%B9%E6%B3%95"><span class="toc-number">7.1.</span> <span class="toc-text">TweenLite.fromTo() 方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%93%E5%8A%A8%E6%9B%B2%E7%BA%BF"><span class="toc-number">8.</span> <span class="toc-text">缓动曲线</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0"><span class="toc-number">9.</span> <span class="toc-text">回调函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E7%94%BB%E4%BF%9D%E5%AD%98%E5%8F%8A%E6%8E%A7%E5%88%B6"><span class="toc-number">10.</span> <span class="toc-text">动画保存及控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-number">11.</span> <span class="toc-text">选择器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TimelineLite%E7%9A%84%E5%8A%A8%E7%94%BB%E7%AE%A1%E7%90%86"><span class="toc-number">12.</span> <span class="toc-text">TimelineLite的动画管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E8%BD%B4"><span class="toc-number">12.1.</span> <span class="toc-text">时间轴</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E6%95%B4%E6%94%BE%E7%BD%AE%E4%BD%8D%E7%BD%AE"><span class="toc-number">12.2.</span> <span class="toc-text">调整放置位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E8%BD%B4%E6%8E%A7%E5%88%B6"><span class="toc-number">12.3.</span> <span class="toc-text">时间轴控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B8%E5%90%8C%E5%8A%A8%E7%94%BB%E7%9A%84%E7%AE%80%E4%BE%BF%E6%96%B9%E6%B3%95"><span class="toc-number">12.4.</span> <span class="toc-text">相同动画的简便方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TimelineMax%E5%92%8CTweenMax"><span class="toc-number">13.</span> <span class="toc-text">TimelineMax和TweenMax</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A5%E5%85%85%E4%BF%A1%E6%81%AF"><span class="toc-number">14.</span> <span class="toc-text">补充信息</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%85%BC%E5%AE%B9%E6%80%A7"><span class="toc-number">14.1.</span> <span class="toc-text">浏览器兼容性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E5%AE%9A%E9%BB%98%E8%AE%A4%E7%BC%93%E5%8A%A8"><span class="toc-number">14.2.</span> <span class="toc-text">指定默认缓动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E7%94%BB%E7%BB%93%E6%9D%9F%E5%90%8E%E6%B8%85%E7%A9%BAstyle%E5%B1%9E%E6%80%A7"><span class="toc-number">14.3.</span> <span class="toc-text">动画结束后清空style属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#autoAlpha%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">14.4.</span> <span class="toc-text">autoAlpha的作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%87%E5%BF%98%E5%8D%95"><span class="toc-number">14.5.</span> <span class="toc-text">备忘单</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AF%AD"><span class="toc-number">15.</span> <span class="toc-text">结语</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-number">16.</span> <span class="toc-text">参考文章</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        GreenSock（GASP）初窥
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Mcguffen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-06-24T00:00:00.000Z" itemprop="datePublished">2020-06-24</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/frontEnd/">frontEnd</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/animation/" rel="tag">animation</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>GASP 全称 GreenSock Animation Platform，是一个 JS 的动画框架，用于创建高性能、零依赖、跨浏览器动画GSAP是灵活的，可以与React、Vue、Angular和vanilla JS协同工作。</p>
+<span id="more"></span>
+
+<p>先打开它的官网：<a target="_blank" rel="noopener" href="https://greensock.com/">https://greensock.com</a><br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gg39htcynpj31gv0h8414.jpg" alt="image-20200624122307284"></p>
+<p>介绍很简单：适用于现代网络的超高性能、专业级别动画，它有用于前端的 JS 库GASP：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gg398hcggtj31ak09f40d.jpg" alt="image-20200624121407689"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gg3990e3rlj31cc0jxdig.jpg" alt="image-20200624121440273"></p>
+<p>这里是它的速度测试链接：<a target="_blank" rel="noopener" href="https://greensock.com/js/speed.html%EF%BC%8C%E5%8F%AF%E4%BB%A5%E6%AF%94%E8%BE%83%E5%92%8C%E5%85%B6%E4%BB%96%E5%8A%A8%E7%94%BB%E7%9A%84%E9%80%9F%E5%BA%A6%E3%80%82">https://greensock.com/js/speed.html，可以比较和其他动画的速度。</a></p>
+<h2 id="GASP-基本内容"><a href="#GASP-基本内容" class="headerlink" title="GASP 基本内容"></a>GASP 基本内容</h2><ul>
+<li><strong>GASP</strong>：GSAP 是一套兼容主流浏览器的高性能的  HTML5 JS 动画工具：GSAP 的 API 高效而紧凑；</li>
+<li><strong>TweenLite</strong>：TweenLite 是整个 GASP 的核心基础，它代码轻量高效，能够根据时间 tween 对任何对象（或者对象数组）的一个一个或多个属性；<strong>它用于创建基本动画，是其他各类模块的基础。</strong>一般都会搭配<code>plugins/CSSPlugin</code>以实现DOM元素的动画（也就是我们最熟悉的动画了）</li>
+<li><strong>TimelineLite</strong>：TimelineLite 是一个用来创建和管理 TweenLite, TweenMax, TimelineLite, and/or TimelineMax 的实例的轻量级的，直观的类；你可以把 TimelineLite 看成是一个可以放置 tween 动画的容器；<strong>综上，它是一个叫做时间轴的动画容器，它用于对多个动画进行有序的组织与控制。</strong></li>
+<li> <strong>TimelineMax</strong>：<strong>TimeLineMax 是 TimelineLite 的升级版</strong>，在 TimelineLite 的基础之上，可以有更高级的组织与控制。除了和 TimeLite 一致的 API 外，还额外的添加了一些诸如： <code>repeat, repeatDelay, yoyo, currentLabel(), tweenTo(), tweenFromTo(), getLabelAfter(), getLabelBefore(), getActive()</code> 等方法；</li>
+<li><strong>TweenMax</strong>：是GSAP集合包，除前面3个之外，还包括<code>plugins</code>里的常用插件以及<code>easing</code>里的缓动函数补充。TweenMax 扩展了TweenLite ，且添加了许多有用的特性；</li>
+</ul>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gg39w5ac0oj309408ygll.jpg" alt="GSAP的源文件关系"></p>
+<p>所以，如果想要简单地引入GSAP的主体功能，使用<code>TweenMax.js</code>这一个文件即可，如果要争取更小的库文件大小，应该使用<code>TweenLite.js</code>（必需）+ 其他文件的组合。</p>
+<h2 id="引用-GASP"><a href="#引用-GASP" class="headerlink" title="引用 GASP"></a>引用 GASP</h2><blockquote>
+<p>下载地址：<a target="_blank" rel="noopener" href="https://greensock.com/get-started-js#">greensock.com/get-started…</a></p>
+</blockquote>
+<p>或者</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--CDN links <span class="keyword">for</span> TweenLite, CSSPlugin, and EasePack--&gt;</span><br><span class="line">&lt;script src=<span class="string">&quot;http://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/plugins/CSSPlugin.min.js&quot;</span>&gt;&lt;/script&gt;</span><br><span class="line">&lt;script src=<span class="string">&quot;http://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/easing/EasePack.min.js&quot;</span>&gt;&lt;/script&gt;</span><br><span class="line">&lt;script src=<span class="string">&quot;http://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenLite.min.js&quot;</span>&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--CDN link <span class="keyword">for</span>  TweenMax--&gt;</span><br><span class="line">&lt;script src=<span class="string">&quot;http://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js&quot;</span>&gt;</span><br><span class="line">&lt;/script&gt;复制代码</span><br></pre></td></tr></table></figure>
+
+<p>如果引用 <code>TweenMax</code> 这个文件，那就说明你引用了所有功能，因为它包括 <code>TweenLite</code>, <code>CSSPlugin</code>, <code>EasePack</code>, <code>TimelineLite</code>, <code>TimelineMax</code>, <code>RoundPropsPlugin</code>, <code>BezierPlugin</code>, <code>AttrPlugin</code>, <code>and DirectionalRotationPlugin</code>，它是最大体积的。当然你可以只下载引用你想用的文档。</p>
+<h2 id="快速上手"><a href="#快速上手" class="headerlink" title="快速上手"></a>快速上手</h2><p>参考中文官网：<a target="_blank" rel="noopener" href="https://www.tweenmax.com.cn/">TweenMax中文网（GreenSock动画平台,GSAP）</a></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gg3a66sdghj319e0qljyl.jpg" alt="image-20200624124633103"></p>
+<h2 id="准备代码"><a href="#准备代码" class="headerlink" title="准备代码"></a>准备代码</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;box&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;boxSmall&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#262626</span>;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">&#x27;Open Sans&#x27;</span>, sans-serif;</span><br><span class="line">  <span class="attribute">overflow</span>: hidden;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-id">#box</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#88ce02</span>;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">50%</span>;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">50%</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">transform</span>: <span class="built_in">translate</span>(-<span class="number">50%</span>, -<span class="number">50%</span>);</span><br><span class="line">  <span class="attribute">z-index</span>: <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.boxSmall</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#70a40b</span>;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">bottom</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">25px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">75px</span>;</span><br><span class="line">  <span class="attribute">z-index</span>: <span class="number">2</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当然还得引入 GreenSock 文件，这里我们引入的是 <strong>TweenMax</strong> 这个全功能的js文件，为了操作方便我们还需要引入 jquery 来选择和操作 DOM。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;cdnjs.cloudflare.com&#x2F;ajax&#x2F;libs&#x2F;gsap&#x2F;1.19.0&#x2F;TweenMax.min.js</span><br></pre></td></tr></table></figure>
+
+<p>为了演示方便，使用了 codepen 这个代码平台来运行编写效果：<a target="_blank" rel="noopener" href="https://codepen.io/janily/pen/xwbpGw">https://codepen.io/janily/pen/xwbpGw</a></p>
+<p>们这里操作的物体是这个 ID 为 box 的盒子。首先把它用一个变量存起来，方便后面来操作。在codepen里的js区域编写下面的代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> $box = $(<span class="string">&#x27;#box&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="TweenLite-to-方法"><a href="#TweenLite-to-方法" class="headerlink" title="TweenLite.to() 方法"></a>TweenLite.to() 方法</h2><p>下面就是让它动起来，可以使用 <code>TweenLite.to()</code> 方法来使元素动起来。比如，让元素移动到浏览器左边的边缘，我们就可以使用 <code>TweenLite.to()</code> 方法。</p>
+<p>下面是 <code>TweenLite.to()</code> 方法的示意图：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gg3acr4a3cj30h504ot9t.jpg" alt="image-20200624125251863"></p>
+<p>在codepen中加入下面的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TweenLite.to($box, 0.7, &#123;left: 0&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码会在0.7秒之内把 <code>$box</code> 元素从 CSS 中定义的位置移动到 <code>body</code> 的边缘。如下所示：(鼠标移动到右下角，有一个 return 按钮，点击以下就会重新运行代码，就可以看到效果了)。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gg3ad99xbdj30hs05smx9.jpg" alt="image-20200624125321338"></p>
+<p><a target="_blank" rel="noopener" href="http://codepen.io/janily/pen/meypPB">demo地址</a></p>
+<p>小问题：那就是 <code>$box</code> 元素只有一半露出来了，应该是全部显示的，这是为什么呢？</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gg3adq68sgj30ha09xwg9.jpg" alt="image-20200624125347917"></p>
+<p>因为在CSS中定义了 <code>transform: translate(–50%, –50%)</code>，这时可以通过定义元素的 <code>X</code> 的值来修正这个小bug。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TweenLite.to($box, 0.7, &#123;left: 0, x: 0&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="TweenLite-from方法"><a href="#TweenLite-from方法" class="headerlink" title="TweenLite.from方法"></a>TweenLite.from方法</h2><p>下面来看下 <code>TweenLite.from</code> 这个方法。</p>
+<p>在上面的例子上，我们修改代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tweenLite.from($box, 2, &#123;x: &#39;-&#x3D;200px&#39;, autoAlpha: 0&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gg3aeo0g0jj30ha06ddh3.jpg" alt="image-20200624125442039"></p>
+<p>这个方法是用来使元素从定义在 <code>.from()</code> 方法里的位置运动到在 CSS 中定义的位置。</p>
+<p>运行这个例子，我们会看到元素从元素左边 200px 的位置运动到元素在 CSS 中定义的位置。</p>
+<p><code>autoAlpha</code> 方法是GSAP中一个特别的属性，它把 <code>opacity</code> 和 <code>visibility</code> 两个属性合二为一了。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gg3ahdc5kaj30h908wmyy.jpg" alt="image-20200624125717723"></p>
+<p>在代码中 <code>autoAlpha: 0</code> 表示它会把元素初始化为 <code>opacity:0;visibility:hidden</code>。当执行动画效果的时候它会把 <code>visibility</code> 的值设置为 <code>inherit</code> 以及 <code>opacity</code> 值设置为 1。从而产生一个渐现的效果。</p>
+<h2 id="TweenLite-set-方法"><a href="#TweenLite-set-方法" class="headerlink" title="TweenLite.set() 方法"></a>TweenLite.set() 方法</h2><p>有时候，我们只是想设置元素的一些 CSS 属性并不需要动画效果，比如，重设元素的位置。</p>
+<p>这个时候就可以使用 GreenSock 提供的 <code>.set()</code> 方法。</p>
+<p>去掉我们前面编写的代码除了定义好的$box变量，编写下面的代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">TweenLite.set($box, &#123;<span class="attr">x</span>: <span class="string">&#x27;-=200px&#x27;</span>, <span class="attr">scale</span>: <span class="number">0.3</span>&#125;);</span><br><span class="line">TweenLite.set($box, &#123;<span class="attr">x</span>: <span class="string">&#x27;+=100px&#x27;</span>, <span class="attr">scale</span>: <span class="number">0.6</span>, <span class="attr">delay</span>: <span class="number">1</span>&#125;);</span><br><span class="line">TweenLite.set($box, &#123;<span class="attr">x</span>: <span class="string">&#x27;-50%&#x27;</span>, <span class="attr">scale</span>: <span class="number">1</span>, <span class="attr">delay</span>: <span class="number">2</span>&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gg3ak8w2bpj30h909uwh4.jpg" alt="image-20200624130003892"></p>
+<p>运行上面的代码，可以看到元素只是单纯的在改变属性并没有动画效果。</p>
+<p>在上面的代码中，我们使用 <code>delay</code> 这个属性来制定元素属性改变的延迟时间。</p>
+<p>要注意一点的是，在最后一个序列中我们重新设置元素的位置为 <code>x: &#39;-50%&#39;</code>。</p>
+<h3 id="TweenLite-fromTo-方法"><a href="#TweenLite-fromTo-方法" class="headerlink" title="TweenLite.fromTo() 方法"></a>TweenLite.fromTo() 方法</h3><p>最后来说一说 <code>TweenLite.fromTo</code> 这个方法。</p>
+<p>顾名思义，这个方法我们可以定义元素的起始位置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TweenLite.fromTo($box, 2, &#123;x: &#39;-&#x3D;200px&#39;&#125;, &#123;x: 150&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>把上面的代码放入到 codepen 中，就可以看到运行的动画效果。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gg3alj3eoyj30h507kq4q.jpg" alt="image-20200624130116929"></p>
+<p>我们定义了元素从左边 200px 的位置开始运动到指定的位置。</p>
+<p><code>x:150</code> 会覆盖在CSS中定义的 <code>transform: translate(–50%, –50%)</code> 的样式，用新的 <code>transform: matrix(1, 0, 0, 1, 150, -50)</code> 样式来代替。</p>
+<h2 id="缓动曲线"><a href="#缓动曲线" class="headerlink" title="缓动曲线"></a>缓动曲线</h2><p>为了使动画效果更有趣，符合真实的物体运动效果。这个时候缓动曲线函数就派上用场了，GreenSock 也提供了各种的运动曲线。</p>
+<p>如果使用的是 TweenMax 的话，它已经包含了 EasePack。</p>
+<p>EasePack包含下面的这些运动曲线：</p>
+<p>1、Back 2、SlowMo 3、StppedEase 4、RoughEase 5、Bounce 6、Circ 7、Elastic 8、Expo 9、Sine</p>
+<p>下面来添加ease:Power4.easeInOut来看看实际的效果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TweenLite.fromTo($box, 2, &#123;x: &#39;-&#x3D;200px&#39;&#125;, &#123;x: 150, ease:Power4.easeInOut&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>试着添加下面的代码，看看有什么有趣的效果发生？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">TweenLite.to($box, 0.4, &#123;top: &#39;100%&#39;, y: &#39;-100%&#39;, ease:Bounce.easeOut, delay: 2&#125;);</span><br><span class="line">TweenLite.to($box, 0.7, &#123;x: &#39;-&#x3D;200px&#39;, y: &#39;-100%&#39;, ease:Back.easeInOut, delay: 3&#125;);</span><br><span class="line">TweenLite.to($box, 0.8, &#123;x: &#39;-&#x3D;200px&#39;, y: &#39;-100%&#39;, ease:Back.easeInOut, delay: 4.2&#125;);</span><br><span class="line">TweenLite.to($box, 2.5, &#123;top: &#39;50%&#39;, y: &#39;-50%&#39;, ease:Power0.easeNone, delay: 5&#125;);</span><br><span class="line">TweenLite.to($box, 2.5, &#123;x: &#39;+&#x3D;400px&#39;, ease:Elastic.easeInOut, delay: 7.7&#125;);</span><br><span class="line">TweenLite.to($box, 2.5, &#123;x: &#39;-&#x3D;400px&#39;, rotation: -720, ease: SlowMo.ease.config(0.1, 0.7, false), delay: 10.4&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>具体各种运动曲线的效果可以去这个<a target="_blank" rel="noopener" href="http://greensock.com/ease-visualizer">地址</a>看看。</p>
+<h2 id="回调函数"><a href="#回调函数" class="headerlink" title="回调函数"></a>回调函数</h2><p>GreenSock 提供了丰富的回调函数来操作动画效果。</p>
+<p>这里以 <code>.fromTo()</code> 方法来说明它的用法。</p>
+<p>比如，我们想要在动画开始的时候来触发回调函数。首先来创建一个start的函数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">start</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;start&#x27;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>触发回调函数，只需要添加下面这句代码就可以了 <code>onStart:start</code> 就可以了，非常简单。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TweenLite.fromTo($box, 2, &#123;x: &#39;-&#x3D;200px&#39;&#125;, &#123;x: 150, ease:Power4.easeInOut, onStart: start&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>打开开发者工具，就可以看到输出的相关信息。</p>
+<p>你也可以添加 <code>onUpdate</code> 和 <code>onComplete</code> 来触发对应的回调函数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">start</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;start&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">update</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;animating&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">complete</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;end&#x27;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>![image-20200624130402852](/Users/xu/Library/Application Support/typora-user-images/image-20200624130402852.png)</p>
+<p>onUpdate会在动画的每一帧触发；onComplete会在动画结束的时候触发。</p>
+<p>看看最后的效果。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gg3arj7ielj30mr076t8s.jpg" alt="image-20200624130702615"></p>
+<p><a target="_blank" rel="noopener" href="http://codepen.io/janily/pen/ZbYvVQ">demo地址</a></p>
+<p>最后再来一些好的 tips：</p>
+<p>1、任何的 CSS 属性需要变为驼峰式的写法。比如 <code>background-color</code> 修改为 <code>backgroundColor</code> </p>
+<p>2、CSS 中的 <code>transform:rotate()</code> 变为 <code>rotation</code></p>
+<p>3、另外在 GSAP 中的 2Dtransform－scaleX, scaleY, scale, skewX, skewY,x, y, xPercent, 和 yPercent 的使用方法可以去<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=J5twQLXJ-vQ">这个视频</a>看看。</p>
+<p>4、如果使用SublimeText来作为开发工具，可以下载<a target="_blank" rel="noopener" href="http://greensock.com/forums/topic/11071-sublimetext-snippets/">GSAP这个代码片段</a>。</p>
+<p>5、如果你使用JSHint和JSLint作为代码质量检测工具，可以去这看看它在GSAP中的<a target="_blank" rel="noopener" href="http://greensock.com/forums/topic/11369-gsap-globals-for-jshint/">使用方法</a>。</p>
+<p>遇到问题随时查看GreenSock的<a target="_blank" rel="noopener" href="http://greensock.com/docs/#/HTML5/GSAP/TweenLite/">文档</a>。</p>
+<h2 id="动画保存及控制"><a href="#动画保存及控制" class="headerlink" title="动画保存及控制"></a>动画保存及控制</h2><p>和<code>jQuery.animate()</code>的风格不同，GSAP以动画为主体，你可以这样保存动画：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var tween &#x3D; TweenLite.to(&quot;#ball1&quot;, 2, &#123;</span><br><span class="line">  x: &quot;+&#x3D;200px&quot;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>然后你可以做精细的控制：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 暂停</span><br><span class="line">tween.pause();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 继续播放</span><br><span class="line">tween.resume();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 反转播放</span><br><span class="line">tween.reverse();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 跳转到1s进度处开始播放</span><br><span class="line">tween.seek(1);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 重播</span><br><span class="line">tween.restart();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 动画变为三倍速</span><br><span class="line">tween.timeScale(3);</span><br></pre></td></tr></table></figure>
+
+<p>这些可以看做GSAP作为专业动画库的体现。</p>
+<h2 id="选择器"><a href="#选择器" class="headerlink" title="选择器"></a>选择器</h2><p>前面的例子中反复用到了类似jQuery的选择器，但GSAP并没有自带选择器，相关源码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">TweenLite.selector &#x3D; window.$ || window.jQuery || function(e) &#123;</span><br><span class="line">    var selector &#x3D; window.$ || window.jQuery;</span><br><span class="line">    if (selector) &#123;</span><br><span class="line">        TweenLite.selector &#x3D; selector;</span><br><span class="line">        return selector(e);</span><br><span class="line">    &#125;</span><br><span class="line">    return (typeof(document) &#x3D;&#x3D;&#x3D; &quot;undefined&quot;) ? e </span><br><span class="line">    : (document.querySelectorAll ? document.querySelectorAll(e) </span><br><span class="line">        : document.getElementById((e.charAt(0) &#x3D;&#x3D;&#x3D; &quot;#&quot;) ? e.substr(1) </span><br><span class="line">            : e));</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>GSAP不依赖jQuery，但如果引入了jQuery，GSAP会使用jQuery的选择器，否则回退到<code>document.querySelectorAll()</code>及<code>document.getElementById()</code>。</p>
+<h2 id="TimelineLite的动画管理"><a href="#TimelineLite的动画管理" class="headerlink" title="TimelineLite的动画管理"></a>TimelineLite的动画管理</h2><p>好像<code>TweenLite</code> + <code>css plugin</code>就已经足够用了，这个Timeline系列是做什么的呢？</p>
+<p>想象你是一个动画的导演，你要按剧本安排演员在一个CUT里依次上场和退场。在前文的例子里，我们只有一个演员（<code>#ball1</code>），但现在，我们要拍一个有20+演员的动画大片，要怎么办呢？</p>
+<p>你也许曾用css3的<code>animation</code>做过类似的事情，做法是，当转换到一个场景（CUT）后，为场景里的所有演员依次设定适当的<code>delay</code>。只要<code>delay</code>计划好，看起来就是漂亮精彩的大片。</p>
+<p>不过，这可没有那么简单，假如你已经安排好了20位演员的上场时间，现在改了下剧本，来了第21位演员要在最开始上场，你会发现你可能要依次调整在它之后的所有演员的<code>delay</code>…</p>
+<p>GSAP的TweenLite也会有同样的问题，因此，我们需要有一个工具来统一管理多个元素的多个动画，这就是TimelineLite。</p>
+<h3 id="时间轴"><a href="#时间轴" class="headerlink" title="时间轴"></a>时间轴</h3><p>如果你做过视频编辑，你一定很熟悉“时间轴”这个概念。简单来说，每一个元素的单次动画都是一段素材，我们需要把它们分别放置到同一个时间轴的适当位置，才能集合在一起得到有序的动画大片。</p>
+<p>现在我们引入<code>TimelineLite</code>。下面是一个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var tl &#x3D; new TimelineLite();</span><br><span class="line">tl.from(&quot;#ball1&quot;, 1, &#123;</span><br><span class="line">    y: &quot;-&#x3D;60px&quot;,</span><br><span class="line">    autoAlpha: 0</span><br><span class="line">&#125;).from(&quot;#ball2&quot;, 1, &#123;</span><br><span class="line">    x: &quot;+&#x3D;60px&quot;,</span><br><span class="line">    autoAlpha: 0</span><br><span class="line">&#125;).from(&quot;#ball3&quot;, 1, &#123;</span><br><span class="line">    y: &quot;+&#x3D;60px&quot;,</span><br><span class="line">    autoAlpha: 0</span><br><span class="line">&#125;).from(&quot;#ball4&quot;, 1, &#123;</span><br><span class="line">    x: &quot;-&#x3D;60px&quot;,</span><br><span class="line">    autoAlpha: 0</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>效果是：</p>
+<p><img src="https://segmentfault.com/img/bVwF9e" alt="TimelineLite顺序动画"></p>
+<p>以上的<code>tl.from()</code>等同于以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tl.add(TweenLite.from(&quot;#ball1&quot;, 1, &#123;</span><br><span class="line">    y: &quot;-&#x3D;60px&quot;,</span><br><span class="line">    autoAlpha: 0</span><br><span class="line">&#125;));</span><br></pre></td></tr></table></figure>
+
+<p>可见，TimelineLite像一个容器，它可以通过<code>add()</code>方法将TweenLite动画添加到自己的时间轴上。然后，动画将以时间轴为整体，进行播放。</p>
+<p>在默认情况下，TimelineLite会这样按添加顺序依次排列它们的位置，就这样，我们不借助<code>delay</code>做出了这种较复杂的动画组合。</p>
+<p>如果画一下这里的时间轴，是这样的：</p>
+<p><img src="https://segmentfault.com/img/bVwF9g" alt="时间轴图示 - 顺序动画"></p>
+<h3 id="调整放置位置"><a href="#调整放置位置" class="headerlink" title="调整放置位置"></a>调整放置位置</h3><p>如果要让第2个动画不是在第1个刚结束时播放，而是更提前一点，看起来更连贯的话？</p>
+<p>这样做：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var tl &#x3D; new TimelineLite();</span><br><span class="line">tl.from(&quot;#ball1&quot;, 1, &#123;</span><br><span class="line">    y: &quot;-&#x3D;60px&quot;,</span><br><span class="line">    autoAlpha: 0</span><br><span class="line">&#125;).from(&quot;#ball2&quot;, 1, &#123;</span><br><span class="line">    x: &quot;+&#x3D;60px&quot;,</span><br><span class="line">    autoAlpha: 0</span><br><span class="line">&#125;, &quot;-&#x3D;0.7&quot;).from(&quot;#ball3&quot;, 1, &#123;</span><br><span class="line">    y: &quot;+&#x3D;60px&quot;,</span><br><span class="line">    autoAlpha: 0</span><br><span class="line">&#125;, &quot;-&#x3D;0.7&quot;).from(&quot;#ball4&quot;, 1, &#123;</span><br><span class="line">    x: &quot;-&#x3D;60px&quot;,</span><br><span class="line">    autoAlpha: 0</span><br><span class="line">&#125;, &quot;-&#x3D;0.7&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>其中<code>tl.from(target, duration, vars, position)</code>等同于<code>tl.add(TweenLite.from(target, duration, vars), position);</code>，这里的<code>position</code>参数指定动画在时间轴上的位置，默认为<code>+=0</code>也就是取前一个动画的结束点。以上的<code>-=0.7</code>就是相对这个位置再提前0.7s，这样就让动画互相之间有了重叠，看起来更连贯流畅一些。</p>
+<p>效果：</p>
+<p><img src="https://segmentfault.com/img/bVwF9i" alt="TimelineLite调整动画"></p>
+<p>时间轴像这样：</p>
+<p><img src="https://segmentfault.com/img/bVwF9j" alt="时间轴图示 - 调整动画"></p>
+<h3 id="时间轴控制"><a href="#时间轴控制" class="headerlink" title="时间轴控制"></a>时间轴控制</h3><p>把多个动画装进时间轴的重要作用是，可以当做一个整体进行控制和调整。时间轴的这些方法类似TweenLite：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 在1s时间进度位置暂停</span><br><span class="line">tl.pause(1);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; ... （和前面tween一样）</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 跳转到50%进度处</span><br><span class="line">tl.progess(0.5);</span><br></pre></td></tr></table></figure>
+
+<h3 id="相同动画的简便方法"><a href="#相同动画的简便方法" class="headerlink" title="相同动画的简便方法"></a>相同动画的简便方法</h3><p>如果多个元素的动画是一样的，而且它们需要有规律地安排在时间轴的不同位置，那么非常适合用<code>staggerFrom()</code>、<code>staggerTo()</code>及<code>staggerFromTo()</code>。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tl.staggerFrom([&quot;#ball1&quot;, &quot;#ball2&quot;, &quot;#ball3&quot;, &quot;#ball4&quot;, ], 1, &#123;</span><br><span class="line">    scale: &quot;-&#x3D;0.5&quot;,</span><br><span class="line">    autoAlpha: 0</span><br><span class="line">&#125;, 2);</span><br></pre></td></tr></table></figure>
+
+<p>这样使用数组，就可以同时选中多个元素。</p>
+<p>效果是：</p>
+<p><img src="https://segmentfault.com/img/bVwF9n" alt="间隔规律动画"></p>
+<p>可以看到，每一个元素按照顺序依次执行动画，间隔2s。</p>
+<h2 id="TimelineMax和TweenMax"><a href="#TimelineMax和TweenMax" class="headerlink" title="TimelineMax和TweenMax"></a>TimelineMax和TweenMax</h2><p>如果你觉得还需要一些动画和时间轴的更高级功能（如同一动画间隔重复），可以选择TimelineMax和TweenMax。它们并不需要更多的学习成本，如字面意思所示，TweenMax是TweenLite的升级版，拥有其全部特性，只是增加了一些额外的高级控制。它们的语法完全一致，你可以试试用全局搜索把所有TweenLite替换成TweenMax，不会有任何影响。TimelineMax和TimelineLite的关系也是如此。</p>
+<h2 id="补充信息"><a href="#补充信息" class="headerlink" title="补充信息"></a>补充信息</h2><h3 id="浏览器兼容性"><a href="#浏览器兼容性" class="headerlink" title="浏览器兼容性"></a>浏览器兼容性</h3><p>可以到IE6（使用jQuery1.x的选择器）。</p>
+<p>另外，不要期望在不支持的浏览器上做3d transform动画。</p>
+<h3 id="指定默认缓动"><a href="#指定默认缓动" class="headerlink" title="指定默认缓动"></a>指定默认缓动</h3><p>如果你大部分动画都使用同一种缓动函数，那么用<code>TweenLite.defaultEase</code>会很方便，比如修改为<code>Expo.easeOut</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TweenLite.defaultEase &#x3D; Expo.easeOut;</span><br></pre></td></tr></table></figure>
+
+<h3 id="动画结束后清空style属性"><a href="#动画结束后清空style属性" class="headerlink" title="动画结束后清空style属性"></a>动画结束后清空style属性</h3><p>默认情况下，执行过动画的元素会留下<code>style</code>的内联样式，如果你担心这可能造成额外影响，可以设定<code>clearProps</code>参数清空它：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">TweenLite.to(&quot;#ball1&quot;, 2, &#123;</span><br><span class="line">    x: 200,</span><br><span class="line">    clearProps: &quot;all&quot;,</span><br><span class="line">    autoAlpha: 0</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>如果只需要清理个别样式，单独写出来即可，如<code>clearProps: &quot;opacity&quot;</code>。</p>
+<h3 id="autoAlpha的作用"><a href="#autoAlpha的作用" class="headerlink" title="autoAlpha的作用"></a>autoAlpha的作用</h3><p>前文反复用到的<code>autoAlpha</code>并不是css属性，而是GSAP给定的一个特殊属性。<code>autoAlpha</code>是<code>opacity</code>和<code>visibility</code>这2个css属性的结合。</p>
+<p>为什么要结合起来呢？一般来说，<code>opacity</code>为<code>0</code>的不可见元素，我们会认为它也是不可交互的（比如<code>onclick</code>不触发），因此附加<code>visibility: hidden</code>可以保证这一点。GSAP会正确处理动画过程中这2个css属性的变化。</p>
+<h3 id="备忘单"><a href="#备忘单" class="headerlink" title="备忘单"></a>备忘单</h3><p>GSAP有一份包含丰富参考代码的<a target="_blank" rel="noopener" href="https://ihatetomatoes.net/greensock-cheat-sheet/">备忘单</a>（Cheat Sheet），可以帮助你节约时间。</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>GSAP里的很多概念和API设计可以追溯到flash时代。虽然flash在今天已经很少被使用，但“flash动画”一词能够深入人心是有它的原因的。</p>
+<p>GSAP是专业动画库，在大部分情况下，它也具备更好的动画性能。如果你打算在网页里制作一个动画大片，那你现在应该知道什么可以帮助你了 :) 。</p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p>文章来自于<a target="_blank" rel="noopener" href="https://ihatetomatoes.net/simple-greensock-tutorial-your-first-steps-with-gsap/">Simple GreenSock Tutorial – Your first steps with GSAP</a> + <a target="_blank" rel="noopener" href="http://acgtofe.com/posts/2016/05/gsap-for-animation-pro">http://acgtofe.com/posts/2016/05/gsap-for-animation-pro</a></p>
+<p>另外推荐一些有用的学习资源：</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://greensock.com/jump-start-js">Jump Start: GSAP JS</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://greensock.com/get-started-js">Getting Started Guide</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://greensock.com/forums/forum/11-gsap/">GSAP Forum</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://nobledesktop.com/classes/greensock">GreenSock course at Noble Desktop in New York</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://nobledesktop.com/books/gsap">GreenSock course workbook</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://ihatetomatoes.net/product/greensock-workshop/">GreenSock Workshop</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://juejin.im/entry/591a600f128fe1005cdae46f">GreenSock (TweenMax) 简单入门教程</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://juejin.im/post/58d4f52544d9040068659edd">[动画]快速入手 GSAP</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000005366176">GSAP - 专业的 Web 动画库</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/74465798">GreenSocks Animation Platform详细工作机制</a></p>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <a href="https://github.com/Mcguffen/mcguffen.github.io/edit/myblog/source/_posts/docs/frontEnd/greensock/README.md"target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#GASP-%E5%9F%BA%E6%9C%AC%E5%86%85%E5%AE%B9"><span class="toc-number">1.</span> <span class="toc-text">GASP 基本内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E7%94%A8-GASP"><span class="toc-number">2.</span> <span class="toc-text">引用 GASP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B"><span class="toc-number">3.</span> <span class="toc-text">快速上手</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E4%BB%A3%E7%A0%81"><span class="toc-number">4.</span> <span class="toc-text">准备代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TweenLite-to-%E6%96%B9%E6%B3%95"><span class="toc-number">5.</span> <span class="toc-text">TweenLite.to() 方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TweenLite-from%E6%96%B9%E6%B3%95"><span class="toc-number">6.</span> <span class="toc-text">TweenLite.from方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TweenLite-set-%E6%96%B9%E6%B3%95"><span class="toc-number">7.</span> <span class="toc-text">TweenLite.set() 方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TweenLite-fromTo-%E6%96%B9%E6%B3%95"><span class="toc-number">7.1.</span> <span class="toc-text">TweenLite.fromTo() 方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%93%E5%8A%A8%E6%9B%B2%E7%BA%BF"><span class="toc-number">8.</span> <span class="toc-text">缓动曲线</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0"><span class="toc-number">9.</span> <span class="toc-text">回调函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E7%94%BB%E4%BF%9D%E5%AD%98%E5%8F%8A%E6%8E%A7%E5%88%B6"><span class="toc-number">10.</span> <span class="toc-text">动画保存及控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-number">11.</span> <span class="toc-text">选择器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TimelineLite%E7%9A%84%E5%8A%A8%E7%94%BB%E7%AE%A1%E7%90%86"><span class="toc-number">12.</span> <span class="toc-text">TimelineLite的动画管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E8%BD%B4"><span class="toc-number">12.1.</span> <span class="toc-text">时间轴</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E6%95%B4%E6%94%BE%E7%BD%AE%E4%BD%8D%E7%BD%AE"><span class="toc-number">12.2.</span> <span class="toc-text">调整放置位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E8%BD%B4%E6%8E%A7%E5%88%B6"><span class="toc-number">12.3.</span> <span class="toc-text">时间轴控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B8%E5%90%8C%E5%8A%A8%E7%94%BB%E7%9A%84%E7%AE%80%E4%BE%BF%E6%96%B9%E6%B3%95"><span class="toc-number">12.4.</span> <span class="toc-text">相同动画的简便方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TimelineMax%E5%92%8CTweenMax"><span class="toc-number">13.</span> <span class="toc-text">TimelineMax和TweenMax</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A5%E5%85%85%E4%BF%A1%E6%81%AF"><span class="toc-number">14.</span> <span class="toc-text">补充信息</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%85%BC%E5%AE%B9%E6%80%A7"><span class="toc-number">14.1.</span> <span class="toc-text">浏览器兼容性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E5%AE%9A%E9%BB%98%E8%AE%A4%E7%BC%93%E5%8A%A8"><span class="toc-number">14.2.</span> <span class="toc-text">指定默认缓动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E7%94%BB%E7%BB%93%E6%9D%9F%E5%90%8E%E6%B8%85%E7%A9%BAstyle%E5%B1%9E%E6%80%A7"><span class="toc-number">14.3.</span> <span class="toc-text">动画结束后清空style属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#autoAlpha%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">14.4.</span> <span class="toc-text">autoAlpha的作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%87%E5%BF%98%E5%8D%95"><span class="toc-number">14.5.</span> <span class="toc-text">备忘单</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AF%AD"><span class="toc-number">15.</span> <span class="toc-text">结语</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-number">16.</span> <span class="toc-text">参考文章</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/06/24/docs/frontEnd/greensock/README/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/06/24/docs/frontEnd/greensock/README/&text=GreenSock（GASP）初窥"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/06/24/docs/frontEnd/greensock/README/&title=GreenSock（GASP）初窥"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/06/24/docs/frontEnd/greensock/README/&is_video=false&description=GreenSock（GASP）初窥"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=GreenSock（GASP）初窥&body=Check out this article: http://example.com/2020/06/24/docs/frontEnd/greensock/README/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/06/24/docs/frontEnd/greensock/README/&title=GreenSock（GASP）初窥"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/06/24/docs/frontEnd/greensock/README/&title=GreenSock（GASP）初窥"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/06/24/docs/frontEnd/greensock/README/&title=GreenSock（GASP）初窥"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/06/24/docs/frontEnd/greensock/README/&title=GreenSock（GASP）初窥"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/06/24/docs/frontEnd/greensock/README/&name=GreenSock（GASP）初窥&description=&lt;p&gt;GASP 全称 GreenSock Animation Platform，是一个 JS 的动画框架，用于创建高性能、零依赖、跨浏览器动画GSAP是灵活的，可以与React、Vue、Angular和vanilla JS协同工作。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/06/24/docs/frontEnd/greensock/README/&t=GreenSock（GASP）初窥"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Mcguffen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="参考资料如下： 深度剖析：如何实现一个 Virtual DOM 算法（作者：戴嘉华） Why Virtual DOM（作者：Sai Kishore Komanduri） 虚拟DOM Diff算法解析（作者：王沛） 深入浅出React和Redux（作者：程墨）  为什么需要虚拟DOM 实现虚拟DOM Diff算法 映射成真实DOM  为什么需要虚拟DOM先介绍浏览器加载一个HTML文件需要做哪些事，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS 基础 - 虚拟 DOM">
+<meta property="og:url" content="http://example.com/2019/12/27/docs/frontEnd/js/js14/index.html">
+<meta property="og:site_name" content="Hi! I am yang.">
+<meta property="og:description" content="参考资料如下： 深度剖析：如何实现一个 Virtual DOM 算法（作者：戴嘉华） Why Virtual DOM（作者：Sai Kishore Komanduri） 虚拟DOM Diff算法解析（作者：王沛） 深入浅出React和Redux（作者：程墨）  为什么需要虚拟DOM 实现虚拟DOM Diff算法 映射成真实DOM  为什么需要虚拟DOM先介绍浏览器加载一个HTML文件需要做哪些事，">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-12-27T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-07T12:11:01.076Z">
+<meta property="article:author" content="Mcguffen">
+<meta property="article:tag" content="js">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>JS 基础 - 虚拟 DOM</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/01/03/docs/backEnd/http/README/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/12/20/docs/frontEnd/js/js13/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2019/12/27/docs/frontEnd/js/js14/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2019/12/27/docs/frontEnd/js/js14/&text=JS 基础 - 虚拟 DOM"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2019/12/27/docs/frontEnd/js/js14/&title=JS 基础 - 虚拟 DOM"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2019/12/27/docs/frontEnd/js/js14/&is_video=false&description=JS 基础 - 虚拟 DOM"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JS 基础 - 虚拟 DOM&body=Check out this article: http://example.com/2019/12/27/docs/frontEnd/js/js14/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2019/12/27/docs/frontEnd/js/js14/&title=JS 基础 - 虚拟 DOM"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2019/12/27/docs/frontEnd/js/js14/&title=JS 基础 - 虚拟 DOM"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2019/12/27/docs/frontEnd/js/js14/&title=JS 基础 - 虚拟 DOM"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2019/12/27/docs/frontEnd/js/js14/&title=JS 基础 - 虚拟 DOM"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2019/12/27/docs/frontEnd/js/js14/&name=JS 基础 - 虚拟 DOM&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2019/12/27/docs/frontEnd/js/js14/&t=JS 基础 - 虚拟 DOM"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E8%99%9A%E6%8B%9FDOM"><span class="toc-number">1.</span> <span class="toc-text">为什么需要虚拟DOM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E8%99%9A%E6%8B%9FDOM"><span class="toc-number">2.</span> <span class="toc-text">实现虚拟DOM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Diff%E7%AE%97%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">Diff算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%A0%E5%B0%84%E6%88%90%E7%9C%9F%E5%AE%9EDOM"><span class="toc-number">4.</span> <span class="toc-text">映射成真实DOM</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        JS 基础 - 虚拟 DOM
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Mcguffen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-12-27T00:00:00.000Z" itemprop="datePublished">2019-12-27</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/frontEnd/">frontEnd</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/js/" rel="tag">js</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>参考资料如下：</p>
+<p><a target="_blank" rel="noopener" href="https://link.jianshu.com/?t=https://github.com/livoras/blog/issues/13">深度剖析：如何实现一个 Virtual DOM 算法（作者：戴嘉华）</a></p>
+<p><a target="_blank" rel="noopener" href="https://link.jianshu.com/?t=https://hashnode.com/post/the-one-thing-that-no-one-properly-explains-about-react-why-virtual-dom-cisczhfj41bmssp53mvfwmgrq">Why Virtual DOM（作者：Sai Kishore Komanduri）</a></p>
+<p><a target="_blank" rel="noopener" href="https://link.jianshu.com/?t=http://www.infoq.com/cn/articles/react-dom-diff">虚拟DOM Diff算法解析（作者：王沛）</a></p>
+<p><a target="_blank" rel="noopener" href="https://link.jianshu.com/?t=http://item.jd.com/12073933.html">深入浅出React和Redux（作者：程墨）</a></p>
+<ul>
+<li>为什么需要虚拟DOM</li>
+<li>实现虚拟DOM</li>
+<li>Diff算法</li>
+<li>映射成真实DOM</li>
+</ul>
+<h3 id="为什么需要虚拟DOM"><a href="#为什么需要虚拟DOM" class="headerlink" title="为什么需要虚拟DOM"></a>为什么需要虚拟DOM</h3><p>先介绍浏览器加载一个HTML文件需要做哪些事，帮助我们理解为什么我们需要虚拟DOM。</p>
+<p>所有浏览器的引擎工作流程都差不多，如上图大致分5步：创建DOM tree –&gt; 创建Style Rules -&gt; 构建Render tree -&gt; 布局Layout –&gt; 绘制Painting</p>
+<p>第一步，用HTML分析器，分析HTML元素，构建一颗DOM树。</p>
+<p>第二步：用CSS分析器，分析CSS文件和元素上的inline样式，生成页面的样式表。</p>
+<p>第三步：将上面的DOM树和样式表，关联起来，构建一颗Render树。这一过程又称为Attachment。每个DOM节点都有attach方法，接受样式信息，返回一个render对象（又名renderer）。这些render对象最终会被构建成一颗Render树。</p>
+<p>第四步：有了Render树后，浏览器开始布局，会为每个Render树上的节点确定一个在显示屏上出现的精确坐标值。</p>
+<p>第五步：Render数有了，节点显示的位置坐标也有了，最后就是调用每个节点的paint方法，让它们显示出来。</p>
+<p>当你用传统的源生api或jQuery去操作DOM时，浏览器会从构建DOM树开始从头到尾执行一遍流程。比如当你在一次操作时，需要更新10个DOM节点，理想状态是一次性构建完DOM树，再执行后续操作。但浏览器没这么智能，收到第一个更新DOM请求后，并不知道后续还有9次更新操作，因此会马上执行流程，最终执行10次流程。显然例如计算DOM节点的坐标值等都是白白浪费性能，可能这次计算完，紧接着的下一个DOM更新请求，这个节点的坐标值就变了，前面的一次计算是无用功。</p>
+<p>即使计算机硬件一直在更新迭代，操作DOM的代价仍旧是昂贵的，频繁操作还是会出现页面卡顿，影响用户的体验。真实的DOM节点，哪怕一个最简单的div也包含着很多属性</p>
+<p>虚拟DOM就是为了解决这个浏览器性能问题而被设计出来的。例如前面的例子，假如一次操作中有10次更新DOM的动作，虚拟DOM不会立即操作DOM，而是将这10次更新的diff内容保存到本地的一个js对象中，最终将这个js对象一次性attach到DOM树上，通知浏览器去执行绘制工作，这样可以避免大量的无谓的计算量。</p>
+<h3 id="实现虚拟DOM"><a href="#实现虚拟DOM" class="headerlink" title="实现虚拟DOM"></a>实现虚拟DOM</h3><p>我们来实现一个虚拟DOM。例如一个真实的DOM节点：代码见<a target="_blank" rel="noopener" href="https://link.jianshu.com/?t=https://github.com/JackZhangXL/virtual-dom-demo">仓库里的src/firstStep</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id&#x3D;&quot;real-container&quot;&gt;</span><br><span class="line">    &lt;p&gt;Real DOM&lt;&#x2F;p&gt;</span><br><span class="line">    &lt;div&gt;cannot update&lt;&#x2F;div&gt;</span><br><span class="line">    &lt;ul&gt;</span><br><span class="line">        &lt;li className&#x3D;&quot;item&quot;&gt;Item 1&lt;&#x2F;li&gt;</span><br><span class="line">        &lt;li className&#x3D;&quot;item&quot;&gt;Item 2&lt;&#x2F;li&gt;</span><br><span class="line">        &lt;li className&#x3D;&quot;item&quot;&gt;Item 3&lt;&#x2F;li&gt;</span><br><span class="line">    &lt;&#x2F;ul&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>用js对象来模拟DOM节点如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">const tree &#x3D; Element(&#39;div&#39;, &#123; id: &#39;virtual-container&#39; &#125;, [</span><br><span class="line">    Element(&#39;p&#39;, &#123;&#125;, [&#39;Virtual DOM&#39;]),</span><br><span class="line">    Element(&#39;div&#39;, &#123;&#125;, [&#39;before update&#39;]),</span><br><span class="line">    Element(&#39;ul&#39;, &#123;&#125;, [</span><br><span class="line">        Element(&#39;li&#39;, &#123; class: &#39;item&#39; &#125;, [&#39;Item 1&#39;]),</span><br><span class="line">        Element(&#39;li&#39;, &#123; class: &#39;item&#39; &#125;, [&#39;Item 2&#39;]),</span><br><span class="line">        Element(&#39;li&#39;, &#123; class: &#39;item&#39; &#125;, [&#39;Item 3&#39;]),</span><br><span class="line">    ]),</span><br><span class="line">]);</span><br><span class="line"></span><br><span class="line">const root &#x3D; tree.render();</span><br><span class="line">document.getElementById(&#39;virtualDom&#39;).appendChild(root);</span><br></pre></td></tr></table></figure>
+
+<p>用js对象模拟DOM节点的好处是，页面的更新可以先全部反映在js对象上，操作内存中的js对象的速度显然要快多了。等更新完后，再将最终的js对象映射成真实的DOM，交由浏览器去绘制。</p>
+<p>那具体怎么实现呢？看一下Element方法的具体实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">function Element(tagName, props, children) &#123;</span><br><span class="line">    if (!(this instanceof Element)) &#123;</span><br><span class="line">        return new Element(tagName, props, children);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    this.tagName &#x3D; tagName;</span><br><span class="line">    this.props &#x3D; props || &#123;&#125;;</span><br><span class="line">    this.children &#x3D; children || [];</span><br><span class="line">    this.key &#x3D; props ? props.key : undefined;</span><br><span class="line"></span><br><span class="line">    let count &#x3D; 0;</span><br><span class="line">    this.children.forEach((child) &#x3D;&gt; &#123;</span><br><span class="line">        if (child instanceof Element) &#123;</span><br><span class="line">            count +&#x3D; child.count;</span><br><span class="line">        &#125;</span><br><span class="line">        count++;</span><br><span class="line">    &#125;);</span><br><span class="line">    this.count &#x3D; count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>第一个参数是节点名（如div），第二个参数是节点的属性（如class），第三个参数是子节点（如ul的li）。除了这三个参数会被保存在对象上外，还保存了key和count。</p>
+<p>有了js对象后，最终还需要将其映射成真实的DOM：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Element.prototype.render = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> el = <span class="built_in">document</span>.createElement(<span class="built_in">this</span>.tagName);</span><br><span class="line">    <span class="keyword">const</span> props = <span class="built_in">this</span>.props;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">const</span> propName <span class="keyword">in</span> props) &#123;</span><br><span class="line">        setAttr(el, propName, props[propName]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">this</span>.children.forEach(<span class="function">(<span class="params">child</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> childEl = (child <span class="keyword">instanceof</span> Element) ? child.render() : <span class="built_in">document</span>.createTextNode(child);</span><br><span class="line">        el.appendChild(childEl);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> el;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>上面都是自解释代码，根据DOM名调用源生的createElement创建真实DOM，将DOM的属性全都加到这个DOM元素上，如果有子元素继续递归调用创建子元素，并appendChild挂到该DOM元素上。这样就完成了从创建虚拟DOM到将其映射成真实DOM的全部工作。</p>
+<h3 id="Diff算法"><a href="#Diff算法" class="headerlink" title="Diff算法"></a>Diff算法</h3><p>我们已经完成了创建虚拟DOM并将其映射成真实DOM的工作，这样所有的更新都可以先反映到虚拟DOM上，如何反映呢？需要明确一下Diff算法。</p>
+<p>两棵树如果完全比较时间复杂度是O(n^3)，但参照《深入浅出React和Redux》一书中的介绍，React的Diff算法的时间复杂度是O(n)。要实现这么低的时间复杂度，意味着只能平层地比较两棵树的节点，放弃了深度遍历。这样做，似乎牺牲了一定的精确性来换取速度，但考虑到现实中前端页面通常也不会跨层级移动DOM元素，所以这样做是最优的。</p>
+<p>我们新创建一棵树，用于和之前的树进行比较，代码见<a target="_blank" rel="noopener" href="https://link.jianshu.com/?t=https://github.com/JackZhangXL/virtual-dom-demo">仓库里的src/secondStep</a>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const newTree &#x3D; Element(&#39;div&#39;, &#123; id: &#39;virtual-container&#39; &#125;, [</span><br><span class="line">    Element(&#39;h3&#39;, &#123;&#125;, [&#39;Virtual DOM&#39;]),                     &#x2F;&#x2F; REPLACE</span><br><span class="line">    Element(&#39;div&#39;, &#123;&#125;, [&#39;after update&#39;]),                   &#x2F;&#x2F; TEXT</span><br><span class="line">    Element(&#39;ul&#39;, &#123; class: &#39;marginLeft10&#39; &#125;, [              &#x2F;&#x2F; PROPS</span><br><span class="line">        Element(&#39;li&#39;, &#123; class: &#39;item&#39; &#125;, [&#39;Item 1&#39;]),</span><br><span class="line">        &#x2F;&#x2F; Element(&#39;li&#39;, &#123; class: &#39;item&#39; &#125;, [&#39;Item 2&#39;]),    &#x2F;&#x2F; REORDER remove</span><br><span class="line">        Element(&#39;li&#39;, &#123; class: &#39;item&#39; &#125;, [&#39;Item 3&#39;]),</span><br><span class="line">    ]),</span><br><span class="line">]);</span><br></pre></td></tr></table></figure>
+
+<p>只考虑平层地Diff的话，就简单多了，只需要考虑以下4种情况：</p>
+<p>第一种是最简单的，节点类型变了，例如下图中的P变成了h3。我们将这个过程称之为REPLACE。直接将旧节点卸载（componentWillUnmount）并装载新节点（componentWillMount）就行了。</p>
+<p>（为简单起见上图隐藏了文本节点）</p>
+<p>旧节点包括下面的子节点都将被卸载，如果新节点和旧节点仅仅是类型不同，但下面的所有子节点都一样时，这样做显得效率不高。但为了避免O(n^3)的时间复杂度，这样做是值得的。这也提醒了React开发者，应该避免无谓的节点类型的变化，例如运行时将div变成p就没什么太大意义。</p>
+<p>第二种也比较简单，节点类型一样，仅仅属性或属性值变了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">renderA: &lt;ul&gt;</span><br><span class="line">renderB: &lt;ul class: &#39;marginLeft10&#39;&gt;</span><br><span class="line">&#x3D;&gt; [addAttribute class &quot;marginLeft10&quot;]</span><br></pre></td></tr></table></figure>
+
+<p>我们将这个过程称之为PROPS。此时不会触发节点的卸载（componentWillUnmount）和装载（componentWillMount）动作。而是执行节点更新（shouldComponentUpdate到componentDidUpdate的一系列方法）。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">diffProps</span>(<span class="params">oldNode, newNode</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> oldProps = oldNode.props;</span><br><span class="line">    <span class="keyword">const</span> newProps = newNode.props;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> key;</span><br><span class="line">    <span class="keyword">const</span> propsPatches = &#123;&#125;;</span><br><span class="line">    <span class="keyword">let</span> isSame = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// find out different props</span></span><br><span class="line">    <span class="keyword">for</span> (key <span class="keyword">in</span> oldProps) &#123;</span><br><span class="line">        <span class="keyword">if</span> (newProps[key] !== oldProps[key]) &#123;</span><br><span class="line">            isSame = <span class="literal">false</span>;</span><br><span class="line">            propsPatches[key] = newProps[key];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// find out new props</span></span><br><span class="line">    <span class="keyword">for</span> (key <span class="keyword">in</span> newProps) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!oldProps.hasOwnProperty(key)) &#123;</span><br><span class="line">            isSame = <span class="literal">false</span>;</span><br><span class="line">            propsPatches[key] = newProps[key];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> isSame ? <span class="literal">null</span> : propsPatches;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>第三种是文本变了，文本对也是一个Text Node，也比较简单，直接修改文字内容就行了，我们将这个过程称之为TEXT。</p>
+<p>第四种是移动，增加，删除子节点，我们将这个过程称之为REORDER。具体可以看这篇<a target="_blank" rel="noopener" href="https://link.jianshu.com/?t=http://www.infoq.com/cn/articles/react-dom-diff">虚拟DOM Diff算法解析</a>。程序员写代码很简单：$(B).after(F)。但如何高效地插入呢？简单粗暴的做法是：卸载C，装载F，卸载D，装载C，卸载E，装载D，装载E。</p>
+<p>我们写JSX代码时，如果没有给数组或枚举类型定义一个key，就会看到下面这样的warning。React提醒我们，没有key的话，涉及到移动，增加，删除子节点的操作时，就会用上面那种简单粗暴的做法来更新。虽然程序运行不会有错，但效率太低，因此React会给我们一个warning。</p>
+<p>如果我们在JSX里为数组或枚举型元素增加上key后，React就能根据key，直接找到具体的位置进行操作，效率比较高。</p>
+<p>常见的最小编辑距离问题，可以用Levenshtein Distance算法来实现，时间复杂度是O(M*N)，但通常我们只要一些简单的移动就能满足需要，降低点精确性，将时间复杂度降低到O(max(M, N)即可。具体可参照采用<a target="_blank" rel="noopener" href="https://link.jianshu.com/?t=https://github.com/livoras/blog/issues/13">深度剖析：如何实现一个 Virtual DOM 算法</a>里的一个算法一文。或自行阅读例子中的源代码</p>
+<p>最终Diff出来的结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    1: [ &#123;type: REPLACE, node: Element&#125; ],</span><br><span class="line">    4: [ &#123;type: TEXT, content: &quot;after update&quot;&#125; ],</span><br><span class="line">    5: [ &#123;type: PROPS, props: &#123;class: &quot;marginLeft10&quot;&#125;&#125;, &#123;type: REORDER, moves: [&#123;index: 2, type: 0&#125;]&#125; ],</span><br><span class="line">    6: [ &#123;type: REORDER, moves: [&#123;index: 2, type: 0&#125;]&#125; ],</span><br><span class="line">    8: [ &#123;type: REORDER, moves: [&#123;index: 2, type: 0&#125;]&#125; ],</span><br><span class="line">    9: [ &#123;type: TEXT, content: &quot;Item 3&quot;&#125; ],</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="映射成真实DOM"><a href="#映射成真实DOM" class="headerlink" title="映射成真实DOM"></a>映射成真实DOM</h3><p>虚拟DOM有了，Diff也有了，现在就可以将Diff应用到真实DOM上了。代码见<a target="_blank" rel="noopener" href="https://link.jianshu.com/?t=https://github.com/JackZhangXL/virtual-dom-demo">仓库里的src/thirdStep</a></p>
+<p>深度遍历DOM将Diff的内容更新进去：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dfsWalk</span>(<span class="params">node, walker, patches</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> currentPatches = patches[walker.index];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> len = node.childNodes ? node.childNodes.length : <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">        walker.index++;</span><br><span class="line">        dfsWalk(node.childNodes[i], walker, patches);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (currentPatches) &#123;</span><br><span class="line">        applyPatches(node, currentPatches);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>具体更新的代码如下，其实就是根据Diff信息调用源生API操作DOM：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">applyPatches</span>(<span class="params">node, currentPatches</span>) </span>&#123;</span><br><span class="line">    currentPatches.forEach(<span class="function">(<span class="params">currentPatch</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">switch</span> (currentPatch.type) &#123;</span><br><span class="line">            <span class="keyword">case</span> REPLACE: &#123;</span><br><span class="line">                <span class="keyword">const</span> newNode = (<span class="keyword">typeof</span> currentPatch.node === <span class="string">&#x27;string&#x27;</span>)</span><br><span class="line">                    ? <span class="built_in">document</span>.createTextNode(currentPatch.node)</span><br><span class="line">                    : currentPatch.node.render();</span><br><span class="line">                node.parentNode.replaceChild(newNode, node);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">case</span> REORDER:</span><br><span class="line">                reorderChildren(node, currentPatch.moves);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> PROPS:</span><br><span class="line">                setProps(node, currentPatch.props);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> TEXT:</span><br><span class="line">                <span class="keyword">if</span> (node.textContent) &#123;</span><br><span class="line">                    node.textContent = currentPatch.content;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="comment">// ie</span></span><br><span class="line">                    node.nodeValue = currentPatch.content;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">`Unknown patch type <span class="subst">$&#123;currentPatch.type&#125;</span>`</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>虚拟DOM的目的是将所有操作累加起来，统计计算出所有的变化后，统一更新一次DOM。其实即使不懂原理，业务代码照样写，但理解原理后，出了什么新东东才能快速跟上。</p>
+
+  </div>
+  <div>
+    <a href="https://github.com/Mcguffen/mcguffen.github.io/edit/myblog/source/_posts/docs/frontEnd/js/js14.md"target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E8%99%9A%E6%8B%9FDOM"><span class="toc-number">1.</span> <span class="toc-text">为什么需要虚拟DOM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E8%99%9A%E6%8B%9FDOM"><span class="toc-number">2.</span> <span class="toc-text">实现虚拟DOM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Diff%E7%AE%97%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">Diff算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%A0%E5%B0%84%E6%88%90%E7%9C%9F%E5%AE%9EDOM"><span class="toc-number">4.</span> <span class="toc-text">映射成真实DOM</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2019/12/27/docs/frontEnd/js/js14/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2019/12/27/docs/frontEnd/js/js14/&text=JS 基础 - 虚拟 DOM"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2019/12/27/docs/frontEnd/js/js14/&title=JS 基础 - 虚拟 DOM"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2019/12/27/docs/frontEnd/js/js14/&is_video=false&description=JS 基础 - 虚拟 DOM"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JS 基础 - 虚拟 DOM&body=Check out this article: http://example.com/2019/12/27/docs/frontEnd/js/js14/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2019/12/27/docs/frontEnd/js/js14/&title=JS 基础 - 虚拟 DOM"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2019/12/27/docs/frontEnd/js/js14/&title=JS 基础 - 虚拟 DOM"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2019/12/27/docs/frontEnd/js/js14/&title=JS 基础 - 虚拟 DOM"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2019/12/27/docs/frontEnd/js/js14/&title=JS 基础 - 虚拟 DOM"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2019/12/27/docs/frontEnd/js/js14/&name=JS 基础 - 虚拟 DOM&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2019/12/27/docs/frontEnd/js/js14/&t=JS 基础 - 虚拟 DOM"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Mcguffen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

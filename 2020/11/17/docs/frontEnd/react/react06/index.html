@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="停止操作达一定时间才进行函数执行，是一个高阶函数，基本人人都会，React Hooks 中需要对 effect、state 和 fn 进行额外实现。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="react 中防抖函数的实现">
+<meta property="og:url" content="http://example.com/2020/11/17/docs/frontEnd/react/react06/index.html">
+<meta property="og:site_name" content="Hi! I am yang.">
+<meta property="og:description" content="停止操作达一定时间才进行函数执行，是一个高阶函数，基本人人都会，React Hooks 中需要对 effect、state 和 fn 进行额外实现。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-11-17T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-07T12:11:01.080Z">
+<meta property="article:author" content="Mcguffen">
+<meta property="article:tag" content="React">
+<meta property="article:tag" content="Hooks">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>react 中防抖函数的实现</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2021/03/09/hello-world/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/10/09/docs/frontEnd/react/react05/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/11/17/docs/frontEnd/react/react06/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/11/17/docs/frontEnd/react/react06/&text=react 中防抖函数的实现"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/11/17/docs/frontEnd/react/react06/&title=react 中防抖函数的实现"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/11/17/docs/frontEnd/react/react06/&is_video=false&description=react 中防抖函数的实现"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=react 中防抖函数的实现&body=Check out this article: http://example.com/2020/11/17/docs/frontEnd/react/react06/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/11/17/docs/frontEnd/react/react06/&title=react 中防抖函数的实现"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/11/17/docs/frontEnd/react/react06/&title=react 中防抖函数的实现"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/11/17/docs/frontEnd/react/react06/&title=react 中防抖函数的实现"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/11/17/docs/frontEnd/react/react06/&title=react 中防抖函数的实现"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/11/17/docs/frontEnd/react/react06/&name=react 中防抖函数的实现&description=&lt;p&gt;停止操作达一定时间才进行函数执行，是一个高阶函数，基本人人都会，React Hooks 中需要对 effect、state 和 fn 进行额外实现。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/11/17/docs/frontEnd/react/react06/&t=react 中防抖函数的实现"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B2%E6%8A%96%E5%87%BD%E6%95%B0"><span class="toc-number">1.</span> <span class="toc-text">防抖函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hooks-%E4%B8%AD%E7%9A%84%E9%98%B2%E6%8A%96%E5%87%BD%E6%95%B0"><span class="toc-number">2.</span> <span class="toc-text">hooks 中的防抖函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B"><span class="toc-number">2.1.</span> <span class="toc-text">测试用例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">2.2.</span> <span class="toc-text">解决方案</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ahooks-%E4%B8%AD%E7%9A%84-useDebounce"><span class="toc-number">3.</span> <span class="toc-text">ahooks 中的 useDebounce</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#useDebounceFn"><span class="toc-number">3.1.</span> <span class="toc-text">useDebounceFn</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#useDebounce"><span class="toc-number">3.2.</span> <span class="toc-text">useDebounce</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#useDebounceEffect"><span class="toc-number">3.3.</span> <span class="toc-text">useDebounceEffect</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#react-use-%E4%B8%AD%E7%9A%84-useDebounce"><span class="toc-number">4.</span> <span class="toc-text">react-use 中的 useDebounce</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-number">4.1.</span> <span class="toc-text">实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%94%A8"><span class="toc-number">4.2.</span> <span class="toc-text">应用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#react-hooks-%E4%B8%AD%E7%9A%84-useDebounce"><span class="toc-number">5.</span> <span class="toc-text">react-hooks 中的 useDebounce</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#useDebouncedCallback"><span class="toc-number">5.1.</span> <span class="toc-text">useDebouncedCallback</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#useDebouncedEffect"><span class="toc-number">5.2.</span> <span class="toc-text">useDebouncedEffect</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#useDebouncedValue"><span class="toc-number">5.3.</span> <span class="toc-text">useDebouncedValue</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">6.</span> <span class="toc-text">总结</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        react 中防抖函数的实现
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Mcguffen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-11-17T00:00:00.000Z" itemprop="datePublished">2020-11-17</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/frontEnd/">frontEnd</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Hooks/" rel="tag">Hooks</a>, <a class="tag-link-link" href="/tags/React/" rel="tag">React</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>停止操作达一定时间才进行函数执行，是一个高阶函数，基本人人都会，React Hooks 中需要对 effect、state 和 fn 进行额外实现。</p>
+<span id="more"></span>
+
+<h2 id="防抖函数"><a href="#防抖函数" class="headerlink" title="防抖函数"></a>防抖函数</h2><p>停止操作达一定时间才进行函数执行，是一个高阶函数，基本人人都会，就不详说了，直接实现：</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">debounce</span>(<span class="params">fn, ms</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> timer;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">...args</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (timer) &#123;</span><br><span class="line">      <span class="built_in">clearTimeout</span>(timer)</span><br><span class="line">    &#125;</span><br><span class="line">    timer = <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">      fn(...args)</span><br><span class="line">      timer = <span class="literal">null</span>;</span><br><span class="line">    &#125;, ms);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>实际开发中直接使用 <code>lodash._debounce</code> 就行了，不要自己写</em></p>
+<h2 id="hooks-中的防抖函数"><a href="#hooks-中的防抖函数" class="headerlink" title="hooks 中的防抖函数"></a>hooks 中的防抖函数</h2><h3 id="测试用例"><a href="#测试用例" class="headerlink" title="测试用例"></a>测试用例</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [counter1, setCounter1] = useState(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">const</span> [counter2, setCounter2] = useState(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> handleClick = useDebounce(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.count(<span class="string">&#x27;click1&#x27;</span>)</span><br><span class="line">    setCounter1(counter1 + <span class="number">1</span>)</span><br><span class="line">  &#125;, <span class="number">500</span>)</span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> t = <span class="built_in">setInterval</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">      setCounter2(<span class="function"><span class="params">x</span> =&gt;</span> x + <span class="number">1</span>)</span><br><span class="line">    &#125;, <span class="number">500</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">clearInterval</span>.bind(<span class="literal">undefined</span>, t)</span><br><span class="line">  &#125;, [])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">&#123;&#123;</span> <span class="attr">padding:</span> <span class="attr">30</span> &#125;&#125;&gt;</span></span></span><br><span class="line">    &lt;Button</span><br><span class="line">      onClick=&#123;function() &#123;</span><br><span class="line">        handleClick()</span><br><span class="line">      &#125;&#125;</span><br><span class="line"><span class="xml">    &gt;click<span class="tag">&lt;/<span class="name">Button</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">div</span>&gt;</span>&#123;counter1&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">div</span>&gt;</span>&#123;counter2&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这时候你会怎么实现 useDebounce 函数呢？像这样？</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">useDebounce</span>(<span class="params">fn, time</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> debounce(fn, time);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>那你人没了！</strong><code>useCallback</code> 都救不了你。</p>
+<p>因为 react hooks 每次渲染，都会重新执行一遍 hooks，<code>useDebounce</code> 被重新执行了，核心的 <code>timer</code> 自然也就无效了。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>用 <code>useRef</code> 缓存机制可以很轻松地解决这个问题：</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">useThrottle</span>(<span class="params">fn, delay, dep = []</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; current &#125; = useRef(&#123; fn, <span class="attr">timer</span>: <span class="literal">null</span> &#125;);</span><br><span class="line">  useEffect(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    current.fn = fn;</span><br><span class="line">  &#125;, [fn]);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> useCallback(<span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">...args</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!current.timer) &#123;</span><br><span class="line">      current.timer = <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">delete</span> current.timer;</span><br><span class="line">      &#125;, delay);</span><br><span class="line">      current.fn.call(<span class="built_in">this</span>, ...args);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, dep);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="ahooks-中的-useDebounce"><a href="#ahooks-中的-useDebounce" class="headerlink" title="ahooks 中的 useDebounce"></a>ahooks 中的 useDebounce</h2><h3 id="useDebounceFn"><a href="#useDebounceFn" class="headerlink" title="useDebounceFn"></a>useDebounceFn</h3><p>处理函数，使用 <code>lodash</code> 的 <code>debounce</code> 函数和自定义的 <code>useCreation</code> （<code>useMemo</code> 和 <code>useRef</code> 更好的实现，其实就是手动添加依赖项，避免函数/对象的重复声明），我们来看一下源码：</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> debounce <span class="keyword">from</span> <span class="string">&#x27;lodash.debounce&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; useRef &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> useCreation <span class="keyword">from</span> <span class="string">&#x27;../useCreation&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; DebounceOptions &#125; <span class="keyword">from</span> <span class="string">&#x27;../useDebounce/debounceOptions&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Fn = <span class="function">(<span class="params">...args: <span class="built_in">any</span></span>) =&gt;</span> <span class="built_in">any</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">useDebounceFn</span>&lt;<span class="title">T</span> <span class="title">extends</span> <span class="title">Fn</span>&gt;(<span class="params">fn: T, options?: DebounceOptions</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> fnRef = useRef&lt;T&gt;(fn);</span><br><span class="line">  fnRef.current = fn;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> wait = options?.wait ?? <span class="number">1000</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> debounced = useCreation(</span><br><span class="line">    () =&gt;</span><br><span class="line">      debounce&lt;T&gt;(</span><br><span class="line">        (<span class="function">(<span class="params">...args: <span class="built_in">any</span>[]</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">return</span> fnRef.current(...args);</span><br><span class="line">        &#125;) <span class="keyword">as</span> T,</span><br><span class="line">        wait,</span><br><span class="line">        options,</span><br><span class="line">      ),</span><br><span class="line">    [],</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    run: (debounced <span class="keyword">as</span> unknown) <span class="keyword">as</span> T,</span><br><span class="line">    cancel: debounced.cancel,</span><br><span class="line">    flush: debounced.flush,</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> useDebounceFn;</span><br></pre></td></tr></table></figure>
+
+<p> 基于 <code>lodash._debounce</code>，不熟悉的建议配合 <code>lodash</code> 源码，或者一些<a target="_blank" rel="noopener" href="https://juejin.im/post/6844903990639984654">别人心得</a> </p>
+<p>此 hooks 将一个 react hooks 中的函数转化为防抖函数</p>
+<h3 id="useDebounce"><a href="#useDebounce" class="headerlink" title="useDebounce"></a>useDebounce</h3><p>处理值，基于 <code>useDebounceFn</code>，函数每次渲染都会更新值，我们对这个更新值的动作（<code>setState</code>）进行防抖处理：</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; useState, useEffect &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> useDebounceFn <span class="keyword">from</span> <span class="string">&#x27;../useDebounceFn&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; DebounceOptions &#125; <span class="keyword">from</span> <span class="string">&#x27;./debounceOptions&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">useDebounce</span>&lt;<span class="title">T</span>&gt;(<span class="params">value: T, options?: DebounceOptions</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [debounced, setDebounced] = useState(value);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> &#123; run &#125; = useDebounceFn(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    setDebounced(value);</span><br><span class="line">  &#125;, options);</span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    run();</span><br><span class="line">  &#125;, [value]);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> debounced;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> useDebounce;</span><br></pre></td></tr></table></figure>
+
+<h3 id="useDebounceEffect"><a href="#useDebounceEffect" class="headerlink" title="useDebounceEffect"></a>useDebounceEffect</h3><p>处理副作用，传入副作用函数，依赖数组，延时数据：</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; useEffect, EffectCallback, DependencyList, useState &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; DebounceOptions &#125; <span class="keyword">from</span> <span class="string">&#x27;../useDebounce/debounceOptions&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> useDebounceFn <span class="keyword">from</span> <span class="string">&#x27;../useDebounceFn&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> useUpdateEffect <span class="keyword">from</span> <span class="string">&#x27;../useUpdateEffect&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">useDebounceEffect</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  effect: EffectCallback,</span></span></span><br><span class="line"><span class="function"><span class="params">  deps?: DependencyList,</span></span></span><br><span class="line"><span class="function"><span class="params">  options?: DebounceOptions,</span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [flag, setFlag] = useState(&#123;&#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> &#123; run &#125; = useDebounceFn(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    setFlag(&#123;&#125;);</span><br><span class="line">  &#125;, options);</span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> run();</span><br><span class="line">  &#125;, deps);</span><br><span class="line"></span><br><span class="line">  useUpdateEffect(effect, [flag]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> useDebounceEffect;</span><br></pre></td></tr></table></figure>
+
+<p>倒过来看，<code>effect</code> 只在 <code>flag</code> 变化的时候被 <code>useUpdateEffect</code> 返回，对依赖数组 <code>deps</code>的变更进行防抖，检测到不抖了，更新一下整个函数，执行 <code>effect</code>。</p>
+<h2 id="react-use-中的-useDebounce"><a href="#react-use-中的-useDebounce" class="headerlink" title="react-use 中的 useDebounce"></a>react-use 中的 useDebounce</h2><h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>看了下源码，感觉语义化没有 <code>ahooks</code> 做的好，但这样反而可以提醒用户 <code>UI = F(State)</code>，只要关注数据更新的防抖，就能满足大部分 React 的场景，这样子减轻心智负担也不错：</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; DependencyList, useEffect &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> useTimeoutFn <span class="keyword">from</span> <span class="string">&#x27;./useTimeoutFn&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> UseDebounceReturn = [<span class="function">() =&gt;</span> <span class="built_in">boolean</span> | <span class="literal">null</span>, <span class="function">() =&gt;</span> <span class="built_in">void</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">useDebounce</span>(<span class="params">fn: <span class="built_in">Function</span>, ms: <span class="built_in">number</span> = <span class="number">0</span>, deps: DependencyList = []</span>): <span class="title">UseDebounceReturn</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [isReady, cancel, reset] = useTimeoutFn(fn, ms);</span><br><span class="line"></span><br><span class="line">  useEffect(reset, deps);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> [isReady, cancel];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; useCallback, useEffect, useRef &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> UseTimeoutFnReturn = [<span class="function">() =&gt;</span> <span class="built_in">boolean</span> | <span class="literal">null</span>, <span class="function">() =&gt;</span> <span class="built_in">void</span>, <span class="function">() =&gt;</span> <span class="built_in">void</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">useTimeoutFn</span>(<span class="params">fn: <span class="built_in">Function</span>, ms: <span class="built_in">number</span> = <span class="number">0</span></span>): <span class="title">UseTimeoutFnReturn</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> ready = useRef&lt;<span class="built_in">boolean</span> | <span class="literal">null</span>&gt;(<span class="literal">false</span>);</span><br><span class="line">  <span class="keyword">const</span> timeout = useRef&lt;ReturnType&lt;<span class="keyword">typeof</span> <span class="built_in">setTimeout</span>&gt;&gt;();</span><br><span class="line">  <span class="keyword">const</span> callback = useRef(fn);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> isReady = useCallback(<span class="function">() =&gt;</span> ready.current, []);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> set = useCallback(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    ready.current = <span class="literal">false</span>;</span><br><span class="line">    timeout.current &amp;&amp; <span class="built_in">clearTimeout</span>(timeout.current);</span><br><span class="line"></span><br><span class="line">    timeout.current = <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">      ready.current = <span class="literal">true</span>;</span><br><span class="line">      callback.current();</span><br><span class="line">    &#125;, ms);</span><br><span class="line">  &#125;, [ms]);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> clear = useCallback(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    ready.current = <span class="literal">null</span>;</span><br><span class="line">    timeout.current &amp;&amp; <span class="built_in">clearTimeout</span>(timeout.current);</span><br><span class="line">  &#125;, []);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// update ref when function changes</span></span><br><span class="line">  useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    callback.current = fn;</span><br><span class="line">  &#125;, [fn]);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// set on mount, clear on unmount</span></span><br><span class="line">  useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    set();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> clear;</span><br><span class="line">  &#125;, [ms]);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> [isReady, clear, set];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>react-use</code> 主要是借助一个自定义的延时函数做函数的防抖，延时函数依然使用缓存 <code>useRef</code>。</p>
+<h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Demo = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> [state, setState] = React.useState(<span class="string">&#x27;Typing stopped&#x27;</span>);</span><br><span class="line">  <span class="keyword">const</span> [val, setVal] = React.useState(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line">  <span class="keyword">const</span> [debouncedValue, setDebouncedValue] = React.useState(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> [, cancel] = useDebounce(</span><br><span class="line">    () =&gt; &#123;</span><br><span class="line">      setState(<span class="string">&#x27;Typing stopped&#x27;</span>);</span><br><span class="line">      setDebouncedValue(val);</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="number">2000</span>,</span><br><span class="line">    [val]</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;input</span><br><span class="line">        <span class="keyword">type</span>=<span class="string">&quot;text&quot;</span></span><br><span class="line">        value=&#123;val&#125;</span><br><span class="line">        placeholder=<span class="string">&quot;Debounced input&quot;</span></span><br><span class="line">        onChange=&#123;<span class="function">(<span class="params">&#123; currentTarget &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">          setState(<span class="string">&#x27;Waiting for typing to stop...&#x27;</span>);</span><br><span class="line">          setVal(currentTarget.value);</span><br><span class="line">        &#125;&#125;</span><br><span class="line">      /&gt;</span><br><span class="line">      &lt;div&gt;&#123;state&#125;&lt;/div&gt;</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        Debounced value: &#123;debouncedValue&#125;</span><br><span class="line">        &lt;button onClick=&#123;cancel&#125;&gt;Cancel debounce&lt;/button&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="react-hooks-中的-useDebounce"><a href="#react-hooks-中的-useDebounce" class="headerlink" title="react-hooks 中的 useDebounce"></a>react-hooks 中的 useDebounce</h2><p><code>react-hooks</code> 的实现思路和 <code>ahooks</code> 类似，<code>ahooks</code> 基于 <code>lodash._debounce</code>，<code>react-hooks</code> 则基于 <code>npm/debounce</code>，同样都是下载量很高的老牌函数库，可靠放心。</p>
+<h3 id="useDebouncedCallback"><a href="#useDebouncedCallback" class="headerlink" title="useDebouncedCallback"></a>useDebouncedCallback</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> debounce <span class="keyword">from</span> <span class="string">&#x27;debounce&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">useDebouncedCallback</span>&lt;<span class="title">C</span> <span class="title">extends</span> <span class="title">Function</span>&gt;(<span class="params">callback: C, wait: <span class="built_in">number</span></span>): <span class="title">C</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> debouncedCallback = useMemo(<span class="function">() =&gt;</span> (wait &gt; <span class="number">0</span> ? debounce(callback, wait) : callback), [callback, wait])</span><br><span class="line">  useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> callback = debouncedCallback <span class="keyword">as</span> <span class="built_in">any</span></span><br><span class="line">      callback.clear &amp;&amp; callback.clear()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, [debouncedCallback])</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> debouncedCallback</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>useMemo</code> 和 <code>useRef</code> 作用是一样的，完全可以用 <code>useRef</code> 实现 <code>useMemo</code>，两者的实现差别不大，空依赖数组的 <code>useMemo</code> 开销也和 <code>useRef</code> 相当。</p>
+<h3 id="useDebouncedEffect"><a href="#useDebouncedEffect" class="headerlink" title="useDebouncedEffect"></a>useDebouncedEffect</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; useState, useEffect, useMemo, useRef &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// eslint-disable-next-line @typescript-eslint/no-empty-function</span></span><br><span class="line"><span class="keyword">const</span> noop = <span class="function">() =&gt;</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">useDebouncedEffect</span>&lt;<span class="title">T</span>&gt;(<span class="params">callback: () =&gt; <span class="built_in">void</span> | (() =&gt; <span class="built_in">void</span>), value: T, wait: <span class="built_in">number</span></span>): <span class="title">void</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> callbackRef = useRef(callback)</span><br><span class="line">  <span class="keyword">const</span> cleanUpRef = useRef(noop)</span><br><span class="line">  useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    callbackRef.current = callback</span><br><span class="line">  &#125;, [callback])</span><br><span class="line">  useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (wait &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cleanUpRef.current()</span><br><span class="line">    cleanUpRef.current = noop</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> callback = callbackRef.current</span><br><span class="line">    <span class="keyword">const</span> trigger = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> cleanUp = callback()</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">typeof</span> cleanUp === <span class="string">&#x27;function&#x27;</span>) &#123;</span><br><span class="line">        cleanUpRef.current = cleanUp</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (cleanUp !== <span class="literal">undefined</span>) &#123;</span><br><span class="line">        <span class="comment">// eslint-disable-next-line no-console</span></span><br><span class="line">        <span class="built_in">console</span>.warn(<span class="string">&#x27;useDebouncedEffect callback should return undefined or a clean-up function&#x27;</span>)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> tick = <span class="built_in">setTimeout</span>(trigger, wait)</span><br><span class="line">    <span class="keyword">return</span> <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">clearTimeout</span>(tick)</span><br><span class="line">      cleanUpRef.current()</span><br><span class="line">      cleanUpRef.current = noop</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, [value, wait])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>心智负担暴涨，作者的想法很有趣，我一开始看不太懂，他从哪里获得的灵感呢 QWQ</p>
+<p>没有依赖 <code>debounce</code> 函数，大体就是围绕 <code>cleanUpRef</code> 做数据的更新，延时，触发，清空</p>
+<h3 id="useDebouncedValue"><a href="#useDebouncedValue" class="headerlink" title="useDebouncedValue"></a>useDebouncedValue</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">useDebouncedValue</span>&lt;<span class="title">T</span>&gt;(<span class="params">value: T, wait: <span class="built_in">number</span></span>): <span class="title">T</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [debouncedValue, setDebouncedValue] = useState(value)</span><br><span class="line">  useDebouncedEffect(<span class="function">() =&gt;</span> setDebouncedValue(value), value, wait)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> wait &gt; <span class="number">0</span> ? debouncedValue : value</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>最终决定选用 <code>react-hooks</code> 的 <code>debounce</code> 实现方案，使用场景足够，同时外部依赖少。</p>
+
+  </div>
+  <div>
+    <a href="https://github.com/Mcguffen/mcguffen.github.io/edit/myblog/source/_posts/docs/frontEnd/react/react06.md"target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B2%E6%8A%96%E5%87%BD%E6%95%B0"><span class="toc-number">1.</span> <span class="toc-text">防抖函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hooks-%E4%B8%AD%E7%9A%84%E9%98%B2%E6%8A%96%E5%87%BD%E6%95%B0"><span class="toc-number">2.</span> <span class="toc-text">hooks 中的防抖函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B"><span class="toc-number">2.1.</span> <span class="toc-text">测试用例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">2.2.</span> <span class="toc-text">解决方案</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ahooks-%E4%B8%AD%E7%9A%84-useDebounce"><span class="toc-number">3.</span> <span class="toc-text">ahooks 中的 useDebounce</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#useDebounceFn"><span class="toc-number">3.1.</span> <span class="toc-text">useDebounceFn</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#useDebounce"><span class="toc-number">3.2.</span> <span class="toc-text">useDebounce</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#useDebounceEffect"><span class="toc-number">3.3.</span> <span class="toc-text">useDebounceEffect</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#react-use-%E4%B8%AD%E7%9A%84-useDebounce"><span class="toc-number">4.</span> <span class="toc-text">react-use 中的 useDebounce</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-number">4.1.</span> <span class="toc-text">实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%94%A8"><span class="toc-number">4.2.</span> <span class="toc-text">应用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#react-hooks-%E4%B8%AD%E7%9A%84-useDebounce"><span class="toc-number">5.</span> <span class="toc-text">react-hooks 中的 useDebounce</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#useDebouncedCallback"><span class="toc-number">5.1.</span> <span class="toc-text">useDebouncedCallback</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#useDebouncedEffect"><span class="toc-number">5.2.</span> <span class="toc-text">useDebouncedEffect</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#useDebouncedValue"><span class="toc-number">5.3.</span> <span class="toc-text">useDebouncedValue</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">6.</span> <span class="toc-text">总结</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/11/17/docs/frontEnd/react/react06/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/11/17/docs/frontEnd/react/react06/&text=react 中防抖函数的实现"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/11/17/docs/frontEnd/react/react06/&title=react 中防抖函数的实现"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/11/17/docs/frontEnd/react/react06/&is_video=false&description=react 中防抖函数的实现"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=react 中防抖函数的实现&body=Check out this article: http://example.com/2020/11/17/docs/frontEnd/react/react06/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/11/17/docs/frontEnd/react/react06/&title=react 中防抖函数的实现"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/11/17/docs/frontEnd/react/react06/&title=react 中防抖函数的实现"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/11/17/docs/frontEnd/react/react06/&title=react 中防抖函数的实现"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/11/17/docs/frontEnd/react/react06/&title=react 中防抖函数的实现"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/11/17/docs/frontEnd/react/react06/&name=react 中防抖函数的实现&description=&lt;p&gt;停止操作达一定时间才进行函数执行，是一个高阶函数，基本人人都会，React Hooks 中需要对 effect、state 和 fn 进行额外实现。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/11/17/docs/frontEnd/react/react06/&t=react 中防抖函数的实现"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Mcguffen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

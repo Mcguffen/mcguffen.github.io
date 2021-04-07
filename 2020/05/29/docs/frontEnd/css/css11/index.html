@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="CSS 中单位颇多，%、px、rem、em，以及相对较新的 vw、vh。那么在对不同设备屏幕进行页面适配的过程中，如何选择这些单位以达成缩放、间距控制、字体管理等功能呢？  每个单位都有各自的用途，都是在特定需求背景下被创造出，我们需要根据相应的需求来选择页面布局中所要使用的主要 CSS 单位。 页面适配的方式多种多样：  使用 px，结合媒体查询进行阶梯式适配，在 PC 端上被广泛使用； 使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端适配中的 em、rem、px">
+<meta property="og:url" content="http://example.com/2020/05/29/docs/frontEnd/css/css11/index.html">
+<meta property="og:site_name" content="Hi! I am yang.">
+<meta property="og:description" content="CSS 中单位颇多，%、px、rem、em，以及相对较新的 vw、vh。那么在对不同设备屏幕进行页面适配的过程中，如何选择这些单位以达成缩放、间距控制、字体管理等功能呢？  每个单位都有各自的用途，都是在特定需求背景下被创造出，我们需要根据相应的需求来选择页面布局中所要使用的主要 CSS 单位。 页面适配的方式多种多样：  使用 px，结合媒体查询进行阶梯式适配，在 PC 端上被广泛使用； 使用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic3.zhimg.com/v2-b3b4a32c1df57c4fc90ca60e60ceeed2_b.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfn7cpa2e4j30oj023weg.jpg">
+<meta property="article:published_time" content="2020-05-29T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-07T12:11:01.076Z">
+<meta property="article:author" content="Mcguffen">
+<meta property="article:tag" content="css">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic3.zhimg.com/v2-b3b4a32c1df57c4fc90ca60e60ceeed2_b.jpg">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>前端适配中的 em、rem、px</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/06/05/docs/frontEnd/js/js21/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/05/22/docs/frontEnd/css/css10/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/05/29/docs/frontEnd/css/css11/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/05/29/docs/frontEnd/css/css11/&text=前端适配中的 em、rem、px"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/05/29/docs/frontEnd/css/css11/&title=前端适配中的 em、rem、px"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/05/29/docs/frontEnd/css/css11/&is_video=false&description=前端适配中的 em、rem、px"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=前端适配中的 em、rem、px&body=Check out this article: http://example.com/2020/05/29/docs/frontEnd/css/css11/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/05/29/docs/frontEnd/css/css11/&title=前端适配中的 em、rem、px"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/05/29/docs/frontEnd/css/css11/&title=前端适配中的 em、rem、px"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/05/29/docs/frontEnd/css/css11/&title=前端适配中的 em、rem、px"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/05/29/docs/frontEnd/css/css11/&title=前端适配中的 em、rem、px"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/05/29/docs/frontEnd/css/css11/&name=前端适配中的 em、rem、px&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/05/29/docs/frontEnd/css/css11/&t=前端适配中的 em、rem、px"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%B6%E3%80%81%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86"><span class="toc-number">1.</span> <span class="toc-text">零、前置知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#0-1-px-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">1.1.</span> <span class="toc-text">0.1-px 是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0-2-%E9%9D%A2%E5%90%91%E9%80%BB%E8%BE%91%E5%83%8F%E7%B4%A0%E5%BC%80%E5%8F%91%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B"><span class="toc-number">1.2.</span> <span class="toc-text">0.2-面向逻辑像素开发的基本开发流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%9C%A8Vue%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8vw%E5%AE%9E%E7%8E%B0%E7%A7%BB%E5%8A%A8%E7%AB%AF%E9%80%82%E9%85%8D"><span class="toc-number">1.3.</span> <span class="toc-text">如何在Vue项目中使用vw实现移动端适配</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81%E6%85%8E%E7%94%A8-em"><span class="toc-number">2.</span> <span class="toc-text">3、慎用 em</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81rem-%E8%BF%98%E6%98%AF-px"><span class="toc-number">3.</span> <span class="toc-text">2、rem 还是 px</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        前端适配中的 em、rem、px
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Mcguffen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-05-29T00:00:00.000Z" itemprop="datePublished">2020-05-29</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/frontEnd/">frontEnd</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/css/" rel="tag">css</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>CSS 中单位颇多，%、px、rem、em，以及相对较新的 vw、vh。那么在对不同设备屏幕进行页面适配的过程中，如何选择这些单位以达成缩放、间距控制、字体管理等功能呢？</p>
+</blockquote>
+<p>每个单位都有各自的用途，都是在特定需求背景下被创造出，我们需要根据相应的需求来选择页面布局中所要使用的主要 CSS 单位。</p>
+<p>页面适配的方式多种多样：</p>
+<ul>
+<li>使用 px，结合媒体查询进行阶梯式适配，在 PC 端上被广泛使用；</li>
+<li>使用 %，按照百分比布局，使用在类似图片占位的需求中；</li>
+<li>使用 rem，根据 HTML 根元素的 <code>font-size</code> 大小进行屏幕适配，在移动端上使用广泛；</li>
+<li>使用 vw、vh，直接根据视图宽高进行适配。</li>
+</ul>
+<p>在这些大致的适配方案下，还有一些小细节可以微调，比如在使用 px 的时候，对容器进行 <code>transform: scale(.8)</code> 这样的处理，会适当缩小；在使用 rem 的时候，需要固定屏幕左右间距为 10px。</p>
+<p>一些实践中的技巧：</p>
+<ol>
+<li>设计稿要求固定尺寸的元素上使用 px，如圆角、边框这些固定不变的；</li>
+<li>在字体字号、间距使用 rem；</li>
+<li>慎重使用 em。</li>
+</ol>
+<p>为什么没有提到 %、vw 和 vh 呢？因为这几个都是按比例适配，无论在 PC 端还是移动端都被广泛使用。% 是参考父容器，vw 和 vh 是参考视图，1 vw = 1% 的视图宽度，它们的使用场景都相对固定。</p>
+<h2 id="零、前置知识"><a href="#零、前置知识" class="headerlink" title="零、前置知识"></a>零、前置知识</h2><h3 id="0-1-px-是什么？"><a href="#0-1-px-是什么？" class="headerlink" title="0.1-px 是什么？"></a>0.1-px 是什么？</h3><p>px 是 viewport 中的像素单位，说到 viewport 像素就要说一下物理像素、逻辑像素、渲染像素：</p>
+<ul>
+<li><strong>物理像素（physical pixel）：</strong>反应屏幕硬件素质，一组 led 灯就代表一个物理像素。</li>
+<li><strong>渲染像素（render pixel）：</strong>就是系统对物理像素的再分配，比如我们在 1080p 的屏幕上可以运行 720p 的红警，运用的就是显示器的像素缩放，日常使用我们很少进行渲染像素的调整，故不再提起，默认等于物理像素。</li>
+<li><strong>逻辑像素/点（device point / device pixel / point）：</strong>这是一个抽象的概念，为了调和尺寸不一所导致的差异，将所有设备根据尺寸透视缩放到相等水平的观看距离之后，所得到的尺寸。对应到 ios 上就是 px，安卓上就是 dp。</li>
+<li><strong>ppi（pixel per inch）：</strong>每英寸像素，指的是屏幕每英寸的物理像素，ppi 越高屏幕越清晰，比如我们日常所使用的高分屏和视网膜屏，就指的是它的 ppi 指数很高。也就是假设一个 ppi160，2寸 x 3寸的屏幕，物理像素应该是 320x480。同理 ppi320，同样尺寸的屏幕，物理像素是 640x960。由于它们尺寸一致，假设它们观看距离一致，那么消除掉 ppi 的影响，他们的逻辑像素是一致的。</li>
+<li><strong>dpr（device point ratio）：</strong>渲染像素 / 逻辑像素，如果 ppi 以 160 为基准，dpr = ppi / 160。</li>
+</ul>
+<p>这时候我们再来看 viewport 中的像素 px，它本质上是 DIP（Device Independent Pixel），设备无关像素，与上述所有提到的像素概念都没有关系的一个单位，其实就是浏览器对逻辑像素进行再处理的结果，简单理解就是调整逻辑像素缩放来达到适应设备的一个中间层。</p>
+<p>PC 上 viewport 并不生效，所以 PC 中的 px 就是逻辑像素，但是逻辑像素与软件实现有关，你会发现在一些浏览器上出现 viewport 没有适配系统的缩放等级，造成渲染内容过小。比如谷歌正确解释了window.devicePixelRatio 的处理，而搜狗没有，同理，360极速也没有，这就造成同样的内容，在高分屏上，搜狗需要放大才能正确显示内容。</p>
+<h3 id="0-2-面向逻辑像素开发的基本开发流程"><a href="#0-2-面向逻辑像素开发的基本开发流程" class="headerlink" title="0.2-面向逻辑像素开发的基本开发流程"></a>0.2-面向逻辑像素开发的基本开发流程</h3><ol>
+<li>在 <code>head</code> 中设置 <code>viewport</code> 为 <code>widt=device-width</code> 的使得 <code>viewport</code> 等于逻辑像素的尺寸</li>
+<li>css 中使用 px</li>
+<li>flex 布局配合 vw 进行自适应</li>
+<li>跨设备类型时，使用媒体查询</li>
+<li>设备类型，操作逻辑差异大，考虑分离开发</li>
+</ol>
+<p>关于px的疑问</p>
+<p>那有朋友就问，不同设备的<strong>物理像素</strong>是不一样的呀，我怎么实现不同<strong>物理像素</strong>的布局，如果设计师给你一张图，怎么将它转为我想要的在css里边的px</p>
+<p>首先，你要读懂设计师给你设计图的意图，一般国内的设计师，给出手机版的设计图，一般是750px，注意这里的px，并不是我们的px（逻辑像素），其实是<strong>物理像素，</strong>因为设计师是根据iphone6或者同等设备来进行设计的，那么要知道iphone6的逻辑像素其实是 375，dpr是2，那么拿到手的设计稿，转换为逻辑像素，就得除以2，我们叫这种设计图，叫两倍图</p>
+<p>同理，如果是375 + 375 + 375大小，那么我们就得除以3，叫三倍图</p>
+<p>如果设计团队有使用墨刀或者蓝湖，你可以在两者里边设置你的查看尺寸，得到我们需要的逻辑像素如果设计师不用蓝湖等工具，给你的并不是375的倍数怎么办，我先说办法，原因你们自己琢磨，我不细致分析最简单的方法，设计师给你的图的物理宽度w，除以一个数x，如果得的出来的商在360 - 414之间，那么你换算的公式为【你在设计图测量出来的物理像素数除以x】，那么dpi就是x，也就是x倍图</p>
+<p>那么朋友又会问，不同设备逻辑像素也不一样呀对，不一样，但问题为什么我们要将它们弄成一样？其实，不一样，才是合理的。我暂且不说原因，原因后面的文章解释</p>
+<p>那么不一样的情况，怎么布局？那就靠你们技术手段，flex，流式布局，vw等</p>
+<p>说说历史</p>
+<p>为什么有rem来实现适应的方案，因为当年viewport在低版本安卓设备上还有兼容问题，而vw，vh还没能跑遍所有浏览器，所以flexible方案用rem来模拟vmin来实现在不同设备等比缩放的“一竹竿”方案</p>
+<p>为什么说等比缩放是一竹竿，你想想在ipad这么大的设备跟和iphone5这么小的设备用同一套设计图，你就知道问题所在</p>
+<p>逻辑像素是用来调和不同设备，不同dpr，不同屏幕，不同分辨率，不同观看距离之间的如何解决显示问题的方案</p>
+<p>要清楚，是调和，不是解决，解决仍需要人去解决，因为不同设备，在同样观赏距离看到的内容多少肯定是不一样的</p>
+<p>打个比喻，ipad和iphone观看距离是几乎一致的，但看的内容，肯定是ipad多，所以ipad是1xxx宽度逻辑像素，而iphone是3xx逻辑像素，足足是三倍，让你拿一台ipad看iphone一样多的内容，你以为ipad是老年人老花眼用的？</p>
+<p>说白了，等比缩放并不是响应方案，是一竹竿偷懒的方案，而且不只是前端在偷懒，而是交互，产品，设计一起在偷懒的方案不同的设备尺寸，注定产品的交互甚至产品整个形态都不一样。简单例子，一个select，为什么在pc browser里边是下拉框，在手机里边一个弹窗菜单。</p>
+<p>所以作为一个成熟的前端，如果想做好交互，应该尽可能阻止这种偷懒的行为。如果再有设计师或者产品只带着一套ui让你实现所谓pc手机自适应，你应该说清楚这一点，跟他们say no，当然如果情况不允许say no，你只能选择沟通或者充当设计交互产品的角色，对产品进行调整来实现这一点</p>
+<p>vx，vxxx方案是根据屏幕尺寸等比缩放，就是等比的适应方案。rem是它备胎，当然也不用说，还有小程序的rpx也是。</p>
+<p>这就是我为什么经常苦口婆心劝小程序开发者别用rpx恶心的是，小程序之前的官方文档甚至声称px是物理像素。我个人臆断，rpx在开发出来的时候，甚至小程序的团队根本还没摸清楚px的意义（起码编辑文档的人不清楚）。当然，现在小程序的文档是对的，这已经是无从考究的事情了由于文档的错误和过度宣扬rpx，导致现在的入门开发者，甚至以为只能用rpx作为单位甚者，一些所谓跨平台框架以及各种小程序的竞品都推出类似rpx的机制甚至宣扬不要使用px，岂不是劣币驱逐良币而flexible也成了第一罪人，flexible给出了一竹竿的方案让国内前端放弃思考。一些所谓大牛没有考虑到rem诞生的场景，大肆宣扬rem，让入门前端认为rem就是移动端唯一布局方案。而如今，flexible已经不再维护，其作者对移动端的布局也给出了基于逻辑像素的方案以及基于vw兼容的方案。而大部分人选择忽略这一事实或者活在那个时代</p>
+<p>应该怎么实现</p>
+<p>那么你可能会问，那什么方案才是合理的？当然我说了这么多，你还是觉得等比是合理的，我没话说。我以为，合理的适应方案，是px+各种布局手段为主，vx，vxxx+媒体查询为辅的方案，因为上面也说了，px是跟逻辑像素挂钩的，而逻辑像素反映的是同样观看距离设备的屏幕尺寸。既然手机和平板是同样观看距离的设备，那么，可以简单理解为，逻辑像素就等同于物理尺寸（厘米分米那种单位）一个合理的视觉产品，难道是人去调整观看距离而固定物理尺寸的？而不是固定观看范围而调整调整屏幕尺寸的？举个极端例子，电影院怎么不放一台手机去播电影，让观众都凑到屏幕前面看？那么用逻辑像素来进行布局，会是什么样的效果。逻辑像素布局，元素的物理尺寸是几乎一致的，但是在不同屏幕下看到的总体比例是不同的。这回导致一些结果，就是<strong>大屏手机看的更多</strong>至于rem方案，除了盖楼的兄弟说的问题，还有会导致富文本显示错误，你想想，你把viewport改了迁就rem来实现vw，那么你页面的viewport像素就会不正常甚至异常，富文本里边如果使用了px，那么px就会变小，富文本的内容会变得小的无法看，除非你家的富文本编辑器是自己实现的或者使用iframe，不然没法解决放眼看vw已经可以在移动端浏览器大规模使用了，这也是flexible方案不维护的主要原因，所以rem这个备胎应该早就下舞台了但是可恶的是网上还有大规模鼓吹rem甚至还有说9102还在用px的言论，简直心寒</p>
+<p>再说自适应和响应式</p>
+<p>普遍认为响应式就是以媒体查询做为解决方案的手段，而其他都是自适应自适应和响应式可以同时存在个人认为，自适应应该只存在于一个同一类设备中，而不存在pc/手机适应，原因刚才也说了<strong>声明一下，本人并不是鼓吹读者使用响应式而不用自适应，那些拿响应式开发效率不高来吐槽的朋友消停一下，看清楚我表达的意思</strong>自适应，是应该实现的，比如a手机和b手机之间就应该采用自适应。因为他们的逻辑像素跟屏幕尺寸差别不大，交互方式差别也不大。自适应是成本比较低的方案但是，即使我们需要自适应，但不代表我们需要vw，甚至是rem，那是两码事，实现自适应的方案还有很多，远古时代的流式布局，还有现代的flex，都可以给前端作为参考。</p>
+<p>vx，vxxxvx，vxxx布局很麻烦，但我相信rem其实也很麻烦。px2rem？为什么要使用px来转rem？那如果我真想用px这个单位的时候怎么办？容我深思，emmmm….所以我实现了一个 rdp-loader 的方案，为啥叫rdp（relative device point），因为我也想不到还有什么单位没用上了在这里不知羞耻的放出源码，写的有些随意（因为我懒！！），你们写的应该比我好，大神轻拍<img src="https://pic3.zhimg.com/v2-b3b4a32c1df57c4fc90ca60e60ceeed2_b.jpg" alt="img"></p>
+<p>这个webpack loader可以嵌入小程序或者web mobile进行开发，使用逻辑像素的写法就可以转换成vmin或者rpx其中参数两个，useRpx，在小程序使用，size，就是设计稿的基准<strong>逻辑像素</strong>当我想用等比缩放的布局的时候，我就用rdp，如果我想使用基于逻辑像素布局的时候就用px，全程无缝切换.elem {<br>    /* 使用等比缩放 <em>/<br>    width: 100rdp;<br>    /</em> 使用逻辑像素 */<br>    width: 100px;<br>}同理，在rn的实现<img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfn7cpa2e4j30oj023weg.jpg" alt="img"></p>
+<p><strong>虽然我是提供了vx，vxxx的方案，但注意一点，什么时候使用vx，vxxx的布局方案</strong>我建议是，<strong>几乎不用</strong>，实际上，暂时为止，我也想不到什么场景是<strong>必须</strong>使用等比缩放的情况在更多的时候，我们应该使用flex或者定位配合百分比等方案来处理当然vx，vxxx是可以无缝转换rem的项目的，作为面向viewport和px不习惯或者不喜欢的朋友，可以作为一个过渡方案就像flexible github废弃后大篇幅提供了vx，vxxx的兼容处理方案一样，很多人也会误读，以为vx，vxxx是银弹希望vx，vxxx不要成为下一个rem，希望大家为viewport和px正名</p>
+<h3 id="如何在Vue项目中使用vw实现移动端适配"><a href="#如何在Vue项目中使用vw实现移动端适配" class="headerlink" title="如何在Vue项目中使用vw实现移动端适配"></a>如何在Vue项目中使用vw实现移动端适配</h3><p><a target="_blank" rel="noopener" href="https://juejin.im/entry/5aa09c3351882555602077ca">https://juejin.im/entry/5aa09c3351882555602077ca</a></p>
+<h2 id="3、慎用-em"><a href="#3、慎用-em" class="headerlink" title="3、慎用 em"></a>3、慎用 em</h2><p>em 是根据使用它的元素的字体大小，转换相应的长度，如果目标对象的文本尺寸未被设置，它会一级级向上继承字体大小，一直到根元素的字体。</p>
+<p>为什么慎用 em？很简单，<strong>em 会叠加计算</strong>。这个特性使得 em 这个单位变得难以管理和控制，它太容易出错了，尤其是在 <code>font-size</code> 属性上，应该做到<strong>禁止使用 em</strong>。</p>
+<p>em 唯一的用处是在规模可控制的小组件中，比如我们要创造一个圆角、边距根据内容字体大小而改变的 <code>button</code> 组件，这时候我们就可以在用 px 固定完字体大小后使用 em 控制边距和圆角属性，因为 em 在 margin、padding 这些单位中的表现很好。</p>
+<h2 id="2、rem-还是-px"><a href="#2、rem-还是-px" class="headerlink" title="2、rem 还是 px"></a>2、rem 还是 px</h2><p>px 是最直观最受欢迎的单位，px 代表</p>
+
+  </div>
+  <div>
+    <a href="https://github.com/Mcguffen/mcguffen.github.io/edit/myblog/source/_posts/docs/frontEnd/css/css11.md"target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%B6%E3%80%81%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86"><span class="toc-number">1.</span> <span class="toc-text">零、前置知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#0-1-px-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">1.1.</span> <span class="toc-text">0.1-px 是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0-2-%E9%9D%A2%E5%90%91%E9%80%BB%E8%BE%91%E5%83%8F%E7%B4%A0%E5%BC%80%E5%8F%91%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B"><span class="toc-number">1.2.</span> <span class="toc-text">0.2-面向逻辑像素开发的基本开发流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%9C%A8Vue%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8vw%E5%AE%9E%E7%8E%B0%E7%A7%BB%E5%8A%A8%E7%AB%AF%E9%80%82%E9%85%8D"><span class="toc-number">1.3.</span> <span class="toc-text">如何在Vue项目中使用vw实现移动端适配</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81%E6%85%8E%E7%94%A8-em"><span class="toc-number">2.</span> <span class="toc-text">3、慎用 em</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81rem-%E8%BF%98%E6%98%AF-px"><span class="toc-number">3.</span> <span class="toc-text">2、rem 还是 px</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/05/29/docs/frontEnd/css/css11/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/05/29/docs/frontEnd/css/css11/&text=前端适配中的 em、rem、px"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/05/29/docs/frontEnd/css/css11/&title=前端适配中的 em、rem、px"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/05/29/docs/frontEnd/css/css11/&is_video=false&description=前端适配中的 em、rem、px"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=前端适配中的 em、rem、px&body=Check out this article: http://example.com/2020/05/29/docs/frontEnd/css/css11/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/05/29/docs/frontEnd/css/css11/&title=前端适配中的 em、rem、px"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/05/29/docs/frontEnd/css/css11/&title=前端适配中的 em、rem、px"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/05/29/docs/frontEnd/css/css11/&title=前端适配中的 em、rem、px"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/05/29/docs/frontEnd/css/css11/&title=前端适配中的 em、rem、px"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/05/29/docs/frontEnd/css/css11/&name=前端适配中的 em、rem、px&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/05/29/docs/frontEnd/css/css11/&t=前端适配中的 em、rem、px"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Mcguffen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

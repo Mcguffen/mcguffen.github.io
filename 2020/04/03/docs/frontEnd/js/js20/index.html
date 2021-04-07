@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="前言只要涉及到MVVM框架就不得不谈的知识点,但它毕竟是Vue的三要素之一. Vue三要素  响应式: 例如如何监听数据变化,其中的实现方法就是我们提到的双向绑定 模板引擎: 如何解析模板 渲染: Vue如何将监听到的数据变化和解析后的HTML进行渲染  可以实现双向绑定的方法有很多,KnockoutJS基于观察者模式的双向绑定,Ember基于数据模型的双向绑定,Angular基于脏检查的双向绑定">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS进阶 - 双向绑定">
+<meta property="og:url" content="http://example.com/2020/04/03/docs/frontEnd/js/js20/index.html">
+<meta property="og:site_name" content="Hi! I am yang.">
+<meta property="og:description" content="前言只要涉及到MVVM框架就不得不谈的知识点,但它毕竟是Vue的三要素之一. Vue三要素  响应式: 例如如何监听数据变化,其中的实现方法就是我们提到的双向绑定 模板引擎: 如何解析模板 渲染: Vue如何将监听到的数据变化和解析后的HTML进行渲染  可以实现双向绑定的方法有很多,KnockoutJS基于观察者模式的双向绑定,Ember基于数据模型的双向绑定,Angular基于脏检查的双向绑定">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfn6i1xhk4j30s406ijrw.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfn6ionml8j30jr0akabj.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfn6j7k6dyj306f02la9z.jpg">
+<meta property="article:published_time" content="2020-04-03T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-07T12:11:01.076Z">
+<meta property="article:author" content="Mcguffen">
+<meta property="article:tag" content="js">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfn6i1xhk4j30s406ijrw.jpg">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>JS进阶 - 双向绑定</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/04/10/docs/frontEnd/es6/README/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/03/27/docs/frontEnd/js/js19/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/04/03/docs/frontEnd/js/js20/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/04/03/docs/frontEnd/js/js20/&text=JS进阶 - 双向绑定"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/04/03/docs/frontEnd/js/js20/&title=JS进阶 - 双向绑定"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/04/03/docs/frontEnd/js/js20/&is_video=false&description=JS进阶 - 双向绑定"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JS进阶 - 双向绑定&body=Check out this article: http://example.com/2020/04/03/docs/frontEnd/js/js20/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/04/03/docs/frontEnd/js/js20/&title=JS进阶 - 双向绑定"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/04/03/docs/frontEnd/js/js20/&title=JS进阶 - 双向绑定"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/04/03/docs/frontEnd/js/js20/&title=JS进阶 - 双向绑定"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/04/03/docs/frontEnd/js/js20/&title=JS进阶 - 双向绑定"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/04/03/docs/frontEnd/js/js20/&name=JS进阶 - 双向绑定&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/04/03/docs/frontEnd/js/js20/&t=JS进阶 - 双向绑定"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="toc-number">1.1.</span> <span class="toc-text">目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%9F%BA%E4%BA%8E%E6%95%B0%E6%8D%AE%E5%8A%AB%E6%8C%81%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9A%E7%9A%84%E7%89%B9%E7%82%B9"><span class="toc-number">1.2.</span> <span class="toc-text">1.基于数据劫持实现的双向绑定的特点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-%E4%BB%80%E4%B9%88%E6%98%AF%E6%95%B0%E6%8D%AE%E5%8A%AB%E6%8C%81"><span class="toc-number">1.2.1.</span> <span class="toc-text">1.1 什么是数据劫持</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-%E6%95%B0%E6%8D%AE%E5%8A%AB%E6%8C%81%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="toc-number">1.2.2.</span> <span class="toc-text">1.2 数据劫持的优势</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-%E5%9F%BA%E4%BA%8E%E6%95%B0%E6%8D%AE%E5%8A%AB%E6%8C%81%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9A%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF"><span class="toc-number">1.2.3.</span> <span class="toc-text">1.3 基于数据劫持双向绑定的实现思路</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%9F%BA%E4%BA%8EObject-defineProperty%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9A%E7%9A%84%E7%89%B9%E7%82%B9"><span class="toc-number">1.3.</span> <span class="toc-text">2.基于Object.defineProperty双向绑定的特点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-%E6%9E%81%E7%AE%80%E7%89%88%E7%9A%84%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9A"><span class="toc-number">1.3.1.</span> <span class="toc-text">2.1 极简版的双向绑定</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-%E5%8D%87%E7%BA%A7%E6%94%B9%E9%80%A0"><span class="toc-number">1.3.2.</span> <span class="toc-text">2.2 升级改造</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-Object-defineProperty%E7%9A%84%E7%BC%BA%E9%99%B7"><span class="toc-number">1.3.3.</span> <span class="toc-text">2.3 Object.defineProperty的缺陷</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Proxy%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9A%E7%9A%84%E7%89%B9%E7%82%B9"><span class="toc-number">1.4.</span> <span class="toc-text">3.Proxy实现的双向绑定的特点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-Proxy%E5%8F%AF%E4%BB%A5%E7%9B%B4%E6%8E%A5%E7%9B%91%E5%90%AC%E5%AF%B9%E8%B1%A1%E8%80%8C%E9%9D%9E%E5%B1%9E%E6%80%A7"><span class="toc-number">1.4.1.</span> <span class="toc-text">3.1 Proxy可以直接监听对象而非属性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-Proxy%E5%8F%AF%E4%BB%A5%E7%9B%B4%E6%8E%A5%E7%9B%91%E5%90%AC%E6%95%B0%E7%BB%84%E7%9A%84%E5%8F%98%E5%8C%96"><span class="toc-number">1.4.2.</span> <span class="toc-text">3.2 Proxy可以直接监听数组的变化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-Proxy%E7%9A%84%E5%85%B6%E4%BB%96%E4%BC%98%E5%8A%BF"><span class="toc-number">1.4.3.</span> <span class="toc-text">3.3 Proxy的其他优势</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        JS进阶 - 双向绑定
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Mcguffen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-04-03T00:00:00.000Z" itemprop="datePublished">2020-04-03</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/frontEnd/">frontEnd</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/js/" rel="tag">js</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h2><p>只要涉及到MVVM框架就不得不谈的知识点,但它毕竟是Vue的三要素之一.</p>
+<p><strong>Vue三要素</strong></p>
+<ul>
+<li>响应式: 例如如何监听数据变化,其中的实现方法就是我们提到的双向绑定</li>
+<li>模板引擎: 如何解析模板</li>
+<li>渲染: Vue如何将监听到的数据变化和解析后的HTML进行渲染</li>
+</ul>
+<p>可以实现双向绑定的方法有很多,KnockoutJS基于观察者模式的双向绑定,Ember基于数据模型的双向绑定,Angular基于脏检查的双向绑定,本篇文章我们重点讲面试中常见的基于<strong>数据劫持</strong>的双向绑定。</p>
+<p>常见的基于数据劫持的双向绑定有两种实现,一个是目前Vue在用的<code>Object.defineProperty</code>,另一个是ES2015中新增的<code>Proxy</code>,而Vue的作者宣称将在Vue3.0版本后加入<code>Proxy</code>从而代替<code>Object.defineProperty</code>,通过本文你也可以知道为什么Vue未来会选择<code>Proxy</code>。</p>
+<blockquote>
+<p>严格来讲Proxy应该被称为『代理』而非『劫持』,不过由于作用有很多相似之处,我们在下文中就不再做区分,统一叫『劫持』。</p>
+</blockquote>
+<p>我们可以通过下图清楚看到以上两种方法在<strong>双向绑定</strong>体系中的关系.</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfn6i1xhk4j30s406ijrw.jpg" alt="img"></p>
+<blockquote>
+<p>基于数据劫持的当然还有已经凉透的<code>Object.observe</code>方法,已被废弃。</p>
+</blockquote>
+<blockquote>
+<p><strong>提前声明:</strong> 我们没有对传入的参数进行及时判断而规避错误,仅仅对核心方法进行了实现.</p>
+</blockquote>
+<hr>
+<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><ol>
+<li>基于数据劫持实现的双向绑定的特点</li>
+<li>基于Object.defineProperty双向绑定的特点</li>
+<li>基于Proxy双向绑定的特点</li>
+</ol>
+<hr>
+<h3 id="1-基于数据劫持实现的双向绑定的特点"><a href="#1-基于数据劫持实现的双向绑定的特点" class="headerlink" title="1.基于数据劫持实现的双向绑定的特点"></a>1.基于数据劫持实现的双向绑定的特点</h3><h4 id="1-1-什么是数据劫持"><a href="#1-1-什么是数据劫持" class="headerlink" title="1.1 什么是数据劫持"></a>1.1 什么是数据劫持</h4><p>数据劫持比较好理解,通常我们利用<code>Object.defineProperty</code>劫持对象的访问器,在属性值发生变化时我们可以获取变化,从而进行进一步操作。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这是将要被劫持的对象</span></span><br><span class="line"><span class="keyword">const</span> data = &#123;</span><br><span class="line">  name: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">say</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (name === <span class="string">&#x27;古天乐&#x27;</span>) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;给大家推荐一款超好玩的游戏&#x27;</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (name === <span class="string">&#x27;渣渣辉&#x27;</span>) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;戏我演过很多,可游戏我只玩贪玩懒月&#x27;</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;来做我的兄弟&#x27;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 遍历对象,对其属性值进行劫持</span></span><br><span class="line"><span class="built_in">Object</span>.keys(data).forEach(<span class="function"><span class="keyword">function</span>(<span class="params">key</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">Object</span>.defineProperty(data, key, &#123;</span><br><span class="line">    enumerable: <span class="literal">true</span>,</span><br><span class="line">    configurable: <span class="literal">true</span>,</span><br><span class="line">    get: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">&#x27;get&#x27;</span>);</span><br><span class="line">    &#125;,</span><br><span class="line">    set: <span class="function"><span class="keyword">function</span>(<span class="params">newVal</span>) </span>&#123;</span><br><span class="line">      <span class="comment">// 当属性值发生变化时我们可以进行额外操作</span></span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">`大家好,我系<span class="subst">$&#123;newVal&#125;</span>`</span>);</span><br><span class="line">      say(newVal);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">data.name = <span class="string">&#x27;渣渣辉&#x27;</span>;</span><br><span class="line"><span class="comment">//大家好,我系渣渣辉</span></span><br><span class="line"><span class="comment">//戏我演过很多,可游戏我只玩贪玩懒月</span></span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-2-数据劫持的优势"><a href="#1-2-数据劫持的优势" class="headerlink" title="1.2 数据劫持的优势"></a>1.2 数据劫持的优势</h4><p>目前业界分为两个大的流派,一个是以React为首的单向数据绑定,另一个是以Angular、Vue为主的双向数据绑定。</p>
+<blockquote>
+<p>其实三大框架都是既可以双向绑定也可以单向绑定,比如React可以手动绑定onChange和value实现双向绑定,也可以调用一些双向绑定库,Vue也加入了props这种单向流的api,不过都并非主流卖点。</p>
+</blockquote>
+<p>单向或者双向的优劣不在我们的讨论范围,我们需要讨论一下对比其他双向绑定的实现方法,数据劫持的优势所在。</p>
+<ol>
+<li>无需显示调用: 例如Vue运用数据劫持+发布订阅,直接可以通知变化并驱动视图,上面的例子也是比较简单的实现<code>data.name = &#39;渣渣辉&#39;</code>后直接触发变更,而比如Angular的脏检测则需要显示调用<code>markForCheck</code>(可以用zone.js避免显示调用,不展开),react需要显示调用<code>setState</code>。</li>
+<li>可精确得知变化数据：还是上面的小例子，我们劫持了属性的setter,当属性值改变,我们可以精确获知变化的内容<code>newVal</code>,因此在这部分不需要额外的diff操作,否则我们只知道数据发生了变化而不知道具体哪些数据变化了,这个时候需要大量diff来找出变化值,这是额外性能损耗。</li>
+</ol>
+<h4 id="1-3-基于数据劫持双向绑定的实现思路"><a href="#1-3-基于数据劫持双向绑定的实现思路" class="headerlink" title="1.3 基于数据劫持双向绑定的实现思路"></a>1.3 基于数据劫持双向绑定的实现思路</h4><p><strong>数据劫持</strong>是双向绑定各种方案中比较流行的一种,最著名的实现就是Vue。</p>
+<p>基于数据劫持的双向绑定离不开<code>Proxy</code>与<code>Object.defineProperty</code>等方法对对象/对象属性的”劫持”,我们要实现一个完整的双向绑定需要以下几个要点。</p>
+<ol>
+<li>利用<code>Proxy</code>或<code>Object.defineProperty</code>生成的Observer针对对象/对象的属性进行”劫持”,在属性发生变化后通知订阅者</li>
+<li>解析器Compile解析模板中的<code>Directive</code>(指令)，收集指令所依赖的方法和数据,等待数据变化然后进行渲染</li>
+<li>Watcher属于Observer和Compile桥梁,它将接收到的Observer产生的数据变化,并根据Compile提供的指令进行视图渲染,使得数据变化促使视图变化</li>
+</ol>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfn6ionml8j30jr0akabj.jpg" alt="img"></p>
+<blockquote>
+<p>我们看到，虽然Vue运用了数据劫持，但是依然离不开<strong>发布订阅</strong>的模式，之所以在系列2做了<a target="_blank" rel="noopener" href="https://juejin.im/post/5ac2fb886fb9a028b86e328c">Event Bus的实现</a>,就是因为我们不管在学习一些框架的原理还是一些流行库（例如Redux、Vuex）,基本上都离不开<strong>发布订阅</strong>模式,而<em>Event</em>模块则是此模式的经典实现,所以如果不熟悉<strong>发布订阅</strong>模式,建议读一下系列2的文章。</p>
+</blockquote>
+<hr>
+<h3 id="2-基于Object-defineProperty双向绑定的特点"><a href="#2-基于Object-defineProperty双向绑定的特点" class="headerlink" title="2.基于Object.defineProperty双向绑定的特点"></a>2.基于Object.defineProperty双向绑定的特点</h3><p>关于<code>Object.defineProperty</code>的文章在网络上已经汗牛充栋,我们不想花过多时间在<code>Object.defineProperty</code>上面,本节我们主要讲解<code>Object.defineProperty</code>的特点,方便接下来与<code>Proxy</code>进行对比。</p>
+<blockquote>
+<p>对<code>Object.defineProperty</code>还不了解的请阅读<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty">文档</a></p>
+</blockquote>
+<p>两年前就有人写过基于<code>Object.defineProperty</code>实现的<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000006599500">文章</a>,想深入理解<code>Object.defineProperty</code>实现的推荐阅读,本文也做了相关参考。</p>
+<blockquote>
+<p>上面我们推荐的文章为比较完整的实现(400行代码),我们在本节只提供一个极简版(20行)和一个简化版(150行)的实现,读者可以循序渐进地阅读。</p>
+</blockquote>
+<h4 id="2-1-极简版的双向绑定"><a href="#2-1-极简版的双向绑定" class="headerlink" title="2.1 极简版的双向绑定"></a>2.1 极简版的双向绑定</h4><p>我们都知道,<code>Object.defineProperty</code>的作用就是劫持一个对象的属性,通常我们对属性的<code>getter</code>和<code>setter</code>方法进行劫持,在对象的属性发生变化时进行特定的操作。</p>
+<p>我们就对对象<code>obj</code>的<code>text</code>属性进行劫持,在获取此属性的值时打印<code>&#39;get val&#39;</code>,在更改属性值的时候对DOM进行操作,这就是一个极简的双向绑定。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">const obj &#x3D; &#123;&#125;;</span><br><span class="line">Object.defineProperty(obj, &#39;text&#39;, &#123;</span><br><span class="line">  get: function() &#123;</span><br><span class="line">    console.log(&#39;get val&#39;);&amp;emsp;</span><br><span class="line">  &#125;,</span><br><span class="line">  set: function(newVal) &#123;</span><br><span class="line">    console.log(&#39;set val:&#39; + newVal);</span><br><span class="line">    document.getElementById(&#39;input&#39;).value &#x3D; newVal;</span><br><span class="line">    document.getElementById(&#39;span&#39;).innerHTML &#x3D; newVal;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">const input &#x3D; document.getElementById(&#39;input&#39;);</span><br><span class="line">input.addEventListener(&#39;keyup&#39;, function(e)&#123;</span><br><span class="line">  obj.text &#x3D; e.target.value;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>在线示例 <a target="_blank" rel="noopener" href="https://codepen.io/xiaomuzhu/pen/gzmEab/">极简版双向绑定</a> by Iwobi (<a target="_blank" rel="noopener" href="https://codepen.io/xiaomuzhu">@xiaomuzhu</a>) on <a target="_blank" rel="noopener" href="https://codepen.io/">CodePen</a>.</p>
+<h4 id="2-2-升级改造"><a href="#2-2-升级改造" class="headerlink" title="2.2 升级改造"></a>2.2 升级改造</h4><p>我们很快会发现，这个所谓的<em>双向绑定</em>貌似并没有什么乱用。。。</p>
+<p>原因如下:</p>
+<ol>
+<li>我们只监听了一个属性,一个对象不可能只有一个属性,我们需要对对象每个属性进行监听。</li>
+<li>违反开放封闭原则,我们如果了解<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-hans/%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99">开放封闭原则</a>的话,上述代码是明显违反此原则,我们每次修改都需要进入方法内部,这是需要坚决杜绝的。</li>
+<li>代码耦合严重,我们的数据、方法和DOM都是耦合在一起的，就是传说中的面条代码。</li>
+</ol>
+<p>那么如何解决上述问题？</p>
+<p>Vue的操作就是加入了<strong>发布订阅</strong>模式，结合<code>Object.defineProperty</code>的劫持能力，实现了可用性很高的双向绑定。</p>
+<p>首先，我们以<strong>发布订阅</strong>的角度看我们第一部分写的那一坨代码,会发现它的<em>监听</em>、<em>发布</em>和<em>订阅</em>都是写在一起的,我们首先要做的就是解耦。</p>
+<p>我们先实现一个订阅发布中心，即消息管理员（Dep）,它负责储存订阅者和消息的分发,不管是订阅者还是发布者都需要依赖于它。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">  let uid &#x3D; 0;</span><br><span class="line">  &#x2F;&#x2F; 用于储存订阅者并发布消息</span><br><span class="line">  class Dep &#123;</span><br><span class="line">    constructor() &#123;</span><br><span class="line">      &#x2F;&#x2F; 设置id,用于区分新Watcher和只改变属性值后新产生的Watcher</span><br><span class="line">      this.id &#x3D; uid++;</span><br><span class="line">      &#x2F;&#x2F; 储存订阅者的数组</span><br><span class="line">      this.subs &#x3D; [];</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; 触发target上的Watcher中的addDep方法,参数为dep的实例本身</span><br><span class="line">    depend() &#123;</span><br><span class="line">      Dep.target.addDep(this);</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; 添加订阅者</span><br><span class="line">    addSub(sub) &#123;</span><br><span class="line">      this.subs.push(sub);</span><br><span class="line">    &#125;</span><br><span class="line">    notify() &#123;</span><br><span class="line">      &#x2F;&#x2F; 通知所有的订阅者(Watcher)，触发订阅者的相应逻辑处理</span><br><span class="line">      this.subs.forEach(sub &#x3D;&gt; sub.update());</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  &#x2F;&#x2F; 为Dep类设置一个静态属性,默认为null,工作时指向当前的Watcher</span><br><span class="line">  Dep.target &#x3D; null;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>现在我们需要实现监听者(Observer),用于监听属性值的变化。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 监听者,监听对象属性值的变化</span><br><span class="line">  class Observer &#123;</span><br><span class="line">    constructor(value) &#123;</span><br><span class="line">      this.value &#x3D; value;</span><br><span class="line">      this.walk(value);</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; 遍历属性值并监听</span><br><span class="line">    walk(value) &#123;</span><br><span class="line">      Object.keys(value).forEach(key &#x3D;&gt; this.convert(key, value[key]));</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; 执行监听的具体方法</span><br><span class="line">    convert(key, val) &#123;</span><br><span class="line">      defineReactive(this.value, key, val);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  function defineReactive(obj, key, val) &#123;</span><br><span class="line">    const dep &#x3D; new Dep();</span><br><span class="line">    &#x2F;&#x2F; 给当前属性的值添加监听</span><br><span class="line">    let chlidOb &#x3D; observe(val);</span><br><span class="line">    Object.defineProperty(obj, key, &#123;</span><br><span class="line">      enumerable: true,</span><br><span class="line">      configurable: true,</span><br><span class="line">      get: () &#x3D;&gt; &#123;</span><br><span class="line">        &#x2F;&#x2F; 如果Dep类存在target属性，将其添加到dep实例的subs数组中</span><br><span class="line">        &#x2F;&#x2F; target指向一个Watcher实例，每个Watcher都是一个订阅者</span><br><span class="line">        &#x2F;&#x2F; Watcher实例在实例化过程中，会读取data中的某个属性，从而触发当前get方法</span><br><span class="line">        if (Dep.target) &#123;</span><br><span class="line">          dep.depend();</span><br><span class="line">        &#125;</span><br><span class="line">        return val;</span><br><span class="line">      &#125;,</span><br><span class="line">      set: newVal &#x3D;&gt; &#123;</span><br><span class="line">        if (val &#x3D;&#x3D;&#x3D; newVal) return;</span><br><span class="line">        val &#x3D; newVal;</span><br><span class="line">        &#x2F;&#x2F; 对新值进行监听</span><br><span class="line">        chlidOb &#x3D; observe(newVal);</span><br><span class="line">        &#x2F;&#x2F; 通知所有订阅者，数值被改变了</span><br><span class="line">        dep.notify();</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  function observe(value) &#123;</span><br><span class="line">    &#x2F;&#x2F; 当值不存在，或者不是复杂数据类型时，不再需要继续深入监听</span><br><span class="line">    if (!value || typeof value !&#x3D;&#x3D; &#39;object&#39;) &#123;</span><br><span class="line">      return;</span><br><span class="line">    &#125;</span><br><span class="line">    return new Observer(value);</span><br><span class="line">  &#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>那么接下来就简单了,我们需要实现一个订阅者(Watcher)。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">  class Watcher &#123;</span><br><span class="line">    constructor(vm, expOrFn, cb) &#123;</span><br><span class="line">      this.depIds &#x3D; &#123;&#125;; &#x2F;&#x2F; hash储存订阅者的id,避免重复的订阅者</span><br><span class="line">      this.vm &#x3D; vm; &#x2F;&#x2F; 被订阅的数据一定来自于当前Vue实例</span><br><span class="line">      this.cb &#x3D; cb; &#x2F;&#x2F; 当数据更新时想要做的事情</span><br><span class="line">      this.expOrFn &#x3D; expOrFn; &#x2F;&#x2F; 被订阅的数据</span><br><span class="line">      this.val &#x3D; this.get(); &#x2F;&#x2F; 维护更新之前的数据</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; 对外暴露的接口，用于在订阅的数据被更新时，由订阅者管理员(Dep)调用</span><br><span class="line">    update() &#123;</span><br><span class="line">      this.run();</span><br><span class="line">    &#125;</span><br><span class="line">    addDep(dep) &#123;</span><br><span class="line">      &#x2F;&#x2F; 如果在depIds的hash中没有当前的id,可以判断是新Watcher,因此可以添加到dep的数组中储存</span><br><span class="line">      &#x2F;&#x2F; 此判断是避免同id的Watcher被多次储存</span><br><span class="line">      if (!this.depIds.hasOwnProperty(dep.id)) &#123;</span><br><span class="line">        dep.addSub(this);</span><br><span class="line">        this.depIds[dep.id] &#x3D; dep;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    run() &#123;</span><br><span class="line">      const val &#x3D; this.get();</span><br><span class="line">      console.log(val);</span><br><span class="line">      if (val !&#x3D;&#x3D; this.val) &#123;</span><br><span class="line">        this.val &#x3D; val;</span><br><span class="line">        this.cb.call(this.vm, val);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    get() &#123;</span><br><span class="line">      &#x2F;&#x2F; 当前订阅者(Watcher)读取被订阅数据的最新更新后的值时，通知订阅者管理员收集当前订阅者</span><br><span class="line">      Dep.target &#x3D; this;</span><br><span class="line">      const val &#x3D; this.vm._data[this.expOrFn];</span><br><span class="line">      &#x2F;&#x2F; 置空，用于下一个Watcher使用</span><br><span class="line">      Dep.target &#x3D; null;</span><br><span class="line">      return val;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>那么我们最后完成Vue,将上述方法挂载在Vue上。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">  class Vue &#123;</span><br><span class="line">    constructor(options &#x3D; &#123;&#125;) &#123;</span><br><span class="line">      &#x2F;&#x2F; 简化了$options的处理</span><br><span class="line">      this.$options &#x3D; options;</span><br><span class="line">      &#x2F;&#x2F; 简化了对data的处理</span><br><span class="line">      let data &#x3D; (this._data &#x3D; this.$options.data);</span><br><span class="line">      &#x2F;&#x2F; 将所有data最外层属性代理到Vue实例上</span><br><span class="line">      Object.keys(data).forEach(key &#x3D;&gt; this._proxy(key));</span><br><span class="line">      &#x2F;&#x2F; 监听数据</span><br><span class="line">      observe(data);</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; 对外暴露调用订阅者的接口，内部主要在指令中使用订阅者</span><br><span class="line">    $watch(expOrFn, cb) &#123;</span><br><span class="line">      new Watcher(this, expOrFn, cb);</span><br><span class="line">    &#125;</span><br><span class="line">    _proxy(key) &#123;</span><br><span class="line">      Object.defineProperty(this, key, &#123;</span><br><span class="line">        configurable: true,</span><br><span class="line">        enumerable: true,</span><br><span class="line">        get: () &#x3D;&gt; this._data[key],</span><br><span class="line">        set: val &#x3D;&gt; &#123;</span><br><span class="line">          this._data[key] &#x3D; val;</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>看下效果:</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfn6j7k6dyj306f02la9z.jpg" alt="img"></p>
+<p>在线示例 <a target="_blank" rel="noopener" href="https://codepen.io/xiaomuzhu/pen/jxBRgj/">双向绑定实现—无漏洞版</a> by Iwobi (<a target="_blank" rel="noopener" href="https://codepen.io/xiaomuzhu">@xiaomuzhu</a>) on <a target="_blank" rel="noopener" href="https://codepen.io/">CodePen</a>.</p>
+<p>至此,一个简单的双向绑定算是被我们实现了。</p>
+<h4 id="2-3-Object-defineProperty的缺陷"><a href="#2-3-Object-defineProperty的缺陷" class="headerlink" title="2.3 Object.defineProperty的缺陷"></a>2.3 Object.defineProperty的缺陷</h4><p>其实我们升级版的双向绑定依然存在漏洞,比如我们将属性值改为数组。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">let demo &#x3D; new Vue(&#123;</span><br><span class="line">  data: &#123;</span><br><span class="line">    list: [1],</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">const list &#x3D; document.getElementById(&#39;list&#39;);</span><br><span class="line">const btn &#x3D; document.getElementById(&#39;btn&#39;);</span><br><span class="line"></span><br><span class="line">btn.addEventListener(&#39;click&#39;, function() &#123;</span><br><span class="line">  demo.list.push(1);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">const render &#x3D; arr &#x3D;&gt; &#123;</span><br><span class="line">  const fragment &#x3D; document.createDocumentFragment();</span><br><span class="line">  for (let i &#x3D; 0; i &lt; arr.length; i++) &#123;</span><br><span class="line">    const li &#x3D; document.createElement(&#39;li&#39;);</span><br><span class="line">    li.textContent &#x3D; arr[i];</span><br><span class="line">    fragment.appendChild(li);</span><br><span class="line">  &#125;</span><br><span class="line">  list.appendChild(fragment);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 监听数组,每次数组变化则触发渲染函数,然而...无法监听</span><br><span class="line">demo.$watch(&#39;list&#39;, list &#x3D;&gt; render(list));</span><br><span class="line"></span><br><span class="line">setTimeout(</span><br><span class="line">  function() &#123;</span><br><span class="line">    alert(demo.list);</span><br><span class="line">  &#125;,</span><br><span class="line">  5000,</span><br><span class="line">);</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>在线示例 <a target="_blank" rel="noopener" href="https://codepen.io/xiaomuzhu/pen/NMjKxV/">双向绑定-数组漏洞</a> by Iwobi (<a target="_blank" rel="noopener" href="https://codepen.io/xiaomuzhu">@xiaomuzhu</a>) on <a target="_blank" rel="noopener" href="https://codepen.io/">CodePen</a>.</p>
+<p>是的,<code>Object.defineProperty</code>的第一个缺陷,无法监听数组变化。 然而<a target="_blank" rel="noopener" href="https://cn.vuejs.org/v2/guide/list.html#%E6%95%B0%E7%BB%84%E6%9B%B4%E6%96%B0%E6%A3%80%E6%B5%8B">Vue的文档</a>提到了Vue是可以检测到数组变化的，但是只有以下八种方法,<code>vm.items[indexOfItem] = newValue</code>这种是无法检测的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">push()</span><br><span class="line">pop()</span><br><span class="line">shift()</span><br><span class="line">unshift()</span><br><span class="line">splice()</span><br><span class="line">sort()</span><br><span class="line">reverse()</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>其实作者在这里用了一些奇技淫巧,把无法监听数组的情况hack掉了,以下是方法示例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">const aryMethods &#x3D; [&#39;push&#39;, &#39;pop&#39;, &#39;shift&#39;, &#39;unshift&#39;, &#39;splice&#39;, &#39;sort&#39;, &#39;reverse&#39;];</span><br><span class="line">const arrayAugmentations &#x3D; [];</span><br><span class="line"></span><br><span class="line">aryMethods.forEach((method)&#x3D;&gt; &#123;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 这里是原生Array的原型方法</span><br><span class="line">    let original &#x3D; Array.prototype[method];</span><br><span class="line"></span><br><span class="line">   &#x2F;&#x2F; 将push, pop等封装好的方法定义在对象arrayAugmentations的属性上</span><br><span class="line">   &#x2F;&#x2F; 注意：是属性而非原型属性</span><br><span class="line">    arrayAugmentations[method] &#x3D; function () &#123;</span><br><span class="line">        console.log(&#39;我被改变啦!&#39;);</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; 调用对应的原生方法并返回结果</span><br><span class="line">        return original.apply(this, arguments);</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">let list &#x3D; [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;];</span><br><span class="line">&#x2F;&#x2F; 将我们要监听的数组的原型指针指向上面定义的空数组对象</span><br><span class="line">&#x2F;&#x2F; 别忘了这个空数组的属性上定义了我们封装好的push等方法</span><br><span class="line">list.__proto__ &#x3D; arrayAugmentations;</span><br><span class="line">list.push(&#39;d&#39;);  &#x2F;&#x2F; 我被改变啦！ 4</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 这里的list2没有被重新定义原型指针，所以就正常输出</span><br><span class="line">let list2 &#x3D; [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;];</span><br><span class="line">list2.push(&#39;d&#39;);  &#x2F;&#x2F; 4</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>由于只针对了八种方法进行了hack,所以其他数组的属性也是检测不到的,其中的坑很多,可以阅读上面提到的文档。</p>
+<p>我们应该注意到在上文中的实现里,我们多次用遍历方法遍历对象的属性，这就引出了<code>Object.defineProperty</code>的第二个缺陷,只能劫持对象的属性,因此我们需要对每个对象的每个属性进行遍历，如果属性值也是对象那么需要深度遍历,显然能劫持一个完整的对象是更好的选择。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Object.keys(value).forEach(key &#x3D;&gt; this.convert(key, value[key]));</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="3-Proxy实现的双向绑定的特点"><a href="#3-Proxy实现的双向绑定的特点" class="headerlink" title="3.Proxy实现的双向绑定的特点"></a>3.Proxy实现的双向绑定的特点</h3><p>Proxy在ES2015规范中被正式发布,它在目标对象之前架设一层“拦截”，外界对该对象的访问，都必须先通过这层拦截，因此提供了一种机制，可以对外界的访问进行过滤和改写,我们可以这样认为,Proxy是<code>Object.defineProperty</code>的全方位加强版,具体的文档可以查看<a target="_blank" rel="noopener" href="http://es6.ruanyifeng.com/#docs/proxy">此处</a>;</p>
+<h4 id="3-1-Proxy可以直接监听对象而非属性"><a href="#3-1-Proxy可以直接监听对象而非属性" class="headerlink" title="3.1 Proxy可以直接监听对象而非属性"></a>3.1 Proxy可以直接监听对象而非属性</h4><p>我们还是以上文中用<code>Object.defineProperty</code>实现的极简版双向绑定为例,用Proxy进行改写。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">const input &#x3D; document.getElementById(&#39;input&#39;);</span><br><span class="line">const p &#x3D; document.getElementById(&#39;p&#39;);</span><br><span class="line">const obj &#x3D; &#123;&#125;;</span><br><span class="line"></span><br><span class="line">const newObj &#x3D; new Proxy(obj, &#123;</span><br><span class="line">  get: function(target, key, receiver) &#123;</span><br><span class="line">    console.log(&#96;getting $&#123;key&#125;!&#96;);</span><br><span class="line">    return Reflect.get(target, key, receiver);</span><br><span class="line">  &#125;,</span><br><span class="line">  set: function(target, key, value, receiver) &#123;</span><br><span class="line">    console.log(target, key, value, receiver);</span><br><span class="line">    if (key &#x3D;&#x3D;&#x3D; &#39;text&#39;) &#123;</span><br><span class="line">      input.value &#x3D; value;</span><br><span class="line">      p.innerHTML &#x3D; value;</span><br><span class="line">    &#125;</span><br><span class="line">    return Reflect.set(target, key, value, receiver);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">input.addEventListener(&#39;keyup&#39;, function(e) &#123;</span><br><span class="line">  newObj.text &#x3D; e.target.value;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>在线示例 <a target="_blank" rel="noopener" href="https://codepen.io/xiaomuzhu/pen/KRmwRE/">Proxy版</a> by Iwobi (<a target="_blank" rel="noopener" href="https://codepen.io/xiaomuzhu">@xiaomuzhu</a>) on <a target="_blank" rel="noopener" href="https://codepen.io/">CodePen</a>.</p>
+<p>我们可以看到,Proxy直接可以劫持整个对象,并返回一个新对象,不管是操作便利程度还是底层功能上都远强于<code>Object.defineProperty</code>。</p>
+<h4 id="3-2-Proxy可以直接监听数组的变化"><a href="#3-2-Proxy可以直接监听数组的变化" class="headerlink" title="3.2 Proxy可以直接监听数组的变化"></a>3.2 Proxy可以直接监听数组的变化</h4><p>当我们对数组进行操作(push、shift、splice等)时，会触发对应的方法名称和<em>length</em>的变化，我们可以借此进行操作,以上文中<code>Object.defineProperty</code>无法生效的列表渲染为例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">const list &#x3D; document.getElementById(&#39;list&#39;);</span><br><span class="line">const btn &#x3D; document.getElementById(&#39;btn&#39;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 渲染列表</span><br><span class="line">const Render &#x3D; &#123;</span><br><span class="line">  &#x2F;&#x2F; 初始化</span><br><span class="line">  init: function(arr) &#123;</span><br><span class="line">    const fragment &#x3D; document.createDocumentFragment();</span><br><span class="line">    for (let i &#x3D; 0; i &lt; arr.length; i++) &#123;</span><br><span class="line">      const li &#x3D; document.createElement(&#39;li&#39;);</span><br><span class="line">      li.textContent &#x3D; arr[i];</span><br><span class="line">      fragment.appendChild(li);</span><br><span class="line">    &#125;</span><br><span class="line">    list.appendChild(fragment);</span><br><span class="line">  &#125;,</span><br><span class="line">  &#x2F;&#x2F; 我们只考虑了增加的情况,仅作为示例</span><br><span class="line">  change: function(val) &#123;</span><br><span class="line">    const li &#x3D; document.createElement(&#39;li&#39;);</span><br><span class="line">    li.textContent &#x3D; val;</span><br><span class="line">    list.appendChild(li);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 初始数组</span><br><span class="line">const arr &#x3D; [1, 2, 3, 4];</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 监听数组</span><br><span class="line">const newArr &#x3D; new Proxy(arr, &#123;</span><br><span class="line">  get: function(target, key, receiver) &#123;</span><br><span class="line">    console.log(key);</span><br><span class="line">    return Reflect.get(target, key, receiver);</span><br><span class="line">  &#125;,</span><br><span class="line">  set: function(target, key, value, receiver) &#123;</span><br><span class="line">    console.log(target, key, value, receiver);</span><br><span class="line">    if (key !&#x3D;&#x3D; &#39;length&#39;) &#123;</span><br><span class="line">      Render.change(value);</span><br><span class="line">    &#125;</span><br><span class="line">    return Reflect.set(target, key, value, receiver);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 初始化</span><br><span class="line">window.onload &#x3D; function() &#123;</span><br><span class="line">    Render.init(arr);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; push数字</span><br><span class="line">btn.addEventListener(&#39;click&#39;, function() &#123;</span><br><span class="line">  newArr.push(6);</span><br><span class="line">&#125;);</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>在线示例 <a target="_blank" rel="noopener" href="https://codepen.io/xiaomuzhu/pen/zjwGoN/">Proxy列表渲染</a> by Iwobi (<a target="_blank" rel="noopener" href="https://codepen.io/xiaomuzhu">@xiaomuzhu</a>) on <a target="_blank" rel="noopener" href="https://codepen.io/">CodePen</a>.</p>
+<p>很显然,Proxy不需要那么多hack（即使hack也无法完美实现监听）就可以无压力监听数组的变化,我们都知道,标准永远优先于hack。</p>
+<h4 id="3-3-Proxy的其他优势"><a href="#3-3-Proxy的其他优势" class="headerlink" title="3.3 Proxy的其他优势"></a>3.3 Proxy的其他优势</h4><p>Proxy有多达13种拦截方法,不限于apply、ownKeys、deleteProperty、has等等是<code>Object.defineProperty</code>不具备的。</p>
+<p>Proxy返回的是一个新对象,我们可以只操作新的对象达到目的,而<code>Object.defineProperty</code>只能遍历对象属性直接修改。</p>
+<p>Proxy作为新标准将受到浏览器厂商重点持续的性能优化，也就是传说中的新标准的性能红利。</p>
+<p>当然,Proxy的劣势就是兼容性问题,而且无法用polyfill磨平,因此Vue的作者才声明需要等到下个大版本(3.0)才能用Proxy重写。</p>
+<p>作者：寻找海蓝96<br>链接：<a target="_blank" rel="noopener" href="https://juejin.im/post/5acd0c8a6fb9a028da7cdfaf">https://juejin.im/post/5acd0c8a6fb9a028da7cdfaf</a><br>来源：掘金<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+
+  </div>
+  <div>
+    <a href="https://github.com/Mcguffen/mcguffen.github.io/edit/myblog/source/_posts/docs/frontEnd/js/js20.md"target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="toc-number">1.1.</span> <span class="toc-text">目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%9F%BA%E4%BA%8E%E6%95%B0%E6%8D%AE%E5%8A%AB%E6%8C%81%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9A%E7%9A%84%E7%89%B9%E7%82%B9"><span class="toc-number">1.2.</span> <span class="toc-text">1.基于数据劫持实现的双向绑定的特点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-%E4%BB%80%E4%B9%88%E6%98%AF%E6%95%B0%E6%8D%AE%E5%8A%AB%E6%8C%81"><span class="toc-number">1.2.1.</span> <span class="toc-text">1.1 什么是数据劫持</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-%E6%95%B0%E6%8D%AE%E5%8A%AB%E6%8C%81%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="toc-number">1.2.2.</span> <span class="toc-text">1.2 数据劫持的优势</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-%E5%9F%BA%E4%BA%8E%E6%95%B0%E6%8D%AE%E5%8A%AB%E6%8C%81%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9A%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF"><span class="toc-number">1.2.3.</span> <span class="toc-text">1.3 基于数据劫持双向绑定的实现思路</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%9F%BA%E4%BA%8EObject-defineProperty%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9A%E7%9A%84%E7%89%B9%E7%82%B9"><span class="toc-number">1.3.</span> <span class="toc-text">2.基于Object.defineProperty双向绑定的特点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-%E6%9E%81%E7%AE%80%E7%89%88%E7%9A%84%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9A"><span class="toc-number">1.3.1.</span> <span class="toc-text">2.1 极简版的双向绑定</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-%E5%8D%87%E7%BA%A7%E6%94%B9%E9%80%A0"><span class="toc-number">1.3.2.</span> <span class="toc-text">2.2 升级改造</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-Object-defineProperty%E7%9A%84%E7%BC%BA%E9%99%B7"><span class="toc-number">1.3.3.</span> <span class="toc-text">2.3 Object.defineProperty的缺陷</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Proxy%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9A%E7%9A%84%E7%89%B9%E7%82%B9"><span class="toc-number">1.4.</span> <span class="toc-text">3.Proxy实现的双向绑定的特点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-Proxy%E5%8F%AF%E4%BB%A5%E7%9B%B4%E6%8E%A5%E7%9B%91%E5%90%AC%E5%AF%B9%E8%B1%A1%E8%80%8C%E9%9D%9E%E5%B1%9E%E6%80%A7"><span class="toc-number">1.4.1.</span> <span class="toc-text">3.1 Proxy可以直接监听对象而非属性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-Proxy%E5%8F%AF%E4%BB%A5%E7%9B%B4%E6%8E%A5%E7%9B%91%E5%90%AC%E6%95%B0%E7%BB%84%E7%9A%84%E5%8F%98%E5%8C%96"><span class="toc-number">1.4.2.</span> <span class="toc-text">3.2 Proxy可以直接监听数组的变化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-Proxy%E7%9A%84%E5%85%B6%E4%BB%96%E4%BC%98%E5%8A%BF"><span class="toc-number">1.4.3.</span> <span class="toc-text">3.3 Proxy的其他优势</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/04/03/docs/frontEnd/js/js20/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/04/03/docs/frontEnd/js/js20/&text=JS进阶 - 双向绑定"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/04/03/docs/frontEnd/js/js20/&title=JS进阶 - 双向绑定"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/04/03/docs/frontEnd/js/js20/&is_video=false&description=JS进阶 - 双向绑定"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JS进阶 - 双向绑定&body=Check out this article: http://example.com/2020/04/03/docs/frontEnd/js/js20/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/04/03/docs/frontEnd/js/js20/&title=JS进阶 - 双向绑定"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/04/03/docs/frontEnd/js/js20/&title=JS进阶 - 双向绑定"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/04/03/docs/frontEnd/js/js20/&title=JS进阶 - 双向绑定"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/04/03/docs/frontEnd/js/js20/&title=JS进阶 - 双向绑定"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/04/03/docs/frontEnd/js/js20/&name=JS进阶 - 双向绑定&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/04/03/docs/frontEnd/js/js20/&t=JS进阶 - 双向绑定"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Mcguffen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

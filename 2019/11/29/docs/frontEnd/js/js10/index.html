@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="先看：《阮一峰：浏览器同源政策及其规避方法》 注意：请首先更新你的 nodejs-test 代码，否则会报错 最新 nodejs-test 代码 Windows 用户注意 Windows 没有 &#x2F;etc&#x2F;hosts 文件，请按照如下方法修改 hosts： Windows系统hosts文件修改方法 数据库是什么 文件系统是一种数据库  MySQL 是一种数据库    只要能长久地存数据，就是数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS 基础 - JSONP">
+<meta property="og:url" content="http://example.com/2019/11/29/docs/frontEnd/js/js10/index.html">
+<meta property="og:site_name" content="Hi! I am yang.">
+<meta property="og:description" content="先看：《阮一峰：浏览器同源政策及其规避方法》 注意：请首先更新你的 nodejs-test 代码，否则会报错 最新 nodejs-test 代码 Windows 用户注意 Windows 没有 &#x2F;etc&#x2F;hosts 文件，请按照如下方法修改 hosts： Windows系统hosts文件修改方法 数据库是什么 文件系统是一种数据库  MySQL 是一种数据库    只要能长久地存数据，就是数据库">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-11-29T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-07T12:11:01.076Z">
+<meta property="article:author" content="Mcguffen">
+<meta property="article:tag" content="js">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>JS 基础 - JSONP</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/12/06/docs/frontEnd/js/js11/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/11/22/docs/frontEnd/js/js09/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2019/11/29/docs/frontEnd/js/js10/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2019/11/29/docs/frontEnd/js/js10/&text=JS 基础 - JSONP"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2019/11/29/docs/frontEnd/js/js10/&title=JS 基础 - JSONP"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2019/11/29/docs/frontEnd/js/js10/&is_video=false&description=JS 基础 - JSONP"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JS 基础 - JSONP&body=Check out this article: http://example.com/2019/11/29/docs/frontEnd/js/js10/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2019/11/29/docs/frontEnd/js/js10/&title=JS 基础 - JSONP"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2019/11/29/docs/frontEnd/js/js10/&title=JS 基础 - JSONP"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2019/11/29/docs/frontEnd/js/js10/&title=JS 基础 - JSONP"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2019/11/29/docs/frontEnd/js/js10/&title=JS 基础 - JSONP"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2019/11/29/docs/frontEnd/js/js10/&name=JS 基础 - JSONP&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2019/11/29/docs/frontEnd/js/js10/&t=JS 基础 - JSONP"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.</span> <span class="toc-text">数据库是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E5%81%9A%E5%8A%A0%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">用数据库做加法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B1%80%E9%83%A8%E5%88%B7%E6%96%B0%E6%80%8E%E4%B9%88%E5%81%9A"><span class="toc-number">3.</span> <span class="toc-text">局部刷新怎么做</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%9F%E5%90%8D%E5%88%B7%E6%96%B0%E6%97%A0%E6%89%80%E8%B0%93"><span class="toc-number">4.</span> <span class="toc-text">域名刷新无所谓</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A1%AE%E5%AE%9A%E5%87%BD%E6%95%B0%E5%90%8D"><span class="toc-number">5.</span> <span class="toc-text">确定函数名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%A6%E5%AE%9A"><span class="toc-number">6.</span> <span class="toc-text">约定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JQuery-%E4%B8%AD%E6%80%8E%E4%B9%88%E7%94%A8-JSONP"><span class="toc-number">7.</span> <span class="toc-text">JQuery 中怎么用 JSONP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-JSONP%EF%BC%9F"><span class="toc-number">8.</span> <span class="toc-text">什么是 JSONP？</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        JS 基础 - JSONP
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Mcguffen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-11-29T00:00:00.000Z" itemprop="datePublished">2019-11-29</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/frontEnd/">frontEnd</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/js/" rel="tag">js</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>先看：《<a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2016/04/same-origin-policy.html">阮一峰：浏览器同源政策及其规避方法</a>》</p>
+<p>注意：请首先更新你的 nodejs-test 代码，否则会报错</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/FrankFang/nodejs-test/tree/d790e65bb974e4a1438eef0c9a4c9646addd3bba">最新 nodejs-test 代码</a></p>
+<p><strong>Windows 用户注意</strong></p>
+<p>Windows 没有 /etc/hosts 文件，请按照如下方法修改 hosts：</p>
+<p><a target="_blank" rel="noopener" href="https://jingyan.baidu.com/article/c45ad29c1dd610051653e25c.html">Windows系统hosts文件修改方法</a></p>
+<h2 id="数据库是什么"><a href="#数据库是什么" class="headerlink" title="数据库是什么"></a>数据库是什么</h2><ol>
+<li><p>文件系统是一种数据库</p>
+</li>
+<li><p>MySQL 是一种数据库</p>
+</li>
+</ol>
+<blockquote>
+<p>只要能长久地存数据，就是数据库</p>
+</blockquote>
+<h2 id="用数据库做加法"><a href="#用数据库做加法" class="headerlink" title="用数据库做加法"></a>用数据库做加法</h2><p>server.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">  </span><br><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">&#x27;http&#x27;</span>)</span><br><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>)</span><br><span class="line"><span class="keyword">var</span> url = <span class="built_in">require</span>(<span class="string">&#x27;url&#x27;</span>)</span><br><span class="line"><span class="keyword">var</span> port = process.argv[<span class="number">2</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(!port)&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;请指定端口号好不啦？\nnode server.js 8888 这样不会吗？&#x27;</span>)</span><br><span class="line">  process.exit(<span class="number">1</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> server = http.createServer(<span class="function"><span class="keyword">function</span>(<span class="params">request, response</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> parsedUrl = url.parse(request.url, <span class="literal">true</span>)</span><br><span class="line">  <span class="keyword">var</span> pathWithQuery = request.url </span><br><span class="line">  <span class="keyword">var</span> queryString = <span class="string">&#x27;&#x27;</span></span><br><span class="line">  <span class="keyword">if</span>(pathWithQuery.indexOf(<span class="string">&#x27;?&#x27;</span>) &gt;= <span class="number">0</span>)&#123; queryString = pathWithQuery.substring(pathWithQuery.indexOf(<span class="string">&#x27;?&#x27;</span>)) &#125;</span><br><span class="line">  <span class="keyword">var</span> path = parsedUrl.pathname</span><br><span class="line">  <span class="keyword">var</span> query = parsedUrl.query</span><br><span class="line">  <span class="keyword">var</span> method = request.method</span><br><span class="line"></span><br><span class="line">  <span class="comment">/******** 从这里开始看，上面不要看 ************/</span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;有个傻子发请求过来啦！路径（带查询参数）为：&#x27;</span> + pathWithQuery)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(path === <span class="string">&#x27;/&#x27;</span>)&#123;</span><br><span class="line">    response.statusCode = <span class="number">200</span></span><br><span class="line">    response.setHeader(<span class="string">&#x27;Content-Type&#x27;</span>, <span class="string">&#x27;text/html;charset=utf-8&#x27;</span>)</span><br><span class="line">    response.write(<span class="string">`二哈`</span>)</span><br><span class="line">    response.end()</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span>(path === <span class="string">&#x27;/x&#x27;</span>)&#123;</span><br><span class="line">    response.statusCode = <span class="number">200</span></span><br><span class="line">    response.setHeader(<span class="string">&#x27;Content-Type&#x27;</span>, <span class="string">&#x27;text/css;charset=utf-8&#x27;</span>)</span><br><span class="line">    response.write(<span class="string">`body&#123;color: red;&#125;`</span>)</span><br><span class="line">    response.end()</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    response.statusCode = <span class="number">404</span></span><br><span class="line">    response.setHeader(<span class="string">&#x27;Content-Type&#x27;</span>, <span class="string">&#x27;text/html;charset=utf-8&#x27;</span>)</span><br><span class="line">    response.write(<span class="string">`你输入的路径不存在对应的内容`</span>)</span><br><span class="line">    response.end()</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/******** 代码结束，下面不要看 ************/</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">server.listen(port)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;监听 &#x27;</span> + port + <span class="string">&#x27; 成功\n请用在空中转体720度然后用电饭煲打开 http://localhost:&#x27;</span> + port)</span><br></pre></td></tr></table></figure>
+
+<p><strong>启动应用</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node server.js 8888</span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node server 8888</span><br></pre></td></tr></table></figure>
+
+<p><strong>添加路由</strong></p>
+<ol>
+<li>编辑 server.js 文件，添加 if else</li>
+<li>重新运行 node server.js 8888</li>
+</ol>
+<p><strong>后台启动</strong></p>
+<p>touch log <code>node server.js 8888 &gt;log log 2&gt;&amp;1 &amp;</code></p>
+<h2 id="局部刷新怎么做"><a href="#局部刷新怎么做" class="headerlink" title="局部刷新怎么做"></a>局部刷新怎么做</h2><p>有没有想过，不返回 HTML，返回 JS</p>
+<p>方案一：用图片造 get 请求</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">button.addEventListener(&#39;click&#39;, (e)&#x3D;&gt;&#123;</span><br><span class="line">  let image &#x3D; document.createElement(&#39;img&#39;)</span><br><span class="line">  image.src &#x3D; &#39;&#x2F;pay&#39;</span><br><span class="line">  image.onload &#x3D; function()&#123; &#x2F;&#x2F; 状态码是 200~299 则表示成功</span><br><span class="line">    alert(&#39;成功&#39;)</span><br><span class="line">  &#125;</span><br><span class="line">  image.onload &#x3D; function()&#123; &#x2F;&#x2F; 状态码大于等于 400 则表示失败</span><br><span class="line">    alert(&#39;失败&#39;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>方案二：用 script 造 get 请求</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">button.addEventListener(&#39;click&#39;, (e)&#x3D;&gt;&#123;</span><br><span class="line">  let script &#x3D; document.createElement(&#39;script&#39;)</span><br><span class="line">  script.src &#x3D; &#39;&#x2F;pay&#39;</span><br><span class="line">  document.body.appendChild(script)</span><br><span class="line">  script.onload &#x3D; function(e)&#123; &#x2F;&#x2F; 状态码是 200~299 则表示成功</span><br><span class="line">    e.currentTarget.remove()</span><br><span class="line">  &#125;</span><br><span class="line">  script.onload &#x3D; function(e)&#123; &#x2F;&#x2F; 状态码大于等于 400 则表示失败</span><br><span class="line">    e.currentTarget.remove()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;后端代码</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">if (path &#x3D;&#x3D;&#x3D; &#39;&#x2F;pay&#39;)&#123;</span><br><span class="line">  let amount &#x3D; fs.readFileSync(&#39;.&#x2F;db&#39;, &#39;utf8&#39;)</span><br><span class="line">  amount -&#x3D; 1</span><br><span class="line">  fs.writeFileSync(&#39;.&#x2F;db&#39;, amount)</span><br><span class="line">  response.setHeader(&#39;Content-Type&#39;, &#39;application&#x2F;javascript&#39;)</span><br><span class="line">  response.write(&#39;amount.innerText &#x3D; &#39; + amount)</span><br><span class="line">  response.end()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这种技术叫做 SRJ - Server Rendered JavaScript</p>
+<h2 id="域名刷新无所谓"><a href="#域名刷新无所谓" class="headerlink" title="域名刷新无所谓"></a>域名刷新无所谓</h2><blockquote>
+<p>跨域 SRJ</p>
+</blockquote>
+<h2 id="确定函数名"><a href="#确定函数名" class="headerlink" title="确定函数名"></a>确定函数名</h2><p>JSONP<br>请求方：req.com 的前端程序员（浏览器）<br>响应方：res.com 的后端程序员（服务器）</p>
+<ol>
+<li><p>请求方创建 script，src 指向响应方，同时传一个查询参数 ?callbackName=yyy</p>
+</li>
+<li><p>响应方根据查询参数callbackName，构造形如</p>
+<p>i. yyy.call(undefined, ‘你要的数据’)</p>
+<p>ii. yyy(‘你要的数据’)<br>这样的响应</p>
+</li>
+<li><p>浏览器接收到响应，就会执行 yyy.call(undefined, ‘你要的数据’)</p>
+</li>
+<li><p>那么请求方就知道了他要的数据</p>
+</li>
+</ol>
+<p>这就是 JSONP</p>
+<p>方案3：JSONP</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">button.addEventListener(<span class="string">&#x27;click&#x27;</span>, <span class="function">(<span class="params">e</span>)=&gt;</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> script = <span class="built_in">document</span>.createElement(<span class="string">&#x27;script&#x27;</span>)</span><br><span class="line">  <span class="keyword">let</span> functionName = <span class="string">&#x27;req&#x27;</span>+ <span class="built_in">parseInt</span>(<span class="built_in">Math</span>.random()*<span class="number">10000000</span> ,<span class="number">10</span>)</span><br><span class="line">  <span class="built_in">window</span>[functionName] = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;  <span class="comment">// 每次请求之前搞出一个随机的函数，欺骗浏览器，不污染全局变量</span></span><br><span class="line">    amount.innerText = amount.innerText - <span class="number">0</span> - <span class="number">1</span></span><br><span class="line">  &#125;</span><br><span class="line">  script.src = <span class="string">&#x27;/pay?callback=&#x27;</span> + functionName</span><br><span class="line">  <span class="built_in">document</span>.body.appendChild(script)</span><br><span class="line">  script.onload = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123; <span class="comment">// 状态码是 200~299 则表示成功</span></span><br><span class="line">    e.currentTarget.remove()</span><br><span class="line">    <span class="keyword">delete</span> <span class="built_in">window</span>[functionName] <span class="comment">// 请求完了就干掉这个随机函数</span></span><br><span class="line">  &#125;</span><br><span class="line">  script.onload = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123; <span class="comment">// 状态码大于等于 400 则表示失败</span></span><br><span class="line">    e.currentTarget.remove()</span><br><span class="line">    <span class="keyword">delete</span> <span class="built_in">window</span>[functionName] <span class="comment">// 请求完了就干掉这个随机函数</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//后端代码</span></span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (path === <span class="string">&#x27;/pay&#x27;</span>)&#123;</span><br><span class="line">  <span class="keyword">let</span> amount = fs.readFileSync(<span class="string">&#x27;./db&#x27;</span>, <span class="string">&#x27;utf8&#x27;</span>)</span><br><span class="line">  amount -= <span class="number">1</span></span><br><span class="line">  fs.writeFileSync(<span class="string">&#x27;./db&#x27;</span>, amount)</span><br><span class="line">  <span class="keyword">let</span> callbackName = query.callback</span><br><span class="line">  response.setHeader(<span class="string">&#x27;Content-Type&#x27;</span>, <span class="string">&#x27;application/javascript&#x27;</span>)</span><br><span class="line">  response.write(<span class="string">`</span></span><br><span class="line"><span class="string">    <span class="subst">$&#123;callbackName&#125;</span>.call(undefined, &#x27;success&#x27;)</span></span><br><span class="line"><span class="string">  `</span>)</span><br><span class="line">  response.end()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h2 id="约定"><a href="#约定" class="headerlink" title="约定"></a>约定</h2><ol>
+<li><p>callbackName -&gt; callback</p>
+</li>
+<li><p>yyy -&gt; 随机数 frank12312312312321325()</p>
+</li>
+</ol>
+<h2 id="JQuery-中怎么用-JSONP"><a href="#JQuery-中怎么用-JSONP" class="headerlink" title="JQuery 中怎么用 JSONP"></a>JQuery 中怎么用 JSONP</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">	url: <span class="string">&quot;http://jack.com:8002/pay&quot;</span>,</span><br><span class="line">	dataType: <span class="string">&quot;jsonp&quot;</span>,</span><br><span class="line">	success: <span class="function"><span class="keyword">function</span>(<span class="params"> response </span>) </span>&#123;</span><br><span class="line"> 		<span class="keyword">if</span>(response === <span class="string">&#x27;success&#x27;</span>)&#123;</span><br><span class="line">			amount.innerText = amount.innerText - <span class="number">1</span></span><br><span class="line">  	&#125;</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$.jsonp()</span><br></pre></td></tr></table></figure>
+
+<p> 这个方法和 ajax 一点关系都没有。</p>
+<h2 id="什么是-JSONP？"><a href="#什么是-JSONP？" class="headerlink" title="什么是 JSONP？"></a>什么是 JSONP？</h2><p>JSONP(JSON with Padding)是JSON的一种”使用模式”，可用于解决主流浏览器的跨域数据访问的问题。由于同源策略，一般来说位于 server1.example.com 的网页无法与不是 server1.example.com的服务器沟通，而 HTML 的<script> 元素是一个例外。利用 <script> 元素的这个开放策略，网页可以得到从其他来源动态产生的 JSON 资料，而这种使用模式就是所谓的 JSONP。用 JSONP 抓到的资料并不是 JSON，而是任意的JavaScript，用 JavaScript 直译器执行而不是用 JSON 解析器解析。</p>
+<h2 id="JSONP-为什么不支持-POST"><a href="#JSONP-为什么不支持-POST" class="headerlink" title="JSONP 为什么不支持 POST"></a>JSONP 为什么不支持 POST</h2><p>因为用 JSONP 进行跨域，实际是在客户端动态添加了个<script></script>然后将url指向要请求的地址，script是没有同源策略的，用这种办法自然只能是get了。</p>
+<p>用代码实现 frank.com:8001 和 jack.com:8002 之间的 JSONP 请求</p>
+
+  </div>
+  <div>
+    <a href="https://github.com/Mcguffen/mcguffen.github.io/edit/myblog/source/_posts/docs/frontEnd/js/js10.md"target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.</span> <span class="toc-text">数据库是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E5%81%9A%E5%8A%A0%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">用数据库做加法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B1%80%E9%83%A8%E5%88%B7%E6%96%B0%E6%80%8E%E4%B9%88%E5%81%9A"><span class="toc-number">3.</span> <span class="toc-text">局部刷新怎么做</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%9F%E5%90%8D%E5%88%B7%E6%96%B0%E6%97%A0%E6%89%80%E8%B0%93"><span class="toc-number">4.</span> <span class="toc-text">域名刷新无所谓</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A1%AE%E5%AE%9A%E5%87%BD%E6%95%B0%E5%90%8D"><span class="toc-number">5.</span> <span class="toc-text">确定函数名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%A6%E5%AE%9A"><span class="toc-number">6.</span> <span class="toc-text">约定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JQuery-%E4%B8%AD%E6%80%8E%E4%B9%88%E7%94%A8-JSONP"><span class="toc-number">7.</span> <span class="toc-text">JQuery 中怎么用 JSONP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-JSONP%EF%BC%9F"><span class="toc-number">8.</span> <span class="toc-text">什么是 JSONP？</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2019/11/29/docs/frontEnd/js/js10/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2019/11/29/docs/frontEnd/js/js10/&text=JS 基础 - JSONP"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2019/11/29/docs/frontEnd/js/js10/&title=JS 基础 - JSONP"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2019/11/29/docs/frontEnd/js/js10/&is_video=false&description=JS 基础 - JSONP"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JS 基础 - JSONP&body=Check out this article: http://example.com/2019/11/29/docs/frontEnd/js/js10/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2019/11/29/docs/frontEnd/js/js10/&title=JS 基础 - JSONP"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2019/11/29/docs/frontEnd/js/js10/&title=JS 基础 - JSONP"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2019/11/29/docs/frontEnd/js/js10/&title=JS 基础 - JSONP"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2019/11/29/docs/frontEnd/js/js10/&title=JS 基础 - JSONP"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2019/11/29/docs/frontEnd/js/js10/&name=JS 基础 - JSONP&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2019/11/29/docs/frontEnd/js/js10/&t=JS 基础 - JSONP"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Mcguffen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

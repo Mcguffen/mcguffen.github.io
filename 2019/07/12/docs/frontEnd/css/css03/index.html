@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="img 法 background 法 background 合一法（雪碧图法） font 法 SVG 法 新手慎用：「CSS 就是干」法  前端技术名词基本翻译得都很垃圾。。。雪碧图，文盲翻译，阿贾克斯ajax，鬼知道是啥 切图方法一你是一个会 PS 的合格前端： ​    打开 photoshop ​    我们打开 iconfont 然后找一些图标，然后拖进我们的画布，调整到合适的大小后保存">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS - icon 全解">
+<meta property="og:url" content="http://example.com/2019/07/12/docs/frontEnd/css/css03/index.html">
+<meta property="og:site_name" content="Hi! I am yang.">
+<meta property="og:description" content="img 法 background 法 background 合一法（雪碧图法） font 法 SVG 法 新手慎用：「CSS 就是干」法  前端技术名词基本翻译得都很垃圾。。。雪碧图，文盲翻译，阿贾克斯ajax，鬼知道是啥 切图方法一你是一个会 PS 的合格前端： ​    打开 photoshop ​    我们打开 iconfont 然后找一些图标，然后拖进我们的画布，调整到合适的大小后保存">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfnkybl3wpj305d030jr5.jpg">
+<meta property="article:published_time" content="2019-07-12T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-07T12:11:01.076Z">
+<meta property="article:author" content="Mcguffen">
+<meta property="article:tag" content="css">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfnkybl3wpj305d030jr5.jpg">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>CSS - icon 全解</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/07/19/docs/frontEnd/css/css04/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/07/07/js-data/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2019/07/12/docs/frontEnd/css/css03/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2019/07/12/docs/frontEnd/css/css03/&text=CSS - icon 全解"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2019/07/12/docs/frontEnd/css/css03/&title=CSS - icon 全解"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2019/07/12/docs/frontEnd/css/css03/&is_video=false&description=CSS - icon 全解"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CSS - icon 全解&body=Check out this article: http://example.com/2019/07/12/docs/frontEnd/css/css03/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2019/07/12/docs/frontEnd/css/css03/&title=CSS - icon 全解"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2019/07/12/docs/frontEnd/css/css03/&title=CSS - icon 全解"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2019/07/12/docs/frontEnd/css/css03/&title=CSS - icon 全解"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2019/07/12/docs/frontEnd/css/css03/&title=CSS - icon 全解"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2019/07/12/docs/frontEnd/css/css03/&name=CSS - icon 全解&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2019/07/12/docs/frontEnd/css/css03/&t=CSS - icon 全解"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%87%E5%9B%BE"><span class="toc-number">1.</span> <span class="toc-text">切图</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80"><span class="toc-number">1.0.1.</span> <span class="toc-text">方法一</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C"><span class="toc-number">1.0.2.</span> <span class="toc-text">方法二</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%AA%E7%A2%A7%E5%9B%BE%E6%B3%95%EF%BC%88CSS-sprites%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">雪碧图法（CSS sprites）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%AA%E7%A2%A7%E5%9B%BE%E7%9A%84%E5%8E%9F%E7%90%86"><span class="toc-number">2.0.1.</span> <span class="toc-text">雪碧图的原理</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E4%BD%93%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">字体法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%AA%E7%B1%BB"><span class="toc-number">4.</span> <span class="toc-text">伪类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F%E4%B8%80"><span class="toc-number">4.0.1.</span> <span class="toc-text">方式一</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F%E4%BA%8C"><span class="toc-number">4.0.2.</span> <span class="toc-text">方式二</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%B8%89"><span class="toc-number">4.0.3.</span> <span class="toc-text">方法三</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SVG"><span class="toc-number">5.</span> <span class="toc-text">SVG</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS-%E5%B0%B1%E6%98%AF%E5%B9%B2%EF%BC%81"><span class="toc-number">6.</span> <span class="toc-text">CSS 就是干！</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text">总结</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        CSS - icon 全解
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Mcguffen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-07-12T00:00:00.000Z" itemprop="datePublished">2019-07-12</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/frontEnd/">frontEnd</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/css/" rel="tag">css</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <ul>
+<li>img 法</li>
+<li>background 法</li>
+<li>background 合一法（雪碧图法）</li>
+<li>font 法</li>
+<li>SVG 法</li>
+<li>新手慎用：「CSS 就是干」法</li>
+</ul>
+<p>前端技术名词基本翻译得都很垃圾。。。雪碧图，文盲翻译，阿贾克斯ajax，鬼知道是啥</p>
+<h2 id="切图"><a href="#切图" class="headerlink" title="切图"></a>切图</h2><h4 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h4><p>你是一个会 PS 的合格前端：</p>
+<p>​    打开 photoshop</p>
+<p>​    我们打开 iconfont 然后找一些图标，然后拖进我们的画布，调整到合适的大小后保存到桌面。</p>
+<p>​    这样我们就获得一个 psd 文件。</p>
+<p>怎么把一个单独图层导出：我们可以复制图层，用 image 的 trim 来进行裁剪，调整宽高，就可以导出为 png。</p>
+<h4 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h4><p>你是一个不会 PS 的智障前端</p>
+<p>​    导出一个 png 给你到桌面</p>
+<p>​    我们用 PS 打开 PNG 文件，然后粗选我们所需要的图标，进行剪切。</p>
+<p>​    使用魔法工具然对其快速选择，我们将选中的白色进行删除，然后我们就得到了我们的目标图层。</p>
+<p>两个方法相比，有什么好处呢？木有什么特别好的好处。但是当我们的 div 乱动的时候，我们的 background 引入 png 文件图片的时候，是不会变形乱动的。还有一个好处是可以做雪碧图。</p>
+<p>png 的问题：当我们改动宽度，它就可能不居中或者重复。总之，不推荐 PNG</p>
+<h2 id="雪碧图法（CSS-sprites）"><a href="#雪碧图法（CSS-sprites）" class="headerlink" title="雪碧图法（CSS sprites）"></a>雪碧图法（CSS sprites）</h2><p>CSS 妖精图，文盲才叫雪碧图。。。</p>
+<p>我们可以搜索 css sprites generator，打开第三个（应该是，蓝色主题色的那个全英文的）</p>
+<p>上传图片然后填写必要数据，这样我们就得到我们的雪碧图了，先右键存储到我们的本地。</p>
+<p>复制到我们的项目文件夹中，复制 css 样式，修改一下就可以显示出来了。</p>
+<h4 id="雪碧图的原理"><a href="#雪碧图的原理" class="headerlink" title="雪碧图的原理"></a>雪碧图的原理</h4><p>比较老套的方法，没啥新奇的。</p>
+<p>实际上这些背景图都是在 div 当中的，我们选择要用的区域，然后隐藏不需要的。</p>
+<p>使用 background-position 进行调整。</p>
+<h2 id="字体法"><a href="#字体法" class="headerlink" title="字体法"></a>字体法</h2><p>主要使用网站 iconfont~~</p>
+<p>同一个字，在不同字体里面可以不一样。那么设计师就想，如果一个字体不一样，那么可不可以特别不一样，比如把字母 A 画成一个五角星，那么我们使用五角星的时候就可以用这个字体的 A 。这就是字体法。</p>
+<p>由于设计师们一直在画图标，那么作为程序员就不需要再画图标了，我们直接去 iconfont 执行 cv 操作就可以了。</p>
+<p>我们在网站上新建项目，然后获取我们的目标图标，可以看到图标下面有一行神秘代码，&amp;# 就是一个 HTML 转义（又叫 HTML 实体）。我们可以在 HTML 中用 &amp; 开头来打一些字符，我们能用 html entity 来进行进一步的搜索学习。</p>
+<p>在 W3C 上面我们能看到有两种方式表现符号：一种是实体名称，另一种是实体编号，&amp;# 就是实体编号，我们可以通过数字编号来显示我们想要的字符（搜索任意字符的 unicon 编码然后获取实体编号）。</p>
+<p>如果我们要用 iconfont，一般我们要用 &amp;#xe6 开头，因为 e6 我们约定俗成地，用 iconfont 的时候我们要从 e610 开始，因为这一段编码是不表示任何字符的，即使不加载也不会出现问题。</p>
+<p>在线生成链接后引入文件内，在 style 中加入 <code>font-family: iconfont;</code> ，这样就成了！</p>
+<h2 id="伪类"><a href="#伪类" class="headerlink" title="伪类"></a>伪类</h2><h4 id="方式一"><a href="#方式一" class="headerlink" title="方式一"></a>方式一</h4><p>使用 Unicode 来进行 html 的图标加载</p>
+<p>伪类是为了干嘛的，是为了装逼的，我们用样式来写图标，使用 :</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.xxx</span><span class="selector-pseudo">::before</span> &#123;</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">&#x27;hi&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>就是用伪类这种写法来完成我们的字体。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.xxx</span><span class="selector-pseudo">::before</span> &#123;</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">&#x27;\e614&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>缺点是 ie6 不支持，但是 ie 支不支持关我什么事呢？不用去管它。</p>
+<h4 id="方式二"><a href="#方式二" class="headerlink" title="方式二"></a>方式二</h4><p>使用 Font class 来进行</p>
+<p>其实 iconfont 可以帮助我们在线生成 css （font class），直接引入然后使用 class 显示我们的字体。</p>
+<h4 id="方法三"><a href="#方法三" class="headerlink" title="方法三"></a>方法三</h4><p>使用 Symbol ，也就是 js</p>
+<p>上面的方法二有很多便利，也有问题，所以我们优先使用这种方法，也就是 SVG。</p>
+<h2 id="SVG"><a href="#SVG" class="headerlink" title="SVG"></a>SVG</h2><p>最后一种，也是推荐的做法。</p>
+<p>SVG 文件其实是代码，它存的是如何画一个五角星，也就是一组坐标。</p>
+<p>记录了两个信息：怎么画一个五角星，内容颜色是怎么渐变的。</p>
+<p>我们使用 symbol 中提供的 js 文件。这个 js 就是往页面当中插入了一个高度宽度为 0 的 svg 文件，是看不见的 svg 标签，里面有我们所有的 icon，默认是隐藏的。我们在 iconfont 中打开使用帮助，根据文档引入。</p>
+<p>svg 特点：不会变形，没有任何锯齿（因为这是个矢量图，好棒），默认是居中的（太棒了），支持各种 css 及动画（超级棒）</p>
+<h2 id="CSS-就是干！"><a href="#CSS-就是干！" class="headerlink" title="CSS 就是干！"></a>CSS 就是干！</h2><p>基本上没什么人在用，但是能够提高我们的 css 技巧。</p>
+<p>我们可以搜索 cssicon.space ，点进去，我们发现这个家伙（设计师出身）超级吊，用 css 一个个画出来这么多图标。</p>
+<p>比如我们画一个搜索的放大镜图标：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;X-UA-Compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;ie=edge&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">    .fdj &#123;</span><br><span class="line"><span class="css">      <span class="attribute">display</span>: inline-block;</span></span><br><span class="line"><span class="css">      <span class="attribute">width</span>: <span class="number">20px</span>;</span></span><br><span class="line"><span class="css">      <span class="attribute">height</span>: <span class="number">20px</span>;</span></span><br><span class="line"><span class="css">      <span class="attribute">border</span>: <span class="number">1px</span> solid red;</span></span><br><span class="line"><span class="css">      <span class="attribute">border-radius</span>: <span class="number">50%</span>;</span></span><br><span class="line"><span class="css">      <span class="attribute">position</span>: relative;</span></span><br><span class="line">    &#125;</span><br><span class="line"><span class="css">    <span class="selector-class">.fdj</span><span class="selector-pseudo">::after</span> &#123;</span></span><br><span class="line"><span class="css">      <span class="attribute">content</span>: <span class="string">&#x27;&#x27;</span>;</span></span><br><span class="line"><span class="css">      <span class="attribute">display</span>: inline-block;</span></span><br><span class="line"><span class="css">      <span class="attribute">width</span>: <span class="number">10px</span>;</span></span><br><span class="line"><span class="css">      <span class="attribute">border-top</span>: <span class="number">1px</span> solid blue;</span></span><br><span class="line"><span class="css">      <span class="attribute">position</span>: absolute;</span></span><br><span class="line"><span class="css">      <span class="attribute">bottom</span>: <span class="number">0</span>;</span></span><br><span class="line"><span class="css">      <span class="attribute">left</span>: <span class="number">100%</span>;</span></span><br><span class="line"><span class="css">      <span class="attribute">transform</span>: <span class="built_in">rotate</span>(<span class="number">45deg</span>);</span></span><br><span class="line"><span class="css">      <span class="attribute">margin-left</span>: -<span class="number">3px</span>;</span></span><br><span class="line"><span class="css">      <span class="attribute">margin-bottom</span>: -<span class="number">1px</span>;</span></span><br><span class="line">    &#125;</span><br><span class="line">  <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;fdj&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfnkybl3wpj305d030jr5.jpg" alt="1544075604032"></p>
+<p>这样我们的一个放大镜就做出来了。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li><p>img：</p>
+</li>
+<li><p>background</p>
+</li>
+<li><p>background 合一法（精灵图）使用定位显示不同的图标，多个请求合成为一个请求。</p>
+</li>
+<li><p>font 法：使用字体，所有的 icon 做到字体里面。流行了很久~~~</p>
+</li>
+<li><p>SVG 法：支持的功能更多，支持彩色！可操作性高！</p>
+</li>
+<li><p>CSS 就是干：自虐形式~</p>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <a href="https://github.com/Mcguffen/mcguffen.github.io/edit/myblog/source/_posts/docs/frontEnd/css/css03.md"target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%87%E5%9B%BE"><span class="toc-number">1.</span> <span class="toc-text">切图</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80"><span class="toc-number">1.0.1.</span> <span class="toc-text">方法一</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C"><span class="toc-number">1.0.2.</span> <span class="toc-text">方法二</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%AA%E7%A2%A7%E5%9B%BE%E6%B3%95%EF%BC%88CSS-sprites%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">雪碧图法（CSS sprites）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%AA%E7%A2%A7%E5%9B%BE%E7%9A%84%E5%8E%9F%E7%90%86"><span class="toc-number">2.0.1.</span> <span class="toc-text">雪碧图的原理</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E4%BD%93%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">字体法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%AA%E7%B1%BB"><span class="toc-number">4.</span> <span class="toc-text">伪类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F%E4%B8%80"><span class="toc-number">4.0.1.</span> <span class="toc-text">方式一</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F%E4%BA%8C"><span class="toc-number">4.0.2.</span> <span class="toc-text">方式二</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%B8%89"><span class="toc-number">4.0.3.</span> <span class="toc-text">方法三</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SVG"><span class="toc-number">5.</span> <span class="toc-text">SVG</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS-%E5%B0%B1%E6%98%AF%E5%B9%B2%EF%BC%81"><span class="toc-number">6.</span> <span class="toc-text">CSS 就是干！</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text">总结</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2019/07/12/docs/frontEnd/css/css03/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2019/07/12/docs/frontEnd/css/css03/&text=CSS - icon 全解"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2019/07/12/docs/frontEnd/css/css03/&title=CSS - icon 全解"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2019/07/12/docs/frontEnd/css/css03/&is_video=false&description=CSS - icon 全解"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CSS - icon 全解&body=Check out this article: http://example.com/2019/07/12/docs/frontEnd/css/css03/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2019/07/12/docs/frontEnd/css/css03/&title=CSS - icon 全解"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2019/07/12/docs/frontEnd/css/css03/&title=CSS - icon 全解"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2019/07/12/docs/frontEnd/css/css03/&title=CSS - icon 全解"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2019/07/12/docs/frontEnd/css/css03/&title=CSS - icon 全解"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2019/07/12/docs/frontEnd/css/css03/&name=CSS - icon 全解&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2019/07/12/docs/frontEnd/css/css03/&t=CSS - icon 全解"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Mcguffen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

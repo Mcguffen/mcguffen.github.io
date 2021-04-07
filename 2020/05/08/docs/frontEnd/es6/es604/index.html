@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="前言本篇我们重点介绍以下四种模块加载规范：  AMD CMD CommonJS ES6 模块  最后再延伸讲下 Babel 的编译和 webpack 的打包原理。 require.js在了解 AMD 规范之前，我们先来看看 require.js 的使用方式。 项目目录为： 123456789* project&#x2F;    * index.html    * vender&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ES6 - 模块加载方案">
+<meta property="og:url" content="http://example.com/2020/05/08/docs/frontEnd/es6/es604/index.html">
+<meta property="og:site_name" content="Hi! I am yang.">
+<meta property="og:description" content="前言本篇我们重点介绍以下四种模块加载规范：  AMD CMD CommonJS ES6 模块  最后再延伸讲下 Babel 的编译和 webpack 的打包原理。 require.js在了解 AMD 规范之前，我们先来看看 require.js 的使用方式。 项目目录为： 123456789* project&#x2F;    * index.html    * vender&#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-05-08T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-07T12:11:01.076Z">
+<meta property="article:author" content="Mcguffen">
+<meta property="article:tag" content="es6">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>ES6 - 模块加载方案</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/05/15/docs/backEnd/git/README/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/05/01/docs/frontEnd/es6/es603/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/05/08/docs/frontEnd/es6/es604/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/05/08/docs/frontEnd/es6/es604/&text=ES6 - 模块加载方案"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/05/08/docs/frontEnd/es6/es604/&title=ES6 - 模块加载方案"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/05/08/docs/frontEnd/es6/es604/&is_video=false&description=ES6 - 模块加载方案"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ES6 - 模块加载方案&body=Check out this article: http://example.com/2020/05/08/docs/frontEnd/es6/es604/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/05/08/docs/frontEnd/es6/es604/&title=ES6 - 模块加载方案"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/05/08/docs/frontEnd/es6/es604/&title=ES6 - 模块加载方案"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/05/08/docs/frontEnd/es6/es604/&title=ES6 - 模块加载方案"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/05/08/docs/frontEnd/es6/es604/&title=ES6 - 模块加载方案"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/05/08/docs/frontEnd/es6/es604/&name=ES6 - 模块加载方案&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/05/08/docs/frontEnd/es6/es604/&t=ES6 - 模块加载方案"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#require-js"><span class="toc-number">2.</span> <span class="toc-text">require.js</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AMD"><span class="toc-number">3.</span> <span class="toc-text">AMD</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sea-js"><span class="toc-number">4.</span> <span class="toc-text">sea.js</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CMD"><span class="toc-number">5.</span> <span class="toc-text">CMD</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AMD-%E4%B8%8E-CMD-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">6.</span> <span class="toc-text">AMD 与 CMD 的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%84%9F%E8%B0%A2"><span class="toc-number">7.</span> <span class="toc-text">感谢</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CommonJS"><span class="toc-number">8.</span> <span class="toc-text">CommonJS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CommonJS-%E4%B8%8E-AMD"><span class="toc-number">9.</span> <span class="toc-text">CommonJS 与 AMD</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ES6"><span class="toc-number">10.</span> <span class="toc-text">ES6</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ES6-%E4%B8%8E-CommonJS"><span class="toc-number">11.</span> <span class="toc-text">ES6 与 CommonJS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Babel"><span class="toc-number">12.</span> <span class="toc-text">Babel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#webpack"><span class="toc-number">13.</span> <span class="toc-text">webpack</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">14.</span> <span class="toc-text">参考</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        ES6 - 模块加载方案
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Mcguffen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-05-08T00:00:00.000Z" itemprop="datePublished">2020-05-08</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/frontEnd/">frontEnd</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/es6/" rel="tag">es6</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本篇我们重点介绍以下四种模块加载规范：</p>
+<ol>
+<li>AMD</li>
+<li>CMD</li>
+<li>CommonJS</li>
+<li>ES6 模块</li>
+</ol>
+<p>最后再延伸讲下 Babel 的编译和 webpack 的打包原理。</p>
+<h2 id="require-js"><a href="#require-js" class="headerlink" title="require.js"></a>require.js</h2><p>在了解 AMD 规范之前，我们先来看看 require.js 的使用方式。</p>
+<p>项目目录为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">* project&#x2F;</span><br><span class="line">    * index.html</span><br><span class="line">    * vender&#x2F;</span><br><span class="line">        * main.js</span><br><span class="line">        * require.js</span><br><span class="line">        * add.js</span><br><span class="line">        * square.js</span><br><span class="line">        * multiply.js</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p><code>index.html</code> 的内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">    &lt;head&gt;</span><br><span class="line">        &lt;title&gt;require.js&lt;&#x2F;title&gt;</span><br><span class="line">    &lt;&#x2F;head&gt;</span><br><span class="line">    &lt;body&gt;</span><br><span class="line">        &lt;h1&gt;Content&lt;&#x2F;h1&gt;</span><br><span class="line">        &lt;script data-main&#x3D;&quot;vender&#x2F;main&quot; src&#x3D;&quot;vender&#x2F;require.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">    &lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p><code>data-main=&quot;vender/main&quot;</code> 表示主模块是 <code>vender</code> 下的 <code>main.js</code>。</p>
+<p><code>main.js</code> 的配置如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; main.js</span><br><span class="line">require([&#39;.&#x2F;add&#39;, &#39;.&#x2F;square&#39;], function(addModule, squareModule) &#123;</span><br><span class="line">    console.log(addModule.add(1, 1))</span><br><span class="line">    console.log(squareModule.square(3))</span><br><span class="line">&#125;);</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>require 的第一个参数表示依赖的模块的路径，第二个参数表示此模块的内容。</p>
+<p>由此可以看出，<code>主模块</code>依赖 <code>add 模块</code>和 <code>square 模块</code>。</p>
+<p>我们看下 <code>add 模块</code>即 <code>add.js</code> 的内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; add.js</span><br><span class="line">define(function() &#123;</span><br><span class="line">    console.log(&#39;加载了 add 模块&#39;);</span><br><span class="line">    var add &#x3D; function(x, y) &#123;&amp;emsp;</span><br><span class="line">        return x + y;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    return &#123;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;</span><br><span class="line">        add: add</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;);</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p><code>requirejs</code> 为全局添加了 <code>define</code> 函数，你只要按照这种约定的方式书写这个模块即可。</p>
+<p>那如果依赖的模块又依赖了其他模块呢？</p>
+<p>我们来看看<code>主模块</code>依赖的 <code>square 模块</code>， <code>square 模块</code>的作用是求出一个数字的平方，比如输入 3 就返回 9，该模块依赖一个<code>乘法模块</code>，该乘法模块即 <code>multiply.js</code> 的代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; multiply.js</span><br><span class="line">define(function() &#123;</span><br><span class="line">    console.log(&#39;加载了 multiply 模块&#39;)</span><br><span class="line">    var multiply &#x3D; function(x, y) &#123;&amp;emsp;</span><br><span class="line">        return x * y;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    return &#123;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;</span><br><span class="line">        multiply: multiply</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;);</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>而 <code>square 模块</code>就要用到 <code>multiply 模块</code>，其实写法跟 main.js 添加依赖模块一样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; square.js</span><br><span class="line">define([&#39;.&#x2F;multiply&#39;], function(multiplyModule) &#123;</span><br><span class="line">    console.log(&#39;加载了 square 模块&#39;)</span><br><span class="line">    return &#123;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;</span><br><span class="line">        square: function(num) &#123;</span><br><span class="line">            return multiplyModule.multiply(num, num)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;);</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>require.js 会自动分析依赖关系，将需要加载的模块正确加载。</p>
+<p>requirejs 项目 Demo 地址：<a target="_blank" rel="noopener" href="https://github.com/mqyqingfeng/Blog/tree/master/demos/ES6/module/requirejs">github.com/mqyqingfeng…</a></p>
+<p>而如果我们在浏览器中打开 <code>index.html</code>，打印的顺序为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">加载了 add 模块</span><br><span class="line">加载了 multiply 模块</span><br><span class="line">加载了 square 模块</span><br><span class="line">2</span><br><span class="line">9</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<h2 id="AMD"><a href="#AMD" class="headerlink" title="AMD"></a>AMD</h2><p>在上节，我们说了这样一句话：</p>
+<blockquote>
+<p><code>requirejs</code> 为全局添加了 <code>define</code> 函数，你只要按照这种约定的方式书写这个模块即可。</p>
+</blockquote>
+<p>那这个约定的书写方式是指什么呢？</p>
+<p>指的便是 The Asynchronous Module Definition (AMD) 规范。</p>
+<p>所以其实 <strong>AMD 是 RequireJS 在推广过程中对模块定义的规范化产出。</strong></p>
+<p>你去看 <a target="_blank" rel="noopener" href="https://github.com/amdjs/amdjs-api/wiki/AMD-(%E4%B8%AD%E6%96%87%E7%89%88)">AMD 规范</a> 的内容，其主要内容就是定义了 define 函数该如何书写，只要你按照这个规范书写模块和依赖，require.js 就能正确的进行解析。</p>
+<h2 id="sea-js"><a href="#sea-js" class="headerlink" title="sea.js"></a>sea.js</h2><p>在国内，经常与 AMD 被一起提起的还有 CMD，CMD 又是什么呢？我们从 <code>sea.js</code> 的使用开始说起。</p>
+<p>文件目录与 requirejs 项目目录相同:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">* project&#x2F;</span><br><span class="line">    * index.html</span><br><span class="line">    * vender&#x2F;</span><br><span class="line">        * main.js</span><br><span class="line">        * require.js</span><br><span class="line">        * add.js</span><br><span class="line">        * square.js</span><br><span class="line">        * multiply.js</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p><code>index.html</code> 的内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;sea.js&lt;&#x2F;title&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;h1&gt;Content&lt;&#x2F;h1&gt;</span><br><span class="line">    &lt;script src&#x3D;&quot;vender&#x2F;sea.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">    &#x2F;&#x2F; 在页面中加载主模块</span><br><span class="line">    seajs.use(&quot;.&#x2F;vender&#x2F;main&quot;);</span><br><span class="line">    &lt;&#x2F;script&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;html&gt;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>main.js 的内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; main.js</span><br><span class="line">define(function(require, exports, module) &#123;</span><br><span class="line">    var addModule &#x3D; require(&#39;.&#x2F;add&#39;);</span><br><span class="line">    console.log(addModule.add(1, 1))</span><br><span class="line"></span><br><span class="line">    var squareModule &#x3D; require(&#39;.&#x2F;square&#39;);</span><br><span class="line">    console.log(squareModule.square(3))</span><br><span class="line">&#125;);</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>add.js 的内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; add.js</span><br><span class="line">define(function(require, exports, module) &#123;</span><br><span class="line">    console.log(&#39;加载了 add 模块&#39;)</span><br><span class="line">    var add &#x3D; function(x, y) &#123;&amp;emsp;</span><br><span class="line">        return x + y;</span><br><span class="line">    &#125;;</span><br><span class="line">    module.exports &#x3D; &#123;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;</span><br><span class="line">        add: add</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;);</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>square.js 的内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">define(function(require, exports, module) &#123;</span><br><span class="line">    console.log(&#39;加载了 square 模块&#39;)</span><br><span class="line">    var multiplyModule &#x3D; require(&#39;.&#x2F;multiply&#39;);</span><br><span class="line">    module.exports &#x3D; &#123;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;</span><br><span class="line">        square: function(num) &#123;</span><br><span class="line">            return multiplyModule.multiply(num, num)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>multiply.js 的内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">define(function(require, exports, module) &#123;</span><br><span class="line">    console.log(&#39;加载了 multiply 模块&#39;)</span><br><span class="line">    var multiply &#x3D; function(x, y) &#123;&amp;emsp;</span><br><span class="line">        return x * y;</span><br><span class="line">    &#125;;</span><br><span class="line">    module.exports &#x3D; &#123;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;</span><br><span class="line">        multiply: multiply</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;);</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>跟第一个例子是同样的依赖结构，即 main 依赖 add 和 square，square 又依赖 multiply。</p>
+<p>seajs 项目 Demo 地址：<a target="_blank" rel="noopener" href="https://github.com/mqyqingfeng/Blog/tree/master/demos/ES6/module/seajs">github.com/mqyqingfeng…</a></p>
+<p>而如果我们在浏览器中打开 <code>index.html</code>，打印的顺序为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">加载了 add 模块</span><br><span class="line">2</span><br><span class="line">加载了 square 模块</span><br><span class="line">加载了 multiply 模块</span><br><span class="line">9</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<h2 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h2><p>与 AMD 一样，CMD 其实就是 SeaJS 在推广过程中对模块定义的规范化产出。</p>
+<p>你去看 <a target="_blank" rel="noopener" href="https://github.com/seajs/seajs/issues/242">CMD 规范</a>的内容，主要内容就是描述该如何定义模块，如何引入模块，如何导出模块，只要你按照这个规范书写代码，sea.js 就能正确的进行解析。</p>
+<h2 id="AMD-与-CMD-的区别"><a href="#AMD-与-CMD-的区别" class="headerlink" title="AMD 与 CMD 的区别"></a>AMD 与 CMD 的区别</h2><p>从 sea.js 和 require.js 的例子可以看出：</p>
+<p>1.CMD 推崇<strong>依赖就近</strong>，AMD 推崇<strong>依赖前置</strong>。看两个项目中的 main.js：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; require.js 例子中的 main.js</span><br><span class="line">&#x2F;&#x2F; 依赖必须一开始就写好</span><br><span class="line">require([&#39;.&#x2F;add&#39;, &#39;.&#x2F;square&#39;], function(addModule, squareModule) &#123;</span><br><span class="line">    console.log(addModule.add(1, 1))</span><br><span class="line">    console.log(squareModule.square(3))</span><br><span class="line">&#125;);</span><br><span class="line">复制代码</span><br><span class="line">&#x2F;&#x2F; sea.js 例子中的 main.js</span><br><span class="line">define(function(require, exports, module) &#123;</span><br><span class="line">    var addModule &#x3D; require(&#39;.&#x2F;add&#39;);</span><br><span class="line">    console.log(addModule.add(1, 1))</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 依赖可以就近书写</span><br><span class="line">    var squareModule &#x3D; require(&#39;.&#x2F;square&#39;);</span><br><span class="line">    console.log(squareModule.square(3))</span><br><span class="line">&#125;);</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>2.对于依赖的模块，AMD 是<strong>提前执行</strong>，CMD 是<strong>延迟执行</strong>。看两个项目中的打印顺序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; require.js</span><br><span class="line">加载了 add 模块</span><br><span class="line">加载了 multiply 模块</span><br><span class="line">加载了 square 模块</span><br><span class="line">2</span><br><span class="line">9</span><br><span class="line">复制代码</span><br><span class="line">&#x2F;&#x2F; sea.js</span><br><span class="line">加载了 add 模块</span><br><span class="line">2</span><br><span class="line">加载了 square 模块</span><br><span class="line">加载了 multiply 模块</span><br><span class="line">9</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>AMD 是将需要使用的模块先加载完再执行代码，而 CMD 是在 require 的时候才去加载模块文件，加载完再接着执行。</p>
+<h2 id="感谢"><a href="#感谢" class="headerlink" title="感谢"></a>感谢</h2><p>感谢 require.js 和 sea.js 在推动 JavaScript 模块化发展方面做出的贡献。</p>
+<h2 id="CommonJS"><a href="#CommonJS" class="headerlink" title="CommonJS"></a>CommonJS</h2><p>AMD 和 CMD 都是用于浏览器端的模块规范，而在服务器端比如 node，采用的则是 CommonJS 规范。</p>
+<p>导出模块的方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var add &#x3D; function(x, y) &#123;&amp;emsp;</span><br><span class="line">    return x + y;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">module.exports.add &#x3D; add;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>引入模块的方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var add &#x3D; require(&#39;.&#x2F;add.js&#39;);</span><br><span class="line">console.log(add.add(1, 1));</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>我们将之前的例子改成 CommonJS 规范：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; main.js</span><br><span class="line">var add &#x3D; require(&#39;.&#x2F;add.js&#39;);</span><br><span class="line">console.log(add.add(1, 1))</span><br><span class="line"></span><br><span class="line">var square &#x3D; require(&#39;.&#x2F;square.js&#39;);</span><br><span class="line">console.log(square.square(3));</span><br><span class="line">复制代码</span><br><span class="line">&#x2F;&#x2F; add.js</span><br><span class="line">console.log(&#39;加载了 add 模块&#39;)</span><br><span class="line"></span><br><span class="line">var add &#x3D; function(x, y) &#123;&amp;emsp;</span><br><span class="line">    return x + y;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">module.exports.add &#x3D; add;</span><br><span class="line">复制代码</span><br><span class="line">&#x2F;&#x2F; multiply.js</span><br><span class="line">console.log(&#39;加载了 multiply 模块&#39;)</span><br><span class="line"></span><br><span class="line">var multiply &#x3D; function(x, y) &#123;&amp;emsp;</span><br><span class="line">    return x * y;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">module.exports.multiply &#x3D; multiply;</span><br><span class="line">复制代码</span><br><span class="line">&#x2F;&#x2F; square.js</span><br><span class="line">console.log(&#39;加载了 square 模块&#39;)</span><br><span class="line"></span><br><span class="line">var multiply &#x3D; require(&#39;.&#x2F;multiply.js&#39;);</span><br><span class="line"></span><br><span class="line">var square &#x3D; function(num) &#123;&amp;emsp;</span><br><span class="line">    return multiply.multiply(num, num);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">module.exports.square &#x3D; square;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>CommonJS 项目 Demo 地址：<a target="_blank" rel="noopener" href="https://github.com/mqyqingfeng/Blog/tree/master/demos/ES6/module/commonJS">github.com/mqyqingfeng…</a></p>
+<p>如果我们执行 <code>node main.js</code>，打印的顺序为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">加载了 add 模块</span><br><span class="line">2</span><br><span class="line">加载了 square 模块</span><br><span class="line">加载了 multiply 模块</span><br><span class="line">9</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>跟 sea.js 的执行结果一致，也是在 require 的时候才去加载模块文件，加载完再接着执行。</p>
+<h2 id="CommonJS-与-AMD"><a href="#CommonJS-与-AMD" class="headerlink" title="CommonJS 与 AMD"></a>CommonJS 与 AMD</h2><p>引用阮一峰老师的<a target="_blank" rel="noopener" href="http://javascript.ruanyifeng.com/nodejs/module.html">《JavaScript 标准参考教程（alpha）》</a>:</p>
+<blockquote>
+<p>CommonJS 规范加载模块是同步的，也就是说，只有加载完成，才能执行后面的操作。</p>
+</blockquote>
+<blockquote>
+<p>AMD规范则是非同步加载模块，允许指定回调函数。</p>
+<p>由于 Node.js 主要用于服务器编程，模块文件一般都已经存在于本地硬盘，所以加载起来比较快，不用考虑非同步加载的方式，所以 CommonJS 规范比较适用。</p>
+</blockquote>
+<blockquote>
+<p>但是，如果是浏览器环境，要从服务器端加载模块，这时就必须采用非同步模式，因此浏览器端一般采用 AMD 规范。</p>
+</blockquote>
+<h2 id="ES6"><a href="#ES6" class="headerlink" title="ES6"></a>ES6</h2><p>ECMAScript2015 规定了新的模块加载方案。</p>
+<p>导出模块的方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var firstName &#x3D; &#39;Michael&#39;;</span><br><span class="line">var lastName &#x3D; &#39;Jackson&#39;;</span><br><span class="line">var year &#x3D; 1958;</span><br><span class="line"></span><br><span class="line">export &#123;firstName, lastName, year&#125;;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>引入模块的方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import &#123;firstName, lastName, year&#125; from &#39;.&#x2F;profile&#39;;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>我们再将上面的例子改成 ES6 规范：</p>
+<p>目录结构与 requirejs 和 seajs 目录结构一致。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">    &lt;head&gt;</span><br><span class="line">        &lt;title&gt;ES6&lt;&#x2F;title&gt;</span><br><span class="line">    &lt;&#x2F;head&gt;</span><br><span class="line">    &lt;body&gt;</span><br><span class="line">        &lt;h1&gt;Content&lt;&#x2F;h1&gt;</span><br><span class="line">        &lt;script src&#x3D;&quot;vender&#x2F;main.js&quot; type&#x3D;&quot;module&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">    &lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>注意！浏览器加载 ES6 模块，也使用 <code>&lt;script&gt;</code> 标签，但是要加入 <code>type=&quot;module&quot;</code> 属性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; main.js</span><br><span class="line">import &#123;add&#125; from &#39;.&#x2F;add.js&#39;;</span><br><span class="line">console.log(add(1, 1))</span><br><span class="line"></span><br><span class="line">import &#123;square&#125; from &#39;.&#x2F;square.js&#39;;</span><br><span class="line">console.log(square(3));</span><br><span class="line">复制代码</span><br><span class="line">&#x2F;&#x2F; add.js</span><br><span class="line">console.log(&#39;加载了 add 模块&#39;)</span><br><span class="line"></span><br><span class="line">var add &#x3D; function(x, y) &#123;</span><br><span class="line">    return x + y;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">export &#123;add&#125;</span><br><span class="line">复制代码</span><br><span class="line">&#x2F;&#x2F; multiply.js</span><br><span class="line">console.log(&#39;加载了 multiply 模块&#39;)</span><br><span class="line"></span><br><span class="line">var multiply &#x3D; function(x, y) &#123;&amp;emsp;</span><br><span class="line">    return x * y;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">export &#123;multiply&#125;</span><br><span class="line">复制代码</span><br><span class="line">&#x2F;&#x2F; square.js</span><br><span class="line">console.log(&#39;加载了 square 模块&#39;)</span><br><span class="line"></span><br><span class="line">import &#123;multiply&#125; from &#39;.&#x2F;multiply.js&#39;;</span><br><span class="line"></span><br><span class="line">var square &#x3D; function(num) &#123;&amp;emsp;</span><br><span class="line">    return multiply(num, num);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">export &#123;square&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>ES6-Module 项目 Demo 地址：<a target="_blank" rel="noopener" href="https://github.com/mqyqingfeng/Blog/tree/master/demos/ES6/module/ES6">github.com/mqyqingfeng…</a></p>
+<p>值得注意的，在 Chrome 中，如果直接打开，会报跨域错误，必须开启服务器，保证文件同源才可以有效果。</p>
+<p>为了验证这个效果你可以：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cnpm install http-server -g</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>然后进入该目录，执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http-server</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>在浏览器打开 <code>http://localhost:8080/</code> 即可查看效果。</p>
+<p>打印的顺序为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">加载了 add 模块</span><br><span class="line">加载了 multiply 模块</span><br><span class="line">加载了 square 模块</span><br><span class="line">2</span><br><span class="line">9</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>跟 require.js 的执行结果是一致的，也就是将需要使用的模块先加载完再执行代码。</p>
+<h2 id="ES6-与-CommonJS"><a href="#ES6-与-CommonJS" class="headerlink" title="ES6 与 CommonJS"></a>ES6 与 CommonJS</h2><p>引用阮一峰老师的 <a target="_blank" rel="noopener" href="http://es6.ruanyifeng.com/#docs/module-loader">《ECMAScript 6 入门》</a>：</p>
+<blockquote>
+<p>它们有两个重大差异。</p>
+<ol>
+<li>CommonJS 模块输出的是一个值的拷贝，ES6 模块输出的是值的引用。</li>
+<li>CommonJS 模块是运行时加载，ES6 模块是编译时输出接口。</li>
+</ol>
+</blockquote>
+<p>第二个差异可以从两个项目的打印结果看出，导致这种差别的原因是：</p>
+<blockquote>
+<p>因为 CommonJS 加载的是一个对象（即module.exports属性），该对象只有在脚本运行完才会生成。而 ES6 模块不是对象，它的对外接口只是一种静态定义，在代码静态解析阶段就会生成。</p>
+</blockquote>
+<p>重点解释第一个差异。</p>
+<blockquote>
+<p>CommonJS 模块输出的是值的拷贝，也就是说，一旦输出一个值，模块内部的变化就影响不到这个值。</p>
+</blockquote>
+<p>举个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 输出模块 counter.js</span><br><span class="line">var counter &#x3D; 3;</span><br><span class="line">function incCounter() &#123;</span><br><span class="line">  counter++;</span><br><span class="line">&#125;</span><br><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">    counter: counter,</span><br><span class="line">    incCounter: incCounter,</span><br><span class="line">&#125;;</span><br><span class="line">复制代码</span><br><span class="line">&#x2F;&#x2F; 引入模块 main.js</span><br><span class="line">var mod &#x3D; require(&#39;.&#x2F;counter&#39;);</span><br><span class="line"></span><br><span class="line">console.log(mod.counter);  &#x2F;&#x2F; 3</span><br><span class="line">mod.incCounter();</span><br><span class="line">console.log(mod.counter); &#x2F;&#x2F; 3</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>counter.js 模块加载以后，它的内部变化就影响不到输出的 mod.counter 了。这是因为 mod.counter 是一个原始类型的值，会被缓存。</p>
+<p>但是如果修改 counter 为一个引用类型的话：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 输出模块 counter.js</span><br><span class="line">var counter &#x3D; &#123;</span><br><span class="line">    value: 3</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">function incCounter() &#123;</span><br><span class="line">    counter.value++;</span><br><span class="line">&#125;</span><br><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">    counter: counter,</span><br><span class="line">    incCounter: incCounter,</span><br><span class="line">&#125;;</span><br><span class="line">复制代码</span><br><span class="line">&#x2F;&#x2F; 引入模块 main.js</span><br><span class="line">var mod &#x3D; require(&#39;.&#x2F;counter.js&#39;);</span><br><span class="line"></span><br><span class="line">console.log(mod.counter.value); &#x2F;&#x2F; 3</span><br><span class="line">mod.incCounter();</span><br><span class="line">console.log(mod.counter.value); &#x2F;&#x2F; 4</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>value 是会发生改变的。不过也可以说这是 “值的拷贝”，只是对于引用类型而言，值指的其实是引用。</p>
+<p>而如果我们将这个例子改成 ES6:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; counter.js</span><br><span class="line">export let counter &#x3D; 3;</span><br><span class="line">export function incCounter() &#123;</span><br><span class="line">  counter++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; main.js</span><br><span class="line">import &#123; counter, incCounter &#125; from &#39;.&#x2F;counter&#39;;</span><br><span class="line">console.log(counter); &#x2F;&#x2F; 3</span><br><span class="line">incCounter();</span><br><span class="line">console.log(counter); &#x2F;&#x2F; 4</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>这是因为</p>
+<blockquote>
+<p>ES6 模块的运行机制与 CommonJS 不一样。JS 引擎对脚本静态分析的时候，遇到模块加载命令 import，就会生成一个只读引用。等到脚本真正执行时，再根据这个只读引用，到被加载的那个模块里面去取值。换句话说，ES6 的 import 有点像 Unix 系统的“符号连接”，原始值变了，import 加载的值也会跟着变。因此，ES6 模块是动态引用，并且不会缓存值，模块里面的变量绑定其所在的模块。</p>
+</blockquote>
+<h2 id="Babel"><a href="#Babel" class="headerlink" title="Babel"></a>Babel</h2><p>鉴于浏览器支持度的问题，如果要使用 ES6 的语法，一般都会借助 Babel，可对于 import 和 export 而言，只借助 Babel 就可以吗？</p>
+<p>让我们看看 Babel 是怎么编译 import 和 export 语法的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; ES6</span><br><span class="line">var firstName &#x3D; &#39;Michael&#39;;</span><br><span class="line">var lastName &#x3D; &#39;Jackson&#39;;</span><br><span class="line">var year &#x3D; 1958;</span><br><span class="line"></span><br><span class="line">export &#123;firstName, lastName, year&#125;;</span><br><span class="line">复制代码</span><br><span class="line">&#x2F;&#x2F; Babel 编译后</span><br><span class="line">&#39;use strict&#39;;</span><br><span class="line"></span><br><span class="line">Object.defineProperty(exports, &quot;__esModule&quot;, &#123;</span><br><span class="line">  value: true</span><br><span class="line">&#125;);</span><br><span class="line">var firstName &#x3D; &#39;Michael&#39;;</span><br><span class="line">var lastName &#x3D; &#39;Jackson&#39;;</span><br><span class="line">var year &#x3D; 1958;</span><br><span class="line"></span><br><span class="line">exports.firstName &#x3D; firstName;</span><br><span class="line">exports.lastName &#x3D; lastName;</span><br><span class="line">exports.year &#x3D; year;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>是不是感觉有那么一点奇怪？编译后的语法更像是 CommonJS 规范，再看 import 的编译结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; ES6</span><br><span class="line">import &#123;firstName, lastName, year&#125; from &#39;.&#x2F;profile&#39;;</span><br><span class="line">复制代码</span><br><span class="line">&#x2F;&#x2F; Babel 编译后</span><br><span class="line">&#39;use strict&#39;;</span><br><span class="line"></span><br><span class="line">var _profile &#x3D; require(&#39;.&#x2F;profile&#39;);</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>你会发现 Babel 只是把 ES6 模块语法转为 CommonJS 模块语法，然而浏览器是不支持这种模块语法的，所以直接跑在浏览器会报错的，如果想要在浏览器中运行，还是需要使用打包工具将代码打包。</p>
+<h2 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h2><p>Babel 将 ES6 模块转为 CommonJS 后， webpack 又是怎么做的打包的呢？它该如何将这些文件打包在一起，从而能保证正确的处理依赖，以及能在浏览器中运行呢？</p>
+<p>首先为什么浏览器中不支持 CommonJS 语法呢？</p>
+<p>这是因为浏览器环境中并没有 module、 exports、 require 等环境变量。</p>
+<p>换句话说，webpack 打包后的文件之所以在浏览器中能运行，就是靠模拟了这些变量的行为。</p>
+<p>那怎么模拟呢？</p>
+<p>我们以 CommonJS 项目中的 square.js 为例，它依赖了 multiply 模块：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">console.log(&#39;加载了 square 模块&#39;)</span><br><span class="line"></span><br><span class="line">var multiply &#x3D; require(&#39;.&#x2F;multiply.js&#39;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">var square &#x3D; function(num) &#123;&amp;emsp;</span><br><span class="line">    return multiply.multiply(num, num);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">module.exports.square &#x3D; square;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>webpack 会将其包裹一层，注入这些变量：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function(module, exports, require) &#123;</span><br><span class="line">    console.log(&#39;加载了 square 模块&#39;);</span><br><span class="line"></span><br><span class="line">    var multiply &#x3D; require(&quot;.&#x2F;multiply&quot;);</span><br><span class="line">    module.exports &#x3D; &#123;</span><br><span class="line">        square: function(num) &#123;</span><br><span class="line">            return multiply.multiply(num, num);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>那 webpack 又会将 CommonJS 项目的代码打包成什么样呢？我写了一个精简的例子，你可以直接复制到浏览器中查看效果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 自执行函数</span><br><span class="line">(function(modules) &#123;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 用于储存已经加载过的模块</span><br><span class="line">    var installedModules &#x3D; &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    function require(moduleName) &#123;</span><br><span class="line"></span><br><span class="line">        if (installedModules[moduleName]) &#123;</span><br><span class="line">            return installedModules[moduleName].exports;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        var module &#x3D; installedModules[moduleName] &#x3D; &#123;</span><br><span class="line">            exports: &#123;&#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        modules[moduleName](module, module.exports, require);</span><br><span class="line"></span><br><span class="line">        return module.exports;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 加载主模块</span><br><span class="line">    return require(&quot;main&quot;);</span><br><span class="line"></span><br><span class="line">&#125;)(&#123;</span><br><span class="line">    &quot;main&quot;: function(module, exports, require) &#123;</span><br><span class="line"></span><br><span class="line">        var addModule &#x3D; require(&quot;.&#x2F;add&quot;);</span><br><span class="line">        console.log(addModule.add(1, 1))</span><br><span class="line"></span><br><span class="line">        var squareModule &#x3D; require(&quot;.&#x2F;square&quot;);</span><br><span class="line">        console.log(squareModule.square(3));</span><br><span class="line"></span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;.&#x2F;add&quot;: function(module, exports, require) &#123;</span><br><span class="line">        console.log(&#39;加载了 add 模块&#39;);</span><br><span class="line"></span><br><span class="line">        module.exports &#x3D; &#123;</span><br><span class="line">            add: function(x, y) &#123;</span><br><span class="line">                return x + y;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;.&#x2F;square&quot;: function(module, exports, require) &#123;</span><br><span class="line">        console.log(&#39;加载了 square 模块&#39;);</span><br><span class="line"></span><br><span class="line">        var multiply &#x3D; require(&quot;.&#x2F;multiply&quot;);</span><br><span class="line">        module.exports &#x3D; &#123;</span><br><span class="line">            square: function(num) &#123;</span><br><span class="line">                return multiply.multiply(num, num);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    &quot;.&#x2F;multiply&quot;: function(module, exports, require) &#123;</span><br><span class="line">        console.log(&#39;加载了 multiply 模块&#39;);</span><br><span class="line"></span><br><span class="line">        module.exports &#x3D; &#123;</span><br><span class="line">            multiply: function(x, y) &#123;</span><br><span class="line">                return x * y;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>最终的执行结果为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">加载了 add 模块</span><br><span class="line">2</span><br><span class="line">加载了 square 模块</span><br><span class="line">加载了 multiply 模块</span><br><span class="line">9</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="http://javascript.ruanyifeng.com/nodejs/module.html">《JavaScript 标准参考教程（alpha）》</a></li>
+<li><a target="_blank" rel="noopener" href="http://es6.ruanyifeng.com/#docs/module-loader">《ECMAScript6 入门》</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/20731484">手写一个CommonJS打包工具（一）</a></li>
+</ul>
+
+  </div>
+  <div>
+    <a href="https://github.com/Mcguffen/mcguffen.github.io/edit/myblog/source/_posts/docs/frontEnd/es6/es604.md"target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#require-js"><span class="toc-number">2.</span> <span class="toc-text">require.js</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AMD"><span class="toc-number">3.</span> <span class="toc-text">AMD</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sea-js"><span class="toc-number">4.</span> <span class="toc-text">sea.js</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CMD"><span class="toc-number">5.</span> <span class="toc-text">CMD</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AMD-%E4%B8%8E-CMD-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">6.</span> <span class="toc-text">AMD 与 CMD 的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%84%9F%E8%B0%A2"><span class="toc-number">7.</span> <span class="toc-text">感谢</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CommonJS"><span class="toc-number">8.</span> <span class="toc-text">CommonJS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CommonJS-%E4%B8%8E-AMD"><span class="toc-number">9.</span> <span class="toc-text">CommonJS 与 AMD</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ES6"><span class="toc-number">10.</span> <span class="toc-text">ES6</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ES6-%E4%B8%8E-CommonJS"><span class="toc-number">11.</span> <span class="toc-text">ES6 与 CommonJS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Babel"><span class="toc-number">12.</span> <span class="toc-text">Babel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#webpack"><span class="toc-number">13.</span> <span class="toc-text">webpack</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">14.</span> <span class="toc-text">参考</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/05/08/docs/frontEnd/es6/es604/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/05/08/docs/frontEnd/es6/es604/&text=ES6 - 模块加载方案"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/05/08/docs/frontEnd/es6/es604/&title=ES6 - 模块加载方案"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/05/08/docs/frontEnd/es6/es604/&is_video=false&description=ES6 - 模块加载方案"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ES6 - 模块加载方案&body=Check out this article: http://example.com/2020/05/08/docs/frontEnd/es6/es604/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/05/08/docs/frontEnd/es6/es604/&title=ES6 - 模块加载方案"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/05/08/docs/frontEnd/es6/es604/&title=ES6 - 模块加载方案"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/05/08/docs/frontEnd/es6/es604/&title=ES6 - 模块加载方案"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/05/08/docs/frontEnd/es6/es604/&title=ES6 - 模块加载方案"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/05/08/docs/frontEnd/es6/es604/&name=ES6 - 模块加载方案&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/05/08/docs/frontEnd/es6/es604/&t=ES6 - 模块加载方案"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Mcguffen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

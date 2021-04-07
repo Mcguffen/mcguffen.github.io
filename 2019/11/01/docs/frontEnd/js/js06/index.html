@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="目录 函数的 5 种声明  如何调用函数 f.call  this 和 arguments  什么是 call stack  作用域  闭包   函数的 5 种声明 具名函数  1234function f(x,y)&amp;#123;  return x+y&amp;#125;f.name &#x2F;&#x2F; &#39;f&#39;   匿名函数  12345var ff &#x3D; function(">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS基础 - 函数">
+<meta property="og:url" content="http://example.com/2019/11/01/docs/frontEnd/js/js06/index.html">
+<meta property="og:site_name" content="Hi! I am yang.">
+<meta property="og:description" content="目录 函数的 5 种声明  如何调用函数 f.call  this 和 arguments  什么是 call stack  作用域  闭包   函数的 5 种声明 具名函数  1234function f(x,y)&amp;#123;  return x+y&amp;#125;f.name &#x2F;&#x2F; &#39;f&#39;   匿名函数  12345var ff &#x3D; function(">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-11-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-07T12:11:01.076Z">
+<meta property="article:author" content="Mcguffen">
+<meta property="article:tag" content="js">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>JS基础 - 函数</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/11/08/docs/frontEnd/js/js07/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/10/25/docs/frontEnd/js/js05/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2019/11/01/docs/frontEnd/js/js06/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2019/11/01/docs/frontEnd/js/js06/&text=JS基础 - 函数"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2019/11/01/docs/frontEnd/js/js06/&title=JS基础 - 函数"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2019/11/01/docs/frontEnd/js/js06/&is_video=false&description=JS基础 - 函数"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JS基础 - 函数&body=Check out this article: http://example.com/2019/11/01/docs/frontEnd/js/js06/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2019/11/01/docs/frontEnd/js/js06/&title=JS基础 - 函数"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2019/11/01/docs/frontEnd/js/js06/&title=JS基础 - 函数"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2019/11/01/docs/frontEnd/js/js06/&title=JS基础 - 函数"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2019/11/01/docs/frontEnd/js/js06/&title=JS基础 - 函数"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2019/11/01/docs/frontEnd/js/js06/&name=JS基础 - 函数&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2019/11/01/docs/frontEnd/js/js06/&t=JS基础 - 函数"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="toc-number">1.</span> <span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84-5-%E7%A7%8D%E5%A3%B0%E6%98%8E"><span class="toc-number">2.</span> <span class="toc-text">函数的 5 种声明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%B0%83%E7%94%A8%E5%87%BD%E6%95%B0"><span class="toc-number">3.</span> <span class="toc-text">如何调用函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#this-%E5%92%8C-arguments"><span class="toc-number">4.</span> <span class="toc-text">this 和 arguments</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-call-stack"><span class="toc-number">5.</span> <span class="toc-text">什么是 call stack</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="toc-number">6.</span> <span class="toc-text">作用域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AD%E5%8C%85"><span class="toc-number">7.</span> <span class="toc-text">闭包</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E9%97%AD%E5%8C%85"><span class="toc-number">7.1.</span> <span class="toc-text">什么是闭包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AD%E5%8C%85%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">7.2.</span> <span class="toc-text">闭包的作用</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        JS基础 - 函数
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Mcguffen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-11-01T00:00:00.000Z" itemprop="datePublished">2019-11-01</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/frontEnd/">frontEnd</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/js/" rel="tag">js</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ol>
+<li><p>函数的 5 种声明</p>
+</li>
+<li><p>如何调用函数 f.call</p>
+</li>
+<li><p>this 和 arguments</p>
+</li>
+<li><p>什么是 call stack</p>
+</li>
+<li><p>作用域</p>
+</li>
+<li><p>闭包</p>
+</li>
+</ol>
+<h2 id="函数的-5-种声明"><a href="#函数的-5-种声明" class="headerlink" title="函数的 5 种声明"></a>函数的 5 种声明</h2><ol>
+<li>具名函数</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function f(x,y)&#123;</span><br><span class="line">  return x+y</span><br><span class="line">&#125;</span><br><span class="line">f.name &#x2F;&#x2F; &#39;f&#39;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>匿名函数</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var f</span><br><span class="line">f &#x3D; function(x, y)&#123;</span><br><span class="line">	return x+y</span><br><span class="line">&#125;</span><br><span class="line">f.name &#x2F;&#x2F;&#39;f&#39;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>具名函数赋值</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var f</span><br><span class="line">f &#x3D; function f2(x,y)&#123; return x+y &#125;</span><br><span class="line">f.name &#x2F;&#x2F; &#39;f2&#39;</span><br><span class="line">console.log(f2) &#x2F;&#x2F; undefined</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>Window.Function</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">window.Function</span><br><span class="line">var f &#x3D; new Function(&#39;x&#39;,&#39;y&#39;,&#39;return x+y&#39;)</span><br><span class="line">f.name &#x2F;&#x2F; &quot;anonymous&quot;</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>箭头函数</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var f &#x3D; (x,y) &#x3D;&gt; &#123;</span><br><span class="line">  return x+y</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var sum &#x3D; (x,y) &#x3D;&gt; x+y</span><br><span class="line"></span><br><span class="line">var n2 &#x3D; n &#x3D;&gt; n*n</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="如何调用函数"><a href="#如何调用函数" class="headerlink" title="如何调用函数"></a>如何调用函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f.call(asThis, input1,input2)</span><br></pre></td></tr></table></figure>
+
+<p>其中 <code>asThis</code> 会被当做 <code>this</code>，<code>[input1,input2]</code> 会被当做 <code>arguments</code></p>
+<p>禁止使用 <code>f(input1, input2)</code></p>
+<h2 id="this-和-arguments"><a href="#this-和-arguments" class="headerlink" title="this 和 arguments"></a>this 和 arguments</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function f()&#123;</span><br><span class="line">    &#39;use strict&#39;</span><br><span class="line">    console.log(this)</span><br><span class="line">    console.log(arguments)</span><br><span class="line">    return undefined</span><br><span class="line">&#125;</span><br><span class="line">f.call(1,2,3) &#x2F;&#x2F; this 为 1，arguments 为 [2,3]</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="什么是-call-stack"><a href="#什么是-call-stack" class="headerlink" title="什么是 call stack"></a>什么是 call stack</h2><p>· <a target="_blank" rel="noopener" href="http://latentflip.com/loupe/?code=ZnVuY3Rpb24gYSgpewogICAgY29uc29sZS5sb2coJ2EnKQogIHJldHVybiAnYScgIAp9CgpmdW5jdGlvbiBiKCl7CiAgICBjb25zb2xlLmxvZygnYicpCiAgICByZXR1cm4gJ2InCn0KCmZ1bmN0aW9uIGMoKXsKICAgIGNvbnNvbGUubG9nKCdjJykKICAgIHJldHVybiAnYycKfQoKYS5jYWxsKCkKYi5jYWxsKCkKYy5jYWxsKCk=!!!">普通调用</a></p>
+<p>· <a target="_blank" rel="noopener" href="http://latentflip.com/loupe/?code=ZnVuY3Rpb24gYSgpewogICAgY29uc29sZS5sb2coJ2ExJykKICAgIGIuY2FsbCgpCiAgICBjb25zb2xlLmxvZygnYTInKQogIHJldHVybiAnYScgIAp9CmZ1bmN0aW9uIGIoKXsKICAgIGNvbnNvbGUubG9nKCdiMScpCiAgICBjLmNhbGwoKQogICAgY29uc29sZS5sb2coJ2IyJykKICAgIHJldHVybiAnYicKfQpmdW5jdGlvbiBjKCl7CiAgICBjb25zb2xlLmxvZygnYycpCiAgICByZXR1cm4gJ2MnCn0KYS5jYWxsKCkKY29uc29sZS5sb2coJ2VuZCcp!!!">嵌套调用</a></p>
+<p>· <a target="_blank" rel="noopener" href="http://latentflip.com/loupe/?code=ZnVuY3Rpb24gc3VtKG4pewogICAgaWYobj09MSl7CiAgICAgICAgcmV0dXJuIDEKICAgIH1lbHNlewogICAgICAgIHJldHVybiBuICsgc3VtLmNhbGwodW5kZWZpbmVkLCBuLTEpCiAgICB9Cn0KCnN1bS5jYWxsKHVuZGVmaW5lZCw1KQ==!!!PGJ1dHRvbj5DbGljayBtZSE8L2J1dHRvbj4=">递归调用</a></p>
+<h2 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h2><p>按照语法树，就近原则。</p>
+<p>我们只能确定变量是哪个变量，但是不能确定变量的值</p>
+<p>面试题1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var a &#x3D; 1</span><br><span class="line"></span><br><span class="line">function f1()&#123;</span><br><span class="line">  alert(a) &#x2F;&#x2F; 是多少</span><br><span class="line">  var a &#x3D; 2</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">f1.call()</span><br></pre></td></tr></table></figure>
+
+
+
+<p>面试题2</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var a &#x3D; 1</span><br><span class="line"></span><br><span class="line">function f1()&#123;</span><br><span class="line">  var a &#x3D; 2</span><br><span class="line">  f2.call()</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function f2()&#123;</span><br><span class="line">  console.log(a) &#x2F;&#x2F; 是多少</span><br><span class="line">&#125;</span><br><span class="line">f1.call()</span><br></pre></td></tr></table></figure>
+
+
+
+<p>面试题3</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var liTags &#x3D; document.querySelectorAll(&#39;li&#39;)</span><br><span class="line"></span><br><span class="line">for(var i &#x3D; 0; i&lt;liTags.length; i++)&#123;</span><br><span class="line">  liTags[i].onclick &#x3D; function()&#123;</span><br><span class="line">    console.log(i) &#x2F;&#x2F; 点击第3个 li 时，打印 2 还是打印 6？</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><ol>
+<li>什么是「闭包」。</li>
+<li>「闭包」的作用是什么。</li>
+</ol>
+<h3 id="什么是闭包"><a href="#什么是闭包" class="headerlink" title="什么是闭包"></a>什么是闭包</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var local &#x3D; &#39;变量&#39;</span><br><span class="line"></span><br><span class="line">function foo() &#123;</span><br><span class="line">	console.log(local)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面三行代码在一个立即执行函数中。</p>
+<p>三行代码中，有一个局部变量 local，有一个函数 foo，foo 里面可以访问到 local 变量。</p>
+<p>好了这就是一个闭包：</p>
+<blockquote>
+<p>「函数」和「函数内部能访问到的变量」（也叫环境）的总和，就是一个闭包。</p>
+</blockquote>
+<p>「我听说闭包是需要函数套函数，然后 return 一个函数的呀！」</p>
+<p>比如这样：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function foo()&#123;</span><br><span class="line">  var local = 1</span><br><span class="line">  function bar()&#123;</span><br><span class="line">    local++</span><br><span class="line">    return local</span><br><span class="line">  &#125;</span><br><span class="line">  return bar</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var func = foo()</span><br><span class="line">func()</span><br></pre></td></tr></table></figure>
+
+<p>这里面确实有闭包，local 变量和 bar 函数就组成了一个闭包（Closure）。</p>
+<p><strong>为什么要函数套函数呢？</strong></p>
+<p>是因为需要局部变量，所以才把 local 放在一个函数里，如果不把 local 放在一个函数里，local 就是一个全局变量了，达不到使用闭包的目的——隐藏变量（等会会讲）。</p>
+<p>这也是为什么我上面要说「运行在一个立即执行函数中」。</p>
+<p>有些人看到「闭包」这个名字，就一定觉得要用什么包起来才行。其实这是翻译问题，闭包的原文是 Closure，跟「包」没有任何关系。</p>
+<p>所以函数套函数只是为了造出一个局部变量，跟闭包无关。</p>
+<p><strong>为什么要 return bar 呢？</strong></p>
+<p>因为如果不 return，你就无法使用这个闭包。把 return bar 改成 window.bar = bar 也是一样的，只要让外面可以访问到这个 bar 函数就行了。</p>
+<p>所以 return bar 只是为了 bar 能被使用，也跟闭包无关。</p>
+<h3 id="闭包的作用"><a href="#闭包的作用" class="headerlink" title="闭包的作用"></a>闭包的作用</h3><p>闭包常常用来「间接访问一个变量」。换句话说，「隐藏一个变量」。</p>
+<p>假设我们在做一个游戏，在写其中关于「还剩几条命」的代码。</p>
+<p>如果不用闭包，你可以直接用一个全局变量：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">window.lives = 30 // 还有三十条命</span><br></pre></td></tr></table></figure>
+
+<p>这样看起来很不妥。万一不小心把这个值改成 -1 了怎么办。所以我们不能让别人「直接访问」这个变量。怎么办呢？</p>
+<p>用局部变量。</p>
+<p>但是用局部变量别人又访问不到，怎么办呢？</p>
+<p>暴露一个访问器（函数），让别人可以「间接访问」。</p>
+<p>代码如下：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">!function()&#123;</span><br><span class="line"></span><br><span class="line">  var lives = 50</span><br><span class="line"></span><br><span class="line">  window.奖励一条命 = function()&#123;</span><br><span class="line">    lives += 1</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  window.死一条命 = function()&#123;</span><br><span class="line">    lives -= 1</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;()</span><br></pre></td></tr></table></figure>
+
+<p>简明起见，我用了中文 :)</p>
+<p>那么在其他的 JS 文件，就可以使用 window.奖励一条命() 来涨命，使用 window.死一条命() 来让角色掉一条命。</p>
+<p><strong>所谓闭包的作用</strong></p>
+<p>如果我们在写代码时，根本就不知道闭包，只是按照自己的意图写，最后，发现满足了闭包的定义。</p>
+<p>那么请问，这算是闭包的作用吗？</p>
+<p>这个问题，留给你思考。</p>
+<p><strong>闭包谣言</strong></p>
+<p>闭包会造成内存泄露？</p>
+<p>错。</p>
+<p>说这话的人根本不知道什么是内存泄露。内存泄露是指你用不到（访问不到）的变量，依然占居着内存空间，不能被再次利用起来。</p>
+<p>闭包里面的变量明明就是我们需要的变量（lives），凭什么说是内存泄露？</p>
+<p>这个谣言是如何来的？</p>
+<p>因为 IE。IE 有 bug，IE 在我们使用完闭包之后，依然回收不了闭包里面引用的变量。</p>
+<p>这是 IE 的问题，不是闭包的问题。参见司徒正美的<a href="https://link.zhihu.com/?target=http://www.cnblogs.com/rubylouvre/p/3345294.html">这篇文章</a>。</p>
+
+  </div>
+  <div>
+    <a href="https://github.com/Mcguffen/mcguffen.github.io/edit/myblog/source/_posts/docs/frontEnd/js/js06.md"target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="toc-number">1.</span> <span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84-5-%E7%A7%8D%E5%A3%B0%E6%98%8E"><span class="toc-number">2.</span> <span class="toc-text">函数的 5 种声明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%B0%83%E7%94%A8%E5%87%BD%E6%95%B0"><span class="toc-number">3.</span> <span class="toc-text">如何调用函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#this-%E5%92%8C-arguments"><span class="toc-number">4.</span> <span class="toc-text">this 和 arguments</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-call-stack"><span class="toc-number">5.</span> <span class="toc-text">什么是 call stack</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="toc-number">6.</span> <span class="toc-text">作用域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AD%E5%8C%85"><span class="toc-number">7.</span> <span class="toc-text">闭包</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E9%97%AD%E5%8C%85"><span class="toc-number">7.1.</span> <span class="toc-text">什么是闭包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AD%E5%8C%85%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">7.2.</span> <span class="toc-text">闭包的作用</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2019/11/01/docs/frontEnd/js/js06/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2019/11/01/docs/frontEnd/js/js06/&text=JS基础 - 函数"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2019/11/01/docs/frontEnd/js/js06/&title=JS基础 - 函数"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2019/11/01/docs/frontEnd/js/js06/&is_video=false&description=JS基础 - 函数"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JS基础 - 函数&body=Check out this article: http://example.com/2019/11/01/docs/frontEnd/js/js06/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2019/11/01/docs/frontEnd/js/js06/&title=JS基础 - 函数"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2019/11/01/docs/frontEnd/js/js06/&title=JS基础 - 函数"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2019/11/01/docs/frontEnd/js/js06/&title=JS基础 - 函数"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2019/11/01/docs/frontEnd/js/js06/&title=JS基础 - 函数"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2019/11/01/docs/frontEnd/js/js06/&name=JS基础 - 函数&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2019/11/01/docs/frontEnd/js/js06/&t=JS基础 - 函数"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Mcguffen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

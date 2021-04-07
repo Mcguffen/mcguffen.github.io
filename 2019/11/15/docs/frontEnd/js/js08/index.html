@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="代码： http:&#x2F;&#x2F;js.jirengu.com&#x2F;binuwigera&#x2F;1&#x2F;edit?html,js,outputhttp:&#x2F;&#x2F;js.jirengu.com&#x2F;govatixevu&#x2F;1&#x2F;edit?js,outputhttp:&#x2F;&#x2F;js.jirengu.com&#x2F;menosegapu&#x2F;1&#x2F;edit?js,output 封装函数1function getSiblings(node)&amp;#123;&amp;#125;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS基础 - JQuery">
+<meta property="og:url" content="http://example.com/2019/11/15/docs/frontEnd/js/js08/index.html">
+<meta property="og:site_name" content="Hi! I am yang.">
+<meta property="og:description" content="代码： http:&#x2F;&#x2F;js.jirengu.com&#x2F;binuwigera&#x2F;1&#x2F;edit?html,js,outputhttp:&#x2F;&#x2F;js.jirengu.com&#x2F;govatixevu&#x2F;1&#x2F;edit?js,outputhttp:&#x2F;&#x2F;js.jirengu.com&#x2F;menosegapu&#x2F;1&#x2F;edit?js,output 封装函数1function getSiblings(node)&amp;#123;&amp;#125;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-11-15T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-07T12:11:01.076Z">
+<meta property="article:author" content="Mcguffen">
+<meta property="article:tag" content="js">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>JS基础 - JQuery</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/11/22/docs/frontEnd/js/js09/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/11/08/docs/frontEnd/js/js07/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2019/11/15/docs/frontEnd/js/js08/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2019/11/15/docs/frontEnd/js/js08/&text=JS基础 - JQuery"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2019/11/15/docs/frontEnd/js/js08/&title=JS基础 - JQuery"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2019/11/15/docs/frontEnd/js/js08/&is_video=false&description=JS基础 - JQuery"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JS基础 - JQuery&body=Check out this article: http://example.com/2019/11/15/docs/frontEnd/js/js08/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2019/11/15/docs/frontEnd/js/js08/&title=JS基础 - JQuery"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2019/11/15/docs/frontEnd/js/js08/&title=JS基础 - JQuery"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2019/11/15/docs/frontEnd/js/js08/&title=JS基础 - JQuery"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2019/11/15/docs/frontEnd/js/js08/&title=JS基础 - JQuery"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2019/11/15/docs/frontEnd/js/js08/&name=JS基础 - JQuery&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2019/11/15/docs/frontEnd/js/js08/&t=JS基础 - JQuery"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%81%E8%A3%85%E5%87%BD%E6%95%B0"><span class="toc-number">1.</span> <span class="toc-text">封装函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4"><span class="toc-number">2.</span> <span class="toc-text">命名空间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%BD%E4%B8%8D%E8%83%BD%E6%8A%8A-node-%E6%94%BE%E5%89%8D%E9%9D%A2"><span class="toc-number">3.</span> <span class="toc-text">能不能把 node 放前面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%8A-Node2-%E6%94%B9%E4%B8%AA%E5%90%8D%E5%AD%97%E5%90%A7"><span class="toc-number">4.</span> <span class="toc-text">把 Node2 改个名字吧</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%8D%E7%BB%99%E4%B8%AA%E7%BC%A9%E5%86%99%E5%90%A7-alias"><span class="toc-number">5.</span> <span class="toc-text">再给个缩写吧 alias</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JQuery-%E4%BC%98%E7%82%B9"><span class="toc-number">6.</span> <span class="toc-text">JQuery 优点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JQuery-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E8%BD%AE%E6%92%AD"><span class="toc-number">7.</span> <span class="toc-text">JQuery 实现一个轮播</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        JS基础 - JQuery
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Mcguffen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-11-15T00:00:00.000Z" itemprop="datePublished">2019-11-15</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/frontEnd/">frontEnd</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/js/" rel="tag">js</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>代码：</p>
+<p><a target="_blank" rel="noopener" href="http://js.jirengu.com/binuwigera/1/edit?html,js,output">http://js.jirengu.com/binuwigera/1/edit?html,js,output</a><br><a target="_blank" rel="noopener" href="http://js.jirengu.com/govatixevu/1/edit?js,output">http://js.jirengu.com/govatixevu/1/edit?js,output</a><br><a target="_blank" rel="noopener" href="http://js.jirengu.com/menosegapu/1/edit?js,output">http://js.jirengu.com/menosegapu/1/edit?js,output</a></p>
+<h2 id="封装函数"><a href="#封装函数" class="headerlink" title="封装函数"></a>封装函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function getSiblings(node)&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>再封装一个</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function addClass(node, classes)&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="命名空间"><a href="#命名空间" class="headerlink" title="命名空间"></a>命名空间</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var dom &#x3D; &#123;&#125;</span><br><span class="line">dom.getSiblings(node)</span><br><span class="line">dom.addClass(node, &#123;a: true, b: false&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="能不能把-node-放前面"><a href="#能不能把-node-放前面" class="headerlink" title="能不能把 node 放前面"></a>能不能把 node 放前面</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">node.getSiblings()</span><br><span class="line"></span><br><span class="line">node.addClass()</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>方法一：扩展 Node 接口<br>直接在 Node.prototype 上加函数</p>
+</li>
+<li><p>方法二：新的接口 BetterNode</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">function Node2(node)&#123;</span><br><span class="line">  return &#123;</span><br><span class="line">    element: node,</span><br><span class="line">    getSiblings: function()&#123;</span><br><span class="line">  	&#125;,</span><br><span class="line">    addClass: function()&#123;</span><br><span class="line">    &#125;</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let node &#x3D;document.getElementById(&#39;x&#39;)</span><br><span class="line">let node2 &#x3D; Node2(node)</span><br><span class="line">node2.getSiblings()</span><br><span class="line">node2.addClass()</span><br></pre></td></tr></table></figure>
+
+<p>第二种叫做「无侵入」。</p>
+<h2 id="把-Node2-改个名字吧"><a href="#把-Node2-改个名字吧" class="headerlink" title="把 Node2 改个名字吧"></a>把 Node2 改个名字吧</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">function jQuery(node)&#123;</span><br><span class="line">  return &#123;</span><br><span class="line">    element: node,</span><br><span class="line">    getSiblings: function()&#123;</span><br><span class="line"> </span><br><span class="line">    &#125;,</span><br><span class="line">   addClass: function()&#123;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">let node &#x3D;document.getElementById(&#39;x&#39;)</span><br><span class="line">let node2 &#x3D;jQuery(node)</span><br><span class="line">node2.getSiblings()</span><br><span class="line">node2.addClass()</span><br></pre></td></tr></table></figure>
+
+<h2 id="再给个缩写吧-alias"><a href="#再给个缩写吧-alias" class="headerlink" title="再给个缩写吧 alias"></a>再给个缩写吧 alias</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">window.$ &#x3D; jQuery</span><br></pre></td></tr></table></figure>
+
+<p><strong>改进一：改掉 document.getElementById</strong></p>
+<p><strong>改进二：接受多个 node</strong></p>
+<p><strong>改进三：添加 .html() .text() .css() 等</strong></p>
+<h2 id="JQuery-优点"><a href="#JQuery-优点" class="headerlink" title="JQuery 优点"></a>JQuery 优点</h2><ol>
+<li><p>jQuery 在兼容性方面做得很好，1.7 版本兼容到 IE 6</p>
+</li>
+<li><p>jQuery 还有动画、AJAX 等模块，不止 DOM 操作</p>
+</li>
+<li><p>jQuery 的功能更丰富</p>
+</li>
+<li><p>jQuery 使用了 prototype，我们没有使用，等讲了 new 之后再用</p>
+</li>
+</ol>
+<h2 id="JQuery-实现一个轮播"><a href="#JQuery-实现一个轮播" class="headerlink" title="JQuery 实现一个轮播"></a>JQuery 实现一个轮播</h2><ol>
+<li><p>HTML、CSS、JS 内容、样式与行为分离</p>
+</li>
+<li><p>轮播的思路</p>
+<p>i. 思路1：滚来滚去</p>
+<p>ii. 思路2：用局部画面骗用户</p>
+</li>
+<li><p>封装思路</p>
+<p>i. 从 API 开始思考</p>
+<p>ii. 尽量能让使用者猜到</p>
+</li>
+</ol>
+<p>代码：</p>
+<p>重构前：</p>
+<p><strong>html</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;script src&#x3D;&quot;&#x2F;&#x2F;code.jquery.com&#x2F;jquery-2.1.1.min.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">  &lt;meta charset&#x3D;&quot;utf-8&quot;&gt;</span><br><span class="line">  &lt;title&gt;JS Bin&lt;&#x2F;title&gt;</span><br><span class="line">  &lt;style&gt;</span><br><span class="line">    .images&#123;</span><br><span class="line">      display: flex;</span><br><span class="line">      align-items: flex-start;</span><br><span class="line">      transition: all 0.5s;</span><br><span class="line">    &#125;</span><br><span class="line">    .images &gt; img&#123;</span><br><span class="line">      vertical-align: top;</span><br><span class="line">    &#125;</span><br><span class="line">    .window&#123;</span><br><span class="line">      width: 300px;</span><br><span class="line">      overflow: hidden;</span><br><span class="line">    &#125;</span><br><span class="line">  &lt;&#x2F;style&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">  &lt;div class&#x3D;&quot;window&quot;&gt;</span><br><span class="line">    &lt;div class&#x3D;&quot;images&quot; id&#x3D;images&gt;</span><br><span class="line">      &lt;img src&#x3D;&quot;https:&#x2F;&#x2F;fthmb.tqn.com&#x2F;0ui_Zw01Ht9NHJkSBlqOIC1IH44&#x3D;&#x2F;960x0&#x2F;filters:no_upscale()&#x2F;yorkshire-terrier-583788122-581630e85f9b581c0b018a00.jpg&quot; width&#x3D;300 alt&#x3D;&quot;图片1&quot; height&#x3D;200&gt;</span><br><span class="line">      &lt;img src&#x3D;&quot;https:&#x2F;&#x2F;canna-pet.com&#x2F;wp-content&#x2F;uploads&#x2F;2017&#x2F;06&#x2F;20-longest-living-dog-breeds_canna-pet-e1498599846169.jpg&quot; width&#x3D;300 alt&#x3D;&quot;&quot; height&#x3D;200&gt;</span><br><span class="line">      &lt;img src&#x3D;&quot;https:&#x2F;&#x2F;fthmb.tqn.com&#x2F;0ui_Zw01Ht9NHJkSBlqOIC1IH44&#x3D;&#x2F;960x0&#x2F;filters:no_upscale()&#x2F;yorkshire-terrier-583788122-581630e85f9b581c0b018a00.jpg&quot; width&#x3D;300 alt&#x3D;&quot;&quot; height&#x3D;200&gt;</span><br><span class="line">      &lt;img src&#x3D;&quot;https:&#x2F;&#x2F;canna-pet.com&#x2F;wp-content&#x2F;uploads&#x2F;2017&#x2F;06&#x2F;20-longest-living-dog-breeds_canna-pet-e1498599846169.jpg&quot; width&#x3D;300 alt&#x3D;&quot;&quot; height&#x3D;200&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">  &lt;span id&#x3D;buttons&gt;</span><br><span class="line">    &lt;span&gt;第1张&lt;&#x2F;span&gt;</span><br><span class="line">    &lt;span&gt;第2张&lt;&#x2F;span&gt;</span><br><span class="line">    &lt;span&gt;第3张&lt;&#x2F;span&gt;</span><br><span class="line">    &lt;span&gt;第4张&lt;&#x2F;span&gt;</span><br><span class="line">  &lt;&#x2F;span&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>js</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">var allButtons &#x3D; $(&#39;#buttons &gt; span&#39;)</span><br><span class="line"></span><br><span class="line">for (let i &#x3D; 0; i &lt; allButtons.length; i++) &#123;</span><br><span class="line">  $(allButtons[i]).on(&#39;click&#39;, function(x) &#123;</span><br><span class="line">    console.log(&#39;hi&#39;)</span><br><span class="line">    var index &#x3D; $(x.currentTarget).index()</span><br><span class="line">    var p &#x3D; index * -300</span><br><span class="line">    $(&#39;#images&#39;).css(&#123;</span><br><span class="line">      transform: &#39;translate(&#39; + p + &#39;px)&#39;</span><br><span class="line">    &#125;)</span><br><span class="line">    n &#x3D; index</span><br><span class="line">    allButtons.eq(n)</span><br><span class="line">      .addClass(&#39;red&#39;)</span><br><span class="line">      .siblings(&#39;.red&#39;).removeClass(&#39;red&#39;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">var n &#x3D; 0;</span><br><span class="line">var size &#x3D; allButtons.length</span><br><span class="line">allButtons.eq(n % size).trigger(&#39;click&#39;)</span><br><span class="line">  .addClass(&#39;red&#39;)</span><br><span class="line">  .siblings(&#39;.red&#39;).removeClass(&#39;red&#39;)</span><br><span class="line"></span><br><span class="line">var timerId &#x3D; setInterval(() &#x3D;&gt; &#123;</span><br><span class="line">  n +&#x3D; 1</span><br><span class="line">  allButtons.eq(n % size).trigger(&#39;click&#39;)</span><br><span class="line">    .addClass(&#39;red&#39;)</span><br><span class="line">    .siblings(&#39;.red&#39;).removeClass(&#39;red&#39;)</span><br><span class="line">&#125;, 1000)</span><br><span class="line"></span><br><span class="line">$(&#39;.window&#39;).on(&#39;mouseenter&#39;, function() &#123;</span><br><span class="line">  window.clearInterval(timerId)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">$(&#39;.window&#39;).on(&#39;mouseleave&#39;, function() &#123;</span><br><span class="line">  timerId &#x3D; setInterval(() &#x3D;&gt; &#123;</span><br><span class="line">    n +&#x3D; 1</span><br><span class="line">    allButtons.eq(n % size).trigger(&#39;click&#39;)</span><br><span class="line">      .addClass(&#39;red&#39;)</span><br><span class="line">      .siblings(&#39;.red&#39;).removeClass(&#39;red&#39;)</span><br><span class="line">  &#125;, 3000)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>重构后：</p>
+<p> <strong>html</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;//code.jquery.com/jquery-2.1.1.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>JS Bin<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">    .images&#123;</span><br><span class="line"><span class="css">      <span class="attribute">display</span>: flex;</span></span><br><span class="line"><span class="css">      <span class="attribute">align-items</span>: flex-start;</span></span><br><span class="line"><span class="css">      <span class="attribute">transition</span>: all <span class="number">0.5s</span>;</span></span><br><span class="line">    &#125;</span><br><span class="line"><span class="css">    <span class="selector-class">.images</span> &gt; <span class="selector-tag">img</span>&#123;</span></span><br><span class="line"><span class="css">      <span class="attribute">vertical-align</span>: top;</span></span><br><span class="line">    &#125;</span><br><span class="line">    .window&#123;</span><br><span class="line"><span class="css">      <span class="attribute">width</span>: <span class="number">300px</span>;</span></span><br><span class="line"><span class="css">      <span class="attribute">overflow</span>: hidden;</span></span><br><span class="line">    &#125;</span><br><span class="line">  <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;window&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;images&quot;</span> <span class="attr">id</span>=<span class="string">images</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;https://fthmb.tqn.com/0ui_Zw01Ht9NHJkSBlqOIC1IH44=/960x0/filters:no_upscale()/yorkshire-terrier-583788122-581630e85f9b581c0b018a00.jpg&quot;</span> <span class="attr">width</span>=<span class="string">300</span> <span class="attr">alt</span>=<span class="string">&quot;图片1&quot;</span> <span class="attr">height</span>=<span class="string">200</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;https://canna-pet.com/wp-content/uploads/2017/06/20-longest-living-dog-breeds_canna-pet-e1498599846169.jpg&quot;</span> <span class="attr">width</span>=<span class="string">300</span> <span class="attr">alt</span>=<span class="string">&quot;&quot;</span> <span class="attr">height</span>=<span class="string">200</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;https://fthmb.tqn.com/0ui_Zw01Ht9NHJkSBlqOIC1IH44=/960x0/filters:no_upscale()/yorkshire-terrier-583788122-581630e85f9b581c0b018a00.jpg&quot;</span> <span class="attr">width</span>=<span class="string">300</span> <span class="attr">alt</span>=<span class="string">&quot;&quot;</span> <span class="attr">height</span>=<span class="string">200</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;https://canna-pet.com/wp-content/uploads/2017/06/20-longest-living-dog-breeds_canna-pet-e1498599846169.jpg&quot;</span> <span class="attr">width</span>=<span class="string">300</span> <span class="attr">alt</span>=<span class="string">&quot;&quot;</span> <span class="attr">height</span>=<span class="string">200</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">buttons</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>第1张<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>第2张<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>第3张<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>第4张<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>js</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> allButtons = $(<span class="string">&#x27;#buttons &gt; span&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; allButtons.length; i++) &#123;</span><br><span class="line">  $(allButtons[i]).on(<span class="string">&#x27;click&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> index = $(x.currentTarget).index()</span><br><span class="line">    <span class="keyword">var</span> p = index * -<span class="number">300</span></span><br><span class="line">    $(<span class="string">&#x27;#images&#x27;</span>).css(&#123;</span><br><span class="line">      transform: <span class="string">&#x27;translate(&#x27;</span> + p + <span class="string">&#x27;px)&#x27;</span></span><br><span class="line">    &#125;)</span><br><span class="line">    n = index</span><br><span class="line">    activeButton(allButtons.eq(n))</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> n = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">var</span> size = allButtons.length</span><br><span class="line">allButtons.eq(n % size).trigger(<span class="string">&#x27;click&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> timerId = setTimer()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setTimer</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">setInterval</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    n += <span class="number">1</span></span><br><span class="line">    allButtons.eq(n % size).trigger(<span class="string">&#x27;click&#x27;</span>)</span><br><span class="line">  &#125;, <span class="number">3000</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">activeButton</span>(<span class="params">$button</span>) </span>&#123;</span><br><span class="line">  $button</span><br><span class="line">    .addClass(<span class="string">&#x27;red&#x27;</span>)</span><br><span class="line">    .siblings(<span class="string">&#x27;.red&#x27;</span>).removeClass(<span class="string">&#x27;red&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$(<span class="string">&#x27;.window&#x27;</span>).on(<span class="string">&#x27;mouseenter&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">window</span>.clearInterval(timerId)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">$(<span class="string">&#x27;.window&#x27;</span>).on(<span class="string">&#x27;mouseleave&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  timerId = setTimer()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+  <div>
+    <a href="https://github.com/Mcguffen/mcguffen.github.io/edit/myblog/source/_posts/docs/frontEnd/js/js08.md"target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%81%E8%A3%85%E5%87%BD%E6%95%B0"><span class="toc-number">1.</span> <span class="toc-text">封装函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4"><span class="toc-number">2.</span> <span class="toc-text">命名空间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%BD%E4%B8%8D%E8%83%BD%E6%8A%8A-node-%E6%94%BE%E5%89%8D%E9%9D%A2"><span class="toc-number">3.</span> <span class="toc-text">能不能把 node 放前面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%8A-Node2-%E6%94%B9%E4%B8%AA%E5%90%8D%E5%AD%97%E5%90%A7"><span class="toc-number">4.</span> <span class="toc-text">把 Node2 改个名字吧</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%8D%E7%BB%99%E4%B8%AA%E7%BC%A9%E5%86%99%E5%90%A7-alias"><span class="toc-number">5.</span> <span class="toc-text">再给个缩写吧 alias</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JQuery-%E4%BC%98%E7%82%B9"><span class="toc-number">6.</span> <span class="toc-text">JQuery 优点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JQuery-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E8%BD%AE%E6%92%AD"><span class="toc-number">7.</span> <span class="toc-text">JQuery 实现一个轮播</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2019/11/15/docs/frontEnd/js/js08/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2019/11/15/docs/frontEnd/js/js08/&text=JS基础 - JQuery"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2019/11/15/docs/frontEnd/js/js08/&title=JS基础 - JQuery"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2019/11/15/docs/frontEnd/js/js08/&is_video=false&description=JS基础 - JQuery"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JS基础 - JQuery&body=Check out this article: http://example.com/2019/11/15/docs/frontEnd/js/js08/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2019/11/15/docs/frontEnd/js/js08/&title=JS基础 - JQuery"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2019/11/15/docs/frontEnd/js/js08/&title=JS基础 - JQuery"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2019/11/15/docs/frontEnd/js/js08/&title=JS基础 - JQuery"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2019/11/15/docs/frontEnd/js/js08/&title=JS基础 - JQuery"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2019/11/15/docs/frontEnd/js/js08/&name=JS基础 - JQuery&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2019/11/15/docs/frontEnd/js/js08/&t=JS基础 - JQuery"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Mcguffen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
