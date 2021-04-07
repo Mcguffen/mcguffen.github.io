@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Webpack性能优化打包分析::: tip 前提在进行 Webpack 性能优化之前，如果我们知道我们每一个打包的文件有多大，打包时间是多少，它对于我们进行性能优化是很有帮助的，这里我们使用webpack-bundle-analyzer来帮助我们解决这个问题。:::首先需要使用如下命令去安装这个插件： 1$ npm install webpack-bundle-analyzer --save-d">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hi! I am yang.">
+<meta property="og:url" content="http://example.com/2021/04/07/docs/webpack/optimization/index.html">
+<meta property="og:site_name" content="Hi! I am yang.">
+<meta property="og:description" content="Webpack性能优化打包分析::: tip 前提在进行 Webpack 性能优化之前，如果我们知道我们每一个打包的文件有多大，打包时间是多少，它对于我们进行性能优化是很有帮助的，这里我们使用webpack-bundle-analyzer来帮助我们解决这个问题。:::首先需要使用如下命令去安装这个插件： 1$ npm install webpack-bundle-analyzer --save-d">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-04-07T12:07:44.732Z">
+<meta property="article:modified_time" content="2021-04-07T12:07:44.732Z">
+<meta property="article:author" content="Mcguffen">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Hi! I am yang.</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2021/04/07/docs/webpack/loader/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2021/04/07/docs/webpack/plugin/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/04/07/docs/webpack/optimization/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/04/07/docs/webpack/optimization/&text="><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/04/07/docs/webpack/optimization/&title="><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/04/07/docs/webpack/optimization/&is_video=false&description="><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=&body=Check out this article: http://example.com/2021/04/07/docs/webpack/optimization/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/04/07/docs/webpack/optimization/&title="><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/04/07/docs/webpack/optimization/&title="><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/04/07/docs/webpack/optimization/&title="><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/04/07/docs/webpack/optimization/&title="><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/04/07/docs/webpack/optimization/&name=&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/04/07/docs/webpack/optimization/&t="><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Webpack%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="toc-number">1.</span> <span class="toc-text">Webpack性能优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%93%E5%8C%85%E5%88%86%E6%9E%90"><span class="toc-number">1.1.</span> <span class="toc-text">打包分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%A9%E5%B0%8F%E6%96%87%E4%BB%B6%E7%9A%84%E6%90%9C%E7%B4%A2%E8%8C%83%E5%9B%B4"><span class="toc-number">1.2.</span> <span class="toc-text">缩小文件的搜索范围</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#extensions%E5%8F%82%E6%95%B0"><span class="toc-number">1.2.0.1.</span> <span class="toc-text">extensions参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mainFields%E5%8F%82%E6%95%B0"><span class="toc-number">1.2.0.2.</span> <span class="toc-text">mainFields参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#alias%E5%8F%82%E6%95%B0"><span class="toc-number">1.2.0.3.</span> <span class="toc-text">alias参数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tree-Shaking%E5%8E%BB%E6%8E%89%E5%86%97%E4%BD%99%E7%9A%84%E4%BB%A3%E7%A0%81"><span class="toc-number">1.3.</span> <span class="toc-text">Tree Shaking去掉冗余的代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DllPlugin%E5%87%8F%E5%B0%91%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E7%9A%84%E7%BC%96%E8%AF%91%E6%AC%A1%E6%95%B0"><span class="toc-number">1.4.</span> <span class="toc-text">DllPlugin减少第三方库的编译次数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E7%8B%AC%E6%89%93%E5%8C%85%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93"><span class="toc-number">1.4.0.1.</span> <span class="toc-text">单独打包第三方库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E7%94%A8xxx-dll-js%E6%96%87%E4%BB%B6"><span class="toc-number">1.4.0.2.</span> <span class="toc-text">引用xxx.dll.js文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E6%89%93%E5%8C%85%E5%88%86%E6%9E%90%E6%96%87%E4%BB%B6"><span class="toc-number">1.4.0.3.</span> <span class="toc-text">生成打包分析文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E6%89%93%E5%8C%85%E5%88%86%E6%9E%90%E6%96%87%E4%BB%B6"><span class="toc-number">1.4.0.4.</span> <span class="toc-text">引用打包分析文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E5%8C%96"><span class="toc-number">1.4.0.5.</span> <span class="toc-text">优化</span></a></li></ol></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Mcguffen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-04-07T12:07:44.732Z" itemprop="datePublished">2021-04-07</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="Webpack性能优化"><a href="#Webpack性能优化" class="headerlink" title="Webpack性能优化"></a>Webpack性能优化</h1><h2 id="打包分析"><a href="#打包分析" class="headerlink" title="打包分析"></a>打包分析</h2><p>::: tip 前提<br>在进行 Webpack 性能优化之前，如果我们知道我们每一个打包的文件有多大，打包时间是多少，它对于我们进行性能优化是很有帮助的，这里我们使用<code>webpack-bundle-analyzer</code>来帮助我们解决这个问题。<br>:::<br>首先需要使用如下命令去安装这个插件：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install webpack-bundle-analyzer --save-dev</span><br></pre></td></tr></table></figure>
+<p>安装完毕后，我们需要在<code>webpack.prod.js</code>文件中做一点小小的改动：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> BundleAnalyzerPlugin = <span class="built_in">require</span>(<span class="string">&#x27;webpack-bundle-analyzer&#x27;</span>).BundleAnalyzerPlugin;</span><br><span class="line"><span class="keyword">const</span> prodConfig = &#123;</span><br><span class="line">  <span class="comment">// 其它配置项</span></span><br><span class="line">  mode: <span class="string">&#x27;production&#x27;</span>,</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> BundleAnalyzerPlugin()</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>配置完毕后，我们运行<code>npm run build</code>命令来查看打包分析结果，以下打包结果仅供参考：</p>
+<h2 id="缩小文件的搜索范围"><a href="#缩小文件的搜索范围" class="headerlink" title="缩小文件的搜索范围"></a>缩小文件的搜索范围</h2><p>::: tip 理解<br>首先我们要弄明白 Webpack 的一个配置参数(<code>Resolve</code>)的作用：它告诉了 Webpack 怎么去搜索文件，它同样有几个属性需要我们去理解：</p>
+<ul>
+<li><code>extensions</code>：它告诉了 Webpack 当我们在导入模块，但没有写模块的后缀时应该如何去查找模块。</li>
+<li><code>mainFields</code>：它告诉了 Webpack 当我们在导入模块，但并没有写模块的具体名字时，应该如何去查找这个模块。</li>
+<li><code>alias</code>：当我们有一些不得不引用的第三方库或者模块的时候，可以通过配置别名，直接引入它的<code>.min.js</code>文件，这样可以库内的直接解析</li>
+<li>其它<code>include</code>、<code>exclude</code>、<code>test</code>来配合loader进行限制文件的搜索范围<br>:::</li>
+</ul>
+<h4 id="extensions参数"><a href="#extensions参数" class="headerlink" title="extensions参数"></a>extensions参数</h4><p>就像上面所说的那样，<code>extensions</code>它告诉了 Webpack 当我们在导入模块，但没有写模块的后缀时，应该如何去查找模块。这种情况在我们开发中是很常见的，一个情形可能如下所示：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 书写了模块后缀</span></span><br><span class="line"><span class="keyword">import</span> main <span class="keyword">from</span> <span class="string">&#x27;main.js&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 没有书写模块后缀</span></span><br><span class="line"><span class="keyword">import</span> main <span class="keyword">from</span> <span class="string">&#x27;main&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>像上面那样，我们不写<code>main.js</code>的<code>.js</code>后缀，是因为 Webpack 会默认帮我们去查找一些文件，我们也可以去配置自己的文件后缀配置：<br>::: warning 注意<br><code>extensions</code>参数应尽可能只配置主要的文件类型，不可为了图方便写很多不必要的，因为每多一个，底层都会走一遍文件查找的工作，会损耗一定的性能。<br>:::</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="comment">// 其它配置</span></span><br><span class="line">  resolve: &#123;</span><br><span class="line">    extensions: [<span class="string">&#x27;.js&#x27;</span>, <span class="string">&#x27;.json&#x27;</span>, <span class="string">&#x27;.vue&#x27;</span>]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果我们像上面配置后，我们可以在代码中这样写：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 省略 .vue文件扩展</span></span><br><span class="line"><span class="keyword">import</span> BaseHeader <span class="keyword">from</span> <span class="string">&#x27;@/components/base-header&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 省略 .json文件扩展</span></span><br><span class="line"><span class="keyword">import</span> CityJson <span class="keyword">from</span> <span class="string">&#x27;@/static/city&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="mainFields参数"><a href="#mainFields参数" class="headerlink" title="mainFields参数"></a>mainFields参数</h4><p><code>mainFields</code>参数主要应用场景是，我们可以不写具体的模块名称，由 Webpack 去查找，一个可能的情形如下:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 省略具体模块名称</span></span><br><span class="line"><span class="keyword">import</span> BaseHeader <span class="keyword">from</span> <span class="string">&#x27;@components/base-header/&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 以上相当于这一段代码</span></span><br><span class="line"><span class="keyword">import</span> BaseHeader <span class="keyword">from</span> <span class="string">&#x27;@components/base-header/index.vue&#x27;</span>;</span><br><span class="line"><span class="comment">// 或者这一段</span></span><br><span class="line"><span class="keyword">import</span> BaseHeader <span class="keyword">from</span> <span class="string">&#x27;@components/base-header/main.vue&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>我们也可以去配置自己的<code>mainFields</code>参数：<br>::: tip 说明<br>同<code>extensions</code>参数类似，我们也不建议过多的配置<code>mainFields</code>的值，原因如上。<br>:::</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="comment">// 其它配置</span></span><br><span class="line">  resolve: &#123;</span><br><span class="line">    extensions: [<span class="string">&#x27;.js&#x27;</span>, <span class="string">&#x27;.json&#x27;</span>, <span class="string">&#x27;.vue&#x27;</span>],</span><br><span class="line">    mainFields: [<span class="string">&#x27;main&#x27;</span>, <span class="string">&#x27;index&#x27;</span>]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="alias参数"><a href="#alias参数" class="headerlink" title="alias参数"></a>alias参数</h4><p><code>alias</code>参数更像一个别名，如果你有一个目录很深、文件名很长的模块，为了方便，配置一个别名这是很有用的；对于一个庞大的第三方库，直接引入<code>.min.js</code>而不是从<code>node_modules</code>中引入也是一个极好的方案，一个可能得情形如下：<br>::: warning 注意<br>通过别名配置的模块，会影响<code>Tree Shaking</code>，建议只对整体性比较强的库使用，像<code>lodash</code>库不建议通过别名引入，因为<code>lodash</code>使用<code>Tree Shaking</code>更合适。<br>:::</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 没有配置别名之前</span></span><br><span class="line"><span class="keyword">import</span> main <span class="keyword">from</span> <span class="string">&#x27;src/a/b/c/main.js&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 配置别名之后</span></span><br><span class="line"><span class="keyword">import</span> main <span class="keyword">from</span> <span class="string">&#x27;main.js&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 别名配置</span></span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="comment">// 其它配置</span></span><br><span class="line">  resolve: &#123;</span><br><span class="line">    extensions: [<span class="string">&#x27;.js&#x27;</span>, <span class="string">&#x27;.json&#x27;</span>, <span class="string">&#x27;.vue&#x27;</span>],</span><br><span class="line">    mainFields: [<span class="string">&#x27;main&#x27;</span>, <span class="string">&#x27;index&#x27;</span>],</span><br><span class="line">    alias: &#123;</span><br><span class="line">      main: path.resolve(__dirname, <span class="string">&#x27;src/a/b/c&#x27;</span>),</span><br><span class="line">      react: path.resolve(__dirname, <span class="string">&#x27;./node_modules/react/dist/react.min.js&#x27;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Tree-Shaking去掉冗余的代码"><a href="#Tree-Shaking去掉冗余的代码" class="headerlink" title="Tree Shaking去掉冗余的代码"></a>Tree Shaking去掉冗余的代码</h2><p>::: tip 说明<br><code>Tree Shaking</code>配置我们已经在上面讲过，配置<code>Tree Shaking</code>也很简单。<br>:::</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="comment">// 其它配置</span></span><br><span class="line">  optimization: &#123;</span><br><span class="line">    usedExports: <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果你对<code>Tree Shaking</code>还不是特别理解，请点击<a href="/webpack/#tree-shaking">Tree Shaking</a>阅读更多。</p>
+<h2 id="DllPlugin减少第三方库的编译次数"><a href="#DllPlugin减少第三方库的编译次数" class="headerlink" title="DllPlugin减少第三方库的编译次数"></a>DllPlugin减少第三方库的编译次数</h2><p>对于有些固定的第三方库，因为它是固定的，我们每次打包，Webpack 都会对它们的代码进行分析，然后打包。那么有没有什么办法，让我们只打包一次，后面的打包直接使用第一次的分析结果就行。答案当然是有的，我们可以使用 Webpack 内置的<code>DllPlugin</code>来解决这个问题，解决这个问题可以分如下的步骤进行：</p>
+<ul>
+<li>把第三方库单独打包在一个<code>xxx.dll.js</code>文件中</li>
+<li>在<code>index.html</code>中使用<code>xxx.dll.js</code>文件</li>
+<li>生成第三方库的打包分析结果保存在<code>xxx.manifest.json</code>文件中</li>
+<li>当<code>npm run build</code>时，引入已经打包好的第三方库的分析结果</li>
+<li>优化</li>
+</ul>
+<h4 id="单独打包第三方库"><a href="#单独打包第三方库" class="headerlink" title="单独打包第三方库"></a>单独打包第三方库</h4><p>::: tip 步骤<br>为了单独打包第三方库，我们需要进行如下步骤：</p>
+<ul>
+<li>根目录下生成<code>dll</code>文件夹</li>
+<li>在<code>build</code>目录下生成一个<code>webpack.dll.js</code>的配置文件，并进行配置。</li>
+<li>在<code>package.json</code>文件中，配置<code>build:dll</code>命令</li>
+<li>使用<code>npm run build:dll</code>进行打包<br>:::<br>生成<code>dll</code>文件夹：<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir dll</span><br></pre></td></tr></table></figure>
+在<code>build</code>文件夹下生成<code>webpack.dll.js</code>:<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> build</span><br><span class="line">$ touch webpack.dll.js</span><br></pre></td></tr></table></figure>
+创建完毕后，需要在<code>webpack.dll.js</code>文件中添加如下代码：<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  mode: <span class="string">&#x27;production&#x27;</span>,</span><br><span class="line">  entry: &#123;</span><br><span class="line">    vendors: [<span class="string">&#x27;lodash&#x27;</span>, <span class="string">&#x27;jquery&#x27;</span>]</span><br><span class="line">  &#125;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    filename: <span class="string">&#x27;[name].dll.js&#x27;</span>,</span><br><span class="line">    path: path.resolve(__dirname, <span class="string">&#x27;../dll&#x27;</span>),</span><br><span class="line">    library: <span class="string">&#x27;[name]&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>最后需要在<code>package.json</code>文件中添加新的打包命令：</p>
+<figure class="highlight js"><figcaption><span>&#123;6&#125;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="comment">// 其它配置</span></span><br><span class="line">  <span class="string">&quot;scripts&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;dev&quot;</span>: <span class="string">&quot;webpack-dev-server --config ./build/webpack.dev.js&quot;</span>,</span><br><span class="line">    <span class="string">&quot;build&quot;</span>: <span class="string">&quot;webpack --config ./build/webpack.prod.js&quot;</span>,</span><br><span class="line">    <span class="string">&quot;build:dll&quot;</span>: <span class="string">&quot;webpack --config ./build/webpack.dll.js&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>npm run build:dll</code>打包结果，你的打包结果看起来是下面这样的：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">|-- build</span><br><span class="line">|   |-- webpack.common.js</span><br><span class="line">|   |-- webpack.dev.js</span><br><span class="line">|   |-- webpack.dll.js</span><br><span class="line">|   |-- webpack.prod.js</span><br><span class="line">|-- dll</span><br><span class="line">|   |-- vendors.dll.js</span><br><span class="line">|-- src</span><br><span class="line">|   |-- index.html</span><br><span class="line">|   |-- index.js</span><br><span class="line">|-- package.json</span><br></pre></td></tr></table></figure>
+
+<h4 id="引用xxx-dll-js文件"><a href="#引用xxx-dll-js文件" class="headerlink" title="引用xxx.dll.js文件"></a>引用<code>xxx.dll.js</code>文件</h4><p>在上一小节中我们成功拿到了<code>xxx.dll.js</code>文件，那么如何在<code>index.html</code>中引入这个文件呢？答案是需要安装<code>add-asset-html-webpack-plugin</code>插件：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install add-asset-html-webpack-plugin -D</span><br></pre></td></tr></table></figure>
+<p>在<code>webpack.common.js</code>中使用<code>add-asset-html-webpack-plugin</code>插件：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> addAssetHtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">&#x27;add-asset-html-webpack-plugin&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> configs = &#123;</span><br><span class="line">  <span class="comment">// 其它配置</span></span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> addAssetHtmlWebpackPlugin(&#123;</span><br><span class="line">      filepath: path.resolve(__dirname, <span class="string">&#x27;../dll/vendors.dll.js&#x27;</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">module</span>.exports = configs;</span><br></pre></td></tr></table></figure>
+<p>我们将第三方库全局暴露了一个<code>vendors</code>变量，现引入<code>xxx.dll.js</code>文件结果如下所示：</p>
+<h4 id="生成打包分析文件"><a href="#生成打包分析文件" class="headerlink" title="生成打包分析文件"></a>生成打包分析文件</h4><p>在<code>webpack.dll.js</code>中使用 Webpack 内置的<code>DllPlugin</code>插件，进行打包分析：</p>
+<figure class="highlight js"><figcaption><span>&#123;16&#125;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">&#x27;webpack&#x27;</span>);</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  mode: <span class="string">&#x27;production&#x27;</span>,</span><br><span class="line">  entry: &#123;</span><br><span class="line">    vendors: [<span class="string">&#x27;lodash&#x27;</span>, <span class="string">&#x27;jquery&#x27;</span>]</span><br><span class="line">  &#125;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    filename: <span class="string">&#x27;[name].dll.js&#x27;</span>,</span><br><span class="line">    path: path.resolve(__dirname, <span class="string">&#x27;../dll&#x27;</span>),</span><br><span class="line">    library: <span class="string">&#x27;[name]&#x27;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> webpack.DllPlugin(&#123;</span><br><span class="line">      name: <span class="string">&#x27;[name]&#x27;</span>,</span><br><span class="line">      path: path.resolve(__dirname, <span class="string">&#x27;../dll/[name].manifest.json&#x27;</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="引用打包分析文件"><a href="#引用打包分析文件" class="headerlink" title="引用打包分析文件"></a>引用打包分析文件</h4><p>在<code>webpack.common.js</code>中使用 Webpack 内置的<code>DllReferencePlugin</code>插件来引用打包分析文件：</p>
+<figure class="highlight js"><figcaption><span>&#123;17&#125;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> htmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">&#x27;html-webpack-plugin&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> cleanWebpackPlugin = <span class="built_in">require</span>(<span class="string">&#x27;clean-webpack-plugin&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> addAssetHtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">&#x27;add-asset-html-webpack-plugin&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">&#x27;webpack&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="comment">// 其它配置</span></span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> cleanWebpackPlugin(),</span><br><span class="line">    <span class="keyword">new</span> htmlWebpackPlugin(&#123;</span><br><span class="line">      template: <span class="string">&#x27;src/index.html&#x27;</span></span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="keyword">new</span> addAssetHtmlWebpackPlugin(&#123;</span><br><span class="line">      filepath: path.resolve(__dirname, <span class="string">&#x27;../dll/vendors.dll.js&#x27;</span>)</span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="keyword">new</span> webpack.DllReferencePlugin(&#123;</span><br><span class="line">      manifest: path.resolve(__dirname, <span class="string">&#x27;../dll/vendors.manifest.json&#x27;</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h4><p>现在我们思考一个问题，我们目前是把<code>lodash</code>和<code>jquery</code>全部打包到了<code>vendors</code>文件中，那么如果我们要拆分怎么办，拆分后又该如何去配置引入？一个可能的拆分结果如下：</p>
+<figure class="highlight js"><figcaption><span>&#123;6,7&#125;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">&#x27;webpack&#x27;</span>);</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  mode: <span class="string">&#x27;production&#x27;</span>,</span><br><span class="line">  entry: &#123;</span><br><span class="line">    vendors: [<span class="string">&#x27;lodash&#x27;</span>],</span><br><span class="line">    jquery: [<span class="string">&#x27;jquery&#x27;</span>]</span><br><span class="line">  &#125;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    filename: <span class="string">&#x27;[name].dll.js&#x27;</span>,</span><br><span class="line">    path: path.resolve(__dirname, <span class="string">&#x27;../dll&#x27;</span>),</span><br><span class="line">    library: <span class="string">&#x27;[name]&#x27;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> webpack.DllPlugin(&#123;</span><br><span class="line">      name: <span class="string">&#x27;[name]&#x27;</span>,</span><br><span class="line">      path: path.resolve(__dirname, <span class="string">&#x27;../dll/[name].manifest.json&#x27;</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>根据上面的拆分结果，我们需要在<code>webpack.common.js</code>中进行如下的引用配置：</p>
+<figure class="highlight js"><figcaption><span>&#123;16,22&#125;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> htmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">&#x27;html-webpack-plugin&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> cleanWebpackPlugin = <span class="built_in">require</span>(<span class="string">&#x27;clean-webpack-plugin&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> addAssetHtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">&#x27;add-asset-html-webpack-plugin&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> configs = &#123;</span><br><span class="line">  <span class="comment">// ... 其他配置</span></span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> cleanWebpackPlugin(),</span><br><span class="line">    <span class="keyword">new</span> htmlWebpackPlugin(&#123;</span><br><span class="line">      template: <span class="string">&#x27;src/index.html&#x27;</span></span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="keyword">new</span> addAssetHtmlWebpackPlugin(&#123;</span><br><span class="line">      filepath: path.resolve(__dirname, <span class="string">&#x27;../dll/vendors.dll.js&#x27;</span>)</span><br><span class="line">    &#125;),</span><br><span class="line">     <span class="keyword">new</span> addAssetHtmlWebpackPlugin(&#123;</span><br><span class="line">      filepath: path.resolve(__dirname, <span class="string">&#x27;../dll/jquery.dll.js&#x27;</span>)</span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="keyword">new</span> webpack.DllReferencePlugin(&#123;</span><br><span class="line">      manifest: path.resolve(__dirname, <span class="string">&#x27;../dll/vendors.manifest.json&#x27;</span>)</span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="keyword">new</span> webpack.DllReferencePlugin(&#123;</span><br><span class="line">      manifest: path.resolve(__dirname, <span class="string">&#x27;../dll/jquery.manifest.json&#x27;</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">module</span>.exports = configs;</span><br></pre></td></tr></table></figure>
+<p>我们可以发现：随着我们引入的第三方模块越来越多，我们不断的要进行 Webpack 配置文件的修改。对于这个问题，我们可以使用<code>Node</code>的核心模块<code>fs</code>来分析<code>dll</code>文件夹下的文件，进行动态的引入，根据这个思路我们新建一个<code>makePlugins</code>方法，它返回一个 Webpack 的一个<code>plugins</code>数组：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> makePlugins = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> plugins = [</span><br><span class="line">    <span class="keyword">new</span> cleanWebpackPlugin(),</span><br><span class="line">    <span class="keyword">new</span> htmlWebpackPlugin(&#123;</span><br><span class="line">      template: <span class="string">&#x27;src/index.html&#x27;</span></span><br><span class="line">    &#125;),</span><br><span class="line">  ];</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 动态分析文件</span></span><br><span class="line">  <span class="keyword">const</span> files = fs.readdirSync(path.resolve(__dirname, <span class="string">&#x27;../dll&#x27;</span>));</span><br><span class="line">  files.forEach(<span class="function"><span class="params">file</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 如果是xxx.dll.js文件</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="regexp">/.*\.dll.js/</span>.test(file)) &#123;</span><br><span class="line">      plugins.push(</span><br><span class="line">        <span class="keyword">new</span> addAssetHtmlWebpackPlugin(&#123;</span><br><span class="line">          filepath: path.resolve(__dirname, <span class="string">&#x27;../dll&#x27;</span>, file)</span><br><span class="line">        &#125;)</span><br><span class="line">      )</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 如果是xxx.manifest.json文件</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="regexp">/.*\.manifest.json/</span>.test(file)) &#123;</span><br><span class="line">      plugins.push(</span><br><span class="line">        <span class="keyword">new</span> webpack.DllReferencePlugin(&#123;</span><br><span class="line">          manifest: path.resolve(__dirname, <span class="string">&#x27;../dll&#x27;</span>, file)</span><br><span class="line">        &#125;)</span><br><span class="line">      )</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">return</span> plugins;</span><br><span class="line">&#125;</span><br><span class="line">configs.plugins = makePlugins(configs);</span><br><span class="line"><span class="built_in">module</span>.exports = configs;</span><br></pre></td></tr></table></figure>
+<p>使用<code>npm run build:dll</code>进行打包第三方库，再使用<code>npm run build</code>打包，打包结果如下:<br>::: tip 说明<br>本次试验，第一次打包时间为1100ms+，后面的打包稳定在800ms+，说明我们的 Webpack性能优化已经生效。<br>:::</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">|-- build</span><br><span class="line">|   |-- webpack.common.js</span><br><span class="line">|   |-- webpack.dev.js</span><br><span class="line">|   |-- webpack.dll.js</span><br><span class="line">|   |-- webpack.prod.js</span><br><span class="line">|-- dist</span><br><span class="line">|   |-- index.html</span><br><span class="line">|   |-- jquery.dll.js</span><br><span class="line">|   |-- main.1158fa9f961c50aaea21.js</span><br><span class="line">|   |-- main.1158fa9f961c50aaea21.js.map</span><br><span class="line">|-- dll</span><br><span class="line">|   |-- jquery.dll.js</span><br><span class="line">|   |-- jquery.manifest.json</span><br><span class="line">|   |-- vendors.dll.js</span><br><span class="line">|   |-- vendors.manifest.json</span><br><span class="line">|-- src</span><br><span class="line">|   |-- index.html</span><br><span class="line">|   |-- index.js</span><br><span class="line">|-- package.json</span><br><span class="line">|-- postcss.config.js</span><br></pre></td></tr></table></figure>
+
+<p><strong>小结</strong>：Webpack 性能优化是一个长久的话题，本章也仅仅只是浅尝辄止，后续会有关于 Webpack 更加深入的解读博客，敬请期待(立个<code>flag</code>:triangular_flag_on_post:)。</p>
+
+  </div>
+  <div>
+    <a href="https://github.com/Mcguffen/mcguffen.github.io/edit/myblog/source/_posts/docs/webpack/optimization.md"target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Webpack%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="toc-number">1.</span> <span class="toc-text">Webpack性能优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%93%E5%8C%85%E5%88%86%E6%9E%90"><span class="toc-number">1.1.</span> <span class="toc-text">打包分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%A9%E5%B0%8F%E6%96%87%E4%BB%B6%E7%9A%84%E6%90%9C%E7%B4%A2%E8%8C%83%E5%9B%B4"><span class="toc-number">1.2.</span> <span class="toc-text">缩小文件的搜索范围</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#extensions%E5%8F%82%E6%95%B0"><span class="toc-number">1.2.0.1.</span> <span class="toc-text">extensions参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mainFields%E5%8F%82%E6%95%B0"><span class="toc-number">1.2.0.2.</span> <span class="toc-text">mainFields参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#alias%E5%8F%82%E6%95%B0"><span class="toc-number">1.2.0.3.</span> <span class="toc-text">alias参数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tree-Shaking%E5%8E%BB%E6%8E%89%E5%86%97%E4%BD%99%E7%9A%84%E4%BB%A3%E7%A0%81"><span class="toc-number">1.3.</span> <span class="toc-text">Tree Shaking去掉冗余的代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DllPlugin%E5%87%8F%E5%B0%91%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E7%9A%84%E7%BC%96%E8%AF%91%E6%AC%A1%E6%95%B0"><span class="toc-number">1.4.</span> <span class="toc-text">DllPlugin减少第三方库的编译次数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E7%8B%AC%E6%89%93%E5%8C%85%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93"><span class="toc-number">1.4.0.1.</span> <span class="toc-text">单独打包第三方库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E7%94%A8xxx-dll-js%E6%96%87%E4%BB%B6"><span class="toc-number">1.4.0.2.</span> <span class="toc-text">引用xxx.dll.js文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E6%89%93%E5%8C%85%E5%88%86%E6%9E%90%E6%96%87%E4%BB%B6"><span class="toc-number">1.4.0.3.</span> <span class="toc-text">生成打包分析文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E6%89%93%E5%8C%85%E5%88%86%E6%9E%90%E6%96%87%E4%BB%B6"><span class="toc-number">1.4.0.4.</span> <span class="toc-text">引用打包分析文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E5%8C%96"><span class="toc-number">1.4.0.5.</span> <span class="toc-text">优化</span></a></li></ol></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/04/07/docs/webpack/optimization/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/04/07/docs/webpack/optimization/&text="><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/04/07/docs/webpack/optimization/&title="><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/04/07/docs/webpack/optimization/&is_video=false&description="><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=&body=Check out this article: http://example.com/2021/04/07/docs/webpack/optimization/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/04/07/docs/webpack/optimization/&title="><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/04/07/docs/webpack/optimization/&title="><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/04/07/docs/webpack/optimization/&title="><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/04/07/docs/webpack/optimization/&title="><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/04/07/docs/webpack/optimization/&name=&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/04/07/docs/webpack/optimization/&t="><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Mcguffen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
