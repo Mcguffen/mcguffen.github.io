@@ -1,6 +1,12 @@
 ---
 title: html入门笔记
+date: 2019-06-07
+categories:
+ - frontEnd
+tags:
+ - html
 ---
+
 
 HTML 的全名是“超文本标记语言”（HyperText Markup Language），上个世纪90年代由欧洲核子研究中心的物理学家蒂姆·伯纳斯-李（Tim Berners-Lee）发明
 ## HTML起手式
