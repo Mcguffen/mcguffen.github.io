@@ -4,7 +4,7 @@ date: 2019-06-05
 categories:
  - markdown
 tags:
- - 语法
+ - tools
 ---
 ## Markdown是什么？
 1. 定义:一个简单的标记语言，通过一些转换库可以将markdown和html进行互相转换.
