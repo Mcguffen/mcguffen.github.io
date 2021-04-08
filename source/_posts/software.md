@@ -4,7 +4,7 @@ date: 2019-06-06
 categories:
  - frontEnd
 tags:
- - software
+ - tools
 ---
 
 ## 软件安装
