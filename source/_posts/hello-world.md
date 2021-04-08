@@ -90,7 +90,7 @@ GitHub Pages is designed to host your personal, organization, or project pages f
 
 ## 自动化部署
 ### 先将源码上传到GitHub
-由于master分支被占用，所以创建新的分支my-blog分支。
+由于master分支被占用，所以创建新的分支myblog分支。
 将代码上传到my-blog分支
 ``` bash
 git add .
