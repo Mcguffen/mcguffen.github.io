@@ -1,3 +1,11 @@
+---
+title: Webpack历史
+date: 2020-11-18
+categories:
+ - frontEnd
+tags:
+ - webpack
+---
 # 追本溯源
 在学习 Webpack 之前，我们有必要来了解一下前端领域的开发历程，只有明白了这些开发历程，才能更加清楚 Webpack 是怎么应运而生，又能给我们解决什么样的问题。
 
