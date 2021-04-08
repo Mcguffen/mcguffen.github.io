@@ -1,5 +1,10 @@
 ---
-sidebar: auto
+title: Vue开篇
+date: 2020-06-18
+categories:
+ - frontEnd
+tags:
+ - vue
 ---
 # 开篇：Vue.js 的精髓——组件
 
