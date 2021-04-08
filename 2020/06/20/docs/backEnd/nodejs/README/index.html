@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="首次学习 Node.js，需要看着代码想问题，善用社区和文档，使用 CRM 学习法~">
+<meta property="og:type" content="article">
+<meta property="og:title" content="超详细 Node.js 上手">
+<meta property="og:url" content="http://example.com/2020/06/20/docs/backEnd/nodejs/README/index.html">
+<meta property="og:site_name" content="Hi! I am yang.">
+<meta property="og:description" content="首次学习 Node.js，需要看着代码想问题，善用社区和文档，使用 CRM 学习法~">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfym6hyyytj30770330sr.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfymccb4uqj30cn04xwex.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyme0ms2tj309400zwee.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfymf7rs5xj304h012mx1.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfymfrts5sj303f010glh.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfynys33cej30dx06mmxy.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyo4x4s5wj30ow0ihwi9.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyo9t1trcj30bp0373yo.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyogzxtptj30bn03xdg4.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyogv7wpfj30bk05wjrs.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyogr2x0lj30ch0bl75a.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyokrghb1j30nx0h275s.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyol6gipfj30oh0hh0u7.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyop9v37oj30y20pltbx.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyotergcyj30np0lrtc8.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyovxndn0j30p30jjn14.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyownps9xj30q80moq7a.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyoxzw4h6j30kx0cctad.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfypshm9iuj30d10860tf.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfypsu1sk5j308p02pt8n.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfypybalhoj30hx045mxc.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyq34iq93j30in06tmyc.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyq8fh5hpj309j015aa1.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyq8ntl8fj306901e3yd.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyqcqxg98j30bu01x74d.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyqey0cdnj309y01oaa3.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyqtdxztaj30lq0g177c.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyqy3h45tj30lk0nqgoo.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyr81ju2aj30ho057jsc.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyr9lcrmfj30l80k640w.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyrc180lwj30ap047q3b.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyrjgv6g7j308200v3yf.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyrsernluj30rv0lan2s.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfys87mfrcj308l01rt8r.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyscdgfatj30c401qjri.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfysnjj2jxj309s01p74c.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyulffz4tj308f02jq2x.jpg">
+<meta property="article:published_time" content="2020-06-20T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-08T02:19:07.410Z">
+<meta property="article:author" content="Mcguffen">
+<meta property="article:tag" content="Node.js">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfym6hyyytj30770330sr.jpg">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>超详细 Node.js 上手</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/06/21/docs/frontEnd/TypeScript/README/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/06/18/docs/frontEnd/vue/README/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/06/20/docs/backEnd/nodejs/README/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/06/20/docs/backEnd/nodejs/README/&text=超详细 Node.js 上手"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/06/20/docs/backEnd/nodejs/README/&title=超详细 Node.js 上手"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/06/20/docs/backEnd/nodejs/README/&is_video=false&description=超详细 Node.js 上手"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=超详细 Node.js 上手&body=Check out this article: http://example.com/2020/06/20/docs/backEnd/nodejs/README/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/06/20/docs/backEnd/nodejs/README/&title=超详细 Node.js 上手"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/06/20/docs/backEnd/nodejs/README/&title=超详细 Node.js 上手"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/06/20/docs/backEnd/nodejs/README/&title=超详细 Node.js 上手"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/06/20/docs/backEnd/nodejs/README/&title=超详细 Node.js 上手"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/06/20/docs/backEnd/nodejs/README/&name=超详细 Node.js 上手&description=&lt;p&gt;首次学习 Node.js，需要看着代码想问题，善用社区和文档，使用 CRM 学习法~&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/06/20/docs/backEnd/nodejs/README/&t=超详细 Node.js 上手"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C-node-js"><span class="toc-number">1.</span> <span class="toc-text">运行 node.js</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8cmd-%E9%87%8C%E8%BF%90%E8%A1%8C-node"><span class="toc-number">1.1.</span> <span class="toc-text">在cmd 里运行 node</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#node-%E6%8E%A5%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84"><span class="toc-number">1.2.</span> <span class="toc-text">node 接绝对路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#node-%E6%8E%A5%E7%9B%B8%E5%AF%B9%E8%B7%AF%E5%BE%84"><span class="toc-number">1.3.</span> <span class="toc-text">node 接相对路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#node-e-%E6%8E%A5%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">1.4.</span> <span class="toc-text">node -e 接字符串</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA-todo-%E7%9A%84%E5%AE%9E%E7%8E%B0%E8%BF%87%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">创建 todo 的实现过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%A8%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E8%BF%87%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text">笨代码实现过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#node-todo-add-%E4%BB%BB%E5%8A%A1"><span class="toc-number">3.1.</span> <span class="toc-text">node todo add 任务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#node-todo-list"><span class="toc-number">3.2.</span> <span class="toc-text">node todo list</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#node-todo-delete-1"><span class="toc-number">3.3.</span> <span class="toc-text">node todo delete 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#node-todo-done-1"><span class="toc-number">3.4.</span> <span class="toc-text">node todo done 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#node-todo-edit-1"><span class="toc-number">3.5.</span> <span class="toc-text">node todo edit 1</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%9E%81%E8%87%B4%E4%BC%98%E5%8C%96"><span class="toc-number">4.</span> <span class="toc-text">代码极致优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%94%B9-BUG"><span class="toc-number">4.1.</span> <span class="toc-text">改 BUG</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E9%9F%A9%E5%9B%BD%E8%A1%8C"><span class="toc-number">4.2.</span> <span class="toc-text">代码韩国行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%8C%96%E7%94%A8%E6%88%B7%E4%BD%93%E9%AA%8C"><span class="toc-number">4.3.</span> <span class="toc-text">优化用户体验</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E7%82%B9"><span class="toc-number">5.1.</span> <span class="toc-text">重点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-number">5.2.</span> <span class="toc-text">结论</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        超详细 Node.js 上手
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Mcguffen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-06-20T00:00:00.000Z" itemprop="datePublished">2020-06-20</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/frontEnd/">frontEnd</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Node-js/" rel="tag">Node.js</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>首次学习 Node.js，需要看着代码想问题，善用社区和文档，使用 CRM 学习法~</p>
+<span id="more"></span>
+<p>前置条件，比较少：</p>
+<ol>
+<li>VSCode</li>
+<li>Node.js</li>
+<li>Node.js 文档 <a target="_blank" rel="noopener" href="https://nodejs.org/zh-cn/">https://nodejs.org/zh-cn/</a></li>
+<li>JS 相关知识不是必需的·</li>
+</ol>
+<h2 id="运行-node-js"><a href="#运行-node-js" class="headerlink" title="运行 node.js"></a>运行 node.js</h2><blockquote>
+<p>不要双击 Node.js 快捷方式</p>
+</blockquote>
+<p>如何运行 Node.js：</p>
+<h3 id="在cmd-里运行-node"><a href="#在cmd-里运行-node" class="headerlink" title="在cmd 里运行 node"></a>在cmd 里运行 node</h3><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfym6hyyytj30770330sr.jpg" alt="image-20200620115409541"></p>
+<p>按 ctrl + D 退出</p>
+<h3 id="node-接绝对路径"><a href="#node-接绝对路径" class="headerlink" title="node 接绝对路径"></a>node 接绝对路径</h3><p>在一个目录下新建 1.js 文件并用 vscode 打开它</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfymccb4uqj30cn04xwex.jpg" alt="image-20200620115949892"></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1.js</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;1.js&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>然后回到命令行用绝对路径去执行它</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyme0ms2tj309400zwee.jpg" alt="image-20200620120126543"></p>
+<h3 id="node-接相对路径"><a href="#node-接相对路径" class="headerlink" title="node 接相对路径"></a>node 接相对路径</h3><p>直接在目录下执行 1.js 文件</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfymf7rs5xj304h012mx1.jpg" alt="image-20200620120235455"></p>
+<p>不接文件名一样可以执行</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfymfrts5sj303f010glh.jpg" alt="image-20200620120307474"></p>
+<h3 id="node-e-接字符串"><a href="#node-e-接字符串" class="headerlink" title="node -e 接字符串"></a>node -e 接字符串</h3><p>不用文件直接执行代码</p>
+<p>QWQ 有BUG，搜不到的那种</p>
+<h2 id="创建-todo-的实现过程"><a href="#创建-todo-的实现过程" class="headerlink" title="创建 todo 的实现过程"></a>创建 todo 的实现过程</h2><p>最终效果：</p>
+<ol>
+<li>node todo add 任务内容</li>
+<li>node todo list</li>
+<li>node todo done 1</li>
+<li>node todo delete 1</li>
+<li>node todo edit 2</li>
+</ol>
+<p>首先创建一个 <code>todo.js</code></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfynys33cej30dx06mmxy.jpg" alt="image-20200620125558581"></p>
+<p>然后编辑 <code>todo.js</code>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;欢迎使用 todoList 小程序&#x27;</span>)</span><br><span class="line"><span class="comment">// vscode 命令行中 node 一下试试</span></span><br></pre></td></tr></table></figure>
+
+<p>现在想实现 <code>node todo add 做菜</code> 这样的命令，但是不知道怎么做，怎么办呢？</p>
+<p>打开 <code>google</code>，搜索 <code>node get command line</code> 自动补全 <code>node get command line args</code>：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyo4x4s5wj30ow0ihwi9.jpg" alt="image-20200620130152425"></p>
+<p>可以在万能的 stackoverflow 上找到相关问题并得出答案：</p>
+<p>![image-20200620130254157](/Users/xu/Library/Application Support/typora-user-images/image-20200620130254157.png)</p>
+<p>现在我会 node 相关知识嘛？不会，我会实现这个功能吗？我会了：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;欢迎使用 todoList 小程序&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 抄来的代码</span></span><br><span class="line"><span class="comment">// process.argv.forEach(function (val, index, array) &#123;</span></span><br><span class="line"><span class="comment">//   console.log(index + &#x27;: &#x27; + val);</span></span><br><span class="line"><span class="comment">// &#125;);</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(process.argv)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyo9t1trcj30bp0373yo.jpg" alt="image-20200620130632778"></p>
+<p>然后可以这么操作：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> nodePath = process.argv[<span class="number">0</span>]</span><br><span class="line"><span class="keyword">const</span> todoPath = process.argv[<span class="number">1</span>]</span><br><span class="line"><span class="keyword">const</span> verb = process.argv[<span class="number">2</span>]</span><br><span class="line"><span class="keyword">const</span> content = process.argv[<span class="number">3</span>]</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;你想做的操作是&#x27;</span> + verb)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;你想操作的内容是&#x27;</span> + content)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyogzxtptj30bn03xdg4.jpg" alt="image-20200620131024934"></p>
+<p>再然后创建一个任务列表：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> list = []</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(process.argv)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> nodePath = process.argv[<span class="number">0</span>]</span><br><span class="line"><span class="keyword">const</span> todoPath = process.argv[<span class="number">1</span>]</span><br><span class="line"><span class="keyword">const</span> verb = process.argv[<span class="number">2</span>]</span><br><span class="line"><span class="keyword">const</span> content = process.argv[<span class="number">3</span>]</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;你想做的操作是&#x27;</span> + verb)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;你想操作的内容是&#x27;</span> + content)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> task = content</span><br><span class="line">list.push(task)</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.table(list)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyogv7wpfj30bk05wjrs.jpg" alt="image-20200620131220856"></p>
+<p>好了，现在遇到了第一个问题：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyogr2x0lj30ch0bl75a.jpg" alt="image-20200620131314035"></p>
+<p>数据并没有被保存，因为 <code>const list = []</code> 每次都把任务清空了。</p>
+<p>那就把任务存在文件里好了，但是我还不会用 node 创建文件，很简单，搜索 <code>nodejs create file</code> 从谷歌继续抄：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyokrghb1j30nx0h275s.jpg" alt="image-20200620131706112"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyol6gipfj30oh0hh0u7.jpg" alt="image-20200620131729931"></p>
+<p> 先来抄第一行：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>不理解啥意思对不对？看官网：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyop9v37oj30y20pltbx.jpg" alt="image-20200620132121197"></p>
+<p>好了现在知道这是个文件系统，但是对我来说英文好麻烦：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyotergcyj30np0lrtc8.jpg" alt="image-20200620132525454"></p>
+<p>这个就很棒了对不对？</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyovxndn0j30p30jjn14.jpg" alt="image-20200620132605082"></p>
+<p>这两个 api 都不是操作文档的，那就搜 <code>write</code>：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyownps9xj30q80moq7a.jpg" alt="image-20200620132833060"></p>
+<p>这里面有个 <code>fs.writeFileSync(file, data[, options])</code> 异步写入文件，看起很棒对不对？点开它：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyoxzw4h6j30kx0cctad.jpg" alt="image-20200620132950155"></p>
+<p>好了，继续工程：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// fs.writeFileSync(&#x27;/Users/xu/Code/back-end/node/node-demo-todoList/db&#x27;, &#x27;到此一游&#x27;)</span></span><br><span class="line">fs.writeFileSync(<span class="string">&#x27;./db&#x27;</span>, <span class="string">&#x27;到此一游&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfypshm9iuj30d10860tf.jpg" alt="image-20200620135908457"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfypsu1sk5j308p02pt8n.jpg" alt="image-20200620135929030"></p>
+<p>好了，现在会使用这个 API 了。</p>
+<p>新的问题：<code>const list = []</code> 会覆盖 db 文件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> task = content</span><br><span class="line">list.push(task)</span><br><span class="line"></span><br><span class="line">fs.writeFileSync(<span class="string">&#x27;./db&#x27;</span>, list.toString()) <span class="comment">//以字符串形式</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfypybalhoj30hx045mxc.jpg" alt="image-20200620140445093"></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> list = fs.readFileSync(<span class="string">&#x27;./db&#x27;</span>).toString()</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;文件内容&#x27;</span> + list)</span><br><span class="line"></span><br><span class="line"><span class="comment">// const list = []</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> nodePath = process.argv[<span class="number">0</span>]</span><br><span class="line"><span class="keyword">const</span> todoPath = process.argv[<span class="number">1</span>]</span><br><span class="line"><span class="keyword">const</span> verb = process.argv[<span class="number">2</span>]</span><br><span class="line"><span class="keyword">const</span> content = process.argv[<span class="number">3</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> task = content</span><br><span class="line">list.push(task)</span><br><span class="line"></span><br><span class="line"><span class="comment">// fs.writeFileSync(&#x27;./db&#x27;, list.toString())</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.table(list)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyq34iq93j30in06tmyc.jpg" alt="image-20200620140921826"></p>
+<p>以字符串形式存取数据，就没法进行数据操作了对吧，也就是说存数据的时候就错了：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 测试</span></span><br><span class="line"><span class="keyword">const</span> task = content</span><br><span class="line">list.push(task)</span><br><span class="line"></span><br><span class="line">fs.writeFileSync(<span class="string">&#x27;./db&#x27;</span>, list.toString())</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(list)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyq8fh5hpj309j015aa1.jpg" alt="image-20200620141427425"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyq8ntl8fj306901e3yd.jpg" alt="image-20200620141441514"></p>
+<p>怎么解决这个问题呢？使用一个简单的 API，JSON 序列化：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fs.writeFileSync(<span class="string">&#x27;./db&#x27;</span>, <span class="built_in">JSON</span>.stringify(list))</span><br></pre></td></tr></table></figure>
+
+<p>将数组以 JSON 格式存储在数据库中：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> list = fs.readFileSync(<span class="string">&#x27;./db&#x27;</span>).toString()</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;文件内容：&#x27;</span> + list)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyqcqxg98j30bu01x74d.jpg" alt="image-20200620141836923"></p>
+<p>使用反序列化将拿到的数据再转化一下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> fileContent = fs.readFileSync(<span class="string">&#x27;./db&#x27;</span>).toString()</span><br><span class="line"><span class="keyword">const</span> list = <span class="built_in">JSON</span>.parse(fileContent)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;文件内容：&#x27;</span> + list)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> nodePath = process.argv[<span class="number">0</span>]</span><br><span class="line"><span class="keyword">const</span> todoPath = process.argv[<span class="number">1</span>]</span><br><span class="line"><span class="keyword">const</span> verb = process.argv[<span class="number">2</span>]</span><br><span class="line"><span class="keyword">const</span> content = process.argv[<span class="number">3</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> task = content</span><br><span class="line">list.push(task)</span><br><span class="line"></span><br><span class="line">fs.writeFileSync(<span class="string">&#x27;./db&#x27;</span>, <span class="built_in">JSON</span>.stringify(list))</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(list)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyqey0cdnj309y01oaa3.jpg" alt="image-20200620142044083"></p>
+<p>现在可以烧两桶水了！</p>
+<h2 id="笨代码实现过程"><a href="#笨代码实现过程" class="headerlink" title="笨代码实现过程"></a>笨代码实现过程</h2><h3 id="node-todo-add-任务"><a href="#node-todo-add-任务" class="headerlink" title="node todo add 任务"></a>node todo add 任务</h3><p>从之前的研究可以知道，序列化方法原理很简单：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">JSON</span>.stringfy = <span class="function"><span class="keyword">function</span>(<span class="params">array</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="string">&#x27;[&#x27;</span> + array.toString().split(<span class="string">&#x27;,&#x27;</span>).map(<span class="function"><span class="params">string</span> =&gt;</span> <span class="string">`&#x27;<span class="subst">$&#123;string&#125;</span>&#x27;`</span>).join() + <span class="string">&#x27;]&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>存的时候序列化，取得时候反序列化。</p>
+<p>新的问题：db 文件如果被删掉那就没法读取了！需要添加一个判断，怎么判断呢？依然是谷歌搜索：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyqtdxztaj30lq0g177c.jpg" alt="image-20200620143434893"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyqy3h45tj30lk0nqgoo.jpg" alt="image-20200620143907344"></p>
+<p>别人怎么写你就怎么写，管他为什么：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(path.existsSync(<span class="string">&#x27;./db&#x27;</span>)) &#123;</span><br><span class="line">  <span class="comment">// doSomething</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="comment">// doSomething</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>)</span><br><span class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> verb = process.argv[<span class="number">2</span>]</span><br><span class="line"><span class="keyword">const</span> content = process.argv[<span class="number">3</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(path.existsSync(<span class="string">&#x27;./db&#x27;</span>)) &#123;</span><br><span class="line">  <span class="keyword">const</span> fileContent = fs.readFileSync(<span class="string">&#x27;./db&#x27;</span>).toString()</span><br><span class="line">  <span class="keyword">const</span> list = <span class="built_in">JSON</span>.parse(fileContent)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> task = content</span><br><span class="line">  list.push(task)</span><br><span class="line">  fs.writeFileSync(<span class="string">&#x27;./db&#x27;</span>, <span class="built_in">JSON</span>.stringify(list))</span><br><span class="line">  <span class="built_in">console</span>.log(list)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> fileContent = fs.writeFileSync(<span class="string">&#x27;./db&#x27;</span>, <span class="string">&#x27;&#x27;</span>)</span><br><span class="line">  <span class="keyword">const</span> list = []</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> task = content</span><br><span class="line">  list.push(task)</span><br><span class="line">  fs.writeFileSync(<span class="string">&#x27;./db&#x27;</span>, <span class="built_in">JSON</span>.stringify(list))</span><br><span class="line">  <span class="built_in">console</span>.log(list)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后就获得了一个有点蠢的代码，但是我就是不优化：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyr81ju2aj30ho057jsc.jpg" alt="image-20200620144840881"></p>
+<p>为啥报错了呢？</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyr9lcrmfj30l80k640w.jpg" alt="image-20200620145011579"></p>
+<p>被弃用了你不早说？那换一个 API 就好了：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>)</span><br><span class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> verb = process.argv[<span class="number">2</span>]</span><br><span class="line"><span class="keyword">const</span> content = process.argv[<span class="number">3</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(fs.existsSync(<span class="string">&#x27;./db&#x27;</span>)) &#123;</span><br><span class="line">  <span class="keyword">const</span> fileContent = fs.readFileSync(<span class="string">&#x27;./db&#x27;</span>).toString()</span><br><span class="line">  <span class="keyword">const</span> list = <span class="built_in">JSON</span>.parse(fileContent)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> task = content <span class="comment">// 获取任务</span></span><br><span class="line">  list.push(task) <span class="comment">// 加入队列</span></span><br><span class="line">  fs.writeFileSync(<span class="string">&#x27;./db&#x27;</span>, <span class="built_in">JSON</span>.stringify(list)) <span class="comment">// 写入数据</span></span><br><span class="line">  <span class="built_in">console</span>.log(list) <span class="comment">// 打印数据</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> fileContent = fs.writeFileSync(<span class="string">&#x27;./db&#x27;</span>, <span class="string">&#x27;&#x27;</span>)</span><br><span class="line">  <span class="keyword">const</span> list = []</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> task = content</span><br><span class="line">  list.push(task)</span><br><span class="line">  fs.writeFileSync(<span class="string">&#x27;./db&#x27;</span>, <span class="built_in">JSON</span>.stringify(list))</span><br><span class="line">  <span class="built_in">console</span>.log(list)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>测试一下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyrc180lwj30ap047q3b.jpg" alt="image-20200620145231129"></p>
+<p>好了，花了这么久，<code>node todo add 任务</code> 功能就实现了！</p>
+<h3 id="node-todo-list"><a href="#node-todo-list" class="headerlink" title="node todo list"></a>node todo list</h3><p>想列出所有任务，该怎么实现呢？先把 <code>verb</code> 给判断一下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(verb === <span class="string">&#x27;add&#x27;</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span>(fs.existsSync(<span class="string">&#x27;./db&#x27;</span>)) &#123;</span><br><span class="line">    <span class="keyword">const</span> fileContent = fs.readFileSync(<span class="string">&#x27;./db&#x27;</span>).toString()</span><br><span class="line">    <span class="keyword">const</span> list = <span class="built_in">JSON</span>.parse(fileContent)</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">const</span> task = content <span class="comment">// 获取任务</span></span><br><span class="line">    list.push(task) <span class="comment">// 加入队列</span></span><br><span class="line">    fs.writeFileSync(<span class="string">&#x27;./db&#x27;</span>, <span class="built_in">JSON</span>.stringify(list)) <span class="comment">// 写入数据</span></span><br><span class="line">    <span class="built_in">console</span>.log(list) <span class="comment">// 打印数据</span></span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> fileContent = fs.writeFileSync(<span class="string">&#x27;./db&#x27;</span>, <span class="string">&#x27;&#x27;</span>)</span><br><span class="line">    <span class="keyword">const</span> list = []</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">const</span> task = content</span><br><span class="line">    list.push(task)</span><br><span class="line">    fs.writeFileSync(<span class="string">&#x27;./db&#x27;</span>, <span class="built_in">JSON</span>.stringify(list))</span><br><span class="line">    <span class="built_in">console</span>.log(list)</span><br><span class="line">  &#125;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> ...</span><br></pre></td></tr></table></figure>
+
+<p>然后再来实现 <code>todo list</code>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span>(verb === <span class="string">&#x27;list&#x27;</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> fileContent = fs.readFileSync(<span class="string">&#x27;./db&#x27;</span>).toString()</span><br><span class="line">  <span class="keyword">const</span> list = <span class="built_in">JSON</span>.parse(fileContent)</span><br><span class="line">  <span class="built_in">console</span>.log(list)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;你的动作是：&#x27;</span> + verb)</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;不支持此动作&#x27;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyrjgv6g7j308200v3yf.jpg" alt="image-20200620145940413"></p>
+<p>但是有个 BUG，很明显无法操作空文件，后面优化的时候一起解决。</p>
+<h3 id="node-todo-delete-1"><a href="#node-todo-delete-1" class="headerlink" title="node todo delete 1"></a>node todo delete 1</h3><p>我想从数组里删除匹配的字段，咋整？搜索谷歌：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyrsernluj30rv0lan2s.jpg" alt="image-20200620150815383"></p>
+<p>九种方法你敢信？找一个看起来舒服的：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list.splice(n-<span class="number">1</span>, <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span>(verb === <span class="string">&#x27;delete&#x27;</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> fileContent = fs.readFileSync(<span class="string">&#x27;./db&#x27;</span>).toString()</span><br><span class="line">  <span class="keyword">const</span> list = <span class="built_in">JSON</span>.parse(fileContent)</span><br><span class="line">  <span class="keyword">const</span> n = content</span><br><span class="line">  list.splice(n-<span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line">  fs.writeFileSync(<span class="string">&#x27;./db&#x27;</span>, <span class="built_in">JSON</span>.stringify(list))</span><br><span class="line">  <span class="built_in">console</span>.log(list)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfys87mfrcj308l01rt8r.jpg" alt="image-20200620152327132"></p>
+<h3 id="node-todo-done-1"><a href="#node-todo-done-1" class="headerlink" title="node todo done 1"></a>node todo done 1</h3><p>获取指定字符串再修改 好麻烦啊，来给每个任务接一个 <code>bool</code> 标识任务代表它没完成：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list.push([task, <span class="literal">false</span>])</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyscdgfatj30c401qjri.jpg" alt="image-20200620152727719"></p>
+<p>再来改 <code>done</code> 命令；</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span>(verb === <span class="string">&#x27;done&#x27;</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> fileContent = fs.readFileSync(<span class="string">&#x27;./db&#x27;</span>).toString()</span><br><span class="line">  <span class="keyword">const</span> list = <span class="built_in">JSON</span>.parse(fileContent)</span><br><span class="line">  <span class="keyword">const</span> n = content</span><br><span class="line">  list[n-<span class="number">1</span>][<span class="number">1</span>] = <span class="literal">true</span></span><br><span class="line">  fs.writeFileSync(<span class="string">&#x27;./db&#x27;</span>, <span class="built_in">JSON</span>.stringify(list))</span><br><span class="line">  <span class="built_in">console</span>.log(list)</span><br></pre></td></tr></table></figure>
+
+<h3 id="node-todo-edit-1"><a href="#node-todo-edit-1" class="headerlink" title="node todo edit 1"></a>node todo edit 1</h3><p>根据之前的经验很快写出 <code>edit</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#125; else if(verb &#x3D;&#x3D;&#x3D; &#39;edit&#39;) &#123;</span><br><span class="line">  const fileContent &#x3D; fs.readFileSync(&#39;.&#x2F;db&#39;).toString()</span><br><span class="line">  const list &#x3D; JSON.parse(fileContent)</span><br><span class="line">  const n &#x3D; content</span><br><span class="line">  list[n-1][0] &#x3D; &#39;???&#39;</span><br></pre></td></tr></table></figure>
+
+<p>但是后面的编辑呢？很简单：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> edit = process.argv[<span class="number">4</span>]</span><br><span class="line">...</span><br><span class="line">  list[n-<span class="number">1</span>][<span class="number">0</span>] = edit</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span>(verb === <span class="string">&#x27;edit&#x27;</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> fileContent = fs.readFileSync(<span class="string">&#x27;./db&#x27;</span>).toString()</span><br><span class="line">  <span class="keyword">const</span> list = <span class="built_in">JSON</span>.parse(fileContent)</span><br><span class="line">  <span class="keyword">const</span> n = content</span><br><span class="line">  list[n-<span class="number">1</span>][<span class="number">0</span>] = edit</span><br><span class="line">  fs.writeFileSync(<span class="string">&#x27;./db&#x27;</span>, <span class="built_in">JSON</span>.stringify(list))</span><br><span class="line">  <span class="built_in">console</span>.log(list)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfysnjj2jxj309s01p74c.jpg" alt="image-20200620153811305"></p>
+<h2 id="代码极致优化"><a href="#代码极致优化" class="headerlink" title="代码极致优化"></a>代码极致优化</h2><p>功能都实现完毕了，但是存在两大问题：</p>
+<ul>
+<li>重复率太高</li>
+<li>存在 BUG</li>
+</ul>
+<p>先使用 <code>switch</code> 优化 <code>if else</code> 语句：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>)</span><br><span class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> verb = process.argv[<span class="number">2</span>]</span><br><span class="line"><span class="keyword">const</span> content = process.argv[<span class="number">3</span>]</span><br><span class="line"><span class="keyword">const</span> edit = process.argv[<span class="number">4</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">switch</span>(verb) &#123;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">&#x27;add&#x27;</span>:</span><br><span class="line">    <span class="keyword">if</span>(fs.existsSync(<span class="string">&#x27;./db&#x27;</span>)) &#123;</span><br><span class="line">      <span class="keyword">const</span> fileContent = fs.readFileSync(<span class="string">&#x27;./db&#x27;</span>).toString()</span><br><span class="line">      <span class="keyword">const</span> list = <span class="built_in">JSON</span>.parse(fileContent)</span><br><span class="line">    </span><br><span class="line">      <span class="keyword">const</span> task = content <span class="comment">// 获取任务</span></span><br><span class="line">      list.push([task, <span class="literal">false</span>]) <span class="comment">// 加入队列</span></span><br><span class="line">      fs.writeFileSync(<span class="string">&#x27;./db&#x27;</span>, <span class="built_in">JSON</span>.stringify(list)) <span class="comment">// 写入数据</span></span><br><span class="line">      <span class="built_in">console</span>.log(list) <span class="comment">// 打印数据</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> fileContent = fs.writeFileSync(<span class="string">&#x27;./db&#x27;</span>, <span class="string">&#x27;&#x27;</span>)</span><br><span class="line">      <span class="keyword">const</span> list = []</span><br><span class="line">    </span><br><span class="line">      <span class="keyword">const</span> task = content</span><br><span class="line">      list.push([task, <span class="literal">false</span>])</span><br><span class="line">      fs.writeFileSync(<span class="string">&#x27;./db&#x27;</span>, <span class="built_in">JSON</span>.stringify(list))</span><br><span class="line">      <span class="built_in">console</span>.log(list)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">&#x27;list&#x27;</span>:</span><br><span class="line">    <span class="keyword">const</span> fileContent = fs.readFileSync(<span class="string">&#x27;./db&#x27;</span>).toString()</span><br><span class="line">    <span class="keyword">const</span> list = <span class="built_in">JSON</span>.parse(fileContent)</span><br><span class="line">    <span class="built_in">console</span>.log(list)</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">&#x27;done&#x27;</span>:</span><br><span class="line">    <span class="keyword">const</span> fileContent = fs.readFileSync(<span class="string">&#x27;./db&#x27;</span>).toString()</span><br><span class="line">    <span class="keyword">const</span> list = <span class="built_in">JSON</span>.parse(fileContent)</span><br><span class="line">    <span class="keyword">const</span> n = content</span><br><span class="line">    list[n-<span class="number">1</span>][<span class="number">1</span>] = <span class="literal">true</span></span><br><span class="line">    fs.writeFileSync(<span class="string">&#x27;./db&#x27;</span>, <span class="built_in">JSON</span>.stringify(list))</span><br><span class="line">    <span class="built_in">console</span>.log(list)</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">&#x27;delete&#x27;</span>:</span><br><span class="line">    <span class="keyword">const</span> fileContent = fs.readFileSync(<span class="string">&#x27;./db&#x27;</span>).toString()</span><br><span class="line">    <span class="keyword">const</span> list = <span class="built_in">JSON</span>.parse(fileContent)</span><br><span class="line">    <span class="keyword">const</span> n = content</span><br><span class="line">    list.splice(n-<span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line">    fs.writeFileSync(<span class="string">&#x27;./db&#x27;</span>, <span class="built_in">JSON</span>.stringify(list))</span><br><span class="line">    <span class="built_in">console</span>.log(list)</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">&#x27;edit&#x27;</span>:</span><br><span class="line">    <span class="keyword">const</span> fileContent = fs.readFileSync(<span class="string">&#x27;./db&#x27;</span>).toString()</span><br><span class="line">    <span class="keyword">const</span> list = <span class="built_in">JSON</span>.parse(fileContent)</span><br><span class="line">    <span class="keyword">const</span> n = content</span><br><span class="line">    list[n-<span class="number">1</span>][<span class="number">0</span>] = edit</span><br><span class="line">    fs.writeFileSync(<span class="string">&#x27;./db&#x27;</span>, <span class="built_in">JSON</span>.stringify(list))</span><br><span class="line">    <span class="built_in">console</span>.log(list)</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">default</span>:</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;你的动作是：&#x27;</span> + verb)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;不支持此动作&#x27;</span>)</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上是BUG的代码形式，解决重复：</p>
+<ol>
+<li><p>vscode 快捷键将 ‘./db’ 替换 dbPath：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> dbPath = <span class="string">&#x27;/Users/xu/Code/back-end/node/node-demo-todoList/db&#x27;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>函数抽取公共方法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">save</span>(<span class="params">list</span>) </span>&#123;</span><br><span class="line">  fs.writeFileSync(dbPath, <span class="built_in">JSON</span>.stringify(list))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fetch</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> fileContent = fs.readFileSync(dbPath).toString()</span><br><span class="line">  <span class="keyword">const</span> list = <span class="built_in">JSON</span>.parse(fileContent)</span><br><span class="line">  <span class="keyword">return</span> list</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>不写多与代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list.push([content, <span class="literal">false</span>])</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>可以让代码更语义化：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> verb = process.argv[<span class="number">2</span>]</span><br><span class="line"><span class="keyword">const</span> content = process.argv[<span class="number">3</span>]</span><br><span class="line"><span class="keyword">const</span> edit = process.argv[<span class="number">4</span>]</span><br><span class="line"><span class="keyword">const</span> dbPath = <span class="string">&#x27;/Users/xu/Code/back-end/node/node-demo-todoList/db&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">save</span>(<span class="params">list</span>) </span>&#123;</span><br><span class="line">  fs.writeFileSync(dbPath, <span class="built_in">JSON</span>.stringify(list))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fetch</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> fileContent = fs.readFileSync(dbPath).toString()</span><br><span class="line">  <span class="keyword">const</span> list = <span class="built_in">JSON</span>.parse(fileContent)</span><br><span class="line">  <span class="keyword">return</span> list</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">display</span>(<span class="params">list</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(list)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addTask</span>(<span class="params">list, content</span>) </span>&#123;</span><br><span class="line">  list.push([content, <span class="literal">false</span>])</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">removeTask</span>(<span class="params">list, index</span>) </span>&#123;</span><br><span class="line">  list.splice(index-<span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">markTaskAsDone</span>(<span class="params">list, index</span>) </span>&#123;</span><br><span class="line">  list[index-<span class="number">1</span>][<span class="number">1</span>] = <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">editTask</span>(<span class="params">list, index, newContent</span>) </span>&#123;</span><br><span class="line">  list[index-<span class="number">1</span>][<span class="number">0</span>] = newContent</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">switch</span>(verb) &#123;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">&#x27;add&#x27;</span>:</span><br><span class="line">    <span class="keyword">if</span>(fs.existsSync(dbPath)) &#123;</span><br><span class="line">      <span class="keyword">const</span> list = fetch()</span><br><span class="line">    </span><br><span class="line">      addTask(list, content)</span><br><span class="line">      save(list) <span class="comment">// 写入数据</span></span><br><span class="line">      display(list)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> list = fetch()</span><br><span class="line">    </span><br><span class="line">      addTask(list, content)</span><br><span class="line">      save(list)</span><br><span class="line">      display(list)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">&#x27;list&#x27;</span>:</span><br><span class="line">    <span class="keyword">const</span> list = fetch()</span><br><span class="line">    display(list)</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">&#x27;done&#x27;</span>:</span><br><span class="line">    <span class="keyword">const</span> list = fetch()</span><br><span class="line">    <span class="keyword">const</span> n = content</span><br><span class="line">    list[n-<span class="number">1</span>][<span class="number">1</span>] = <span class="literal">true</span></span><br><span class="line">    save(list)</span><br><span class="line">    display(list)</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">&#x27;delete&#x27;</span>:</span><br><span class="line">    <span class="keyword">const</span> list = fetch()</span><br><span class="line">    removeTask(list, content)</span><br><span class="line">    save(list)</span><br><span class="line">    display(list)</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">&#x27;edit&#x27;</span>:</span><br><span class="line">    <span class="keyword">const</span> list = fetch()</span><br><span class="line">    editTask(list, content, edit)</span><br><span class="line">    save(list)</span><br><span class="line">    display(list)</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">default</span>:</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;你的动作是：&#x27;</span> + verb)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;不支持此动作&#x27;</span>)</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>更好地改代码，得从更高的纬度去看：</p>
+<p>​    每一个方法都有存取文件的组成，而 <code>add</code> 方法太复杂了，因为它处理了一个异常情况，需要确保不存在异常情况，怎么解决呢？</p>
+<p>​    在外部解决问题： <code>fs.statSync(dbPath)</code>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">  fs.statSync(dbPath)</span><br><span class="line">&#125;<span class="keyword">catch</span>(error)&#123;</span><br><span class="line">  fs.writeFileSync(dbPath, <span class="string">&#x27;&#x27;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过观察是否报错来做判断，确保在方法调用前，db 文件必在：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> <span class="string">&#x27;add&#x27;</span>:</span><br><span class="line">  list = fetch()</span><br><span class="line">  addTask(list, content)</span><br><span class="line">  save(list) <span class="comment">// 写入数据</span></span><br><span class="line">  display(list)</span><br><span class="line">  <span class="keyword">break</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="改-BUG"><a href="#改-BUG" class="headerlink" title="改 BUG"></a>改 BUG</h3><p>要在 <code>fetch()</code> 中对 list 变量 做一个判断，判断是否存在，并给一个空数组兜底。</p>
+<h3 id="代码韩国行"><a href="#代码韩国行" class="headerlink" title="代码韩国行"></a>代码韩国行</h3><p>整容之后：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> verb = process.argv[<span class="number">2</span>]</span><br><span class="line"><span class="keyword">const</span> content = process.argv[<span class="number">3</span>]</span><br><span class="line"><span class="keyword">const</span> edit = process.argv[<span class="number">4</span>]</span><br><span class="line"><span class="keyword">const</span> dbPath = <span class="string">&#x27;/Users/xu/Code/back-end/node/node-demo-todoList/db&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">save</span>(<span class="params">list</span>) </span>&#123;</span><br><span class="line">  fs.writeFileSync(dbPath, <span class="built_in">JSON</span>.stringify(list))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fetch</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> fileContent = fs.readFileSync(dbPath).toString()</span><br><span class="line">  <span class="keyword">const</span> list = <span class="built_in">JSON</span>.parse(fileContent) || []</span><br><span class="line">  <span class="keyword">return</span> list</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">display</span>(<span class="params">list</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(list)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addTask</span>(<span class="params">list, content</span>) </span>&#123;</span><br><span class="line">  list.push([content, <span class="literal">false</span>])</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">removeTask</span>(<span class="params">list, index</span>) </span>&#123;</span><br><span class="line">  list.splice(index-<span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">markTaskAsDone</span>(<span class="params">list, index</span>) </span>&#123;</span><br><span class="line">  list[index-<span class="number">1</span>][<span class="number">1</span>] = <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">editTask</span>(<span class="params">list, index, newContent</span>) </span>&#123;</span><br><span class="line">  list[index-<span class="number">1</span>][<span class="number">0</span>] = newContent</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">  fs.statSync(dbPath)</span><br><span class="line">&#125;<span class="keyword">catch</span>(error)&#123;</span><br><span class="line">  fs.writeFileSync(dbPath, <span class="string">&#x27;&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> list = fetch()</span><br><span class="line"></span><br><span class="line"><span class="keyword">switch</span>(verb) &#123;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">&#x27;add&#x27;</span>:</span><br><span class="line">    addTask(list, content)</span><br><span class="line">    save(list) <span class="comment">// 写入数据</span></span><br><span class="line">    display(list)</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">&#x27;list&#x27;</span>:</span><br><span class="line">    display(list)</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">&#x27;done&#x27;</span>:</span><br><span class="line">    markTaskAsDone(list, content)</span><br><span class="line">    save(list)</span><br><span class="line">    display(list)</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">&#x27;delete&#x27;</span>:</span><br><span class="line">    removeTask(list, content)</span><br><span class="line">    save(list)</span><br><span class="line">    display(list)</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">&#x27;edit&#x27;</span>:</span><br><span class="line">    editTask(list, content, edit)</span><br><span class="line">    save(list)</span><br><span class="line">    display(list)</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">default</span>:</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;你的动作是：&#x27;</span> + verb)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;不支持此动作&#x27;</span>)</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>看到 <code>save() display()</code> 还是在重复，继续整容：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> verb = process.argv[<span class="number">2</span>]</span><br><span class="line"><span class="keyword">const</span> content = process.argv[<span class="number">3</span>]</span><br><span class="line"><span class="keyword">const</span> edit = process.argv[<span class="number">4</span>]</span><br><span class="line"><span class="keyword">const</span> dbPath = <span class="string">&#x27;/Users/xu/Code/back-end/node/node-demo-todoList/db&#x27;</span></span><br><span class="line"></span><br><span class="line">ensureDB()</span><br><span class="line"><span class="keyword">const</span> list = fetch()</span><br><span class="line"></span><br><span class="line"><span class="keyword">switch</span>(verb) &#123;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">&#x27;add&#x27;</span>:</span><br><span class="line">    addTask(list, content)</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">&#x27;list&#x27;</span>:</span><br><span class="line">    display(list)</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">&#x27;done&#x27;</span>:</span><br><span class="line">    markTaskAsDone(list, content)</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">&#x27;delete&#x27;</span>:</span><br><span class="line">    removeTask(list, content)</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">&#x27;edit&#x27;</span>:</span><br><span class="line">    editTask(list, content, edit)</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">default</span>:</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;你的动作是：&#x27;</span> + verb)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;不支持此动作&#x27;</span>)</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">display(list)</span><br><span class="line"><span class="keyword">if</span>(verb !== <span class="string">&#x27;list&#x27;</span>) &#123;</span><br><span class="line">  save(list)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 帮助函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ensureDB</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">try</span>&#123;</span><br><span class="line">    fs.statSync(dbPath)</span><br><span class="line">  &#125;<span class="keyword">catch</span>(error)&#123;</span><br><span class="line">    fs.writeFileSync(dbPath, <span class="string">&#x27;&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">save</span>(<span class="params">list</span>) </span>&#123;</span><br><span class="line">  fs.writeFileSync(dbPath, <span class="built_in">JSON</span>.stringify(list))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fetch</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> fileContent = fs.readFileSync(dbPath).toString()</span><br><span class="line">  <span class="keyword">let</span> list</span><br><span class="line">  <span class="keyword">try</span>&#123;</span><br><span class="line">    list = <span class="built_in">JSON</span>.parse(fileContent) || []</span><br><span class="line">  &#125;<span class="keyword">catch</span>(error)&#123;</span><br><span class="line">    list = []</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> list</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">display</span>(<span class="params">list</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(list)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addTask</span>(<span class="params">list, content</span>) </span>&#123;</span><br><span class="line">  list.push([content, <span class="literal">false</span>])</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">removeTask</span>(<span class="params">list, index</span>) </span>&#123;</span><br><span class="line">  list.splice(index-<span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">markTaskAsDone</span>(<span class="params">list, index</span>) </span>&#123;</span><br><span class="line">  list[index-<span class="number">1</span>][<span class="number">1</span>] = <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">editTask</span>(<span class="params">list, index, newContent</span>) </span>&#123;</span><br><span class="line">  list[index-<span class="number">1</span>][<span class="number">0</span>] = newContent</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="优化用户体验"><a href="#优化用户体验" class="headerlink" title="优化用户体验"></a>优化用户体验</h3><p>使用系统变量优化代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> dbPath = __dirname + <span class="string">&#x27;/db&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>但是这样平台兼容性不好，使用一个函数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> dbPath = path.join(__dirname, <span class="string">&#x27;db&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>修改一下 <code>display()</code> 优化体验：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">display</span>(<span class="params">list</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>; i&lt;list.length; i++) &#123;</span><br><span class="line">    <span class="keyword">const</span> flag = list[i][<span class="number">1</span>] === <span class="literal">true</span> ? <span class="string">&#x27;[√]&#x27;</span> : <span class="string">&#x27;[.]&#x27;</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;任务内容：&#x27;</span> + flag + <span class="string">&#x27; &#x27;</span> + list[i][<span class="number">0</span>])</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfyulffz4tj308f02jq2x.jpg" alt="image-20200620164521727"></p>
+<p>在全局使用这个脚本文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vi ~/.bashrc</span><br><span class="line"></span><br><span class="line">alias td=&#x27;node /Users/xu/Code/back-end/node/node-demo-todoList/todo.js&#x27;</span><br><span class="line"></span><br><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>虽然很短很简单，但是从这篇文章学到了：</p>
+<ol>
+<li>如何获取命令行参数</li>
+<li>如何创建文件</li>
+<li>如何改写文件</li>
+<li>如何使用 JSON 序列化</li>
+<li>如何使用循环或 map</li>
+</ol>
+<h3 id="重点"><a href="#重点" class="headerlink" title="重点"></a>重点</h3><p>Node.js 不熟悉怎么办？</p>
+<ol>
+<li>真人求助</li>
+<li>文档查阅</li>
+<li>Google搜索</li>
+<li>copy-run-fmodify（CRM 学习大法）</li>
+</ol>
+<p>console.log() 调试</p>
+<ol>
+<li>不管什么语言，都可以用 log 去调试</li>
+</ol>
+<p>目的</p>
+<ol>
+<li>Node.js 并不可怕</li>
+<li>了解命令行</li>
+<li>命令行很有趣</li>
+</ol>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>如何学习 Node.js</p>
+<ol>
+<li>做一个小功能</li>
+<li>使用 Node.js 实现它</li>
+<li>不会就问</li>
+<li>完成并优化思考</li>
+<li>再想一个小功能</li>
+</ol>
+<p>系统学习 Node.js</p>
+<ol>
+<li>通读官方文档</li>
+<li>了解 Node.js Web 框架</li>
+<li>学号 JS / TS</li>
+</ol>
+
+  </div>
+  <div>
+    <a href="https://github.com/Mcguffen/mcguffen.github.io/edit/myblog/source/_posts/docs/backEnd/nodejs/README.md"target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C-node-js"><span class="toc-number">1.</span> <span class="toc-text">运行 node.js</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8cmd-%E9%87%8C%E8%BF%90%E8%A1%8C-node"><span class="toc-number">1.1.</span> <span class="toc-text">在cmd 里运行 node</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#node-%E6%8E%A5%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84"><span class="toc-number">1.2.</span> <span class="toc-text">node 接绝对路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#node-%E6%8E%A5%E7%9B%B8%E5%AF%B9%E8%B7%AF%E5%BE%84"><span class="toc-number">1.3.</span> <span class="toc-text">node 接相对路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#node-e-%E6%8E%A5%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">1.4.</span> <span class="toc-text">node -e 接字符串</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA-todo-%E7%9A%84%E5%AE%9E%E7%8E%B0%E8%BF%87%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">创建 todo 的实现过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%A8%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E8%BF%87%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text">笨代码实现过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#node-todo-add-%E4%BB%BB%E5%8A%A1"><span class="toc-number">3.1.</span> <span class="toc-text">node todo add 任务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#node-todo-list"><span class="toc-number">3.2.</span> <span class="toc-text">node todo list</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#node-todo-delete-1"><span class="toc-number">3.3.</span> <span class="toc-text">node todo delete 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#node-todo-done-1"><span class="toc-number">3.4.</span> <span class="toc-text">node todo done 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#node-todo-edit-1"><span class="toc-number">3.5.</span> <span class="toc-text">node todo edit 1</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%9E%81%E8%87%B4%E4%BC%98%E5%8C%96"><span class="toc-number">4.</span> <span class="toc-text">代码极致优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%94%B9-BUG"><span class="toc-number">4.1.</span> <span class="toc-text">改 BUG</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E9%9F%A9%E5%9B%BD%E8%A1%8C"><span class="toc-number">4.2.</span> <span class="toc-text">代码韩国行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%8C%96%E7%94%A8%E6%88%B7%E4%BD%93%E9%AA%8C"><span class="toc-number">4.3.</span> <span class="toc-text">优化用户体验</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E7%82%B9"><span class="toc-number">5.1.</span> <span class="toc-text">重点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-number">5.2.</span> <span class="toc-text">结论</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/06/20/docs/backEnd/nodejs/README/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/06/20/docs/backEnd/nodejs/README/&text=超详细 Node.js 上手"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/06/20/docs/backEnd/nodejs/README/&title=超详细 Node.js 上手"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/06/20/docs/backEnd/nodejs/README/&is_video=false&description=超详细 Node.js 上手"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=超详细 Node.js 上手&body=Check out this article: http://example.com/2020/06/20/docs/backEnd/nodejs/README/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/06/20/docs/backEnd/nodejs/README/&title=超详细 Node.js 上手"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/06/20/docs/backEnd/nodejs/README/&title=超详细 Node.js 上手"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/06/20/docs/backEnd/nodejs/README/&title=超详细 Node.js 上手"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/06/20/docs/backEnd/nodejs/README/&title=超详细 Node.js 上手"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/06/20/docs/backEnd/nodejs/README/&name=超详细 Node.js 上手&description=&lt;p&gt;首次学习 Node.js，需要看着代码想问题，善用社区和文档，使用 CRM 学习法~&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/06/20/docs/backEnd/nodejs/README/&t=超详细 Node.js 上手"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Mcguffen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
