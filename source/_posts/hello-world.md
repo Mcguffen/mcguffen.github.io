@@ -34,7 +34,7 @@ $ hexo server
 More info: [Server](https://hexo.io/docs/server.html)
 
 ## hexo项目目录声明
-![hexo项目目录声明](https://sm.ms/image/8QI7KbkVlyWa6pO)
+![_0C~621O480H0C_VT_YTB1Z.png](https://i.loli.net/2021/04/08/8QI7KbkVlyWa6pO.png)
 
 ## 更换主题
 ``` bash
