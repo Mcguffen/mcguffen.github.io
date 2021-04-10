@@ -8,8 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="HTML阶段目标：使用HTML进行网页布局使用CSS3美化网页制作精美的商业网站【演示】 常见网站的样子！这就是我们未来要做的事情安排HTML1. HTML基础2. 列表、表格3. 媒体元素4. 表单（重点）CSS1. 初始CSS3 （重点）2. CSS3美化网页元素（重点）3. 盒子模型（重点、难点）4. 浮动（重点、难点）5. 定位网页元素（重点、难点）6. 利用CSS3制作网页动画（难点）7">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hi! I am yang.">
-<meta property="og:url" content="http://example.com/2021/04/10/docs/frontEnd/html/html02/index.html">
+<meta property="og:title" content="HTML">
+<meta property="og:url" content="http://example.com/2019/06/15/docs/frontEnd/html/html02/index.html">
 <meta property="og:site_name" content="Hi! I am yang.">
 <meta property="og:description" content="HTML阶段目标：使用HTML进行网页布局使用CSS3美化网页制作精美的商业网站【演示】 常见网站的样子！这就是我们未来要做的事情安排HTML1. HTML基础2. 列表、表格3. 媒体元素4. 表单（重点）CSS1. 初始CSS3 （重点）2. CSS3美化网页元素（重点）3. 盒子模型（重点、难点）4. 浮动（重点、难点）5. 定位网页元素（重点、难点）6. 利用CSS3制作网页动画（难点）7">
 <meta property="og:locale" content="zh_CN">
@@ -45,9 +45,10 @@
 <meta property="og:image" content="https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/html/Html5/img-30.png">
 <meta property="og:image" content="https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/html/Html5/img-31.png">
 <meta property="og:image" content="https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/html/Html5/img-32.png">
-<meta property="article:published_time" content="2021-04-10T11:38:55.536Z">
-<meta property="article:modified_time" content="2021-04-10T11:38:55.536Z">
+<meta property="article:published_time" content="2019-06-15T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-10T11:40:17.162Z">
 <meta property="article:author" content="Mcguffen">
+<meta property="article:tag" content="html">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/html/Html5/img-1.png">
     
@@ -69,7 +70,7 @@
       
     
     <!-- title -->
-    <title>Hi! I am yang.</title>
+    <title>HTML</title>
     <!-- styles -->
     
 <link rel="stylesheet" href="/css/style.css">
@@ -109,8 +110,10 @@
     <span id="actions">
       <ul>
         
+        <li><a class="icon" href="/2019/06/21/docs/frontEnd/css/css00/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
-        <li><a class="icon" href="/2021/03/09/hello-world/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="/2019/06/14/docs/frontEnd/html/html01/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
@@ -123,17 +126,17 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/04/10/docs/frontEnd/html/html02/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/04/10/docs/frontEnd/html/html02/&text="><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/04/10/docs/frontEnd/html/html02/&title="><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/04/10/docs/frontEnd/html/html02/&is_video=false&description="><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=&body=Check out this article: http://example.com/2021/04/10/docs/frontEnd/html/html02/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/04/10/docs/frontEnd/html/html02/&title="><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/04/10/docs/frontEnd/html/html02/&title="><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/04/10/docs/frontEnd/html/html02/&title="><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/04/10/docs/frontEnd/html/html02/&title="><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/04/10/docs/frontEnd/html/html02/&name=&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/04/10/docs/frontEnd/html/html02/&t="><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2019/06/15/docs/frontEnd/html/html02/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2019/06/15/docs/frontEnd/html/html02/&text=HTML"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2019/06/15/docs/frontEnd/html/html02/&title=HTML"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2019/06/15/docs/frontEnd/html/html02/&is_video=false&description=HTML"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=HTML&body=Check out this article: http://example.com/2019/06/15/docs/frontEnd/html/html02/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2019/06/15/docs/frontEnd/html/html02/&title=HTML"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2019/06/15/docs/frontEnd/html/html02/&title=HTML"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2019/06/15/docs/frontEnd/html/html02/&title=HTML"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2019/06/15/docs/frontEnd/html/html02/&title=HTML"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2019/06/15/docs/frontEnd/html/html02/&name=HTML&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2019/06/15/docs/frontEnd/html/html02/&t=HTML"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -150,7 +153,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        
+        HTML
     </h1>
 
 
@@ -162,15 +165,25 @@
       
     <div class="postdate">
       
-        <time datetime="2021-04-10T11:38:55.536Z" itemprop="datePublished">2021-04-10</time>
+        <time datetime="2019-06-15T00:00:00.000Z" itemprop="datePublished">2019-06-15</time>
         
       
     </div>
 
 
       
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/frontEnd/">frontEnd</a>
+    </div>
+
 
       
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/html/" rel="tag">html</a>
+    </div>
+
 
     </div>
   </header>
@@ -435,17 +448,17 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/04/10/docs/frontEnd/html/html02/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/04/10/docs/frontEnd/html/html02/&text="><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/04/10/docs/frontEnd/html/html02/&title="><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/04/10/docs/frontEnd/html/html02/&is_video=false&description="><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=&body=Check out this article: http://example.com/2021/04/10/docs/frontEnd/html/html02/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/04/10/docs/frontEnd/html/html02/&title="><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/04/10/docs/frontEnd/html/html02/&title="><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/04/10/docs/frontEnd/html/html02/&title="><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/04/10/docs/frontEnd/html/html02/&title="><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/04/10/docs/frontEnd/html/html02/&name=&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/04/10/docs/frontEnd/html/html02/&t="><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2019/06/15/docs/frontEnd/html/html02/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2019/06/15/docs/frontEnd/html/html02/&text=HTML"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2019/06/15/docs/frontEnd/html/html02/&title=HTML"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2019/06/15/docs/frontEnd/html/html02/&is_video=false&description=HTML"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=HTML&body=Check out this article: http://example.com/2019/06/15/docs/frontEnd/html/html02/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2019/06/15/docs/frontEnd/html/html02/&title=HTML"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2019/06/15/docs/frontEnd/html/html02/&title=HTML"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2019/06/15/docs/frontEnd/html/html02/&title=HTML"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2019/06/15/docs/frontEnd/html/html02/&title=HTML"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2019/06/15/docs/frontEnd/html/html02/&name=HTML&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2019/06/15/docs/frontEnd/html/html02/&t=HTML"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
