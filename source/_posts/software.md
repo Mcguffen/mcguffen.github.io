@@ -2,7 +2,7 @@
 title: win/macos软件安装(Git,Git Bash,Node.js,VSCode)
 date: 2019-06-06
 categories:
- - frontEnd
+ - software
 tags:
  - tools
 ---
