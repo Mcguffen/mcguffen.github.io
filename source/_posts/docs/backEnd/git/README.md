@@ -3,9 +3,9 @@ title: Git 基本操作
 sidebar: auto
 date: 2020-05-15
 categories:
- - backEnd
+ - software
 tags:
- - tools
+ - git
 ---
 
 ## 1. git简介
