@@ -9,12 +9,12 @@
     <meta name="description" content="周末翻译了两篇基础性质的文章，这篇讲 JS 中的不可变性和 immer 原文地址：https:&#x2F;&#x2F;www.smashingmagazine.com&#x2F;2020&#x2F;06&#x2F;better-reducers-with-immer&#x2F;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用 Immer 优化 Reducer">
-<meta property="og:url" content="https://mcguffen.github.io/2020/10/02/docs/frontEnd/react/react04/index.html">
+<meta property="og:url" content="https://mcguffen.github/2020/10/02/docs/frontEnd/react/react04/index.html">
 <meta property="og:site_name" content="Hi! I am yang.">
 <meta property="og:description" content="周末翻译了两篇基础性质的文章，这篇讲 JS 中的不可变性和 immer 原文地址：https:&#x2F;&#x2F;www.smashingmagazine.com&#x2F;2020&#x2F;06&#x2F;better-reducers-with-immer&#x2F;">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-10-02T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-04-13T10:06:36.125Z">
+<meta property="article:modified_time" content="2021-04-13T10:10:12.869Z">
 <meta property="article:tag" content="React">
 <meta property="article:tag" content="Immer">
 <meta name="twitter:card" content="summary">
@@ -93,18 +93,18 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://mcguffen.github.io/2020/10/02/docs/frontEnd/react/react04/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://mcguffen.github.io/2020/10/02/docs/frontEnd/react/react04/&text=使用 Immer 优化 Reducer"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://mcguffen.github.io/2020/10/02/docs/frontEnd/react/react04/&title=使用 Immer 优化 Reducer"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://mcguffen.github.io/2020/10/02/docs/frontEnd/react/react04/&is_video=false&description=使用 Immer 优化 Reducer"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=使用 Immer 优化 Reducer&body=Check out this article: https://mcguffen.github.io/2020/10/02/docs/frontEnd/react/react04/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://mcguffen.github.io/2020/10/02/docs/frontEnd/react/react04/&title=使用 Immer 优化 Reducer"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://mcguffen.github.io/2020/10/02/docs/frontEnd/react/react04/&title=使用 Immer 优化 Reducer"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://mcguffen.github.io/2020/10/02/docs/frontEnd/react/react04/&title=使用 Immer 优化 Reducer"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://mcguffen.github.io/2020/10/02/docs/frontEnd/react/react04/&title=使用 Immer 优化 Reducer"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://mcguffen.github.io/2020/10/02/docs/frontEnd/react/react04/&name=使用 Immer 优化 Reducer&description=&lt;p&gt;周末翻译了两篇基础性质的文章，这篇讲 JS 中的不可变性和 immer&lt;/p&gt;
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://mcguffen.github/2020/10/02/docs/frontEnd/react/react04/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://mcguffen.github/2020/10/02/docs/frontEnd/react/react04/&text=使用 Immer 优化 Reducer"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://mcguffen.github/2020/10/02/docs/frontEnd/react/react04/&title=使用 Immer 优化 Reducer"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://mcguffen.github/2020/10/02/docs/frontEnd/react/react04/&is_video=false&description=使用 Immer 优化 Reducer"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=使用 Immer 优化 Reducer&body=Check out this article: https://mcguffen.github/2020/10/02/docs/frontEnd/react/react04/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://mcguffen.github/2020/10/02/docs/frontEnd/react/react04/&title=使用 Immer 优化 Reducer"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://mcguffen.github/2020/10/02/docs/frontEnd/react/react04/&title=使用 Immer 优化 Reducer"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://mcguffen.github/2020/10/02/docs/frontEnd/react/react04/&title=使用 Immer 优化 Reducer"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://mcguffen.github/2020/10/02/docs/frontEnd/react/react04/&title=使用 Immer 优化 Reducer"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://mcguffen.github/2020/10/02/docs/frontEnd/react/react04/&name=使用 Immer 优化 Reducer&description=&lt;p&gt;周末翻译了两篇基础性质的文章，这篇讲 JS 中的不可变性和 immer&lt;/p&gt;
 &lt;p&gt;原文地址：&lt;a href=&#34;https://www.smashingmagazine.com/2020/06/better-reducers-with-immer/&#34;&gt;https://www.smashingmagazine.com/2020/06/better-reducers-with-immer/&lt;/a&gt;&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://mcguffen.github.io/2020/10/02/docs/frontEnd/react/react04/&t=使用 Immer 优化 Reducer"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://mcguffen.github/2020/10/02/docs/frontEnd/react/react04/&t=使用 Immer 优化 Reducer"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -343,18 +343,18 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://mcguffen.github.io/2020/10/02/docs/frontEnd/react/react04/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://mcguffen.github.io/2020/10/02/docs/frontEnd/react/react04/&text=使用 Immer 优化 Reducer"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://mcguffen.github.io/2020/10/02/docs/frontEnd/react/react04/&title=使用 Immer 优化 Reducer"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://mcguffen.github.io/2020/10/02/docs/frontEnd/react/react04/&is_video=false&description=使用 Immer 优化 Reducer"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=使用 Immer 优化 Reducer&body=Check out this article: https://mcguffen.github.io/2020/10/02/docs/frontEnd/react/react04/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://mcguffen.github.io/2020/10/02/docs/frontEnd/react/react04/&title=使用 Immer 优化 Reducer"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://mcguffen.github.io/2020/10/02/docs/frontEnd/react/react04/&title=使用 Immer 优化 Reducer"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://mcguffen.github.io/2020/10/02/docs/frontEnd/react/react04/&title=使用 Immer 优化 Reducer"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://mcguffen.github.io/2020/10/02/docs/frontEnd/react/react04/&title=使用 Immer 优化 Reducer"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://mcguffen.github.io/2020/10/02/docs/frontEnd/react/react04/&name=使用 Immer 优化 Reducer&description=&lt;p&gt;周末翻译了两篇基础性质的文章，这篇讲 JS 中的不可变性和 immer&lt;/p&gt;
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://mcguffen.github/2020/10/02/docs/frontEnd/react/react04/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://mcguffen.github/2020/10/02/docs/frontEnd/react/react04/&text=使用 Immer 优化 Reducer"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://mcguffen.github/2020/10/02/docs/frontEnd/react/react04/&title=使用 Immer 优化 Reducer"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://mcguffen.github/2020/10/02/docs/frontEnd/react/react04/&is_video=false&description=使用 Immer 优化 Reducer"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=使用 Immer 优化 Reducer&body=Check out this article: https://mcguffen.github/2020/10/02/docs/frontEnd/react/react04/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://mcguffen.github/2020/10/02/docs/frontEnd/react/react04/&title=使用 Immer 优化 Reducer"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://mcguffen.github/2020/10/02/docs/frontEnd/react/react04/&title=使用 Immer 优化 Reducer"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://mcguffen.github/2020/10/02/docs/frontEnd/react/react04/&title=使用 Immer 优化 Reducer"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://mcguffen.github/2020/10/02/docs/frontEnd/react/react04/&title=使用 Immer 优化 Reducer"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://mcguffen.github/2020/10/02/docs/frontEnd/react/react04/&name=使用 Immer 优化 Reducer&description=&lt;p&gt;周末翻译了两篇基础性质的文章，这篇讲 JS 中的不可变性和 immer&lt;/p&gt;
 &lt;p&gt;原文地址：&lt;a href=&#34;https://www.smashingmagazine.com/2020/06/better-reducers-with-immer/&#34;&gt;https://www.smashingmagazine.com/2020/06/better-reducers-with-immer/&lt;/a&gt;&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://mcguffen.github.io/2020/10/02/docs/frontEnd/react/react04/&t=使用 Immer 优化 Reducer"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://mcguffen.github/2020/10/02/docs/frontEnd/react/react04/&t=使用 Immer 优化 Reducer"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
