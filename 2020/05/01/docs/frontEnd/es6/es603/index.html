@@ -9,12 +9,12 @@
     <meta name="description" content="前言Promise 的基本使用可以看阮一峰老师的 《ECMAScript 6 入门》。 我们来聊点其他的。 回调说起 Promise，我们一般都会从回调或者回调地狱说起，那么使用回调到底会导致哪些不好的地方呢？ 1. 回调嵌套使用回调，我们很有可能会将业务代码写成如下这种形式： 123456789101112doA( function()&amp;#123;    doB();    doC( funct">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ES6 - Promise">
-<meta property="og:url" content="https://mcguffen.github.io/2020/05/01/docs/frontEnd/es6/es603/index.html">
+<meta property="og:url" content="http://example.com/2020/05/01/docs/frontEnd/es6/es603/index.html">
 <meta property="og:site_name" content="Hi! I am yang.">
 <meta property="og:description" content="前言Promise 的基本使用可以看阮一峰老师的 《ECMAScript 6 入门》。 我们来聊点其他的。 回调说起 Promise，我们一般都会从回调或者回调地狱说起，那么使用回调到底会导致哪些不好的地方呢？ 1. 回调嵌套使用回调，我们很有可能会将业务代码写成如下这种形式： 123456789101112doA( function()&amp;#123;    doB();    doC( funct">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-05-01T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-04-13T10:46:43.379Z">
+<meta property="article:modified_time" content="2021-04-13T10:53:44.995Z">
 <meta property="article:tag" content="es6">
 <meta name="twitter:card" content="summary">
     
@@ -92,17 +92,17 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://mcguffen.github.io/2020/05/01/docs/frontEnd/es6/es603/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://mcguffen.github.io/2020/05/01/docs/frontEnd/es6/es603/&text=ES6 - Promise"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://mcguffen.github.io/2020/05/01/docs/frontEnd/es6/es603/&title=ES6 - Promise"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://mcguffen.github.io/2020/05/01/docs/frontEnd/es6/es603/&is_video=false&description=ES6 - Promise"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=ES6 - Promise&body=Check out this article: https://mcguffen.github.io/2020/05/01/docs/frontEnd/es6/es603/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://mcguffen.github.io/2020/05/01/docs/frontEnd/es6/es603/&title=ES6 - Promise"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://mcguffen.github.io/2020/05/01/docs/frontEnd/es6/es603/&title=ES6 - Promise"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://mcguffen.github.io/2020/05/01/docs/frontEnd/es6/es603/&title=ES6 - Promise"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://mcguffen.github.io/2020/05/01/docs/frontEnd/es6/es603/&title=ES6 - Promise"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://mcguffen.github.io/2020/05/01/docs/frontEnd/es6/es603/&name=ES6 - Promise&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://mcguffen.github.io/2020/05/01/docs/frontEnd/es6/es603/&t=ES6 - Promise"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/05/01/docs/frontEnd/es6/es603/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/05/01/docs/frontEnd/es6/es603/&text=ES6 - Promise"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/05/01/docs/frontEnd/es6/es603/&title=ES6 - Promise"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/05/01/docs/frontEnd/es6/es603/&is_video=false&description=ES6 - Promise"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ES6 - Promise&body=Check out this article: http://example.com/2020/05/01/docs/frontEnd/es6/es603/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/05/01/docs/frontEnd/es6/es603/&title=ES6 - Promise"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/05/01/docs/frontEnd/es6/es603/&title=ES6 - Promise"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/05/01/docs/frontEnd/es6/es603/&title=ES6 - Promise"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/05/01/docs/frontEnd/es6/es603/&title=ES6 - Promise"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/05/01/docs/frontEnd/es6/es603/&name=ES6 - Promise&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/05/01/docs/frontEnd/es6/es603/&t=ES6 - Promise"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -314,7 +314,7 @@
 <p>如果第一个 then 中返回了一个结果，会将 Promise 的结果继续传给下一个 then 中；如果有错误则走下一个 then 的失败。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 添加 resolvePromise 方法 处理链式调用问题</span><br><span class="line">function resolvePromise(p2, x, resolve, reject) &#123;</span><br><span class="line">    if(p2 &#x3D;&#x3D;&#x3D; x)&#123;</span><br><span class="line">        return reject(new TypeError(&#39;循环引用&#39;));</span><br><span class="line">    &#125;</span><br><span class="line">    if(x!&#x3D;&#x3D;null || (typeof x &#x3D;&#x3D;&#x3D; &#39;object&#39; || typeof x &#x3D;&#x3D;&#x3D; &#39;function&#39;))&#123;</span><br><span class="line">        try&#123;</span><br><span class="line">            let then &#x3D; x.then;</span><br><span class="line">            if(typeof then &#x3D;&#x3D;&#x3D; &#39;function&#39;)&#123;</span><br><span class="line">                then.call(x, function (y) &#123;</span><br><span class="line">                    resolvePromise(promise2, y, resolve, reject);</span><br><span class="line">                &#125;,function (err) &#123;</span><br><span class="line">                    reject(err);</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                resolve(x);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;catch(e)&#123;</span><br><span class="line">            reject(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        resolve(x);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id><a href="#" class="headerlink" title></a></h2><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
 <li>《你不知道的 JavaScript 中卷》</li>
 <li><a target="_blank" rel="noopener" href="https://segmentfault.com/l/1500000008757392">Promise 的 N 种用法</a></li>
 <li><a target="_blank" rel="noopener" href="http://liubin.org/promises-book/#promise-done">JavaScript Promise 迷你书</a></li>
@@ -355,17 +355,17 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://mcguffen.github.io/2020/05/01/docs/frontEnd/es6/es603/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://mcguffen.github.io/2020/05/01/docs/frontEnd/es6/es603/&text=ES6 - Promise"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://mcguffen.github.io/2020/05/01/docs/frontEnd/es6/es603/&title=ES6 - Promise"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://mcguffen.github.io/2020/05/01/docs/frontEnd/es6/es603/&is_video=false&description=ES6 - Promise"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=ES6 - Promise&body=Check out this article: https://mcguffen.github.io/2020/05/01/docs/frontEnd/es6/es603/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://mcguffen.github.io/2020/05/01/docs/frontEnd/es6/es603/&title=ES6 - Promise"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://mcguffen.github.io/2020/05/01/docs/frontEnd/es6/es603/&title=ES6 - Promise"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://mcguffen.github.io/2020/05/01/docs/frontEnd/es6/es603/&title=ES6 - Promise"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://mcguffen.github.io/2020/05/01/docs/frontEnd/es6/es603/&title=ES6 - Promise"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://mcguffen.github.io/2020/05/01/docs/frontEnd/es6/es603/&name=ES6 - Promise&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://mcguffen.github.io/2020/05/01/docs/frontEnd/es6/es603/&t=ES6 - Promise"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/05/01/docs/frontEnd/es6/es603/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/05/01/docs/frontEnd/es6/es603/&text=ES6 - Promise"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/05/01/docs/frontEnd/es6/es603/&title=ES6 - Promise"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/05/01/docs/frontEnd/es6/es603/&is_video=false&description=ES6 - Promise"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ES6 - Promise&body=Check out this article: http://example.com/2020/05/01/docs/frontEnd/es6/es603/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/05/01/docs/frontEnd/es6/es603/&title=ES6 - Promise"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/05/01/docs/frontEnd/es6/es603/&title=ES6 - Promise"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/05/01/docs/frontEnd/es6/es603/&title=ES6 - Promise"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/05/01/docs/frontEnd/es6/es603/&title=ES6 - Promise"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/05/01/docs/frontEnd/es6/es603/&name=ES6 - Promise&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/05/01/docs/frontEnd/es6/es603/&t=ES6 - Promise"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
