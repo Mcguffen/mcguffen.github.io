@@ -157,7 +157,7 @@ marked:
   postAsset: true
 ```
 参考![hexo-renderer-marked](https://github.com/hexojs/hexo-renderer-marked)
-### 替换代码
+### 替换代码(这步是hexo-asset-image需要做的，废弃)
 /node_modules/hexo-asset-image/index.js
 将内容更换为下面的代码
 ```
