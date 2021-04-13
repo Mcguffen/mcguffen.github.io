@@ -72,7 +72,7 @@ tags:
 HTML：Hyper Text Markup Language（超文本标记语言）
 
 **超文本包括：文字、图片、音频、视频、动画等**
-![img-01](img-1.png)
+![/2019/06/15/docs/frontEnd/html/Html5/html02/img-01](/2019/06/15/docs/frontEnd/html/Html5/html02/img-1.png)
 ##### 1. 网页的组成
 
 ##### 2. 标签作用是什么
@@ -80,7 +80,7 @@ HTML：Hyper Text Markup Language（超文本标记语言）
 ##### 3. 浏览器打开后，会从上到下解释这些代码，并呈现相应的效果
 
 ### 1.2、发展史、优势
-![img-02](img-2.png)
+![/2019/06/15/docs/frontEnd/html/Html5/html02/img-02](/2019/06/15/docs/frontEnd/html/Html5/html02/img-2.png)
 ```
 HTML：Hyper Text Markup Language超文本标记语言
 超文本标记语言—在 1993 年 6 月互联网工程工作小组工作案发布（并非标准）
@@ -211,7 +211,7 @@ IDEA
 ##### 2. 说明网页基本结构中这几个标签的用法
 
 ##### 3. 网页中所有的内容都放在之间
-![img-03](img-3.png)
+![/2019/06/15/docs/frontEnd/html/Html5/html02/img-03](/2019/06/15/docs/frontEnd/html/Html5/html02/img-3.png)
 ```
 <!DOCTYPE html>
 <html lang="en">
@@ -245,7 +245,7 @@ IDEA
 ```
 百度搜索DOCTYPE声明，查看菜鸟教程：https://www.runoob.com/tags/tag-doctype.html
 ```
-![img-04](img-4.png)
+![/2019/06/15/docs/frontEnd/html/Html5/html02/img-04](/2019/06/15/docs/frontEnd/html/Html5/html02/img-4.png)
 
 ```
 <!DOCTYPE html>
@@ -266,11 +266,11 @@ IDEA
 
 
 < title>标签
-![img-05](img-5.png)
+![/2019/06/15/docs/frontEnd/html/Html5/html02/img-05](/2019/06/15/docs/frontEnd/html/Html5/html02/img-5.png)
 
 < meta>标签
 
-![img-06](img-6.png)
+![/2019/06/15/docs/frontEnd/html/Html5/html02/img-06](/2019/06/15/docs/frontEnd/html/Html5/html02/img-6.png)
 详细讲解字符编码在网页中的作用，网页常用的字符编码有gb2312、utf-8，两者之间的区别。
 
 
@@ -286,11 +286,11 @@ IDEA
 h1最大，h6最小，对比效果图讲解
 最后演示示例，演示效果图
 ```
-![img-07](img-7.png)
+![/2019/06/15/docs/frontEnd/html/Html5/html02/img-07](/2019/06/15/docs/frontEnd/html/Html5/html02/img-7.png)
 #### 2 、段落标签
-![img-08](img-8.png)
+![/2019/06/15/docs/frontEnd/html/Html5/html02/img-08](/2019/06/15/docs/frontEnd/html/Html5/html02/img-8.png)
 #### 3 、换行标签
-![img-09](img-9.png)
+![/2019/06/15/docs/frontEnd/html/Html5/html02/img-09](/2019/06/15/docs/frontEnd/html/Html5/html02/img-9.png)
 ##### 换行标签，查看效果图,看段落标签和换行标签的不同
 
 ```
@@ -305,16 +305,16 @@ h1最大，h6最小，对比效果图讲解
 
 
 #### 4 、水平线标签
-![img-010](img-10.png)
+![/2019/06/15/docs/frontEnd/html/Html5/html02/img-010](/2019/06/15/docs/frontEnd/html/Html5/html02/img-10.png)
 #### 5 、字体样式标签
-![img-011](img-11.png)
+![/2019/06/15/docs/frontEnd/html/Html5/html02/img-011](/2019/06/15/docs/frontEnd/html/Html5/html02/img-11.png)
 
 #### 6 、注释和特殊符号
 
 ##### 注释
 
 ##### 特殊符号
-![img-012](img-12.png)
+![/2019/06/15/docs/frontEnd/html/Html5/html02/img-012](/2019/06/15/docs/frontEnd/html/Html5/html02/img-12.png)
 ##### 1 <!--我是注释-->
 
 ```
@@ -349,10 +349,10 @@ h1最大，h6最小，对比效果图讲解
 ```
 1. 先讲解图像语法，对每个参数详细讲解，并且强调说明alt属性和title属性在什么情况下可以看到替
 代文字和提示文字，并且说明alt属性常和src配合使用。
-2. 说明img标签的与之前学习的< br/>标签一样，不是成对的标签，直接在最后以“/”闭合，体现标签
+2. 说明/2019/06/15/docs/frontEnd/html/Html5/html02/img标签的与之前学习的< br/>标签一样，不是成对的标签，直接在最后以“/”闭合，体现标签
 的语义化。
 ```
-![img-013](img-13.png)
+![/2019/06/15/docs/frontEnd/html/Html5/html02/img-013](/2019/06/15/docs/frontEnd/html/Html5/html02/img-13.png)
 ### 1.7、链接标签
 
 ##### <!--大于小于-->
@@ -406,9 +406,9 @@ target常用值为 self 和blank，还有其他值，以后用到再讲。
 从这里开始，学员第一次接触在网页中插入图片，说明图片经常保存在image或images目录下，
 以保证网站目录清淅
 ```
-![img-014](img-14.png)
+![/2019/06/15/docs/frontEnd/html/Html5/html02/img-014](/2019/06/15/docs/frontEnd/html/Html5/html02/img-14.png)
 ##### 锚链接
-![img-015](img-15.png)
+![/2019/06/15/docs/frontEnd/html/Html5/html02/img-015](/2019/06/15/docs/frontEnd/html/Html5/html02/img-15.png)
 
 ##### 【两种操作都演示一下】
 
@@ -417,17 +417,17 @@ target常用值为 self 和blank，还有其他值，以后用到再讲。
 ##### 这几种都是常用的功能性链接，例如在网上单击一些QQ图标直接弹出QQ对话框，或单击MSN图标直接
 
 ##### 弹出MSN对话框，这些都是使用了功能有性链接
-![img-016](img-16.png)
+![/2019/06/15/docs/frontEnd/html/Html5/html02/img-016](/2019/06/15/docs/frontEnd/html/Html5/html02/img-16.png)
 
 ### 1.8、行内元素和块元素
-![img-017](img-17.png)
+![/2019/06/15/docs/frontEnd/html/Html5/html02/img-017](/2019/06/15/docs/frontEnd/html/Html5/html02/img-17.png)
 
 ### 1.9、作业和总结
 
 ##### 作业：制作一个博客文章页面，实现图文并茂 + 锚链接跳转到指定小节
 
 ##### 总结：
-![img-018](img-18.png)
+![/2019/06/15/docs/frontEnd/html/Html5/html02/img-018](/2019/06/15/docs/frontEnd/html/Html5/html02/img-18.png)
 ## 2 、列表、表格与媒体元素
 
 ##### 本章任务
@@ -517,14 +517,14 @@ target常用值为 self 和blank，还有其他值，以后用到再讲。
 ##### 小结：列表对比
 
 ##### 列表之间可以互相嵌套，进行页面的局部布局
-![img-019](img-19.png)
+![/2019/06/15/docs/frontEnd/html/Html5/html02/img-019](/2019/06/15/docs/frontEnd/html/Html5/html02/img-19.png)
 ##### 练习：
-![img-020](img-20.png)
+![/2019/06/15/docs/frontEnd/html/Html5/html02/img-020](/2019/06/15/docs/frontEnd/html/Html5/html02/img-20.png)
 
 
 
 ### 2.2、表格
-![img-021](img-21.png)
+![/2019/06/15/docs/frontEnd/html/Html5/html02/img-021](/2019/06/15/docs/frontEnd/html/Html5/html02/img-21.png)
 ##### 为什么使用表格
 
 ##### 简单通用
@@ -558,7 +558,7 @@ target常用值为 self 和blank，还有其他值，以后用到再讲。
 </tr>
 </table>
 ```
-![img-022](img-22.png)
+![/2019/06/15/docs/frontEnd/html/Html5/html02/img-022](/2019/06/15/docs/frontEnd/html/Html5/html02/img-22.png)
 
 
 ##### 表格的跨列
@@ -576,7 +576,7 @@ target常用值为 self 和blank，还有其他值，以后用到再讲。
 ......
 </table>
 ```
-![img-023](img-23.png)
+![/2019/06/15/docs/frontEnd/html/Html5/html02/img-023](/2019/06/15/docs/frontEnd/html/Html5/html02/img-23.png)
 
 ```
 <table >
@@ -590,7 +590,7 @@ target常用值为 self 和blank，还有其他值，以后用到再讲。
 </tr>
 </table>
 ```
-![img-024](img-24.png)
+![/2019/06/15/docs/frontEnd/html/Html5/html02/img-024](/2019/06/15/docs/frontEnd/html/Html5/html02/img-24.png)
 
 
 ##### 表格的跨行和跨列
@@ -606,7 +606,7 @@ target常用值为 self 和blank，还有其他值，以后用到再讲。
 <td> 98 </td>
 </tr>
 ```
-![img-025](img-25.png)
+![/2019/06/15/docs/frontEnd/html/Html5/html02/img-025](/2019/06/15/docs/frontEnd/html/Html5/html02/img-25.png)
 ### 2.3、音频、视频
 
 ##### 如何实现在网页上播放视频和音频？
@@ -638,9 +638,9 @@ trols：提供播放、暂停和音量的控件
 <audio src="音频路径" controls autoplay></video>
 ```
 ### 2.4、页面结构分析
-![img-026](img-26.png)
+![/2019/06/15/docs/frontEnd/html/Html5/html02/img-026](/2019/06/15/docs/frontEnd/html/Html5/html02/img-26.png)
 ##### HTML5结构元素
-![img-027](img-27.png)
+![/2019/06/15/docs/frontEnd/html/Html5/html02/img-027](/2019/06/15/docs/frontEnd/html/Html5/html02/img-27.png)
 ### 2.5、内联框架
 
 iframe 单页面内联
@@ -657,7 +657,7 @@ iframe属性（实现页面间的相互跳转）
 <a href="https://www.baidu.com/" target="mainFrame">加载</a>
 ```
 ### 2.6、小结
-![img-028](img-28.png)
+![/2019/06/15/docs/frontEnd/html/Html5/html02/img-028](/2019/06/15/docs/frontEnd/html/Html5/html02/img-28.png)
 ## 3 、表单
 
 ##### 本章目标
@@ -861,9 +861,9 @@ type值为search即为搜索框。
 ### 3.3、练习
 
 ##### 人人网界面练习
-![img-029](img-29.png)
+![/2019/06/15/docs/frontEnd/html/Html5/html02/img-029](/2019/06/15/docs/frontEnd/html/Html5/html02/img-29.png)
 ##### 阿里巴巴界面练习
-![img-030](img-30.png)
+![/2019/06/15/docs/frontEnd/html/Html5/html02/img-030](/2019/06/15/docs/frontEnd/html/Html5/html02/img-30.png)
 
 ### 3.4、表单的高级应用
 
@@ -901,7 +901,7 @@ type值为search即为搜索框。
 ### 3.5、表单的初级验证
 
 ##### 思考：为什么要进行表单验证？
-![img-031](img-31.png)
+![/2019/06/15/docs/frontEnd/html/Html5/html02/img-031](/2019/06/15/docs/frontEnd/html/Html5/html02/img-31.png)
 
 
 
@@ -951,5 +951,5 @@ type值为search即为搜索框。
 <input type="text" name="tel" required pattern="^1[358]\d{9}" />
 ```
 ### 3.6、小结
-![img-032](img-32.png)
+![/2019/06/15/docs/frontEnd/html/Html5/html02/img-032](/2019/06/15/docs/frontEnd/html/Html5/html02/img-32.png)
 
