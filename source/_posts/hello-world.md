@@ -136,3 +136,98 @@ git add .
 git commit -m 'feat:add github actions 验证是否自动化部署成功'
 git push
 ```
+##
+
+## 插入图片
+### 安装插件
+在hexo根目录打开Git Bash,执行
+``` bash
+    npm install hexo-asset-image --save
+```
+### 配置文件_config.yml
+打开hexo的配置文件_config.yml
+找到 post_asset_folder，把这个选项从false改成true
+
+### 替换代码
+/node_modules/hexo-asset-image/index.js
+将内容更换为下面的代码
+```
+'use strict';
+var cheerio = require('cheerio');
+
+// http://stackoverflow.com/questions/14480345/how-to-get-the-nth-occurrence-in-a-string
+function getPosition(str, m, i) {
+  return str.split(m, i).join(m).length;
+}
+
+var version = String(hexo.version).split('.');
+hexo.extend.filter.register('after_post_render', function(data){
+  var config = hexo.config;
+  if(config.post_asset_folder){
+        var link = data.permalink;
+    if(version.length > 0 && Number(version[0]) == 3)
+       var beginPos = getPosition(link, '/', 1) + 1;
+    else
+       var beginPos = getPosition(link, '/', 3) + 1;
+    // In hexo 3.1.1, the permalink of "about" page is like ".../about/index.html".
+    var endPos = link.lastIndexOf('/') + 1;
+    link = link.substring(beginPos, endPos);
+
+    var toprocess = ['excerpt', 'more', 'content'];
+    for(var i = 0; i < toprocess.length; i++){
+      var key = toprocess[i];
+ 
+      var $ = cheerio.load(data[key], {
+        ignoreWhitespace: false,
+        xmlMode: false,
+        lowerCaseTags: false,
+        decodeEntities: false
+      });
+
+      $('img').each(function(){
+        if ($(this).attr('src')){
+            // For windows style path, we replace '\' to '/'.
+            var src = $(this).attr('src').replace('\\', '/');
+            if(!/http[s]*.*|\/\/.*/.test(src) &&
+               !/^\s*\//.test(src)) {
+              // For "about" page, the first part of "src" can't be removed.
+              // In addition, to support multi-level local directory.
+              var linkArray = link.split('/').filter(function(elem){
+                return elem != '';
+              });
+              var srcArray = src.split('/').filter(function(elem){
+                return elem != '' && elem != '.';
+              });
+              if(srcArray.length > 1)
+                srcArray.shift();
+              src = srcArray.join('/');
+              $(this).attr('src', config.root + link + src);
+              console.info&&console.info("update link as:-->"+config.root + link + src);
+            }
+        }else{
+            console.info&&console.info("no src attr, skipped...");
+            console.info&&console.info($(this));
+        }
+      });
+      data[key] = $.html();
+    }
+  }
+});
+```
+### 插入图片
+现在就可以插入图片了，比如hexo new post x之后
+插图片,会生成x.md和x文件夹，将图片放入photo就可。
+当然了，我们一般直接去github上操作。
+
+首先切换分支到myblog
+找到厦门文件地址
+```
+mcguffen.github.io/source/_posts/
+```
+比如你新创建了一个x.md，那么你就创建一个同名文件夹x
+来放图片。
+在x.md中使用mardown语法引入文件
+比如,
+```
+![img](img)
+```
