@@ -142,13 +142,22 @@ git push
 ### 安装插件
 在hexo根目录打开Git Bash,执行
 ``` bash
-    npm install hexo-asset-image --save
+ 
+    npm install hexo-renderer-marked --save
 ```
+npm install hexo-asset-image --save这个本地能用 github上不可用
 ### 配置文件_config.yml
 打开hexo的配置文件_config.yml
 找到 post_asset_folder，把这个选项从false改成true
-
-### 替换代码
+```
+_config.yml
+post_asset_folder: true
+marked:
+  prependRoot: true
+  postAsset: true
+```
+参考![hexo-renderer-marked](https://github.com/hexojs/hexo-renderer-marked)
+### 替换代码(这步是hexo-asset-image需要做的，废弃)
 /node_modules/hexo-asset-image/index.js
 将内容更换为下面的代码
 ```
