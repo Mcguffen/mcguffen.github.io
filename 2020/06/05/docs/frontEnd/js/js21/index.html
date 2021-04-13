@@ -9,7 +9,7 @@
     <meta name="description" content="Javascript DOM（文档对象模型）是一个允许开发人员操纵页面内容、结构和风格的接口。基本上网页由 HTML 和 CSS 文档组成，浏览器用于创建文档的描述被称为文档对象模型（DOM）。它使 Javascript 能够访问和操作页面的元素和样式。该模型构建在基于对象的树结构中，并定义：HTML 元素作为对象，HTML 元素的属性和事件，访问HTML元素的方法。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DOM 历史、流模型及事件委托">
-<meta property="og:url" content="http://example.com/2020/06/05/docs/frontEnd/js/js21/index.html">
+<meta property="og:url" content="https://mcguffen.github.io/2020/06/05/docs/frontEnd/js/js21/index.html">
 <meta property="og:site_name" content="Hi! I am yang.">
 <meta property="og:description" content="Javascript DOM（文档对象模型）是一个允许开发人员操纵页面内容、结构和风格的接口。基本上网页由 HTML 和 CSS 文档组成，浏览器用于创建文档的描述被称为文档对象模型（DOM）。它使 Javascript 能够访问和操作页面的元素和样式。该模型构建在基于对象的树结构中，并定义：HTML 元素作为对象，HTML 元素的属性和事件，访问HTML元素的方法。">
 <meta property="og:locale" content="zh_CN">
@@ -24,7 +24,7 @@
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfs829q1oej30hd03oglj.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfs8dl8qtkj30mc0ei0vn.jpg">
 <meta property="article:published_time" content="2020-06-05T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-04-13T10:22:38.336Z">
+<meta property="article:modified_time" content="2021-04-13T10:41:44.830Z">
 <meta property="article:tag" content="js">
 <meta property="article:tag" content="基础">
 <meta name="twitter:card" content="summary">
@@ -104,17 +104,17 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/06/05/docs/frontEnd/js/js21/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/06/05/docs/frontEnd/js/js21/&text=DOM 历史、流模型及事件委托"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/06/05/docs/frontEnd/js/js21/&title=DOM 历史、流模型及事件委托"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/06/05/docs/frontEnd/js/js21/&is_video=false&description=DOM 历史、流模型及事件委托"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=DOM 历史、流模型及事件委托&body=Check out this article: http://example.com/2020/06/05/docs/frontEnd/js/js21/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/06/05/docs/frontEnd/js/js21/&title=DOM 历史、流模型及事件委托"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/06/05/docs/frontEnd/js/js21/&title=DOM 历史、流模型及事件委托"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/06/05/docs/frontEnd/js/js21/&title=DOM 历史、流模型及事件委托"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/06/05/docs/frontEnd/js/js21/&title=DOM 历史、流模型及事件委托"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/06/05/docs/frontEnd/js/js21/&name=DOM 历史、流模型及事件委托&description=&lt;p&gt;Javascript DOM（文档对象模型）是一个允许开发人员操纵页面内容、结构和风格的接口。基本上网页由 HTML 和 CSS 文档组成，浏览器用于创建文档的描述被称为文档对象模型（DOM）。它使 Javascript 能够访问和操作页面的元素和样式。该模型构建在基于对象的树结构中，并定义：HTML 元素作为对象，HTML 元素的属性和事件，访问HTML元素的方法。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/06/05/docs/frontEnd/js/js21/&t=DOM 历史、流模型及事件委托"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://mcguffen.github.io/2020/06/05/docs/frontEnd/js/js21/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://mcguffen.github.io/2020/06/05/docs/frontEnd/js/js21/&text=DOM 历史、流模型及事件委托"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://mcguffen.github.io/2020/06/05/docs/frontEnd/js/js21/&title=DOM 历史、流模型及事件委托"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://mcguffen.github.io/2020/06/05/docs/frontEnd/js/js21/&is_video=false&description=DOM 历史、流模型及事件委托"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=DOM 历史、流模型及事件委托&body=Check out this article: https://mcguffen.github.io/2020/06/05/docs/frontEnd/js/js21/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://mcguffen.github.io/2020/06/05/docs/frontEnd/js/js21/&title=DOM 历史、流模型及事件委托"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://mcguffen.github.io/2020/06/05/docs/frontEnd/js/js21/&title=DOM 历史、流模型及事件委托"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://mcguffen.github.io/2020/06/05/docs/frontEnd/js/js21/&title=DOM 历史、流模型及事件委托"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://mcguffen.github.io/2020/06/05/docs/frontEnd/js/js21/&title=DOM 历史、流模型及事件委托"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://mcguffen.github.io/2020/06/05/docs/frontEnd/js/js21/&name=DOM 历史、流模型及事件委托&description=&lt;p&gt;Javascript DOM（文档对象模型）是一个允许开发人员操纵页面内容、结构和风格的接口。基本上网页由 HTML 和 CSS 文档组成，浏览器用于创建文档的描述被称为文档对象模型（DOM）。它使 Javascript 能够访问和操作页面的元素和样式。该模型构建在基于对象的树结构中，并定义：HTML 元素作为对象，HTML 元素的属性和事件，访问HTML元素的方法。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://mcguffen.github.io/2020/06/05/docs/frontEnd/js/js21/&t=DOM 历史、流模型及事件委托"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -357,17 +357,17 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/06/05/docs/frontEnd/js/js21/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/06/05/docs/frontEnd/js/js21/&text=DOM 历史、流模型及事件委托"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/06/05/docs/frontEnd/js/js21/&title=DOM 历史、流模型及事件委托"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/06/05/docs/frontEnd/js/js21/&is_video=false&description=DOM 历史、流模型及事件委托"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=DOM 历史、流模型及事件委托&body=Check out this article: http://example.com/2020/06/05/docs/frontEnd/js/js21/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/06/05/docs/frontEnd/js/js21/&title=DOM 历史、流模型及事件委托"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/06/05/docs/frontEnd/js/js21/&title=DOM 历史、流模型及事件委托"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/06/05/docs/frontEnd/js/js21/&title=DOM 历史、流模型及事件委托"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/06/05/docs/frontEnd/js/js21/&title=DOM 历史、流模型及事件委托"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/06/05/docs/frontEnd/js/js21/&name=DOM 历史、流模型及事件委托&description=&lt;p&gt;Javascript DOM（文档对象模型）是一个允许开发人员操纵页面内容、结构和风格的接口。基本上网页由 HTML 和 CSS 文档组成，浏览器用于创建文档的描述被称为文档对象模型（DOM）。它使 Javascript 能够访问和操作页面的元素和样式。该模型构建在基于对象的树结构中，并定义：HTML 元素作为对象，HTML 元素的属性和事件，访问HTML元素的方法。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/06/05/docs/frontEnd/js/js21/&t=DOM 历史、流模型及事件委托"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://mcguffen.github.io/2020/06/05/docs/frontEnd/js/js21/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://mcguffen.github.io/2020/06/05/docs/frontEnd/js/js21/&text=DOM 历史、流模型及事件委托"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://mcguffen.github.io/2020/06/05/docs/frontEnd/js/js21/&title=DOM 历史、流模型及事件委托"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://mcguffen.github.io/2020/06/05/docs/frontEnd/js/js21/&is_video=false&description=DOM 历史、流模型及事件委托"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=DOM 历史、流模型及事件委托&body=Check out this article: https://mcguffen.github.io/2020/06/05/docs/frontEnd/js/js21/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://mcguffen.github.io/2020/06/05/docs/frontEnd/js/js21/&title=DOM 历史、流模型及事件委托"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://mcguffen.github.io/2020/06/05/docs/frontEnd/js/js21/&title=DOM 历史、流模型及事件委托"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://mcguffen.github.io/2020/06/05/docs/frontEnd/js/js21/&title=DOM 历史、流模型及事件委托"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://mcguffen.github.io/2020/06/05/docs/frontEnd/js/js21/&title=DOM 历史、流模型及事件委托"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://mcguffen.github.io/2020/06/05/docs/frontEnd/js/js21/&name=DOM 历史、流模型及事件委托&description=&lt;p&gt;Javascript DOM（文档对象模型）是一个允许开发人员操纵页面内容、结构和风格的接口。基本上网页由 HTML 和 CSS 文档组成，浏览器用于创建文档的描述被称为文档对象模型（DOM）。它使 Javascript 能够访问和操作页面的元素和样式。该模型构建在基于对象的树结构中，并定义：HTML 元素作为对象，HTML 元素的属性和事件，访问HTML元素的方法。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://mcguffen.github.io/2020/06/05/docs/frontEnd/js/js21/&t=DOM 历史、流模型及事件委托"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
