@@ -206,7 +206,7 @@ Java、C、Web和Ruby。HBuilder本身主体是由Java编写。它基于Eclipse�
 JavaScript代码。
 安装后，随便打开一个网页，然后点击菜单“查看(View)”-“开发者(Developer)”-“开发者工具(Developer
 Tools)”，浏览器窗口就会一分为二，下方就是开发者工具：
-![img-1](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/js/JavaScript-jQuery/img-1.png)
+![img-1](img-1.png)
 先点击“控制台(Console)“，在这个面板里可以直接输入JavaScript代码，按回车后执行。
 要查看一个变量的内容，在Console中输入 console.log(a); ，回车后显示的值就是变量的内容。
 关闭Console请点击右上角的“×”按钮。请熟练掌握Console的使用方法，在编写JavaScript代码时，经常需要在Console运行测试代码。如果你对自己还有更高的要求，可以研究开发者工具的“源码(Sources)”，掌握断点、单步执行等高级调试技巧。
@@ -620,7 +620,7 @@ ASCII字符可以以 \x## 形式的十六进制表示，例如：
  字符串`;
 ```
 **注意**：反引号在键盘的ESC下方，数字键 1 的左边：
-![img-2](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/js/JavaScript-jQuery/img-2.png)
+![img-2](img-2.png)
 
 
 #### 模板字符串

@@ -26,7 +26,7 @@ Cascading Style Sheet 级联样式表。
 
 包括对字体、颜色、边距、高度、宽度、背景图片、网页定位等设定。
 
-![img-1](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-1.png)
+![img-1](img-1.png)
 
 #### 说明：
 
@@ -37,7 +37,7 @@ Cascading Style Sheet 级联样式表。
 #### 最后根据图说明CSS在网页中的应用
 
 ## 1.2、CSS的发展史
-![img-2](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-2.png)
+![img-2](img-2.png)
 
 #### CSS1.0 读者可以从其他地方去使用自己喜欢的设计样式去继承性地使用样式；
 
@@ -75,7 +75,7 @@ Cascading Style Sheet 级联样式表。
 
 #### 最后说明基本W3C的规范，每条声明后的;都要写上
 
-![img-3](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-3.png)
+![img-3](img-3.png)
 **Style标签**
 
 
@@ -83,7 +83,7 @@ Cascading Style Sheet 级联样式表。
 - 讲解style标签，说明type=“text/css的用法
 - 说明style标签在HTML文档中的位置，在与之间
 
-![img-4](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-4.png)
+![img-4](img-4.png)
 ## 1.4、引入CSS方式
 
 #### 行内样式
@@ -130,13 +130,13 @@ HTML文件引用扩展名为.css的样式表，有两种方式
 使用 <link> 标签链接外部样式表，并讲解各参数的含义， <link> 标签必须放在
 <head> 标签中
 ```
-![img-5](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-5.png)
+![img-5](img-5.png)
 #### 导入式
 
 
 - 使用@import导入外部样式表
 
-![img-6](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-6.png)
+![img-6](img-6.png)
 #### 链接式与导入式的区别
 
 ```
@@ -164,18 +164,18 @@ h1{color: green; }
 #### 【练习】
 
 使用标题标签和段落标签制作李白的诗《望庐山瀑布》，诗正文字体颜色为绿色，字体大小为14px
-![img-7](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-7.png)
+![img-7](img-7.png)
 ## 1.5、CSS基本选择器
 
 #### 标签选择器
 ``` HTML标签作为标签选择器的名称
 <h1>...<h6>、<p>、<img/>
 ```
-![img-8](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-8.png)
+![img-8](img-8.png)
 #### 类选择器
 
 #### 一些特殊的实现效果，单纯使用标签选择器不能实现，从而引出类选择器
-![img-9](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-9.png)
+![img-9](img-9.png)
 
 
 
@@ -183,7 +183,7 @@ h1{color: green; }
 #### ID选择器
 
 #### ID选择器的名称就是HTML中标签的ID名称，ID全局唯一
-![img-10](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-10.png)
+![img-10](img-10.png)
 #### 小结
 - 标签选择器直接应用于HTML标签
 - 类选择器可在页面中多次使用
@@ -199,7 +199,7 @@ h1{color: green; }
 ## 1.6、CSS高级选择器
 
 ### 1 、层次选择器
-![img-11](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-11.png)
+![img-11](img-11.png)
 
 
 #### 后代选择器
@@ -208,7 +208,7 @@ body p{
 background: red;
 }
 ```
-![img-12](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-12.png)
+![img-12](img-12.png)
 #### 后代选择器两个选择符之间必须要以空格隔开，中间不能有任何其他的符号插入
 
 #### 子选择器
@@ -217,7 +217,7 @@ body>p{
 background: pink;
 }
 ```
-![img-13](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-13.png)
+![img-13](img-13.png)
 
 
 #### 相邻兄弟选择器
@@ -227,7 +227,7 @@ background: pink;
 background: green;
 }
 ```
-![img-14](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-14.png)
+![img-14](img-14.png)
 
 
 
@@ -237,10 +237,10 @@ background: green;
 background: yellow;
 }
 ```
-![img-15](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-15.png)
+![img-15](img-15.png)
 ### 2 、结构伪类选择器
 
-![img-16](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-16.png)
+![img-16](img-16.png)
 
 ```
 <html>
@@ -264,7 +264,7 @@ background: yellow;
 
 
 #### 标红的重点强调下，其他的可以略讲
-![img-17](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-17.png)
+![img-17](img-17.png)
 
 ```
 ul li:first-child{ background: red;}
@@ -272,7 +272,7 @@ ul li:last-child{ background: green;}
 p:nth-child( 1 ){ background: yellow;}
 p:nth-of-type( 2 ){ background: blue;}
 ```
-![img-18](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-18.png)
+![img-18](img-18.png)
 
 
 #### 小结
@@ -283,7 +283,7 @@ p:nth-of-type( 2 ){ background: blue;}
 	- E F:nth-of-type(n)在父级里先看类型，再看位置
 
 ### 3 、属性选择器
-![img-19](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-19.png)
+![img-19](img-19.png)
 
 **E[attr]属性选择器**
 ```
@@ -291,7 +291,7 @@ a[id] {
 background: yellow;
 }
 ```
-![img-20](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-20.png)
+![img-20](img-20.png)
 
 **E[attr=val]属性选择器**
 
@@ -300,7 +300,7 @@ a[id=first] {
 background: red;
 }
 ```
-![img-21](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-21.png)
+![img-21](img-21.png)
 
 **E[attr*=val]属性选择器**
 
@@ -309,7 +309,7 @@ a[class*=links] {
 background: red;
 }
 ```
-![img-22](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-22.png)
+![img-22](img-22.png)
 
 **E[attr^=val]属性选择器**
 
@@ -318,7 +318,7 @@ a[href^=http] {
 background: red;
 }
 ```
-![img-23](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-23.png)
+![img-23](img-23.png)
 
 **E[attr$=val]属性选择器**
 ```
@@ -326,10 +326,10 @@ a[href$=png] {
 background: red;
 }
 ```
-![img-24](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-24.png)
+![img-24](img-24.png)
 
 ## 1.7、小结
-![img-25](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-25.png)
+![img-25](img-25.png)
 
 
 # 2 、美化网页元素
@@ -359,7 +359,7 @@ background: red;
 1 <p>好好学习，<span>天天向上</span></p>
 ```
 ## 2.2、字体样式
-![img-26](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-26.png)
+![img-26](img-26.png)
 
 **字体类型** font-family
 ```
@@ -368,7 +368,7 @@ body{font-family: Times,"Times New Roman", "楷体";}
 ```
 
  同时设置中文和英文时，计算机如何识别中英文不同类型
-![img-27](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-27.png)
+![img-27](img-27.png)
 **字体大小** font-size
 
 
@@ -387,9 +387,9 @@ strong{font-size:13pc;}
 
 normal、italic和oblique
 
-![img-28](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-28.png)
+![img-28](img-28.png)
 字体的粗细 font-weight
-![img-29](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-29.png)
+![img-29](img-29.png)
 字体属性 font
 
 字体属性的顺序：字体风格→字体粗细→字体大小→字体类型
@@ -399,7 +399,7 @@ font:oblique bold 12px "楷体";
 }
 ```
 ## 2.3、文本样式
-![img-30](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-30.png)
+![img-30](img-30.png)
 
 
 
@@ -423,33 +423,33 @@ color:rgba( 0 , 0 , 255 ,0.5);
 #### 排版文本段落
 
 水平对齐方式：text-align属性
-![img-31](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-31.png)
+![img-31](img-31.png)
 首行缩进：text-indent：em或px
 行高：line-height：px
 
 #### 文本修饰和垂直对齐
 
 文本装饰：text-decoration属性（后面的讲解中会大量用到）
-![img-32](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-32.png)
+![img-32](img-32.png)
 垂直对齐方式：vertical-align属性：middle、top、bottom
-![img-33](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-33.png)
+![img-33](img-33.png)
 
 ## 2.4、文本阴影
-![img-34](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-34.png)
+![img-34](img-34.png)
 
 text-shadow属性在CSS2.0中出现，但迟迟未被各大浏览器所支持，因此在CSS2.1中被废弃，如今在
 CSS3中得到了各大浏览器的支持！
 
 #### 【练习】
-![img-35](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-35.png)
+![img-35](img-35.png)
 
 
 ## 2.5、超链接伪类
-![img-36](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-36.png)
+![img-36](img-36.png)
 
 #### 使用CSS设置超链接
-![img-37](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-37.png)
-![img-38](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-38.png)
+![img-37](img-37.png)
+![img-38](img-38.png)
 
 实际网页开发中通常只设置两种状态，一是a{color:#333;}，一是a:hover { color:#B46210;}
 
@@ -461,11 +461,11 @@ CSS3中得到了各大浏览器的支持！
 - list-style-position
 - list-style
 
-![img-38](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-39.png)
+![img-38](img-39.png)
 
 上网时大家都会看到在浏览的网页中用到列表时很少使用CSS自带的列表标记，而是使用设计的图标，那么大家会想使用list-style-image就可以了。可是list-style-position不能准确地定位图像标记的位置，通常，网页中图标的位置都是非常精确的。在实际的网页制作中，通常使用list-style或list-style-type设置项目无标记符号，然后通过背景图像的方式把设计的图标设置成列表项标记。在网页制作中，list-style和list-style-type两个属性是大家经常用到的，而另两个属性则不太常用，因此在这里大家牢记list-style和list-style-type的用法即可！
 
-![img-40](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-40.png)
+![img-40](img-40.png)
 
 ## 2.7、背景样式
 
@@ -480,14 +480,14 @@ CSS3中得到了各大浏览器的支持！
 
 background-image属性
 background-repeat属性
-![img-41](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-40.png)
+![img-41](img-40.png)
 
 **背景定位：background-position属性**
-![img-42](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-42.png)
+![img-42](img-42.png)
 
 
 #### 这些小三角，实现定位
-![img-43](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-43.png)
+![img-43](img-43.png)
 
 #### 设置背景
 
@@ -508,7 +508,7 @@ background: 背景颜色 背景图像 背景定位 背景不重复显示
 
 
 背景尺寸 background-size
-![img-44](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-44.png)
+![img-44](img-44.png)
 
 ## 2.8、CSS渐变样式
 
@@ -528,7 +528,7 @@ background: 背景颜色 背景图像 背景定位 背景不重复显示
 - Firefox浏览器是Mozilla内核，加前缀：-moz-
 
 #### 线性渐变
-![img-45](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-45.png)
+![img-45](img-45.png)
 
 兼容Webkit内核的浏览器
 ```
@@ -536,7 +536,7 @@ background: 背景颜色 背景图像 背景定位 背景不重复显示
 ```
 
 ## 2.9、小结
-![img-46](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-46.png)
+![img-46](img-46.png)
 
 # 3 、盒子模型
 
@@ -551,8 +551,8 @@ background: 背景颜色 背景图像 背景定位 背景不重复显示
 ## 3.1、什么是盒子模型
 
 #### 讲解盒子模型及属性，并说明边框、外边框和内边框都是四个边，最后介绍盒子模型的立体结构
-![img-47](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-47.png)
-![img-48](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-48.png)
+![img-47](img-47.png)
+![img-48](img-48.png)
 
 
 
@@ -565,7 +565,7 @@ background: 背景颜色 背景图像 背景定位 背景不重复显示
 - 强调同时设置 4 个边框颜色时，顺序为上右下左
 - 详细讲解分别上、下、左、右各边框颜色的不同设置方式，及属性值的顺序
 
-![img-49](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-49.png)
+![img-49](img-49.png)
 
 边框粗细 border-width
 - thin
@@ -609,7 +609,7 @@ border简写
 border:1px solid #3a6587;
 border: 1px dashed red;
 ```
-![img-50](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-50.png)
+![img-50](img-50.png)
 
 ## 3.3、内外边距
 
@@ -636,7 +636,7 @@ margin :8px;
 #### 网页居中对齐的必要条件
 - 块元素
 - 固定宽度
-![img-51](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-51.png)
+![img-51](img-51.png)
 
 内边距 padding
 - padding-left
@@ -654,10 +654,10 @@ padding:30px 8px 10px ;
 padding:10px;
 ```
 ## 3.4、盒子型模尺寸
-![img-52](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-52.png)
+![img-52](img-52.png)
 
 **box-sizing**
-![img-53](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-53.png)
+![img-53](img-53.png)
 
 
 
@@ -691,7 +691,7 @@ box-sizing: border-box;
 ```
 #### 四个属性值按顺时针排列
 
-![img-54](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-54.png)
+![img-54](img-54.png)
 **border-radius制作特殊图形：圆形**
 
 利用border-radius属性制作圆形的两个要点
@@ -706,7 +706,7 @@ border: 4px solid red;
 border-radius: 50%;
 }
 ```
-![img-55](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-55.png)
+![img-55](img-55.png)
 
 ```
 <!DOCTYPE html>
@@ -739,7 +739,7 @@ border-radius: 50%;
 - 制作左半圆或右半圆时，元素的高度是宽度的 2 倍，而且圆角半径为元素的宽度值
 
 
-![img-56](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-56.png)
+![img-56](img-56.png)
 
 
 ```
@@ -791,7 +791,7 @@ border-radius: 50px 0 0 50px;
 - “三同”是元素宽度、高度、圆角半径相同
 - “一不同”是圆角取值位置不同
 
-![img-57](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-57.png)
+![img-57](img-57.png)
 
 
 ```
@@ -839,7 +839,7 @@ border-radius: 0 0 0 50px;
 
 ## 3.6、盒子阴影
 
-![img-58](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-58.png)
+![img-58](img-58.png)
 
 
 
@@ -872,7 +872,7 @@ box-shadow: inset 3px 3px 10px #06c; /*内阴影*/
 
 
 ## 3.7、小结
-![img-59](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-59.png)
+![img-59](img-59.png)
 # 4 、浮动
 
 #### 本章目标：
@@ -901,24 +901,24 @@ box-shadow: inset 3px 3px 10px #06c; /*内阴影*/
 ## 4.2、display
 
 **display属性**
-![img-60](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-60.png)
+![img-60](img-60.png)
 ```
 display:block;
 ```
-![img-61](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-61.png)
+![img-61](img-61.png)
 ```
 display:inline;
 ```
-![img-62](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-63.png)
+![img-62](img-63.png)
 ```
 display:inline-block;
 ```
-![img-64](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-64.png)
+![img-64](img-64.png)
 
 ```
 1 display:none;
 ```
-![img-65](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-65.png)
+![img-65](img-65.png)
 
 display特性
 - 块级元素与行级元素的转变（ block、inline ）
@@ -930,7 +930,7 @@ display特性
 - 导航背景颜色为黑色半透明效果
 - 鼠标移入“功能特权”等导航信息时文字颜色变为蓝色，无下划线
 - “登录”部分信息使用超链接实现，添加圆角边框，鼠标移入字体颜色加深，添加背景颜色为黄色
-![img-66](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-66.png)
+![img-66](img-66.png)
 
 #### 块元素排在一行的方法
 
@@ -942,7 +942,7 @@ display特性
 ## 4.3、浮动
 
 float属性
-![img-67](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-67.png)
+![img-67](img-67.png)
 ```
 <body>
 <div id="father">
@@ -991,7 +991,7 @@ layer04设置宽度和右浮动后，为什么边框塌陷了？怎么解决？
 - 清除浮动
 
 **clear属性**
-![img-68](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-68.png)
+![img-68](img-68.png)
 ```
 .layer04 {
 clear:both; #清除两侧浮动
@@ -1028,7 +1028,7 @@ clear属性可以清除浮动对其他元素造成的影响，可是依然解决
 #father {height: 400px; border:1px #000 solid; }
 ```
 - 父级添加overflow属性（溢出处理）
-![img-69](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-69.png)
+![img-69](img-69.png)
 hidden属性值，这个值在网页中经常使用，通常与< div>宽度结合使用设置< div>自动扩展高度，或者隐藏超出的内容
 ```
 <div id="father">
@@ -1070,7 +1070,7 @@ clear: both; /*清除这个元素两边的浮动*/
 	- 写法比上面稍微复杂一点，但是没有副作用，推荐使用
 ```
 【操作】
-![img-70](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-70.png)
+![img-70](img-70.png)
 
 ## 4.5、inline-block和float区别
 - display:inline-block
@@ -1083,26 +1083,26 @@ clear: both; /*清除这个元素两边的浮动*/
 
 ## 4.6、小结
 
-![img-71](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-71.png)
+![img-71](img-71.png)
 # 5 、定位
 #### 本章目标：
 - 会使用position定位网页元素
 - 会使用z-index属性调整定位元素的堆叠次序
  
 ## 5.1、定位在网页中的应用
-![img-72](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-70.png)
-![img-73](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-73.png)
-![img-74](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-74.png)
+![img-72](img-70.png)
+![img-73](img-73.png)
+![img-74](img-74.png)
 ## 5.2、相对定位
 **position属性**
 static：默认值，没有定位
-![img-75](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-75.png)
+![img-75](img-75.png)
 
 relative：相对定位
 
 相对自身原来位置进行偏移，偏移设置：top、left、right、bottom
-![img-76](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-76.png)
-![img-77](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-77.png)
+![img-76](img-76.png)
+![img-77](img-77.png)
 #### 相对定位元素的规律
 
  设置相对定位的盒子会相对它原来的位置，通过指定偏移，到达新的位置
@@ -1110,7 +1110,7 @@ relative：相对定位
  设置相对定位的盒子原来的位置会被保留下来
 
 #### 设置第二个盒子右浮动，再设置第一、第二盒子相对定位
-![img-78](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-78.png)
+![img-78](img-78.png)
 ``` hmtl
 #first {
 background-color:#FC9;
@@ -1128,7 +1128,7 @@ left:20px;
 top:-20px;
 }
 ```
-![img-79](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-79.png)
+![img-79](img-79.png)
 #### 操作：
 
 - 使用
@@ -1137,7 +1137,7 @@ top:-20px;
 - 使用相对定位改变每个超链接的位置
 
 
-![img-80](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-80.png)
+![img-80](img-80.png)
 
 
 ## 5.3、绝对定位
@@ -1150,7 +1150,7 @@ absolute属性值：偏移设置： left、right、top、bottom
  绝对定位的元素从标准文档流中脱离，这意味着它们对其他元素的定位不会造成影响
 - 元素位置发生偏移后，它原来的位置不会被保留下来
 
-![img-81](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-81.png)
+![img-81](img-81.png)
 > 设置了绝对定位但没有设置偏移量的元素将保持在原来的位置。
 
 > 在网页制作中可以用于需要使某个元素脱离标准流，而仍然希望它保持在原来的位置的情况
@@ -1163,8 +1163,8 @@ absolute属性值：偏移设置： left、right、top、bottom
 
 
 #### 类似绝对定位，不过区别在于定位的基准不是祖先元素，而是浏览器窗口
-![img-82](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-82.png)
-![img-83](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-83.png)
+![img-82](img-82.png)
+![img-83](img-83.png)
 ## 5.5、定位小结
 
 #### 相对定位
@@ -1201,11 +1201,11 @@ absolute属性值：偏移设置： left、right、top、bottom
     - 设置了positon属性时，z-index属性可以设置各元素之间的重叠高低关系
     - z-index值大的层位于其值小的层上方
 
-![img-84](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-84.png)
+![img-84](img-84.png)
 
 #### 网页元素透明度
 
-![img-85](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-85.png)
+![img-85](img-85.png)
 
 #### 小结
 
@@ -1215,7 +1215,7 @@ absolute属性值：偏移设置： left、right、top、bottom
 改变设置绝对定位和没有设置绝对定位的层的上下堆叠顺序，只需调整绝对定位层的z-index值即可
 
 ## 5.7、小结
-![img-86](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-86.png)
+![img-86](img-86.png)
 
 # 6 、制作网页动画
 
@@ -1245,7 +1245,7 @@ Flash需要插件支持，文件体积大
 
 - 每个效果都可以称为变形（transform），它们可以分别操控元素发生平移、旋转、缩放、倾斜等变化
 
-![img-87](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-87.png)
+![img-87](img-87.png)
 #### 变形函数
 - translate()：平移函数，基于X、Y坐标重新定位元素的位置
 - scale()：缩放函数，可以使任意元素对象尺寸发生变化
@@ -1253,17 +1253,17 @@ Flash需要插件支持，文件体积大
 - skew()：倾斜函数，取值是一个度数值
 
 #### 2D位移
-![img-88](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-88.png)
-![img-89](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-88.png)
+![img-88](img-88.png)
+![img-89](img-88.png)
 
 #### 一个方向上的偏移
 
-![img-90](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-90.png)
+![img-90](img-90.png)
 
 
 #### 2D缩放
-![img-91](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-91.png)
-![img-92](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-92.png)
+![img-91](img-91.png)
+![img-92](img-92.png)
 
 scale()函数能够用来缩放元素大小，该函数包含两个参数值，分别用来定义宽度和高度的缩放比例，默
 认值为 1 ， 0 ～0.99的任意值都可以使元素缩小，而任何大于 1 的值都能让元素放大。
@@ -1279,7 +1279,7 @@ scale()函数和translate()函数的语法非常相似，可以只接收一个�
 - skewX（ax）：表示只设置X轴的倾斜
 - skewY（ay）：表示只设置Y轴的倾斜
 
-![img-93](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-93.png)
+![img-93](img-93.png)
 #### 2D旋转
 
 ```
@@ -1288,7 +1288,7 @@ scale()函数和translate()函数的语法非常相似，可以只接收一个�
 - 参数a单位使用deg表示
 - 参数a取正值时元素相对原来中心顺时针旋转
 
-![img-94](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-94.png)
+![img-94](img-94.png)
 #### 小结：
 rotate( )函数只是旋转，而不会改变元素的形状
 skew( )函数是倾斜，元素不会旋转，会改变元素的形状
@@ -1297,7 +1297,7 @@ skew( )函数是倾斜，元素不会旋转，会改变元素的形状
 
 transition呈现的是一种过渡，是一种动画转换的过程，如渐现、渐弱、动画快慢等
 CSS3 transition的过渡功能更像是一种“黄油”，通过一些CSS的简单动作触发样式平滑过渡
-![img-95](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-95.png)
+![img-95](img-95.png)
 
 
 #### 过渡属性的使用
@@ -1362,17 +1362,17 @@ CSS3 transition的过渡功能更像是一种“黄油”，通过一些CSS的�
 #### CSS3动画的使用过程
 
 - 设置关键帧
-![img-96](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-96.png)
+![img-96](img-96.png)
 
 - @keyframes的浏览器兼容性
 
-![img-97](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-97.png)
+![img-97](img-97.png)
 
 写兼容的时候浏览器前缀是放在@keyframes中间
 例如：@-webkit-keyframes、@-moz- keyframes
 
 - 调用关键帧
-![img-98](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-98.png)
+![img-98](img-98.png)
 
 - 动画的播放次数（animation-iteration-count）
     - 值通常为整数，默认值为 1
@@ -1389,4 +1389,4 @@ CSS3 transition的过渡功能更像是一种“黄油”，通过一些CSS的�
     - both表示元素动画同时具有forwards和backwards的效果
 
 ## 6.4、总结
-![img-99](https://github.com/Mcguffen/mcguffen.github.io/blob/myblog/source/_posts/docs/frontEnd/css/CSS3/img-96.png)
+![img-99](img-96.png)
