@@ -143,11 +143,11 @@ JavaScript支持，强烈推荐使用！
 ```
 - Sublime Text
 ```
-1 Sublime Text是一个好用的文本编辑器，免费，但不注册会不定时弹出提示框。
+Sublime Text是一个好用的文本编辑器，免费，但不注册会不定时弹出提示框。
 ```
 - Notepad++
 ```
-1 Notepad++也是免费的文本编辑器，但仅限Windows下使用。
+Notepad++也是免费的文本编辑器，但仅限Windows下使用。
 ```
 - WebStorm
 ```
@@ -156,7 +156,7 @@ WebStorm 是jetbrains公司旗下一款JavaScript 开发工具。目前已经被
 ```
 - IDEA
 ```
-1 Java开发人员必备，NB！
+ Java开发人员必备，NB！
 ```
 - HBuilder
 ```
@@ -225,26 +225,26 @@ JavaScript的语法和Java语言类似，每个语句以 ; 结束，语句块用
 
 例如，下面的一行代码就是一个完整的赋值语句：
 ```
-1 var x = 1 ;
+ var x = 1 ;
 ```
 
 下面的一行代码是一个字符串，但仍然可以视为一个完整的语句：
 ```
-1 'Hello, world';
+ 'Hello, world';
 ```
 
 #### 下面的一行代码包含两个语句，每个语句用 ; 表示语句结束：
 ```
-1 var x = 1 ; var y = 2 ; // 不建议一行写多个语句!
+ var x = 1 ; var y = 2 ; // 不建议一行写多个语句!
 ```
 
  语句块是一组语句的集合，例如，下面的代码先做了一个判断，如果判断成立，将执行 {...} 中的所有语句：
 
 ```
 if ( 2 > 1 ) {
-x = 1 ;
-y = 2 ;
-z = 3 ;
+    x = 1 ;
+    y = 2 ;
+    z = 3 ;
 }
 ```
 
@@ -356,7 +356,7 @@ false || true || false; // 这个||语句计算结果为true
 ! ( 2 > 5 ); // 结果为true
 ```
 
- 布尔值经常用在条件判断中，比如：
+布尔值经常用在条件判断中，比如：
 ```
 var age = 15 ;
 if (age >= 18 ) {
@@ -550,7 +550,7 @@ JavaScript在设计之初，为了方便初学者学习，并不强制要求用 
 为了修补JavaScript这一严重设计缺陷，ECMA在后续规范中推出了strict模式，在strict模式下运行的JavaScript代码，强制通过 var 申明变量，未使用 var 申明变量就使用的，将导致运行错误。
 启用strict模式的方法是在JavaScript代码的第一行写上：
 ```
-1 'use strict';
+ 'use strict';
 ```
 
 
@@ -586,7 +586,7 @@ JavaScript的字符串就是用 '' 或 "" 括起来的字符表示。
 I ， ' ， m ，空格， O ， K 这 6 个字符。
 如果字符串内部既包含 ' 又包含 " 怎么办？可以用转义字符 \ 来标识，比如：
 ```
-1 'I\'m \"OK\"!';
+ 'I\'m \"OK\"!';
 ```
 
 表示的字符串内容是： I'm "OK"!
@@ -830,6 +830,7 @@ arr; // ['A', 'B', 'C']
 ```
 reverse() 把整个 Array 的元素给掉个个，也就是反转
 ```
+
 ```
 var arr = ['one', 'two', 'three'];
 arr.reverse();
@@ -901,7 +902,7 @@ arr.join('-'); // 'A-B-C-1-2-3'
 
 如果数组的某个元素又是一个 Array ，则可以形成多维数组，例如：
 ```
-1 var arr = [[ 1 , 2 , 3 ], [ 400 , 500 , 600 ], '-'];
+ var arr = [[ 1 , 2 , 3 ], [ 400 , 500 , 600 ], '-'];
 ```
 
 上述 Array 包含 3 个元素，其中头两个元素本身也是 Array 。
@@ -978,7 +979,7 @@ score: null
 ```
 
 不过要小心，如果用 in 判断一个属性存在，这个属性不一定是 这个对象的，它可能是这个对象继承得到的：
-``` 
+```
 'toString' in xiaoming; // true
 ```
 因为 toString 定义在 object 对象中，而所有对象最终都会在原型链上指向 object，所以xiaoming 也拥
@@ -1584,6 +1585,7 @@ var MYAPP = {};
 MYAPP.name = 'myapp';
 MYAPP.version = 1.0;
 ```
+
 ```
 // 其他函数:
 MYAPP.foo = function () {
@@ -1644,6 +1646,7 @@ ES6标准引入了新的关键字 const 来定义常量， const 与 let 都具�
 ```
 'use strict';
 ```
+
 ```
 const PI = 3.14;
 PI = 3 ; // 某些浏览器不报错，但是无效果！
