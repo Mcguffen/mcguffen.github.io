@@ -9,14 +9,14 @@
     <meta name="description" content="CSS 中单位颇多，%、px、rem、em，以及相对较新的 vw、vh。那么在对不同设备屏幕进行页面适配的过程中，如何选择这些单位以达成缩放、间距控制、字体管理等功能呢？  每个单位都有各自的用途，都是在特定需求背景下被创造出，我们需要根据相应的需求来选择页面布局中所要使用的主要 CSS 单位。 页面适配的方式多种多样：  使用 px，结合媒体查询进行阶梯式适配，在 PC 端上被广泛使用； 使用">
 <meta property="og:type" content="article">
 <meta property="og:title" content="前端适配中的 em、rem、px">
-<meta property="og:url" content="http://example.com/2020/05/29/docs/frontEnd/css/css11/index.html">
+<meta property="og:url" content="https://mcguffen.github.io/2020/05/29/docs/frontEnd/css/css11/index.html">
 <meta property="og:site_name" content="Hi! I am yang.">
 <meta property="og:description" content="CSS 中单位颇多，%、px、rem、em，以及相对较新的 vw、vh。那么在对不同设备屏幕进行页面适配的过程中，如何选择这些单位以达成缩放、间距控制、字体管理等功能呢？  每个单位都有各自的用途，都是在特定需求背景下被创造出，我们需要根据相应的需求来选择页面布局中所要使用的主要 CSS 单位。 页面适配的方式多种多样：  使用 px，结合媒体查询进行阶梯式适配，在 PC 端上被广泛使用； 使用">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://pic3.zhimg.com/v2-b3b4a32c1df57c4fc90ca60e60ceeed2_b.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gfn7cpa2e4j30oj023weg.jpg">
 <meta property="article:published_time" content="2020-05-29T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-04-13T09:17:52.085Z">
+<meta property="article:modified_time" content="2021-04-13T09:26:26.841Z">
 <meta property="article:author" content="Mcguffen">
 <meta property="article:tag" content="css">
 <meta name="twitter:card" content="summary">
@@ -96,17 +96,17 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/05/29/docs/frontEnd/css/css11/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/05/29/docs/frontEnd/css/css11/&text=前端适配中的 em、rem、px"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/05/29/docs/frontEnd/css/css11/&title=前端适配中的 em、rem、px"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/05/29/docs/frontEnd/css/css11/&is_video=false&description=前端适配中的 em、rem、px"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=前端适配中的 em、rem、px&body=Check out this article: http://example.com/2020/05/29/docs/frontEnd/css/css11/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/05/29/docs/frontEnd/css/css11/&title=前端适配中的 em、rem、px"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/05/29/docs/frontEnd/css/css11/&title=前端适配中的 em、rem、px"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/05/29/docs/frontEnd/css/css11/&title=前端适配中的 em、rem、px"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/05/29/docs/frontEnd/css/css11/&title=前端适配中的 em、rem、px"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/05/29/docs/frontEnd/css/css11/&name=前端适配中的 em、rem、px&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/05/29/docs/frontEnd/css/css11/&t=前端适配中的 em、rem、px"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://mcguffen.github.io/2020/05/29/docs/frontEnd/css/css11/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://mcguffen.github.io/2020/05/29/docs/frontEnd/css/css11/&text=前端适配中的 em、rem、px"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://mcguffen.github.io/2020/05/29/docs/frontEnd/css/css11/&title=前端适配中的 em、rem、px"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://mcguffen.github.io/2020/05/29/docs/frontEnd/css/css11/&is_video=false&description=前端适配中的 em、rem、px"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=前端适配中的 em、rem、px&body=Check out this article: https://mcguffen.github.io/2020/05/29/docs/frontEnd/css/css11/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://mcguffen.github.io/2020/05/29/docs/frontEnd/css/css11/&title=前端适配中的 em、rem、px"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://mcguffen.github.io/2020/05/29/docs/frontEnd/css/css11/&title=前端适配中的 em、rem、px"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://mcguffen.github.io/2020/05/29/docs/frontEnd/css/css11/&title=前端适配中的 em、rem、px"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://mcguffen.github.io/2020/05/29/docs/frontEnd/css/css11/&title=前端适配中的 em、rem、px"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://mcguffen.github.io/2020/05/29/docs/frontEnd/css/css11/&name=前端适配中的 em、rem、px&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://mcguffen.github.io/2020/05/29/docs/frontEnd/css/css11/&t=前端适配中的 em、rem、px"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -258,17 +258,17 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/05/29/docs/frontEnd/css/css11/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/05/29/docs/frontEnd/css/css11/&text=前端适配中的 em、rem、px"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/05/29/docs/frontEnd/css/css11/&title=前端适配中的 em、rem、px"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/05/29/docs/frontEnd/css/css11/&is_video=false&description=前端适配中的 em、rem、px"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=前端适配中的 em、rem、px&body=Check out this article: http://example.com/2020/05/29/docs/frontEnd/css/css11/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/05/29/docs/frontEnd/css/css11/&title=前端适配中的 em、rem、px"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/05/29/docs/frontEnd/css/css11/&title=前端适配中的 em、rem、px"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/05/29/docs/frontEnd/css/css11/&title=前端适配中的 em、rem、px"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/05/29/docs/frontEnd/css/css11/&title=前端适配中的 em、rem、px"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/05/29/docs/frontEnd/css/css11/&name=前端适配中的 em、rem、px&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/05/29/docs/frontEnd/css/css11/&t=前端适配中的 em、rem、px"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://mcguffen.github.io/2020/05/29/docs/frontEnd/css/css11/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://mcguffen.github.io/2020/05/29/docs/frontEnd/css/css11/&text=前端适配中的 em、rem、px"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://mcguffen.github.io/2020/05/29/docs/frontEnd/css/css11/&title=前端适配中的 em、rem、px"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://mcguffen.github.io/2020/05/29/docs/frontEnd/css/css11/&is_video=false&description=前端适配中的 em、rem、px"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=前端适配中的 em、rem、px&body=Check out this article: https://mcguffen.github.io/2020/05/29/docs/frontEnd/css/css11/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://mcguffen.github.io/2020/05/29/docs/frontEnd/css/css11/&title=前端适配中的 em、rem、px"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://mcguffen.github.io/2020/05/29/docs/frontEnd/css/css11/&title=前端适配中的 em、rem、px"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://mcguffen.github.io/2020/05/29/docs/frontEnd/css/css11/&title=前端适配中的 em、rem、px"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://mcguffen.github.io/2020/05/29/docs/frontEnd/css/css11/&title=前端适配中的 em、rem、px"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://mcguffen.github.io/2020/05/29/docs/frontEnd/css/css11/&name=前端适配中的 em、rem、px&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://mcguffen.github.io/2020/05/29/docs/frontEnd/css/css11/&t=前端适配中的 em、rem、px"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>

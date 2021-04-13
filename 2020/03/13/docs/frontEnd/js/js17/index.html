@@ -9,12 +9,12 @@
     <meta name="description" content="面向对象、原型、class 面向对象解决的问题并不是：封装、继承、多态 而是写代码的套路问题（减少思考） 对象与对象的关系12345678910111213141516var person &#x3D; &amp;#123;	name: &amp;#x27;xu&amp;#x27;,  age: 18,  isAdult: true,  say: function()&amp;#123; console.log(&amp;#x27;person">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JS进阶 - 面向对象">
-<meta property="og:url" content="http://example.com/2020/03/13/docs/frontEnd/js/js17/index.html">
+<meta property="og:url" content="https://mcguffen.github.io/2020/03/13/docs/frontEnd/js/js17/index.html">
 <meta property="og:site_name" content="Hi! I am yang.">
 <meta property="og:description" content="面向对象、原型、class 面向对象解决的问题并不是：封装、继承、多态 而是写代码的套路问题（减少思考） 对象与对象的关系12345678910111213141516var person &#x3D; &amp;#123;	name: &amp;#x27;xu&amp;#x27;,  age: 18,  isAdult: true,  say: function()&amp;#123; console.log(&amp;#x27;person">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-03-13T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-04-13T09:17:52.101Z">
+<meta property="article:modified_time" content="2021-04-13T09:26:26.857Z">
 <meta property="article:author" content="Mcguffen">
 <meta property="article:tag" content="js">
 <meta name="twitter:card" content="summary">
@@ -93,17 +93,17 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/03/13/docs/frontEnd/js/js17/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/03/13/docs/frontEnd/js/js17/&text=JS进阶 - 面向对象"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/03/13/docs/frontEnd/js/js17/&title=JS进阶 - 面向对象"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/03/13/docs/frontEnd/js/js17/&is_video=false&description=JS进阶 - 面向对象"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=JS进阶 - 面向对象&body=Check out this article: http://example.com/2020/03/13/docs/frontEnd/js/js17/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/03/13/docs/frontEnd/js/js17/&title=JS进阶 - 面向对象"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/03/13/docs/frontEnd/js/js17/&title=JS进阶 - 面向对象"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/03/13/docs/frontEnd/js/js17/&title=JS进阶 - 面向对象"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/03/13/docs/frontEnd/js/js17/&title=JS进阶 - 面向对象"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/03/13/docs/frontEnd/js/js17/&name=JS进阶 - 面向对象&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/03/13/docs/frontEnd/js/js17/&t=JS进阶 - 面向对象"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://mcguffen.github.io/2020/03/13/docs/frontEnd/js/js17/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://mcguffen.github.io/2020/03/13/docs/frontEnd/js/js17/&text=JS进阶 - 面向对象"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://mcguffen.github.io/2020/03/13/docs/frontEnd/js/js17/&title=JS进阶 - 面向对象"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://mcguffen.github.io/2020/03/13/docs/frontEnd/js/js17/&is_video=false&description=JS进阶 - 面向对象"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JS进阶 - 面向对象&body=Check out this article: https://mcguffen.github.io/2020/03/13/docs/frontEnd/js/js17/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://mcguffen.github.io/2020/03/13/docs/frontEnd/js/js17/&title=JS进阶 - 面向对象"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://mcguffen.github.io/2020/03/13/docs/frontEnd/js/js17/&title=JS进阶 - 面向对象"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://mcguffen.github.io/2020/03/13/docs/frontEnd/js/js17/&title=JS进阶 - 面向对象"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://mcguffen.github.io/2020/03/13/docs/frontEnd/js/js17/&title=JS进阶 - 面向对象"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://mcguffen.github.io/2020/03/13/docs/frontEnd/js/js17/&name=JS进阶 - 面向对象&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://mcguffen.github.io/2020/03/13/docs/frontEnd/js/js17/&t=JS进阶 - 面向对象"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -242,17 +242,17 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/03/13/docs/frontEnd/js/js17/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/03/13/docs/frontEnd/js/js17/&text=JS进阶 - 面向对象"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/03/13/docs/frontEnd/js/js17/&title=JS进阶 - 面向对象"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/03/13/docs/frontEnd/js/js17/&is_video=false&description=JS进阶 - 面向对象"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=JS进阶 - 面向对象&body=Check out this article: http://example.com/2020/03/13/docs/frontEnd/js/js17/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/03/13/docs/frontEnd/js/js17/&title=JS进阶 - 面向对象"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/03/13/docs/frontEnd/js/js17/&title=JS进阶 - 面向对象"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/03/13/docs/frontEnd/js/js17/&title=JS进阶 - 面向对象"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/03/13/docs/frontEnd/js/js17/&title=JS进阶 - 面向对象"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/03/13/docs/frontEnd/js/js17/&name=JS进阶 - 面向对象&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/03/13/docs/frontEnd/js/js17/&t=JS进阶 - 面向对象"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://mcguffen.github.io/2020/03/13/docs/frontEnd/js/js17/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://mcguffen.github.io/2020/03/13/docs/frontEnd/js/js17/&text=JS进阶 - 面向对象"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://mcguffen.github.io/2020/03/13/docs/frontEnd/js/js17/&title=JS进阶 - 面向对象"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://mcguffen.github.io/2020/03/13/docs/frontEnd/js/js17/&is_video=false&description=JS进阶 - 面向对象"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JS进阶 - 面向对象&body=Check out this article: https://mcguffen.github.io/2020/03/13/docs/frontEnd/js/js17/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://mcguffen.github.io/2020/03/13/docs/frontEnd/js/js17/&title=JS进阶 - 面向对象"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://mcguffen.github.io/2020/03/13/docs/frontEnd/js/js17/&title=JS进阶 - 面向对象"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://mcguffen.github.io/2020/03/13/docs/frontEnd/js/js17/&title=JS进阶 - 面向对象"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://mcguffen.github.io/2020/03/13/docs/frontEnd/js/js17/&title=JS进阶 - 面向对象"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://mcguffen.github.io/2020/03/13/docs/frontEnd/js/js17/&name=JS进阶 - 面向对象&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://mcguffen.github.io/2020/03/13/docs/frontEnd/js/js17/&t=JS进阶 - 面向对象"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
