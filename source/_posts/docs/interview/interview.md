@@ -6,6 +6,10 @@ categories:
 tags:
  - interview
 ---
+# 面试题
+## 抽象问题具体化
+## 原理说一下思路
+
 # HTML
 
 1. 必考：你是如何理解 HTML 语义化的？
