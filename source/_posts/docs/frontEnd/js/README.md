@@ -17,7 +17,8 @@ tags:
 4. 添加事件监听
 5. 打开网站
 
-代码和预览：https://hentai-miao.github.io/jirengu-assignments/2-18-%E7%AC%AC%E4%B8%80%E4%B8%AAJS%E4%BD%9C%E5%93%81/keyboard.html
+代码：https://github.com/Mcguffen/nav-demo
+预览：https://mcguffen.github.io/nav-demo/
 
 注意：
 代码中的 `return JSON.parse(localStorage.getItem(name) || '')`
