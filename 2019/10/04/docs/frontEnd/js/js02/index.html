@@ -16,7 +16,7 @@
 <meta property="og:image" content="https://static.xiedaimala.com/xdml/image/02c5b19d-3b0e-47a8-a93b-301578c0f039/2019-4-8-10-45-40.png">
 <meta property="og:image" content="https://static.xiedaimala.com/xdml/image/02c5b19d-3b0e-47a8-a93b-301578c0f039/2019-4-8-10-46-45.png">
 <meta property="article:published_time" content="2019-10-04T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-05-25T08:38:17.214Z">
+<meta property="article:modified_time" content="2021-05-25T08:53:35.876Z">
 <meta property="article:tag" content="js">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://static.xiedaimala.com/xdml/image/02c5b19d-3b0e-47a8-a93b-301578c0f039/2019-4-8-10-45-40.png">
@@ -205,8 +205,10 @@
 <ul>
 <li><p>object 复杂类型 = 简单类型的组合 = 就是上面几种基本类型（无序地）组合在一起</p>
 </li>
-<li><p>object 里面可以有 object</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var person &#x3D; &#123;</span><br><span class="line">    name: &#39;Frank&#39;, </span><br><span class="line">    &#39;child&#39;: &#123;</span><br><span class="line">        name: &#39;Jack&#39;</span><br><span class="line">    &#125;, &#x2F;&#x2F; 最后这个逗号可有可无</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>object 里面可以有 object<br>key虽说必须是字符串<br>但是如果符合标识符命名规范可以不写’’，但是如果不合符就不行,比如以数字开头，即’9a’:’ni’这种不合符的必须加<code>&#39;&#39;</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var person &#x3D; &#123;</span><br><span class="line">    name: &#39;Frank&#39;, </span><br><span class="line">    &#39;child&#39;: &#123;</span><br><span class="line">        name: &#39;Jack&#39;</span><br><span class="line">    &#125;, &#x2F;&#x2F; 最后这个逗号可有可无</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>person对象的第一个属性name没加’’就必须符合标识符命名规范，加了’’号功能更强大。</p>
+</li>
 <li><p>object 的 key 一律是字符串，不存在其他类型的 key</p>
 </li>
 <li><p>object[‘’] 是合法的</p>
