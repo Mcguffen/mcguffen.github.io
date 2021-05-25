@@ -16,7 +16,7 @@
 <meta property="og:image" content="https://static.xiedaimala.com/xdml/image/02c5b19d-3b0e-47a8-a93b-301578c0f039/2019-4-8-10-45-40.png">
 <meta property="og:image" content="https://static.xiedaimala.com/xdml/image/02c5b19d-3b0e-47a8-a93b-301578c0f039/2019-4-8-10-46-45.png">
 <meta property="article:published_time" content="2019-10-04T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-05-25T07:59:55.015Z">
+<meta property="article:modified_time" content="2021-05-25T08:15:27.992Z">
 <meta property="article:tag" content="js">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://static.xiedaimala.com/xdml/image/02c5b19d-3b0e-47a8-a93b-301578c0f039/2019-4-8-10-45-40.png">
@@ -169,13 +169,15 @@
 <ul>
 <li>整数和小数：<code>1 1.1 .1</code></li>
 <li>科学记数法：<code>1.23e2</code></li>
-<li>二进制：<code>0b11</code></li>
-<li>八进制：<code>011</code>（后来 ES5 添加了 0o11 语法）</li>
-<li>十六进制：<code>0x11</code></li>
+<li>二进制：<code>0b11</code> 以0b开头</li>
+<li>八进制：<code>011</code>（后来 ES5 添加了 0o11 语法） 以0开头</li>
+<li>十六进制：<code>0x11</code> 以0x开头</li>
 </ul>
 </li>
 <li><p>string</p>
 <ul>
+<li><p>转义符 ‘&#39;‘ 表示单引号 ‘\n’表示回车 ‘\t’表示制表符Tab 这几个字符的长度都是1 因为他们都是一个字符<br>问题来了 \来表示转义符了谁来表示\呢？ 答案就是2个\表示一个\ 即 ‘\‘表示一个单字符 \</p>
+</li>
 <li><p>空字符串：<code>&#39;&#39;</code></p>
 </li>
 <li><p>多行字符串：</p>
