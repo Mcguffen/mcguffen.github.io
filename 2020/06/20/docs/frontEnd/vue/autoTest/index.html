@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="测试测试方法 BDD 行为驱动开发（behavior driven development）也就是用自然语言描述需求1expect(button).to.be.true 是不是很像我们平常说的英语，I expect button to be true  chai库就是用来做这件事的  TDD 测试驱动开发（test driven development）用例实现完了，开发也就完成了先把测试用例写好">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue-自动化测试和持续化集成">
+<meta property="og:url" content="http://example.com/2020/06/20/docs/frontEnd/vue/autoTest/index.html">
+<meta property="og:site_name" content="Hi! I am yang.">
+<meta property="og:description" content="测试测试方法 BDD 行为驱动开发（behavior driven development）也就是用自然语言描述需求1expect(button).to.be.true 是不是很像我们平常说的英语，I expect button to be true  chai库就是用来做这件事的  TDD 测试驱动开发（test driven development）用例实现完了，开发也就完成了先把测试用例写好">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-06-20T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-05-26T04:33:36.722Z">
+<meta property="article:tag" content="vue">
+<meta property="article:tag" content="karma">
+<meta property="article:tag" content="mocha">
+<meta property="article:tag" content="chai">
+<meta property="article:tag" content="travis ci">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Vue-自动化测试和持续化集成</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/06/20/docs/backEnd/nodejs/%E5%AD%A6%E4%B9%A0%E7%9B%AE%E5%BD%95/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/06/20/docs/backEnd/nodejs/README/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/06/20/docs/frontEnd/vue/autoTest/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/06/20/docs/frontEnd/vue/autoTest/&text=Vue-自动化测试和持续化集成"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/06/20/docs/frontEnd/vue/autoTest/&title=Vue-自动化测试和持续化集成"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/06/20/docs/frontEnd/vue/autoTest/&is_video=false&description=Vue-自动化测试和持续化集成"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Vue-自动化测试和持续化集成&body=Check out this article: http://example.com/2020/06/20/docs/frontEnd/vue/autoTest/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/06/20/docs/frontEnd/vue/autoTest/&title=Vue-自动化测试和持续化集成"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/06/20/docs/frontEnd/vue/autoTest/&title=Vue-自动化测试和持续化集成"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/06/20/docs/frontEnd/vue/autoTest/&title=Vue-自动化测试和持续化集成"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/06/20/docs/frontEnd/vue/autoTest/&title=Vue-自动化测试和持续化集成"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/06/20/docs/frontEnd/vue/autoTest/&name=Vue-自动化测试和持续化集成&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/06/20/docs/frontEnd/vue/autoTest/&t=Vue-自动化测试和持续化集成"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95"><span class="toc-number">1.</span> <span class="toc-text">测试</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95"><span class="toc-number">1.1.</span> <span class="toc-text">测试方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><span class="toc-number">1.2.</span> <span class="toc-text">单元测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8karma-mocha%E8%BF%9B%E8%A1%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><span class="toc-number">1.3.</span> <span class="toc-text">使用karma+mocha进行单元测试单元测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8travis-ci%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90"><span class="toc-number">1.4.</span> <span class="toc-text">使用travis ci持续集成</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Vue-自动化测试和持续化集成
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name"></span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-06-20T00:00:00.000Z" itemprop="datePublished">2020-06-20</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/frontEnd/">frontEnd</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/chai/" rel="tag">chai</a>, <a class="tag-link-link" href="/tags/karma/" rel="tag">karma</a>, <a class="tag-link-link" href="/tags/mocha/" rel="tag">mocha</a>, <a class="tag-link-link" href="/tags/travis-ci/" rel="tag">travis ci</a>, <a class="tag-link-link" href="/tags/vue/" rel="tag">vue</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><h2 id="测试方法"><a href="#测试方法" class="headerlink" title="测试方法"></a>测试方法</h2><ul>
+<li>BDD 行为驱动开发（behavior driven development）<br>也就是用自然语言描述需求<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">expect(button).to.be.true</span><br></pre></td></tr></table></figure>
+是不是很像我们平常说的英语，I expect button to be true</li>
+</ul>
+<p>chai库就是用来做这件事的</p>
+<ul>
+<li>TDD 测试驱动开发（test driven development）<br>用例实现完了，开发也就完成了<br>先把测试用例写好，根据测试开发.</li>
+</ul>
+<p>assert断言，浏览器上存在这样的api ：assert 这也是我们测试用到的核心，这个api能够判断是否为真</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">console.assert(1&#x3D;&#x3D;&#x3D;1)</span><br><span class="line">undefined</span><br><span class="line">console.assert(1&#x3D;&#x3D;&#x3D;2)</span><br><span class="line">Assertion failed: console.assert</span><br><span class="line">undefined</span><br></pre></td></tr></table></figure>
+
+<p>如果我断言了一个假信息，浏览器会抛出错误</p>
+<h2 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h2><h2 id="使用karma-mocha进行单元测试单元测试"><a href="#使用karma-mocha进行单元测试单元测试" class="headerlink" title="使用karma+mocha进行单元测试单元测试"></a>使用karma+mocha进行单元测试单元测试</h2><p>了解了测试的原理与方法，现在开始动手写自动化测试吧<br>1.安装各种工具：</p>
+<ul>
+<li>karma是一个基于Node.js的JavaScript测试执行过程管理工具，karma能让你的代码在一个无头浏览器上运行。</li>
+<li>Mocha是一个测试框架，在vue-cli中配合chai断言库实现单元测试。<br>安装<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm i -D karma karma-chrome-launcher karma-mocha karma-sinon-chai mocha sinon sinon-chai karma-chai karma-chai-spies</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+<ol start="2">
+<li>创建karma的配置<br>新建一个karma.conf.js 这个配置文件定义了使用的测试框架，测试文件入口，打开的测试浏览器，端口等等<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span> (<span class="params">config</span>) </span>&#123;</span><br><span class="line">     config.set(&#123;</span><br><span class="line"></span><br><span class="line">         <span class="comment">// base path that will be used to resolve all patterns (eg. files, exclude)</span></span><br><span class="line">         basePath: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">            <span class="comment">// frameworks to use</span></span><br><span class="line">            <span class="comment">// available frameworks: https://npmjs.org/browse/keyword/karma-adapter</span></span><br><span class="line">            frameworks: [<span class="string">&#x27;mocha&#x27;</span>, <span class="string">&#x27;sinon-chai&#x27;</span>],</span><br><span class="line">            client: &#123;</span><br><span class="line">                chai: &#123;</span><br><span class="line">                    includeStack: <span class="literal">true</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="comment">// list of files / patterns to load in the browser</span></span><br><span class="line">            files: [</span><br><span class="line">                <span class="string">&#x27;dist/**/*.test.js&#x27;</span>,</span><br><span class="line">                <span class="string">&#x27;dist/**/*.test.css&#x27;</span></span><br><span class="line">            ],</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="comment">// list of files / patterns to exclude</span></span><br><span class="line">            exclude: [],</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="comment">// preprocess matching files before serving them to the browser</span></span><br><span class="line">            <span class="comment">// available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor</span></span><br><span class="line">            preprocessors: &#123;&#125;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="comment">// test results reporter to use</span></span><br><span class="line">            <span class="comment">// possible values: &#x27;dots&#x27;, &#x27;progress&#x27;</span></span><br><span class="line">            <span class="comment">// available reporters: https://npmjs.org/browse/keyword/karma-reporter</span></span><br><span class="line">            reporters: [<span class="string">&#x27;progress&#x27;</span>],</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="comment">// web server port</span></span><br><span class="line">            port: <span class="number">9876</span>,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="comment">// enable / disable colors in the output (reporters and logs)</span></span><br><span class="line">            colors: <span class="literal">true</span>,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="comment">// level of logging</span></span><br><span class="line">            <span class="comment">// possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG</span></span><br><span class="line">            logLevel: config.LOG_INFO,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="comment">// enable / disable watching file and executing tests whenever any file changes</span></span><br><span class="line">            autoWatch: <span class="literal">true</span>,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="comment">// start these browsers</span></span><br><span class="line">            <span class="comment">// available browser launchers: https://npmjs.org/browse/keyword/karma-launcher</span></span><br><span class="line">            browsers: [<span class="string">&#x27;ChromeHeadless&#x27;</span>],</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="comment">// Continuous Integration mode</span></span><br><span class="line">            <span class="comment">// if true, Karma captures browsers, runs the tests and exits</span></span><br><span class="line">            singleRun: <span class="literal">false</span>,</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Concurrency level</span></span><br><span class="line">            <span class="comment">// how many browser should be started simultaneous</span></span><br><span class="line">            concurrency: <span class="literal">Infinity</span></span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>3.创建test/button.test.js 文件<br>这个文件中我们就要开始写自己的测试代码了</p>
+<p>我们使用BDD 行为驱动测试，根据这个组件的行为来设计测试用例，比如我们对button组件进行测试，这里我举了两个列子，实际情况下测试用例比这个要多的多</p>
+<p>首先我们要从chai库中引入expect用来进行断言</p>
+<p>然后引入我们的组件和vue</p>
+<p>我们第一个用例用来说明这个组件是存在的</p>
+<p>我们第二个用例用来证明这个组件有props：icon属性，我们首先对组件所有的props进行测试：具体的测试方法：</p>
+<ul>
+<li>我们创建一个button的构造函数，然后去实例化一个button出来</li>
+<li>给我们的button传入一个icon的propsData，并将这个button挂载到页面上</li>
+<li>我们通过拿到这个button下面的use标签（引入的iconfont。下面的标签结构都是svg&gt;use）的索引，和我们的props比较，看是否是我们设置的icon</li>
+</ul>
+<p>我们第三个用例用来证明组件的事件是否可以触发</p>
+<ul>
+<li>同样的创建一个button实例</li>
+<li>使用sinon.fake（）创建一个回调函数，让这个button触发click事件之后调用这个函数</li>
+<li>如果这个函数被调用了，就说明我们的click事件可以正常执行<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"> const expect &#x3D; chai.expect;</span><br><span class="line"> import Vue from &#39;vue&#39;</span><br><span class="line"> import Button from &#39;..&#x2F;src&#x2F;button&#39;</span><br><span class="line"> Vue.config.productionTip &#x3D; false</span><br><span class="line"> Vue.config.devtools &#x3D; false</span><br><span class="line">describe(&#39;Button&#39;, () &#x3D;&gt; &#123;</span><br><span class="line">     it(&#39;存在.&#39;, () &#x3D;&gt; &#123;</span><br><span class="line">         expect(Button).to.be.ok</span><br><span class="line">     &#125;)</span><br><span class="line">     it(&#39;可以设置icon.&#39;, () &#x3D;&gt; &#123;</span><br><span class="line">         const Constructor &#x3D; Vue.extend(Button)</span><br><span class="line">         const vm &#x3D; new Constructor(&#123;</span><br><span class="line">         propsData: &#123;</span><br><span class="line">             icon: &#39;settings&#39;</span><br><span class="line">         &#125;</span><br><span class="line">         &#125;).$mount()</span><br><span class="line">         const useElement &#x3D; vm.$el.querySelector(&#39;use&#39;)</span><br><span class="line">         expect(useElement.getAttribute(&#39;xlink:href&#39;)).to.equal(&#39;#i-settings&#39;)</span><br><span class="line">         vm.$destroy()</span><br><span class="line">     &#125;)</span><br><span class="line">    it(&#39;点击 button 触发 click 事件&#39;, () &#x3D;&gt; &#123;</span><br><span class="line">         const Constructor &#x3D; Vue.extend(Button)</span><br><span class="line">         const vm &#x3D; new Constructor(&#123;</span><br><span class="line">         propsData: &#123;</span><br><span class="line">             icon: &#39;settings&#39;,</span><br><span class="line">         &#125;</span><br><span class="line">         &#125;).$mount()</span><br><span class="line"></span><br><span class="line">         const callback &#x3D; sinon.fake();</span><br><span class="line">         vm.$on(&#39;click&#39;, callback)</span><br><span class="line">         vm.$el.click()</span><br><span class="line">         expect(callback).to.have.been.called</span><br><span class="line"></span><br><span class="line">     &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<ol start="4">
+<li>创建测试脚本 在 package.json 里面找到 scripts 并改写 scripts<br>首先打包test下面的一级文件，移除缓存，启动karma。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">     &quot;dev-test&quot;: &quot;parcel watch test&#x2F;* --no-cache &amp; karma start&quot;,</span><br><span class="line">     &quot;test&quot;: &quot;parcel build test&#x2F;* --no-cache --no-minify &amp;&amp; karma start --single-run&quot;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></li>
+<li>运行测试脚本<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">先删掉缓存</span><br><span class="line">rm -rf .cache dist</span><br></pre></td></tr></table></figure>
+我们可以使用npm run test进行一次运行</li>
+</ol>
+<p>这样做的效果是，我们每次改了代码都要跑一次npm run test</p>
+<p>也可以使用npm run dev-test 进行 watch 运行</p>
+<p>这样我们每次改代码都会在后台自动运行test</p>
+<h2 id="使用travis-ci持续集成"><a href="#使用travis-ci持续集成" class="headerlink" title="使用travis ci持续集成"></a>使用travis ci持续集成</h2><p>有了上面的自动化测试方法，我们已经可以很方便的在每次修改代码之后，都自动运行测试用例</p>
+<p>但是这种方法还是需要你在自己的终端里去运行，有没有可能我去雇一个保姆，去帮我运行测试脚本呢</p>
+<p>travis ci就是这个保姆</p>
+<p>你每次提交代码，travis ci都会帮你去吧测试脚本跑一遍</p>
+<p>首先在项目根目录新建一个.travis.yml，里面写上用什么语言测试，用nodejs的哪几个版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">language: node_js</span><br><span class="line">node_js:</span><br><span class="line">  - &quot;10&quot;</span><br><span class="line">  - &quot;11&quot;</span><br><span class="line">  - &quot;12&quot;</span><br><span class="line">addons:</span><br><span class="line">  chrome: stable</span><br><span class="line">sudo: required</span><br><span class="line">before_script:</span><br><span class="line">  - &quot;sudo chown root &#x2F;opt&#x2F;google&#x2F;chrome&#x2F;chrome-sandbox&quot;</span><br><span class="line">  - &quot;sudo chmod 4755 &#x2F;opt&#x2F;google&#x2F;chrome&#x2F;chrome-sandbox&quot;</span><br></pre></td></tr></table></figure>
+<p>然后去travis ci网站。将你的github项目添加进去<br>一旦测试出现问题会给你发邮件哦</p>
+
+  </div>
+  <div>
+    <a href="https://github.com/Mcguffen/mcguffen.github.io/edit/myblog/source/_posts/docs/frontEnd/vue/autoTest.md"target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95"><span class="toc-number">1.</span> <span class="toc-text">测试</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95"><span class="toc-number">1.1.</span> <span class="toc-text">测试方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><span class="toc-number">1.2.</span> <span class="toc-text">单元测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8karma-mocha%E8%BF%9B%E8%A1%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><span class="toc-number">1.3.</span> <span class="toc-text">使用karma+mocha进行单元测试单元测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8travis-ci%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90"><span class="toc-number">1.4.</span> <span class="toc-text">使用travis ci持续集成</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/06/20/docs/frontEnd/vue/autoTest/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/06/20/docs/frontEnd/vue/autoTest/&text=Vue-自动化测试和持续化集成"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/06/20/docs/frontEnd/vue/autoTest/&title=Vue-自动化测试和持续化集成"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/06/20/docs/frontEnd/vue/autoTest/&is_video=false&description=Vue-自动化测试和持续化集成"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Vue-自动化测试和持续化集成&body=Check out this article: http://example.com/2020/06/20/docs/frontEnd/vue/autoTest/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/06/20/docs/frontEnd/vue/autoTest/&title=Vue-自动化测试和持续化集成"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/06/20/docs/frontEnd/vue/autoTest/&title=Vue-自动化测试和持续化集成"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/06/20/docs/frontEnd/vue/autoTest/&title=Vue-自动化测试和持续化集成"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/06/20/docs/frontEnd/vue/autoTest/&title=Vue-自动化测试和持续化集成"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/06/20/docs/frontEnd/vue/autoTest/&name=Vue-自动化测试和持续化集成&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/06/20/docs/frontEnd/vue/autoTest/&t=Vue-自动化测试和持续化集成"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Hi! I am yang.
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Mcguffen?tab=repositories">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
