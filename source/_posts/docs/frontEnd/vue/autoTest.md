@@ -1,5 +1,5 @@
 ---
-title: Vue-自动化测试和持续化集成
+title: 自动化测试和持续化集成
 date: 2020-06-20
 categories:
  - frontEnd
