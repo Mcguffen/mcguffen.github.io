@@ -159,7 +159,9 @@ http-server -c-1
 
 ### 实例二
 
-我们来看一个网站：www.smashingmagazine.com，一旦切换到窄屏，就会更换导航栏样式。
+我们来看一个网站：www.smashingmagazine.com
+
+一旦切换到窄屏，就会更换导航栏样式。
 
 我们初始化基本样式：
 
