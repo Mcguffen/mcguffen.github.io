@@ -5,7 +5,6 @@ categories:
  - frontEnd
 tags:
  - js
- - jQuery
 ---
 # JavaScript
 
