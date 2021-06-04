@@ -40,7 +40,7 @@ tags:
    看 MDN，背代码。
 
 4. 必考：BFC 是什么？
-
+   BFC 全称 block formatting context ，中文译作「块格式化上下文」。
    背 BFC 触发条件，
 
    MDN 写了
