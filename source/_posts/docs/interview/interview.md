@@ -299,6 +299,7 @@ tags:
 
 14. 送命题：手写一个 Promise
     提前写一遍，放在博客里，参考 https://juejin.im/post/5aafe3edf265da238f125c0a
+15. 作用域问题：    
 
 # DOM
 
