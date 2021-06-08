@@ -7,10 +7,10 @@ tags:
  - interview
 ---
 # 面试题
-## 抽象问题具体化
-## 原理说一下思路
+ 抽象问题具体化
+ 原理说一下思路
 
-# HTML
+## HTML
 
 1. 必考：你是如何理解 HTML 语义化的？
    1. 举例法
@@ -28,7 +28,7 @@ tags:
    阐述法
    搜一下知乎就知道了，H5表示移动端页面，反正不是HTML5。
 
-# CSS
+## CSS
 
 1. 必考：两种盒模型分别说一下。
    先说两种盒模型分别怎么写，具体到代码。然后说你平时喜欢用border box，因为更好用。
@@ -79,7 +79,7 @@ tags:
     }
    ```
 
-# 原生 JS
+## 原生 JS
 
 1. 必考：ES 6 语法知道哪些，分别怎么用？
    举例法
@@ -301,7 +301,7 @@ tags:
     提前写一遍，放在博客里，参考 https://juejin.im/post/5aafe3edf265da238f125c0a
 15. 作用域问题：    
 
-# DOM
+## DOM
 
 1. 必考：事件委托
 
@@ -341,7 +341,7 @@ tags:
 2. 曾考：用 mouse 事件写一个可拖曳的 div
    参考代码：https://jsbin.com/munuzureya/edit?html,js,output
 
-   # HTTP
+   ## HTTP
 
 3. 必考：HTTP 状态码知道哪些？分别什么意思？
 
@@ -387,7 +387,7 @@ tags:
      1. Cookie 存在浏览器的文件里，Session 存在服务器的文件里
      2. Session 是基于 Cookie 实现的，具体做法就是把 SessionID 存在 Cookie 里
 
-# 框架 Vue
+## 框架 Vue
 
 1. 必考：watch 和 computed 和 methods 区别是什么？
 
@@ -440,7 +440,7 @@ tags:
 8. 路由守卫是什么？
    看官方文档的例子，背里面的关键的话
 
-# 框架 React
+## 框架 React
 
 1. 必考：受控组件 V.S. 非受控组件
 
@@ -493,7 +493,7 @@ tags:
    react-redux 库提供的一个 API，connect 的作用是让你把组件和store连接起来，产生一个新的组件（connect 是高阶组件）
    参考：https://segmentfault.com/a/1190000017064759
 
-# TypeScript
+## TypeScript
 
 1. never 类型是什么？
    不应该出现的类型 尤雨溪的答案：https://www.zhihu.com/question/354601204/answer/888551021
@@ -517,7 +517,7 @@ tags:
 2. 必考：什么是 CSRF？如何预防？
    比较复杂，看若愚的文章 https://zhuanlan.zhihu.com/p/22521378
 
-# 开放题目
+## 开放题目
 
 1. 必考：你遇到最难的问题是怎样的？
    要点：一波三折。参考 https://www.zhihu.com/question/35323603
@@ -530,7 +530,7 @@ tags:
    没看过源码就说同事的代码，代码烂就说哪里烂，代码好就说哪里好
    收获：命名规范、设计模式
 
-# 刁钻题目
+## 刁钻题目
 
 1. 代码
 
@@ -594,7 +594,7 @@ tags:
        a ===1 && a=== 2 && a===3 // true
       ```
 
-# 超纲题
+## 超纲题
 
 1. JS 垃圾回收机制
 
@@ -682,7 +682,7 @@ tags:
 
       注意：这一题的答案不唯一，在 Node.js 和 Chrome 的结果不一样，甚至在 Chrome 上也是时而这个答案，时而那个答案。所以还是说思路最重要。
 
-# 个性化题目
+## 个性化题目
 
 - PWA
 - echarts.js / d3.js
