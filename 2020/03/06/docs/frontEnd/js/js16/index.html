@@ -14,7 +14,7 @@
 <meta property="og:description" content="同步与异步同步，等待结果 异步，不等待结果 注意，异步和回调往往伴随出现，但是两者没有直接关系。 1234567891011121314&#x2F;&#x2F; 同步的 sleepfunction sleep(s)&amp;#123;  var start &#x3D; new Date()  while( new Date() - start &lt; s*1000 )&amp;#123;      &amp;#125;  return&amp;#125;">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-03-06T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-06-16T14:21:29.970Z">
+<meta property="article:modified_time" content="2021-06-16T14:22:38.015Z">
 <meta property="article:tag" content="js">
 <meta name="twitter:card" content="summary">
     
@@ -166,8 +166,6 @@
 
 <p>console.log() 不会等待上一句执行完，比较 setTimeout 我们可以看到，三秒钟内 JS 什么都不需要做，而同步代码中需要不停计时。</p>
 <p>setTimeout 是给浏览器设置的一个闹钟，JS 需要做的只是设置闹钟而不是自己成为闹钟。</p>
-<p>![image-20200514164101761](/Users/xu/Library/Application Support/typora-user-images/image-20200514164101761.png)</p>
-<p>![image-20200514164115678](/Users/xu/Library/Application Support/typora-user-images/image-20200514164115678.png)</p>
 <h2 id="经典例子"><a href="#经典例子" class="headerlink" title="经典例子"></a>经典例子</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.getElementsByTagName(<span class="string">&#x27;img&#x27;</span>)[<span class="number">0</span>].width <span class="comment">// 宽度为 0</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;done&#x27;</span>)</span><br></pre></td></tr></table></figure>
 
 <p>第一次加载页面的时候是拿不到图片宽度的，因为 JS 不关心浏览器加载图片的结果，它会在请求过程中获取宽度值，也就是 0.</p>
