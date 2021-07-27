@@ -221,7 +221,7 @@ btn.removeEventListener(‘click’,要移除的事件处理函数名，false)
 
     工厂模式创建对象：
 
-    ![](media/84fef62d3abe90225443011cb42d7890.png)
+    ![](interview2/84fef62d3abe90225443011cb42d7890.png)
 
     工厂模式解决了重复实例化的问题，缺点，创建不同对象其中属性和方法都会重复建立，消耗内存；还有函数识别问题等等。
 
