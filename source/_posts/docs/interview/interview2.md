@@ -35,21 +35,21 @@ tags:
 
     原型链：
 
-    ![](44082b6840697c486068f27766ff9935.png)
+    ![](interview2/44082b6840697c486068f27766ff9935.png)
 
 2.  **有什么用，怎么用的**
 
-    ![](1fc755ea9be6ce0bd25671e933de61ba.png)
+    ![](interview2/1fc755ea9be6ce0bd25671e933de61ba.png)
 
-    ![](cdbd24c4146d8aa83f8e617093ed563e.png)
+    ![](interview2/cdbd24c4146d8aa83f8e617093ed563e.png)
 
 3.  **优缺点**
 
     原型链继承的缺点
 
-    优点：![](media/b836656abc42939b8e0010b7460a1425.png)
+    优点：![](interview2/b836656abc42939b8e0010b7460a1425.png)
 
-    ![](media/569da52c38b6ff71618fd14426444caa.png)
+    ![](interview2/569da52c38b6ff71618fd14426444caa.png)
 
 4.  **说一下JS继承（含ES6的）--或者人家这样问有两个类A和B,B怎么继承A？**
 
