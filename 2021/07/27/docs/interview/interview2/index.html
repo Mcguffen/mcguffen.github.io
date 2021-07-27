@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="目录    JS相关：    5     （1） 闭包    5     （2） 说一下JS中的原型链的理解？    5     （3）说一下JS继承（含ES6的）–或者人家这样问有两个类A和B,B怎么继承A？    6     （3） 说一下JS原生事件如何绑定    7     （4） 说一下JS原生常用dom操作方法？    8     （6） (了解)JS设计模式有哪些(单例模式观察者模式">
+    <meta name="description" content="JS相关：闭包   答：闭包说的通俗一点就是打通了一条在函数外部访问函数内部作用域的通道。正常情况下函数外部是访问不到函数内部作用域变量的，     表象判断是不是闭包:函数嵌套函数,内部函数被return  内部函数调用外层函数的局部变量     优点：可以隔离作用域，不造成全局污染     缺点：由于闭包长期驻留内存，则长期这样会导致内存泄露     如何解决内存泄露：将暴露全外部的闭包变量置">
 <meta property="og:type" content="article">
 <meta property="og:title" content="interview">
 <meta property="og:url" content="http://example.com/2021/07/27/docs/interview/interview2/index.html">
 <meta property="og:site_name" content="Hi! I am yang.">
-<meta property="og:description" content="目录    JS相关：    5     （1） 闭包    5     （2） 说一下JS中的原型链的理解？    5     （3）说一下JS继承（含ES6的）–或者人家这样问有两个类A和B,B怎么继承A？    6     （3） 说一下JS原生事件如何绑定    7     （4） 说一下JS原生常用dom操作方法？    8     （6） (了解)JS设计模式有哪些(单例模式观察者模式">
+<meta property="og:description" content="JS相关：闭包   答：闭包说的通俗一点就是打通了一条在函数外部访问函数内部作用域的通道。正常情况下函数外部是访问不到函数内部作用域变量的，     表象判断是不是闭包:函数嵌套函数,内部函数被return  内部函数调用外层函数的局部变量     优点：可以隔离作用域，不造成全局污染     缺点：由于闭包长期驻留内存，则长期这样会导致内存泄露     如何解决内存泄露：将暴露全外部的闭包变量置">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/media/1019626c920eed02a16e12bbb4b039e5.png">
 <meta property="og:image" content="http://example.com/media/44082b6840697c486068f27766ff9935.png">
@@ -49,7 +49,7 @@
 <meta property="og:image" content="http://example.com/media/5b7f83657f931ee15565eb40d7307c99.png">
 <meta property="og:image" content="http://example.com/media/bb2f43ca54214ad98e1bc4f0b8ffdf23.png">
 <meta property="article:published_time" content="2021-07-27T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-07-27T10:04:47.057Z">
+<meta property="article:modified_time" content="2021-07-27T10:07:42.960Z">
 <meta property="article:tag" content="interview">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/media/1019626c920eed02a16e12bbb4b039e5.png">
@@ -192,213 +192,7 @@
   
 
   <div class="content" itemprop="articleBody">
-    <p>目录</p>
-<blockquote>
-<p>  <a href="#_Toc1446">JS相关：    5</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc29471">（1） 闭包    5</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc16955">（2） 说一下JS中的原型链的理解？    5</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc21886">（3）说一下JS继承（含ES6的）–或者人家这样问有两个类A和B,B怎么继承A？    6</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc1117">（3） 说一下JS原生事件如何绑定    7</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc15992">（4） 说一下JS原生常用dom操作方法？    8</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc31218">（6） (了解)JS设计模式有哪些(单例模式观察者模式等)    8</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc4179">（7） 说一下你对JS面向对象的理解    9</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc8250">（8） 说一下JS数组常用方法（至少6个）    9</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc12054">（9） 说一下JS数组内置遍历方法有哪些和区别    9</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc24509">（10） 说一下JS作用域和作用域链    10</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc11077">（11） 说一下从输入URL到页面加载完中间发生了什么？    11</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc4261">（12） 说一下JS事件代理（也称事件委托）是什么，及实现原理？    11</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc10061">（13） 说一下JS数据类型有哪些？    12</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc29421">（14） 说一下call,apply,bind区别    13</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc30069">git相关：    13</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc16655">跨域的解决方案目前有三种主流解决方案    14</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc6748">(6) 说一下你对同步和异步的理解    15</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc30996">(9) 说一下你对http状态码的了解多少？    16</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc64">(10) 你上家公司项目是前后端分离的吗    17</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc5939">(11) 深拷贝，浅拷贝    17</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc18851">Vue相关：    17</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc5735">（1） 说一下vue最大特点是什么或者说vue核心是什么    17</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc26129">（2） 说一下vue常用基本指令有哪些    18</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc28316">Vue 组件中 data 为什么必须是函数    19</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc25104">（3） 说一下v-if和v-show的区别    20</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc17767">（4） 说一下vue自定义指令如何实现的和适用场景？    20</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc29562">（6） 说一下vue生命周期钩子函数有哪些，分别什么时候触发    22</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc28008">（7）<br>  说一下vue组件通讯（即传值）有哪几种形式，分别是如何实现的    23</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc3547">（8） 说一下vue封装组件中的slot作用    24</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc29121">（9） 说一下vue转场动画如何实现的    25</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc26244">（10） 说一下你对单向数据流的理解    25</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc5707">（11） 说一下vue双向数据绑定的原理    26</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc20083">（12） 说一下vue路由或前端路由实现原理    26</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc14962">（14） 说一下vue路由懒加载解决什么问题的?    28</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc14403">（15） 说一下如何解决vue首屏加载慢或白屏？    28</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc15319">（16） 说一下vue开发环境和线上环境如何切换    29</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc12984">（17） 说一下你们项目中vue如何跨域的    30</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc7982">（18） 说一下vue中methods,computed,watch的区别：    30</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc9389">（19） vue如何动态添加属性，实现数据响应？    31</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc14586">（20） vue中的http请求是如何管理的    31</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc15722">（22） 说一下vue和jquey的区别    33</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc7427">（23）<br>  说一下vue如何实现局部样式的或者说如何实现组件之间样式不冲突的和实现原理是什么？    33</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc25772">（24） 说一下vue第三方ui样式库如何实现样式穿透的（ui库和less/sass穿透问题）<br>  &gt;&gt;&gt;    /deep/    34</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc4808">（25） vue目录结构（面试时可能会这样问说一下vue工程目录结构）    34</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc4065">（26）<br>  vue脚手架是你们公司搭建的，还是用的vue的脚本架？webpack了解多少？    35</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc32314">（27） 说一下你对vuex的理解：    35</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc20081">（28） vuex如何实现数据持久化（即刷新后数据还保留）？    35</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc26490">（29） 说一下nextTick的作用和使用场景    36</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc11519">v-for 与 v-if 的优先级    40</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc24958">vue中 keep-alive 组件的作用    40</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc20492">（1） css3新增特性有哪些    41</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc20151">（2） 如何实现一个div垂直居中（至少3种方法）    41</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc26724">（30）<br>  clearfix是解决什么问题的（另一种问法div塌陷问题如何解决的,或者说一下BFC）：    42</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc15424">（31） 说一下你对盒模型的理解(包括IE和w3c标准盒模型)    42</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc30777">（32） css3动画：    43</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc3859">（33） rem和em的区别：    44</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc21984">（3） 手机端如何做适配的：    44</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc23641">（34） vw和vh了解吗    44</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc381">（35） cookie,localStorage和sessionStorage的区别    45</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc19670">IE8如何支持语义化标签    46</a></p>
-</blockquote>
-<blockquote>
-<p>  <a href="#_Toc19758">谷歌浏览器如何显示12px以下的字号    46</a></p>
-</blockquote>
-<p>36 vue ssr优化：</p>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av71527835/">https://www.bilibili.com/video/av71527835/</a></p>
-<blockquote>
-<p>  进入公司后干什么</p>
-</blockquote>
-<p>如何排错</p>
-<p>项目优化</p>
-<blockquote>
-<p>  Css的兼容性</p>
-</blockquote>
-<blockquote>
-<p>  公司的项目流程</p>
-</blockquote>
-<blockquote>
-<p>  公司信息</p>
-</blockquote>
-<blockquote>
-<p>  工作相关的问题</p>
-</blockquote>
-<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h2 id="JS相关："><a href="#JS相关：" class="headerlink" title="JS相关："></a>JS相关：</h2><h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><blockquote>
+    <h2 id=""><a href="#" class="headerlink" title=""></a></h2><h2 id="JS相关："><a href="#JS相关：" class="headerlink" title="JS相关："></a>JS相关：</h2><h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><blockquote>
 <p>  答：闭包说的通俗一点就是打通了一条在函数外部访问函数内部作用域的通道。正常情况下函数外部是访问不到函数内部作用域变量的，</p>
 </blockquote>
 <blockquote>
