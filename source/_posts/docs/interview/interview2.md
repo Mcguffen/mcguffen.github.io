@@ -69,17 +69,17 @@ tags:
 
     让新实例的原型等于父类的实例
 
-    ![](media/eaa2b1ad01e0f0183871168a3b6a839f.png)
+    ![](interview2/eaa2b1ad01e0f0183871168a3b6a839f.png)
 
-    ![](media/ebc3f6704324feeafe92dcfb279f0816.png)
+    ![](interview2/ebc3f6704324feeafe92dcfb279f0816.png)
 
 8.  **原型链继承**
 
     用.call()和.apply()将父类构造函数引入子类函数
 
-    ![](media/fa8127a23d31af914bb66a8e8e7e7515.png)
+    ![](interview2/fa8127a23d31af914bb66a8e8e7e7515.png)
 
-    ![](media/761180d0c624a1cd3acb7cfb15eef7ee.png)
+    ![](interview2/761180d0c624a1cd3acb7cfb15eef7ee.png)
 
 9.  **构造函数继承**
 
@@ -215,7 +215,7 @@ btn.removeEventListener(‘click’,要移除的事件处理函数名，false)
 
     用object创建
 
-    ![](media/5ce0a04ce5d207dfcf9d43e413b1ebef.png)
+    ![](interview2/5ce0a04ce5d207dfcf9d43e413b1ebef.png)
 
     缺点，想创建多个类似的对象，就会产生大量的代码。
 
@@ -231,7 +231,7 @@ btn.removeEventListener(‘click’,要移除的事件处理函数名，false)
 
     构造函数的方法创建对象
 
-    ![](media/8c953537949472bb37e562220b1ddeea.png)
+    ![](interview2/8c953537949472bb37e562220b1ddeea.png)
 
 ### 原型
 
@@ -241,14 +241,14 @@ btn.removeEventListener(‘click’,要移除的事件处理函数名，false)
 
 >   ES6有了个关键字：Class，来定义类
 
->   ![](media/b559a9b708561f5a65fdb587f60ea60b.png)
+>   ![](interview2/b559a9b708561f5a65fdb587f60ea60b.png)
 
 >   ES6的class 有了专门的构造器
 >   constructor，构造器和类分开了，定义方法：不需要原型来定义了，直接再类里面定义方法
 
 >   Es6声明类的方法
 
->   ![](media/6b7a3d6c653a9e8d3f722de9cbfd8b14.png)
+>   ![](interview2/6b7a3d6c653a9e8d3f722de9cbfd8b14.png)
 
 >   ES6的继承：关键字：extends 继承、super 超级
 
