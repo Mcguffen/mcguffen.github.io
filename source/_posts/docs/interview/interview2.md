@@ -31,17 +31,17 @@ tags:
 
 1.  **什么原型 原型链**
 
-    **原型：**![](media/1019626c920eed02a16e12bbb4b039e5.png)
+    **原型：**![](1019626c920eed02a16e12bbb4b039e5.png)
 
     原型链：
 
-    ![](media/44082b6840697c486068f27766ff9935.png)
+    ![](44082b6840697c486068f27766ff9935.png)
 
 2.  **有什么用，怎么用的**
 
-    ![](media/1fc755ea9be6ce0bd25671e933de61ba.png)
+    ![](1fc755ea9be6ce0bd25671e933de61ba.png)
 
-    ![](media/cdbd24c4146d8aa83f8e617093ed563e.png)
+    ![](cdbd24c4146d8aa83f8e617093ed563e.png)
 
 3.  **优缺点**
 
@@ -1087,11 +1087,11 @@ static:存入一些静态资源资源目录，我们可以把一些图片，字�
 
 >   第二种：利用第三方封装好的插件，例如：vuex-persistedstate
 
->   ![](media/78ecb2133de8e4022c5d221aadfeff1f.png)
+>   ![](78ecb2133de8e4022c5d221aadfeff1f.png)
 
 >   第三种:使用vue-cookie插件来做存储
 
->   ![](media/4fe5e0af7971e9b0d3ac87df4477c039.png)
+>   ![](4fe5e0af7971e9b0d3ac87df4477c039.png)
 
 >   第四种：可以把数据传递到后台，存储到数据库中，\*\*\*比较耗费资源
 
@@ -1107,9 +1107,9 @@ static:存入一些静态资源资源目录，我们可以把一些图片，字�
 ，希望在vue生成的某些dom动态发生变化时重新应用该插件，也会用到该方法，这时候就需要在
 \$nextTick 的回调函数中执行重新应用插件的方法，例如:应用滚动插件better-scroll时
 
-![](media/a8935c47ec6af246337933b83fb8cbcd.png)
+![](a8935c47ec6af246337933b83fb8cbcd.png)
 
-![](media/58a448800845d5df48c88bf257944f0a.png)
+![](58a448800845d5df48c88bf257944f0a.png)
 
 第三种：数据改变后获取焦点
 
